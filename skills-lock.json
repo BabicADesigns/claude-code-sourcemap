@@ -19,11 +19,23 @@
       "skillPath": "skills/azure-aigateway/SKILL.md",
       "computedHash": "ce4fbc6e2e04fa6fa0b83ee206d87fdf7320c06cc126374c029d7d7c56fa10c8"
     },
+    "create-skill": {
+      "source": "siviter-xyz/dot-agent",
+      "sourceType": "github",
+      "skillPath": "skills/create-skill/SKILL.md",
+      "computedHash": "117464d5a01acfbf3c7d3939a90df78e2196025f545bdded831aa4aa63a80080"
+    },
     "find-skills": {
       "source": "vercel-labs/skills",
       "sourceType": "github",
       "skillPath": "skills/find-skills/SKILL.md",
       "computedHash": "d31e234f0c90694a670222cdd1dafa853e051d7066beda389f1097c22dadd461"
+    },
+    "microsoft-skill-creator": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "skillPath": "skills/microsoft-skill-creator/SKILL.md",
+      "computedHash": "154dc5be88c22647c53cdd32f83c7ca9757a86bb2da9b93b435b8fc26a9934b7"
     },
     "nano-banana-pro": {
       "source": "intellectronica/agent-skills",
@@ -43,11 +55,23 @@
       "skillPath": "skills/pdf/SKILL.md",
       "computedHash": "cfbc539377088ca7e44a813b30c306327385bbd973cd7a721e1743f60837dd62"
     },
-    "skill-creator": {
-      "source": "anthropics/skills",
+    "sentry-sdk-skill-creator": {
+      "source": "getsentry/sentry-for-ai",
       "sourceType": "github",
-      "skillPath": "skills/skill-creator/SKILL.md",
-      "computedHash": "5ea13a6d9f0d4bb694405d79acd00cadec0d21bb138c4dd10fcf3c500cb835c2"
+      "skillPath": "skills/sentry-sdk-skill-creator/SKILL.md",
+      "computedHash": "d67401477ab99da29eccf7309b41b1948879b7ccdabacf6e6ae7a87732756f3f"
+    },
+    "skill-creator": {
+      "source": "anthropics/claude-plugins-official",
+      "sourceType": "github",
+      "skillPath": "plugins/skill-creator/skills/skill-creator/SKILL.md",
+      "computedHash": "b122f4d1e91aa1d83027e050b5b37c3156203ee85458d7b1360bc48167c9e02a"
+    },
+    "skill-development": {
+      "source": "anthropics/claude-plugins-official",
+      "sourceType": "github",
+      "skillPath": "plugins/plugin-dev/skills/skill-development/SKILL.md",
+      "computedHash": "5f30c8717078c18ae0be71dcd3309a27730432e38b9d958b22ebb6ea33e5941a"
     },
     "sleek-design-mobile-apps": {
       "source": "sleekdotdesign/agent-skills",
@@ -60,6 +84,12 @@
       "sourceType": "github",
       "skillPath": "skills/react-best-practices/SKILL.md",
       "computedHash": "3219a1944e404ffc14d1d9d6aef6dd2e3855b81387ee0a044ccbfe14d34c2357"
+    },
+    "writing-skills": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "skillPath": "skills/writing-skills/SKILL.md",
+      "computedHash": "c0a92e629e39ea91b1f54da67a6aa92723008a8ef5b500c6de078f55485937c7"
     }
   }
 }
