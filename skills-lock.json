@@ -7,6 +7,12 @@
       "skillPath": "skills/agent-browser/SKILL.md",
       "computedHash": "edad4d958bc4baf821e3391bb9889a03a8bbc0e4d7f54ee4a5f30837654fed83"
     },
+    "agent-builder": {
+      "source": "starchild-ai-agent/official-skills",
+      "sourceType": "github",
+      "skillPath": "agent-builder/SKILL.md",
+      "computedHash": "fa76f43c62da552755b08c2632685e8863e52dfb5b4bbc46f1ecd0a93fbfd5b6"
+    },
     "ai-image-generation": {
       "source": "inference-sh-skills/skills",
       "sourceType": "github",
@@ -19,11 +25,35 @@
       "skillPath": "skills/azure-aigateway/SKILL.md",
       "computedHash": "ce4fbc6e2e04fa6fa0b83ee206d87fdf7320c06cc126374c029d7d7c56fa10c8"
     },
+    "brainstorming": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "skillPath": "skills/brainstorming/SKILL.md",
+      "computedHash": "8df9b47092524833138b58682d03f2e153a242e550d1693657afdbee0cc9cdb0"
+    },
+    "browser-preview": {
+      "source": "starchild-ai-agent/official-skills",
+      "sourceType": "github",
+      "skillPath": "browser-preview/SKILL.md",
+      "computedHash": "95fb0060959033147bc5f8d58294c33b4e3baecb0db3649c557fc151b5181bd7"
+    },
+    "chart": {
+      "source": "starchild-ai-agent/official-skills",
+      "sourceType": "github",
+      "skillPath": "chart/SKILL.md",
+      "computedHash": "97599a2dc7c1b2f3666662fc4a5692f9d62d561e92854c8af9231c20b5811d86"
+    },
     "create-skill": {
       "source": "siviter-xyz/dot-agent",
       "sourceType": "github",
       "skillPath": "skills/create-skill/SKILL.md",
       "computedHash": "117464d5a01acfbf3c7d3939a90df78e2196025f545bdded831aa4aa63a80080"
+    },
+    "dashboard": {
+      "source": "starchild-ai-agent/official-skills",
+      "sourceType": "github",
+      "skillPath": "dashboard/SKILL.md",
+      "computedHash": "5a985ac52906932ca02e039ad5ef07fd835ffb7afd7d0c4a21df1c76ccc10076"
     },
     "find-skills": {
       "source": "vercel-labs/skills",
@@ -55,6 +85,12 @@
       "skillPath": "skills/pdf/SKILL.md",
       "computedHash": "cfbc539377088ca7e44a813b30c306327385bbd973cd7a721e1743f60837dd62"
     },
+    "requesting-code-review": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "skillPath": "skills/requesting-code-review/SKILL.md",
+      "computedHash": "874f3786b05007a8b4a60452a4cd89b9917c645d34b6b1e40ea05037d12f0e67"
+    },
     "sentry-sdk-skill-creator": {
       "source": "getsentry/sentry-for-ai",
       "sourceType": "github",
@@ -85,11 +121,53 @@
       "skillPath": "skills/design-mobile-apps/SKILL.md",
       "computedHash": "aafa60cd2532f5f4c917db4880769d8bf0132af5b35eb5d31e72d753e2121c04"
     },
+    "slide-creator": {
+      "source": "starchild-ai-agent/official-skills",
+      "sourceType": "github",
+      "skillPath": "slide-creator/SKILL.md",
+      "computedHash": "f77e6f3464c94cb20fff51497247907b8510f27ab0120e0089d1d9f818ab18f3"
+    },
+    "systematic-debugging": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "skillPath": "skills/systematic-debugging/SKILL.md",
+      "computedHash": "7246fdd3a795fc3daff0af72044ca99bf836e4e6a46844742858786fdfb86488"
+    },
+    "test-driven-development": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "skillPath": "skills/test-driven-development/SKILL.md",
+      "computedHash": "126f1ebf6ccd414f42544f6e83d8cc5adb089e1108eaffb7c400701e37eecd9f"
+    },
+    "twitter": {
+      "source": "starchild-ai-agent/official-skills",
+      "sourceType": "github",
+      "skillPath": "twitter/SKILL.md",
+      "computedHash": "2897a70db0025e49d2caa9b006fa4b765c3a7bec79d0fc7e7a8095156f9bf95e"
+    },
     "vercel-react-best-practices": {
       "source": "vercel-labs/agent-skills",
       "sourceType": "github",
       "skillPath": "skills/react-best-practices/SKILL.md",
       "computedHash": "3219a1944e404ffc14d1d9d6aef6dd2e3855b81387ee0a044ccbfe14d34c2357"
+    },
+    "video": {
+      "source": "starchild-ai-agent/official-skills",
+      "sourceType": "github",
+      "skillPath": "video/SKILL.md",
+      "computedHash": "8fe7ee049fc22470745da4586d89dc37d0526faf7ce838792a3684c993e0f8b3"
+    },
+    "web-crawler": {
+      "source": "starchild-ai-agent/official-skills",
+      "sourceType": "github",
+      "skillPath": "web-crawler/SKILL.md",
+      "computedHash": "107735afb06a19d4a44892418b74518d97960c65b27df058ae1971a66a19b01d"
+    },
+    "writing-plans": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "skillPath": "skills/writing-plans/SKILL.md",
+      "computedHash": "2b986445454a025ca2c3839f8a2024747e8cce0517948437232cd113d2719060"
     },
     "writing-skills": {
       "source": "obra/superpowers",
