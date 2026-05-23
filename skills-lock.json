@@ -73,6 +73,12 @@
       "skillPath": "plugins/plugin-dev/skills/skill-development/SKILL.md",
       "computedHash": "5f30c8717078c18ae0be71dcd3309a27730432e38b9d958b22ebb6ea33e5941a"
     },
+    "skillmarketplace": {
+      "source": "starchild-ai-agent/official-skills",
+      "sourceType": "github",
+      "skillPath": "skillmarketplace/SKILL.md",
+      "computedHash": "674ab6eb1bcd415a895b524801303d8f14dd017a24e125720dc6865bddcaa72d"
+    },
     "sleek-design-mobile-apps": {
       "source": "sleekdotdesign/agent-skills",
       "sourceType": "github",
