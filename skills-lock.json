@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "nano-banana-pro": {
+      "source": "intellectronica/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/nano-banana-pro/SKILL.md",
+      "computedHash": "eacaa3b7f0512e9c4793b38be0e2242dc81071e61d51e333ac114148d1a9422b"
+    }
+  }
+}
