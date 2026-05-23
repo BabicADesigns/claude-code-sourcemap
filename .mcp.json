@@ -2,10 +2,7 @@
   "mcpServers": {
     "whatsapp": {
       "command": "uvx",
-      "args": ["whatsapp-mcp"],
-      "env": {
-        "WHATSAPP_API_KEY": "DEIN_WHATSAPP_API_KEY"
-      }
+      "args": ["whatsapp-mcp"]
     },
     "slack": {
       "command": "npx",
