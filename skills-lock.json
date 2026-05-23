@@ -31,6 +31,12 @@
       "skillPath": "skills/nano-banana-pro/SKILL.md",
       "computedHash": "eacaa3b7f0512e9c4793b38be0e2242dc81071e61d51e333ac114148d1a9422b"
     },
+    "paper-context-resolver": {
+      "source": "lllllllama/ai-paper-reproduction-skill",
+      "sourceType": "github",
+      "skillPath": "skills/paper-context-resolver/SKILL.md",
+      "computedHash": "d073a9f30386c836112223b7a218c9a75d3413bd907a8ad1030e79ec6c0b3525"
+    },
     "skill-creator": {
       "source": "anthropics/skills",
       "sourceType": "github",
