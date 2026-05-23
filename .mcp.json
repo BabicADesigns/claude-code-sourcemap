@@ -1,0 +1,46 @@
+{
+  "mcpServers": {
+    "whatsapp": {
+      "command": "uvx",
+      "args": ["whatsapp-mcp"],
+      "env": {
+        "WHATSAPP_API_KEY": "DEIN_WHATSAPP_API_KEY"
+      }
+    },
+    "slack": {
+      "command": "npx",
+      "args": ["-y", "@korotovsky/slack-mcp-server"],
+      "env": {
+        "SLACK_BOT_TOKEN": "xoxb-DEIN_SLACK_BOT_TOKEN",
+        "SLACK_TEAM_ID": "DEIN_SLACK_TEAM_ID"
+      }
+    },
+    "gmail": {
+      "command": "npx",
+      "args": ["-y", "@gongrzhe/gmail-mcp-server"],
+      "env": {
+        "GMAIL_CLIENT_ID": "DEIN_GMAIL_CLIENT_ID",
+        "GMAIL_CLIENT_SECRET": "DEIN_GMAIL_CLIENT_SECRET",
+        "GMAIL_REFRESH_TOKEN": "DEIN_GMAIL_REFRESH_TOKEN"
+      }
+    },
+    "telegram": {
+      "command": "uvx",
+      "args": ["telegram-mcp"],
+      "env": {
+        "TELEGRAM_API_ID": "DEIN_TELEGRAM_API_ID",
+        "TELEGRAM_API_HASH": "DEIN_TELEGRAM_API_HASH",
+        "TELEGRAM_PHONE": "DEINE_TELEFONNUMMER"
+      }
+    },
+    "teams": {
+      "command": "npx",
+      "args": ["-y", "@inditextech/mcp-teams-server"],
+      "env": {
+        "TEAMS_CLIENT_ID": "DEIN_TEAMS_CLIENT_ID",
+        "TEAMS_CLIENT_SECRET": "DEIN_TEAMS_CLIENT_SECRET",
+        "TEAMS_TENANT_ID": "DEIN_TEAMS_TENANT_ID"
+      }
+    }
+  }
+}
