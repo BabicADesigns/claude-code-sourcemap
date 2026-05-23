@@ -43,6 +43,12 @@
       "skillPath": "skills/brainstorming/SKILL.md",
       "computedHash": "8df9b47092524833138b58682d03f2e153a242e550d1693657afdbee0cc9cdb0"
     },
+    "brand-guidelines": {
+      "source": "composiohq/awesome-claude-skills",
+      "sourceType": "github",
+      "skillPath": "brand-guidelines/SKILL.md",
+      "computedHash": "4aa754f4f7fc54ac3e7f6e2fb55c0e2fb14b7d70da077b41a86bd1889ff9094c"
+    },
     "breakdown-epic-arch": {
       "source": "github/awesome-copilot",
       "sourceType": "github",
@@ -55,6 +61,12 @@
       "skillPath": "browser-preview/SKILL.md",
       "computedHash": "95fb0060959033147bc5f8d58294c33b4e3baecb0db3649c557fc151b5181bd7"
     },
+    "canvas-design": {
+      "source": "composiohq/awesome-claude-skills",
+      "sourceType": "github",
+      "skillPath": "canvas-design/SKILL.md",
+      "computedHash": "a2fe47d24b3fd8e52faef731fff099c557e698083cd644b2e5695cc4dd8c7715"
+    },
     "chart": {
       "source": "starchild-ai-agent/official-skills",
       "sourceType": "github",
@@ -66,6 +78,18 @@
       "sourceType": "github",
       "skillPath": "skills/cloud-design-patterns/SKILL.md",
       "computedHash": "be69c23d717e7f1ddd9b288c5ce36a582eb5717086392cbe5b0dd1faa5423c8e"
+    },
+    "competitive-ads-extractor": {
+      "source": "composiohq/awesome-claude-skills",
+      "sourceType": "github",
+      "skillPath": "competitive-ads-extractor/SKILL.md",
+      "computedHash": "8367364ae0aefcf0554468308066e39dc81aeaccfcf9922f85de1b7f56ad61a8"
+    },
+    "content-research-writer": {
+      "source": "composiohq/awesome-claude-skills",
+      "sourceType": "github",
+      "skillPath": "content-research-writer/SKILL.md",
+      "computedHash": "de7e9085e875a651f209c826d1a5e7dd5f2436fb38fe565ef76b54492c1a0c22"
     },
     "create-github-action-workflow-specification": {
       "source": "github/awesome-copilot",
@@ -96,6 +120,18 @@
       "sourceType": "github",
       "skillPath": "dashboard/SKILL.md",
       "computedHash": "5a985ac52906932ca02e039ad5ef07fd835ffb7afd7d0c4a21df1c76ccc10076"
+    },
+    "domain-name-brainstormer": {
+      "source": "composiohq/awesome-claude-skills",
+      "sourceType": "github",
+      "skillPath": "domain-name-brainstormer/SKILL.md",
+      "computedHash": "911dba9c4e55a47bebbf3d44482579518797a94d5bfc02088a9ed85360df6d2b"
+    },
+    "file-organizer": {
+      "source": "composiohq/awesome-claude-skills",
+      "sourceType": "github",
+      "skillPath": "file-organizer/SKILL.md",
+      "computedHash": "1b03d0f0879230671fba161b92d732c9ae7e947bfe061cbf008d39fa9df1ed8b"
     },
     "find-skills": {
       "source": "vercel-labs/skills",
@@ -133,11 +169,35 @@
       "skillPath": "skills/gtm-technical-product-pricing/SKILL.md",
       "computedHash": "d5d8428507f3f2ab29feb3cc09b360e6faafcef8ef53899c63898e56d1b9f401"
     },
+    "image-enhancer": {
+      "source": "composiohq/awesome-claude-skills",
+      "sourceType": "github",
+      "skillPath": "image-enhancer/SKILL.md",
+      "computedHash": "2fbd9f8dadf7de2e93844d0626a46f1096925ee78f41174f4c261604b39828ca"
+    },
     "import-infrastructure-as-code": {
       "source": "github/awesome-copilot",
       "sourceType": "github",
       "skillPath": "skills/import-infrastructure-as-code/SKILL.md",
       "computedHash": "374b851dcf36c9239094fecea6b67a66962d0bd4dd59ff2c24bb1ad4064884b3"
+    },
+    "invoice-organizer": {
+      "source": "composiohq/awesome-claude-skills",
+      "sourceType": "github",
+      "skillPath": "invoice-organizer/SKILL.md",
+      "computedHash": "3981cc7b74330cb508ffd53e03664e94eb3413b9fbf9fd14a123774de15a8499"
+    },
+    "lead-research-assistant": {
+      "source": "composiohq/awesome-claude-skills",
+      "sourceType": "github",
+      "skillPath": "lead-research-assistant/SKILL.md",
+      "computedHash": "08cf5477dfdcbefa0758fad431c226efb9f09e108c8c6477b4a14db2d6810889"
+    },
+    "meeting-insights-analyzer": {
+      "source": "composiohq/awesome-claude-skills",
+      "sourceType": "github",
+      "skillPath": "meeting-insights-analyzer/SKILL.md",
+      "computedHash": "73d94649632b9b146bb9a745a31efcbc315a8916f14619a327f009b54d1be656"
     },
     "microsoft-skill-creator": {
       "source": "github/awesome-copilot",
@@ -253,6 +313,12 @@
       "skillPath": "skillmarketplace/SKILL.md",
       "computedHash": "674ab6eb1bcd415a895b524801303d8f14dd017a24e125720dc6865bddcaa72d"
     },
+    "slack-gif-creator": {
+      "source": "composiohq/awesome-claude-skills",
+      "sourceType": "github",
+      "skillPath": "slack-gif-creator/SKILL.md",
+      "computedHash": "6139cf556d1dd78b69c1dd84af43c132db391b6f31e67de38d1edb4551ba93e0"
+    },
     "sleek-design-mobile-apps": {
       "source": "sleekdotdesign/agent-skills",
       "sourceType": "github",
@@ -277,6 +343,12 @@
       "skillPath": "skills/test-driven-development/SKILL.md",
       "computedHash": "126f1ebf6ccd414f42544f6e83d8cc5adb089e1108eaffb7c400701e37eecd9f"
     },
+    "theme-factory": {
+      "source": "composiohq/awesome-claude-skills",
+      "sourceType": "github",
+      "skillPath": "theme-factory/SKILL.md",
+      "computedHash": "93e78aa44f8fa00bb2c0608f400de1e1dcd6494611dd8ea27c867654240c7bcd"
+    },
     "threat-model-analyst": {
       "source": "github/awesome-copilot",
       "sourceType": "github",
@@ -288,6 +360,12 @@
       "sourceType": "github",
       "skillPath": "twitter/SKILL.md",
       "computedHash": "2897a70db0025e49d2caa9b006fa4b765c3a7bec79d0fc7e7a8095156f9bf95e"
+    },
+    "twitter-algorithm-optimizer": {
+      "source": "composiohq/awesome-claude-skills",
+      "sourceType": "github",
+      "skillPath": "twitter-algorithm-optimizer/SKILL.md",
+      "computedHash": "4dacb151d9267f390a2a1aa5ff06ea984c2270f6a188315dcb8a65cd0d4bcf34"
     },
     "typespec-api-operations": {
       "source": "github/awesome-copilot",
