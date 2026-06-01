@@ -10,6 +10,7 @@ import init from './commands/init.js'
 import listen from './commands/listen.js'
 import login from './commands/login.js'
 import logout from './commands/logout.js'
+import n8n from './commands/n8n.js'
 import onboarding from './commands/onboarding.js'
 import pr_comments from './commands/pr_comments.js'
 import releaseNotes from './commands/release-notes.js'
@@ -81,6 +82,7 @@ const COMMANDS = memoize((): Command[] => [
   doctor,
   help,
   init,
+  n8n,
   onboarding,
   pr_comments,
   releaseNotes,
