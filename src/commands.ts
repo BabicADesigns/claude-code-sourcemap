@@ -15,6 +15,7 @@ import pr_comments from './commands/pr_comments.js'
 import releaseNotes from './commands/release-notes.js'
 import review from './commands/review.js'
 import terminalSetup from './commands/terminalSetup.js'
+import moneyprinter from './commands/moneyprinter.js'
 import { Tool, ToolUseContext } from './Tool.js'
 import resume from './commands/resume.js'
 import { getMCPCommands } from './services/mcpClient.js'
@@ -87,6 +88,7 @@ const COMMANDS = memoize((): Command[] => [
   bug,
   review,
   terminalSetup,
+  moneyprinter,
   ...(isAnthropicAuthEnabled() ? [logout, login()] : []),
   ...(process.env.USER_TYPE === 'ant' ? INTERNAL_ONLY_COMMANDS : []),
 ])
