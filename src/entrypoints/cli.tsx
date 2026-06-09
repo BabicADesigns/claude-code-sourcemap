@@ -64,6 +64,11 @@ import {
   getClients,
   ensureConfigScope,
 } from '../services/mcpClient.js'
+import {
+  addSkill,
+  removeSkill,
+  listSkills,
+} from '../utils/skills.js'
 import { handleMcprcServerApprovals } from '../services/mcpServerApproval.js'
 import { checkGate, initializeStatsig, logEvent } from '../services/statsig.js'
 import { getExampleCommands } from '../utils/exampleCommands.js'
@@ -712,6 +717,82 @@ ${commandList}`,
         process.exit(0)
       })
   }
+
+  // claude skills
+
+  const skills = program
+    .command('skills')
+    .description('Manage Claude Code skill packages')
+
+  skills
+    .command('add <package>')
+    .description(
+      'Install a skill package (e.g. NVIDIA/skills or @scope/package)',
+    )
+    .option(
+      '--agent <agent>',
+      'Target agent identifier (must be "claude-code")',
+      'claude-code',
+    )
+    .option('-c, --cwd <cwd>', 'The current working directory', String, cwd())
+    .action(async (packageName: string, options: { agent: string; cwd: string }) => {
+      if (options.agent !== 'claude-code') {
+        console.error(
+          `Error: Unknown agent '${options.agent}'. Only 'claude-code' is supported.`,
+        )
+        process.exit(1)
+      }
+
+      try {
+        await setup(options.cwd, false)
+        logEvent('tengu_skills_add', { package: packageName })
+        console.log(`Installing skill package '${packageName}'...`)
+        await addSkill(packageName)
+        console.log(`Successfully installed skill package '${packageName}'`)
+        process.exit(0)
+      } catch (error) {
+        console.error((error as Error).message)
+        process.exit(1)
+      }
+    })
+
+  skills
+    .command('remove <package>')
+    .description('Remove an installed skill package')
+    .option('-c, --cwd <cwd>', 'The current working directory', String, cwd())
+    .action(async (packageName: string, options: { cwd: string }) => {
+      try {
+        await setup(options.cwd, false)
+        logEvent('tengu_skills_remove', { package: packageName })
+        removeSkill(packageName)
+        console.log(`Removed skill package '${packageName}'`)
+        process.exit(0)
+      } catch (error) {
+        console.error((error as Error).message)
+        process.exit(1)
+      }
+    })
+
+  skills
+    .command('list')
+    .description('List installed skill packages')
+    .option('-c, --cwd <cwd>', 'The current working directory', String, cwd())
+    .action(async (options: { cwd: string }) => {
+      await setup(options.cwd, false)
+      logEvent('tengu_skills_list', {})
+      const installed = listSkills()
+      if (installed.length === 0) {
+        console.log(
+          'No skill packages installed. Use `claude skills add` to install one.',
+        )
+      } else {
+        console.log('Installed skill packages:')
+        for (const pkg of installed) {
+          console.log(`  ${pkg}`)
+        }
+      }
+      process.exit(0)
+    })
 
   // Doctor command - check installation health
   program

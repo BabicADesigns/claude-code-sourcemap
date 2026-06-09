@@ -18,6 +18,7 @@ import terminalSetup from './commands/terminalSetup.js'
 import { Tool, ToolUseContext } from './Tool.js'
 import resume from './commands/resume.js'
 import { getMCPCommands } from './services/mcpClient.js'
+import { loadSkillsCommands } from './utils/skills.js'
 import type { MessageParam } from '@anthropic-ai/sdk/resources/index.mjs'
 import { memoize } from 'lodash-es'
 import type { Message } from './query.js'
@@ -92,7 +93,13 @@ const COMMANDS = memoize((): Command[] => [
 ])
 
 export const getCommands = memoize(async (): Promise<Command[]> => {
-  return [...(await getMCPCommands()), ...COMMANDS()].filter(_ => _.isEnabled)
+  const [mcpCommands, skillsCommands] = await Promise.all([
+    getMCPCommands(),
+    loadSkillsCommands(),
+  ])
+  return [...mcpCommands, ...skillsCommands, ...COMMANDS()].filter(
+    _ => _.isEnabled,
+  )
 })
 
 export function hasCommand(commandName: string, commands: Command[]): boolean {
