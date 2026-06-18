@@ -16,6 +16,10 @@ Some of its key capabilities include:
 
 **Learn more in the [official documentation](https://docs.anthropic.com/en/docs/agents/claude-code/introduction)**.
 
+## Project skills
+
+This repo bundles the [`notebooklm`](.claude/skills/notebooklm/SKILL.md) skill (vendored from [PleasePrompto/notebooklm-skill](https://github.com/PleasePrompto/notebooklm-skill), MIT licensed) under `.claude/skills/`. It lets Claude Code query your Google NotebookLM notebooks directly via browser automation (Patchright), returning source-grounded, citation-backed answers instead of hallucinated ones. First use auto-creates an isolated `.venv` and installs Chromium; a one-time Google login persists across sessions. **Local Claude Code only** — it needs outbound network access for browser automation, so it does not work in the web UI sandbox.
+
 ## Get started
 
 <ol>
