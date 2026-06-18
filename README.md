@@ -56,3 +56,7 @@ If you choose to send us feedback about Claude Code, such as transcripts of your
 We have implemented several safeguards to protect your data, including limited retention periods for sensitive information, restricted access to user session data, and clear policies against using feedback for model training.
 
 For full details, please review our [Commercial Terms of Service](https://www.anthropic.com/legal/commercial-terms) and [Privacy Policy](https://www.anthropic.com/legal/privacy).
+
+## Related Resources
+
+For a curated list of companies and resources for finding remote work, see [Awesome Remote Job](https://github.com/lukasz-madon/awesome-remote-job).
