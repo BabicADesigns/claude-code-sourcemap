@@ -1,0 +1,4859 @@
+{
+  "generatedAt": "2026-06-18T20:10:21.512Z",
+  "nodeCount": 211,
+  "edgeCount": 896,
+  "nodes": [
+    {
+      "id": "src/ProjectOnboarding.tsx",
+      "dir": "(root)",
+      "lines": 177,
+      "bytes": 5738
+    },
+    {
+      "id": "src/commands/approvedTools.ts",
+      "dir": "commands",
+      "lines": 54,
+      "bytes": 1753
+    },
+    {
+      "id": "src/commands/bug.tsx",
+      "dir": "commands",
+      "lines": 21,
+      "bytes": 461
+    },
+    {
+      "id": "src/commands/clear.ts",
+      "dir": "commands",
+      "lines": 38,
+      "bytes": 1003
+    },
+    {
+      "id": "src/commands/compact.ts",
+      "dir": "commands",
+      "lines": 95,
+      "bytes": 3161
+    },
+    {
+      "id": "src/commands/config.tsx",
+      "dir": "commands",
+      "lines": 20,
+      "bytes": 408
+    },
+    {
+      "id": "src/commands/cost.ts",
+      "dir": "commands",
+      "lines": 19,
+      "bytes": 396
+    },
+    {
+      "id": "src/commands/ctx_viz.ts",
+      "dir": "commands",
+      "lines": 210,
+      "bytes": 5592
+    },
+    {
+      "id": "src/commands/doctor.ts",
+      "dir": "commands",
+      "lines": 24,
+      "bytes": 515
+    },
+    {
+      "id": "src/commands/help.tsx",
+      "dir": "commands",
+      "lines": 20,
+      "bytes": 456
+    },
+    {
+      "id": "src/commands/init.ts",
+      "dir": "commands",
+      "lines": 38,
+      "bytes": 1296
+    },
+    {
+      "id": "src/commands/listen.ts",
+      "dir": "commands",
+      "lines": 43,
+      "bytes": 1179
+    },
+    {
+      "id": "src/commands/login.tsx",
+      "dir": "commands",
+      "lines": 52,
+      "bytes": 1352
+    },
+    {
+      "id": "src/commands/logout.tsx",
+      "dir": "commands",
+      "lines": 42,
+      "bytes": 961
+    },
+    {
+      "id": "src/commands/onboarding.tsx",
+      "dir": "commands",
+      "lines": 35,
+      "bytes": 874
+    },
+    {
+      "id": "src/commands/pr_comments.ts",
+      "dir": "commands",
+      "lines": 60,
+      "bytes": 1927
+    },
+    {
+      "id": "src/commands/release-notes.ts",
+      "dir": "commands",
+      "lines": 34,
+      "bytes": 980
+    },
+    {
+      "id": "src/commands/resume.tsx",
+      "dir": "commands",
+      "lines": 31,
+      "bytes": 884
+    },
+    {
+      "id": "src/commands/review.ts",
+      "dir": "commands",
+      "lines": 50,
+      "bytes": 1436
+    },
+    {
+      "id": "src/commands/terminalSetup.ts",
+      "dir": "commands",
+      "lines": 144,
+      "bytes": 4130
+    },
+    {
+      "id": "src/commands.ts",
+      "dir": "(root)",
+      "lines": 121,
+      "bytes": 3537
+    },
+    {
+      "id": "src/components/AnimatedClaudeAsterisk.tsx",
+      "dir": "components",
+      "lines": 70,
+      "bytes": 1911
+    },
+    {
+      "id": "src/components/ApproveApiKey.tsx",
+      "dir": "components",
+      "lines": 94,
+      "bytes": 2399
+    },
+    {
+      "id": "src/components/AsciiLogo.tsx",
+      "dir": "components",
+      "lines": 26,
+      "bytes": 1703
+    },
+    {
+      "id": "src/components/AutoUpdater.tsx",
+      "dir": "components",
+      "lines": 147,
+      "bytes": 4024
+    },
+    {
+      "id": "src/components/Bug.tsx",
+      "dir": "components",
+      "lines": 333,
+      "bytes": 10587
+    },
+    {
+      "id": "src/components/Config.tsx",
+      "dir": "components",
+      "lines": 280,
+      "bytes": 8592
+    },
+    {
+      "id": "src/components/ConsoleOAuthFlow.tsx",
+      "dir": "components",
+      "lines": 327,
+      "bytes": 10202
+    },
+    {
+      "id": "src/components/Cost.tsx",
+      "dir": "components",
+      "lines": 24,
+      "bytes": 494
+    },
+    {
+      "id": "src/components/CostThresholdDialog.tsx",
+      "dir": "components",
+      "lines": 47,
+      "bytes": 1148
+    },
+    {
+      "id": "src/components/CustomSelect/option-map.ts",
+      "dir": "components",
+      "lines": 43,
+      "bytes": 1001
+    },
+    {
+      "id": "src/components/CustomSelect/select-option.tsx",
+      "dir": "components",
+      "lines": 53,
+      "bytes": 1133
+    },
+    {
+      "id": "src/components/CustomSelect/select.tsx",
+      "dir": "components",
+      "lines": 144,
+      "bytes": 3264
+    },
+    {
+      "id": "src/components/CustomSelect/use-select-state.ts",
+      "dir": "components",
+      "lines": 388,
+      "bytes": 7962
+    },
+    {
+      "id": "src/components/CustomSelect/use-select.ts",
+      "dir": "components",
+      "lines": 36,
+      "bytes": 642
+    },
+    {
+      "id": "src/components/FallbackToolUseRejectedMessage.tsx",
+      "dir": "components",
+      "lines": 15,
+      "bytes": 341
+    },
+    {
+      "id": "src/components/FileEditToolUpdatedMessage.tsx",
+      "dir": "components",
+      "lines": 67,
+      "bytes": 1968
+    },
+    {
+      "id": "src/components/Help.tsx",
+      "dir": "components",
+      "lines": 125,
+      "bytes": 3594
+    },
+    {
+      "id": "src/components/HighlightedCode.tsx",
+      "dir": "components",
+      "lines": 34,
+      "bytes": 996
+    },
+    {
+      "id": "src/components/InvalidConfigDialog.tsx",
+      "dir": "components",
+      "lines": 114,
+      "bytes": 2654
+    },
+    {
+      "id": "src/components/Link.tsx",
+      "dir": "components",
+      "lines": 33,
+      "bytes": 1067
+    },
+    {
+      "id": "src/components/LogSelector.tsx",
+      "dir": "components",
+      "lines": 87,
+      "bytes": 2690
+    },
+    {
+      "id": "src/components/Logo.tsx",
+      "dir": "components",
+      "lines": 149,
+      "bytes": 5038
+    },
+    {
+      "id": "src/components/MCPServerApprovalDialog.tsx",
+      "dir": "components",
+      "lines": 101,
+      "bytes": 2526
+    },
+    {
+      "id": "src/components/MCPServerDialogCopy.tsx",
+      "dir": "components",
+      "lines": 25,
+      "bytes": 734
+    },
+    {
+      "id": "src/components/MCPServerMultiselectDialog.tsx",
+      "dir": "components",
+      "lines": 110,
+      "bytes": 2904
+    },
+    {
+      "id": "src/components/Message.tsx",
+      "dir": "components",
+      "lines": 220,
+      "bytes": 5688
+    },
+    {
+      "id": "src/components/MessageResponse.tsx",
+      "dir": "components",
+      "lines": 16,
+      "bytes": 322
+    },
+    {
+      "id": "src/components/MessageSelector.tsx",
+      "dir": "components",
+      "lines": 212,
+      "bytes": 6488
+    },
+    {
+      "id": "src/components/Onboarding.tsx",
+      "dir": "components",
+      "lines": 305,
+      "bytes": 9138
+    },
+    {
+      "id": "src/components/PressEnterToContinue.tsx",
+      "dir": "components",
+      "lines": 12,
+      "bytes": 283
+    },
+    {
+      "id": "src/components/PromptInput.tsx",
+      "dir": "components",
+      "lines": 470,
+      "bytes": 14688
+    },
+    {
+      "id": "src/components/SentryErrorBoundary.ts",
+      "dir": "components",
+      "lines": 34,
+      "bytes": 619
+    },
+    {
+      "id": "src/components/Spinner.tsx",
+      "dir": "components",
+      "lines": 127,
+      "bytes": 2825
+    },
+    {
+      "id": "src/components/StickerRequestForm.tsx",
+      "dir": "components",
+      "lines": 524,
+      "bytes": 17105
+    },
+    {
+      "id": "src/components/StructuredDiff.tsx",
+      "dir": "components",
+      "lines": 185,
+      "bytes": 4381
+    },
+    {
+      "id": "src/components/TextInput.tsx",
+      "dir": "components",
+      "lines": 231,
+      "bytes": 5807
+    },
+    {
+      "id": "src/components/TokenWarning.tsx",
+      "dir": "components",
+      "lines": 32,
+      "bytes": 814
+    },
+    {
+      "id": "src/components/ToolUseLoader.tsx",
+      "dir": "components",
+      "lines": 41,
+      "bytes": 953
+    },
+    {
+      "id": "src/components/TrustDialog.tsx",
+      "dir": "components",
+      "lines": 109,
+      "bytes": 2782
+    },
+    {
+      "id": "src/components/binary-feedback/BinaryFeedback.tsx",
+      "dir": "components",
+      "lines": 61,
+      "bytes": 1655
+    },
+    {
+      "id": "src/components/binary-feedback/BinaryFeedbackOption.tsx",
+      "dir": "components",
+      "lines": 112,
+      "bytes": 3173
+    },
+    {
+      "id": "src/components/binary-feedback/BinaryFeedbackView.tsx",
+      "dir": "components",
+      "lines": 172,
+      "bytes": 5215
+    },
+    {
+      "id": "src/components/binary-feedback/utils.ts",
+      "dir": "components",
+      "lines": 221,
+      "bytes": 6611
+    },
+    {
+      "id": "src/components/messages/AssistantBashOutputMessage.tsx",
+      "dir": "components",
+      "lines": 23,
+      "bytes": 649
+    },
+    {
+      "id": "src/components/messages/AssistantLocalCommandOutputMessage.tsx",
+      "dir": "components",
+      "lines": 46,
+      "bytes": 1104
+    },
+    {
+      "id": "src/components/messages/AssistantRedactedThinkingMessage.tsx",
+      "dir": "components",
+      "lines": 20,
+      "bytes": 406
+    },
+    {
+      "id": "src/components/messages/AssistantTextMessage.tsx",
+      "dir": "components",
+      "lines": 145,
+      "bytes": 3969
+    },
+    {
+      "id": "src/components/messages/AssistantThinkingMessage.tsx",
+      "dir": "components",
+      "lines": 41,
+      "bytes": 877
+    },
+    {
+      "id": "src/components/messages/AssistantToolUseMessage.tsx",
+      "dir": "components",
+      "lines": 111,
+      "bytes": 3224
+    },
+    {
+      "id": "src/components/messages/UserBashInputMessage.tsx",
+      "dir": "components",
+      "lines": 29,
+      "bytes": 727
+    },
+    {
+      "id": "src/components/messages/UserCommandMessage.tsx",
+      "dir": "components",
+      "lines": 31,
+      "bytes": 776
+    },
+    {
+      "id": "src/components/messages/UserPromptMessage.tsx",
+      "dir": "components",
+      "lines": 36,
+      "bytes": 950
+    },
+    {
+      "id": "src/components/messages/UserTextMessage.tsx",
+      "dir": "components",
+      "lines": 34,
+      "bytes": 991
+    },
+    {
+      "id": "src/components/messages/UserToolResultMessage/UserToolCanceledMessage.tsx",
+      "dir": "components",
+      "lines": 13,
+      "bytes": 304
+    },
+    {
+      "id": "src/components/messages/UserToolResultMessage/UserToolErrorMessage.tsx",
+      "dir": "components",
+      "lines": 37,
+      "bytes": 1024
+    },
+    {
+      "id": "src/components/messages/UserToolResultMessage/UserToolRejectMessage.tsx",
+      "dir": "components",
+      "lines": 32,
+      "bytes": 880
+    },
+    {
+      "id": "src/components/messages/UserToolResultMessage/UserToolResultMessage.tsx",
+      "dir": "components",
+      "lines": 58,
+      "bytes": 1424
+    },
+    {
+      "id": "src/components/messages/UserToolResultMessage/UserToolSuccessMessage.tsx",
+      "dir": "components",
+      "lines": 36,
+      "bytes": 891
+    },
+    {
+      "id": "src/components/messages/UserToolResultMessage/utils.tsx",
+      "dir": "components",
+      "lines": 57,
+      "bytes": 1728
+    },
+    {
+      "id": "src/components/permissions/BashPermissionRequest/BashPermissionRequest.tsx",
+      "dir": "components",
+      "lines": 122,
+      "bytes": 3790
+    },
+    {
+      "id": "src/components/permissions/FallbackPermissionRequest.tsx",
+      "dir": "components",
+      "lines": 156,
+      "bytes": 4634
+    },
+    {
+      "id": "src/components/permissions/FileEditPermissionRequest/FileEditPermissionRequest.tsx",
+      "dir": "components",
+      "lines": 183,
+      "bytes": 5735
+    },
+    {
+      "id": "src/components/permissions/FileEditPermissionRequest/FileEditToolDiff.tsx",
+      "dir": "components",
+      "lines": 76,
+      "bytes": 1832
+    },
+    {
+      "id": "src/components/permissions/FileWritePermissionRequest/FileWritePermissionRequest.tsx",
+      "dir": "components",
+      "lines": 165,
+      "bytes": 5202
+    },
+    {
+      "id": "src/components/permissions/FileWritePermissionRequest/FileWriteToolDiff.tsx",
+      "dir": "components",
+      "lines": 82,
+      "bytes": 2119
+    },
+    {
+      "id": "src/components/permissions/FilesystemPermissionRequest/FilesystemPermissionRequest.tsx",
+      "dir": "components",
+      "lines": 243,
+      "bytes": 6980
+    },
+    {
+      "id": "src/components/permissions/PermissionRequest.tsx",
+      "dir": "components",
+      "lines": 101,
+      "bytes": 3322
+    },
+    {
+      "id": "src/components/permissions/PermissionRequestTitle.tsx",
+      "dir": "components",
+      "lines": 70,
+      "bytes": 1699
+    },
+    {
+      "id": "src/components/permissions/hooks.ts",
+      "dir": "components",
+      "lines": 45,
+      "bytes": 1455
+    },
+    {
+      "id": "src/components/permissions/toolUseOptions.ts",
+      "dir": "components",
+      "lines": 60,
+      "bytes": 1864
+    },
+    {
+      "id": "src/components/permissions/utils.ts",
+      "dir": "components",
+      "lines": 24,
+      "bytes": 538
+    },
+    {
+      "id": "src/constants/betas.ts",
+      "dir": "constants",
+      "lines": 6,
+      "bytes": 299
+    },
+    {
+      "id": "src/constants/claude-asterisk-ascii-art.tsx",
+      "dir": "constants",
+      "lines": 239,
+      "bytes": 10074
+    },
+    {
+      "id": "src/constants/figures.ts",
+      "dir": "constants",
+      "lines": 5,
+      "bytes": 197
+    },
+    {
+      "id": "src/constants/keys.ts",
+      "dir": "constants",
+      "lines": 6,
+      "bytes": 207
+    },
+    {
+      "id": "src/constants/oauth.ts",
+      "dir": "constants",
+      "lines": 55,
+      "bytes": 2077
+    },
+    {
+      "id": "src/constants/product.ts",
+      "dir": "constants",
+      "lines": 3,
+      "bytes": 112
+    },
+    {
+      "id": "src/constants/prompts.ts",
+      "dir": "constants",
+      "lines": 155,
+      "bytes": 11873
+    },
+    {
+      "id": "src/constants/releaseNotes.ts",
+      "dir": "constants",
+      "lines": 8,
+      "bytes": 275
+    },
+    {
+      "id": "src/context.ts",
+      "dir": "(root)",
+      "lines": 225,
+      "bytes": 6716
+    },
+    {
+      "id": "src/cost-tracker.ts",
+      "dir": "(root)",
+      "lines": 85,
+      "bytes": 2160
+    },
+    {
+      "id": "src/entrypoints/cli.tsx",
+      "dir": "entrypoints",
+      "lines": 1044,
+      "bytes": 32754
+    },
+    {
+      "id": "src/entrypoints/mcp.ts",
+      "dir": "entrypoints",
+      "lines": 179,
+      "bytes": 5228
+    },
+    {
+      "id": "src/history.ts",
+      "dir": "(root)",
+      "lines": 26,
+      "bytes": 550
+    },
+    {
+      "id": "src/hooks/useApiKeyVerification.ts",
+      "dir": "hooks",
+      "lines": 60,
+      "bytes": 1577
+    },
+    {
+      "id": "src/hooks/useArrowKeyHistory.ts",
+      "dir": "hooks",
+      "lines": 56,
+      "bytes": 1435
+    },
+    {
+      "id": "src/hooks/useCanUseTool.ts",
+      "dir": "hooks",
+      "lines": 139,
+      "bytes": 4858
+    },
+    {
+      "id": "src/hooks/useCancelRequest.ts",
+      "dir": "hooks",
+      "lines": 40,
+      "bytes": 1032
+    },
+    {
+      "id": "src/hooks/useDoublePress.ts",
+      "dir": "hooks",
+      "lines": 43,
+      "bytes": 1281
+    },
+    {
+      "id": "src/hooks/useExitOnCtrlCD.ts",
+      "dir": "hooks",
+      "lines": 32,
+      "bytes": 750
+    },
+    {
+      "id": "src/hooks/useInterval.ts",
+      "dir": "hooks",
+      "lines": 26,
+      "bytes": 657
+    },
+    {
+      "id": "src/hooks/useLogMessages.ts",
+      "dir": "hooks",
+      "lines": 17,
+      "bytes": 451
+    },
+    {
+      "id": "src/hooks/useLogStartupTime.ts",
+      "dir": "hooks",
+      "lines": 13,
+      "bytes": 324
+    },
+    {
+      "id": "src/hooks/useNotifyAfterTimeout.ts",
+      "dir": "hooks",
+      "lines": 66,
+      "bytes": 1963
+    },
+    {
+      "id": "src/hooks/usePermissionRequestLogging.ts",
+      "dir": "hooks",
+      "lines": 45,
+      "bytes": 1442
+    },
+    {
+      "id": "src/hooks/useSlashCommandTypeahead.ts",
+      "dir": "hooks",
+      "lines": 122,
+      "bytes": 3477
+    },
+    {
+      "id": "src/hooks/useTerminalSize.ts",
+      "dir": "hooks",
+      "lines": 25,
+      "bytes": 514
+    },
+    {
+      "id": "src/hooks/useTextInput.ts",
+      "dir": "hooks",
+      "lines": 288,
+      "bytes": 7499
+    },
+    {
+      "id": "src/messages.ts",
+      "dir": "(root)",
+      "lines": 25,
+      "bytes": 568
+    },
+    {
+      "id": "src/permissions.ts",
+      "dir": "(root)",
+      "lines": 268,
+      "bytes": 8036
+    },
+    {
+      "id": "src/query.ts",
+      "dir": "(root)",
+      "lines": 517,
+      "bytes": 15180
+    },
+    {
+      "id": "src/screens/ConfigureNpmPrefix.tsx",
+      "dir": "screens",
+      "lines": 198,
+      "bytes": 6073
+    },
+    {
+      "id": "src/screens/Doctor.tsx",
+      "dir": "screens",
+      "lines": 220,
+      "bytes": 6546
+    },
+    {
+      "id": "src/screens/LogList.tsx",
+      "dir": "screens",
+      "lines": 69,
+      "bytes": 1865
+    },
+    {
+      "id": "src/screens/REPL.tsx",
+      "dir": "screens",
+      "lines": 726,
+      "bytes": 22203
+    },
+    {
+      "id": "src/screens/ResumeConversation.tsx",
+      "dir": "screens",
+      "lines": 69,
+      "bytes": 1865
+    },
+    {
+      "id": "src/services/browserMocks.ts",
+      "dir": "services",
+      "lines": 67,
+      "bytes": 1923
+    },
+    {
+      "id": "src/services/claude.ts",
+      "dir": "services",
+      "lines": 949,
+      "bytes": 28706
+    },
+    {
+      "id": "src/services/mcpClient.ts",
+      "dir": "services",
+      "lines": 560,
+      "bytes": 15812
+    },
+    {
+      "id": "src/services/mcpServerApproval.tsx",
+      "dir": "services",
+      "lines": 51,
+      "bytes": 1457
+    },
+    {
+      "id": "src/services/notifier.ts",
+      "dir": "services",
+      "lines": 41,
+      "bytes": 926
+    },
+    {
+      "id": "src/services/oauth.ts",
+      "dir": "services",
+      "lines": 359,
+      "bytes": 9899
+    },
+    {
+      "id": "src/services/sentry.ts",
+      "dir": "services",
+      "lines": 53,
+      "bytes": 1648
+    },
+    {
+      "id": "src/services/statsig.ts",
+      "dir": "services",
+      "lines": 170,
+      "bytes": 4883
+    },
+    {
+      "id": "src/services/statsigStorage.ts",
+      "dir": "services",
+      "lines": 84,
+      "bytes": 2261
+    },
+    {
+      "id": "src/services/vcr.ts",
+      "dir": "services",
+      "lines": 162,
+      "bytes": 4472
+    },
+    {
+      "id": "src/tools/AgentTool/AgentTool.tsx",
+      "dir": "tools",
+      "lines": 209,
+      "bytes": 6140
+    },
+    {
+      "id": "src/tools/AgentTool/constants.ts",
+      "dir": "tools",
+      "lines": 2,
+      "bytes": 42
+    },
+    {
+      "id": "src/tools/AgentTool/prompt.ts",
+      "dir": "tools",
+      "lines": 42,
+      "bytes": 2822
+    },
+    {
+      "id": "src/tools/ArchitectTool/ArchitectTool.tsx",
+      "dir": "tools",
+      "lines": 120,
+      "bytes": 3342
+    },
+    {
+      "id": "src/tools/ArchitectTool/prompt.ts",
+      "dir": "tools",
+      "lines": 16,
+      "bytes": 1212
+    },
+    {
+      "id": "src/tools/BashTool/BashTool.tsx",
+      "dir": "tools",
+      "lines": 220,
+      "bytes": 7186
+    },
+    {
+      "id": "src/tools/BashTool/BashToolResultMessage.tsx",
+      "dir": "tools",
+      "lines": 39,
+      "bytes": 1030
+    },
+    {
+      "id": "src/tools/BashTool/OutputLine.tsx",
+      "dir": "tools",
+      "lines": 47,
+      "bytes": 1237
+    },
+    {
+      "id": "src/tools/BashTool/prompt.ts",
+      "dir": "tools",
+      "lines": 175,
+      "bytes": 10155
+    },
+    {
+      "id": "src/tools/BashTool/utils.ts",
+      "dir": "tools",
+      "lines": 57,
+      "bytes": 1748
+    },
+    {
+      "id": "src/tools/FileEditTool/FileEditTool.tsx",
+      "dir": "tools",
+      "lines": 298,
+      "bytes": 9049
+    },
+    {
+      "id": "src/tools/FileEditTool/prompt.ts",
+      "dir": "tools",
+      "lines": 52,
+      "bytes": 2774
+    },
+    {
+      "id": "src/tools/FileEditTool/utils.ts",
+      "dir": "tools",
+      "lines": 59,
+      "bytes": 1615
+    },
+    {
+      "id": "src/tools/FileReadTool/FileReadTool.tsx",
+      "dir": "tools",
+      "lines": 344,
+      "bytes": 9823
+    },
+    {
+      "id": "src/tools/FileReadTool/prompt.ts",
+      "dir": "tools",
+      "lines": 8,
+      "bytes": 809
+    },
+    {
+      "id": "src/tools/FileWriteTool/FileWriteTool.tsx",
+      "dir": "tools",
+      "lines": 280,
+      "bytes": 8735
+    },
+    {
+      "id": "src/tools/FileWriteTool/prompt.ts",
+      "dir": "tools",
+      "lines": 11,
+      "bytes": 430
+    },
+    {
+      "id": "src/tools/GlobTool/GlobTool.tsx",
+      "dir": "tools",
+      "lines": 117,
+      "bytes": 3337
+    },
+    {
+      "id": "src/tools/GlobTool/prompt.ts",
+      "dir": "tools",
+      "lines": 9,
+      "bytes": 450
+    },
+    {
+      "id": "src/tools/GrepTool/GrepTool.tsx",
+      "dir": "tools",
+      "lines": 145,
+      "bytes": 4329
+    },
+    {
+      "id": "src/tools/GrepTool/prompt.ts",
+      "dir": "tools",
+      "lines": 12,
+      "bytes": 604
+    },
+    {
+      "id": "src/tools/MCPTool/MCPTool.tsx",
+      "dir": "tools",
+      "lines": 104,
+      "bytes": 2793
+    },
+    {
+      "id": "src/tools/MCPTool/prompt.ts",
+      "dir": "tools",
+      "lines": 4,
+      "bytes": 119
+    },
+    {
+      "id": "src/tools/MemoryReadTool/MemoryReadTool.tsx",
+      "dir": "tools",
+      "lines": 119,
+      "bytes": 3319
+    },
+    {
+      "id": "src/tools/MemoryWriteTool/MemoryWriteTool.tsx",
+      "dir": "tools",
+      "lines": 77,
+      "bytes": 2147
+    },
+    {
+      "id": "src/tools/NotebookEditTool/NotebookEditTool.tsx",
+      "dir": "tools",
+      "lines": 284,
+      "bytes": 8119
+    },
+    {
+      "id": "src/tools/NotebookEditTool/prompt.ts",
+      "dir": "tools",
+      "lines": 4,
+      "bytes": 632
+    },
+    {
+      "id": "src/tools/NotebookReadTool/NotebookReadTool.tsx",
+      "dir": "tools",
+      "lines": 264,
+      "bytes": 7071
+    },
+    {
+      "id": "src/tools/NotebookReadTool/prompt.ts",
+      "dir": "tools",
+      "lines": 4,
+      "bytes": 437
+    },
+    {
+      "id": "src/tools/StickerRequestTool/StickerRequestTool.tsx",
+      "dir": "tools",
+      "lines": 93,
+      "bytes": 2706
+    },
+    {
+      "id": "src/tools/StickerRequestTool/prompt.ts",
+      "dir": "tools",
+      "lines": 20,
+      "bytes": 1293
+    },
+    {
+      "id": "src/tools/ThinkTool/ThinkTool.tsx",
+      "dir": "tools",
+      "lines": 56,
+      "bytes": 1649
+    },
+    {
+      "id": "src/tools/ThinkTool/prompt.ts",
+      "dir": "tools",
+      "lines": 13,
+      "bytes": 1077
+    },
+    {
+      "id": "src/tools/lsTool/lsTool.tsx",
+      "dir": "tools",
+      "lines": 267,
+      "bytes": 7106
+    },
+    {
+      "id": "src/tools/lsTool/prompt.ts",
+      "dir": "tools",
+      "lines": 3,
+      "bytes": 236
+    },
+    {
+      "id": "src/tools.ts",
+      "dir": "(root)",
+      "lines": 60,
+      "bytes": 2273
+    },
+    {
+      "id": "src/utils/Cursor.ts",
+      "dir": "utils",
+      "lines": 424,
+      "bytes": 11478
+    },
+    {
+      "id": "src/utils/PersistentShell.ts",
+      "dir": "utils",
+      "lines": 373,
+      "bytes": 11651
+    },
+    {
+      "id": "src/utils/array.ts",
+      "dir": "utils",
+      "lines": 4,
+      "bytes": 143
+    },
+    {
+      "id": "src/utils/ask.tsx",
+      "dir": "utils",
+      "lines": 100,
+      "bytes": 2617
+    },
+    {
+      "id": "src/utils/auth.ts",
+      "dir": "utils",
+      "lines": 12,
+      "bytes": 313
+    },
+    {
+      "id": "src/utils/autoUpdater.ts",
+      "dir": "utils",
+      "lines": 318,
+      "bytes": 8617
+    },
+    {
+      "id": "src/utils/betas.ts",
+      "dir": "utils",
+      "lines": 21,
+      "bytes": 626
+    },
+    {
+      "id": "src/utils/browser.ts",
+      "dir": "utils",
+      "lines": 15,
+      "bytes": 387
+    },
+    {
+      "id": "src/utils/cleanup.ts",
+      "dir": "utils",
+      "lines": 73,
+      "bytes": 2149
+    },
+    {
+      "id": "src/utils/commands.ts",
+      "dir": "utils",
+      "lines": 262,
+      "bytes": 7887
+    },
+    {
+      "id": "src/utils/config.ts",
+      "dir": "utils",
+      "lines": 578,
+      "bytes": 16140
+    },
+    {
+      "id": "src/utils/diff.ts",
+      "dir": "utils",
+      "lines": 43,
+      "bytes": 1096
+    },
+    {
+      "id": "src/utils/env.ts",
+      "dir": "utils",
+      "lines": 56,
+      "bytes": 1509
+    },
+    {
+      "id": "src/utils/errors.ts",
+      "dir": "utils",
+      "lines": 22,
+      "bytes": 591
+    },
+    {
+      "id": "src/utils/exampleCommands.ts",
+      "dir": "utils",
+      "lines": 111,
+      "bytes": 3833
+    },
+    {
+      "id": "src/utils/execFileNoThrow.ts",
+      "dir": "utils",
+      "lines": 52,
+      "bytes": 1316
+    },
+    {
+      "id": "src/utils/file.ts",
+      "dir": "utils",
+      "lines": 406,
+      "bytes": 10367
+    },
+    {
+      "id": "src/utils/format.tsx",
+      "dir": "utils",
+      "lines": 45,
+      "bytes": 1117
+    },
+    {
+      "id": "src/utils/generators.ts",
+      "dir": "utils",
+      "lines": 63,
+      "bytes": 1664
+    },
+    {
+      "id": "src/utils/git.ts",
+      "dir": "utils",
+      "lines": 93,
+      "bytes": 2056
+    },
+    {
+      "id": "src/utils/http.ts",
+      "dir": "utils",
+      "lines": 8,
+      "bytes": 284
+    },
+    {
+      "id": "src/utils/imagePaste.ts",
+      "dir": "utils",
+      "lines": 39,
+      "bytes": 1149
+    },
+    {
+      "id": "src/utils/json.ts",
+      "dir": "utils",
+      "lines": 14,
+      "bytes": 236
+    },
+    {
+      "id": "src/utils/log.ts",
+      "dir": "utils",
+      "lines": 382,
+      "bytes": 10037
+    },
+    {
+      "id": "src/utils/markdown.ts",
+      "dir": "utils",
+      "lines": 214,
+      "bytes": 4294
+    },
+    {
+      "id": "src/utils/messages.tsx",
+      "dir": "utils",
+      "lines": 886,
+      "bytes": 25434
+    },
+    {
+      "id": "src/utils/model.ts",
+      "dir": "utils",
+      "lines": 93,
+      "bytes": 2560
+    },
+    {
+      "id": "src/utils/permissions/filesystem.ts",
+      "dir": "utils",
+      "lines": 119,
+      "bytes": 3731
+    },
+    {
+      "id": "src/utils/ripgrep.ts",
+      "dir": "utils",
+      "lines": 168,
+      "bytes": 4493
+    },
+    {
+      "id": "src/utils/state.ts",
+      "dir": "utils",
+      "lines": 26,
+      "bytes": 556
+    },
+    {
+      "id": "src/utils/style.ts",
+      "dir": "utils",
+      "lines": 29,
+      "bytes": 853
+    },
+    {
+      "id": "src/utils/terminal.ts",
+      "dir": "utils",
+      "lines": 51,
+      "bytes": 1527
+    },
+    {
+      "id": "src/utils/theme.ts",
+      "dir": "utils",
+      "lines": 118,
+      "bytes": 2911
+    },
+    {
+      "id": "src/utils/thinking.ts",
+      "dir": "utils",
+      "lines": 99,
+      "bytes": 2980
+    },
+    {
+      "id": "src/utils/tokens.ts",
+      "dir": "utils",
+      "lines": 44,
+      "bytes": 1135
+    },
+    {
+      "id": "src/utils/unaryLogging.ts",
+      "dir": "utils",
+      "lines": 27,
+      "bytes": 632
+    },
+    {
+      "id": "src/utils/user.ts",
+      "dir": "utils",
+      "lines": 46,
+      "bytes": 1414
+    },
+    {
+      "id": "src/utils/validate.ts",
+      "dir": "utils",
+      "lines": 166,
+      "bytes": 3524
+    }
+  ],
+  "edges": [
+    {
+      "from": "src/ProjectOnboarding.tsx",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/ProjectOnboarding.tsx",
+      "to": "src/commands/terminalSetup.ts"
+    },
+    {
+      "from": "src/ProjectOnboarding.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/ProjectOnboarding.tsx",
+      "to": "src/constants/releaseNotes.ts"
+    },
+    {
+      "from": "src/ProjectOnboarding.tsx",
+      "to": "src/utils/file.ts"
+    },
+    {
+      "from": "src/commands/approvedTools.ts",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/commands/bug.tsx",
+      "to": "src/commands.ts"
+    },
+    {
+      "from": "src/commands/bug.tsx",
+      "to": "src/components/Bug.tsx"
+    },
+    {
+      "from": "src/commands/bug.tsx",
+      "to": "src/constants/product.ts"
+    },
+    {
+      "from": "src/commands/clear.ts",
+      "to": "src/commands.ts"
+    },
+    {
+      "from": "src/commands/clear.ts",
+      "to": "src/messages.ts"
+    },
+    {
+      "from": "src/commands/clear.ts",
+      "to": "src/context.ts"
+    },
+    {
+      "from": "src/commands/clear.ts",
+      "to": "src/utils/style.ts"
+    },
+    {
+      "from": "src/commands/clear.ts",
+      "to": "src/utils/terminal.ts"
+    },
+    {
+      "from": "src/commands/clear.ts",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/commands/clear.ts",
+      "to": "src/query.ts"
+    },
+    {
+      "from": "src/commands/compact.ts",
+      "to": "src/commands.ts"
+    },
+    {
+      "from": "src/commands/compact.ts",
+      "to": "src/context.ts"
+    },
+    {
+      "from": "src/commands/compact.ts",
+      "to": "src/messages.ts"
+    },
+    {
+      "from": "src/commands/compact.ts",
+      "to": "src/services/claude.ts"
+    },
+    {
+      "from": "src/commands/compact.ts",
+      "to": "src/utils/messages.tsx"
+    },
+    {
+      "from": "src/commands/compact.ts",
+      "to": "src/utils/style.ts"
+    },
+    {
+      "from": "src/commands/compact.ts",
+      "to": "src/utils/terminal.ts"
+    },
+    {
+      "from": "src/commands/config.tsx",
+      "to": "src/commands.ts"
+    },
+    {
+      "from": "src/commands/config.tsx",
+      "to": "src/components/Config.tsx"
+    },
+    {
+      "from": "src/commands/cost.ts",
+      "to": "src/commands.ts"
+    },
+    {
+      "from": "src/commands/cost.ts",
+      "to": "src/cost-tracker.ts"
+    },
+    {
+      "from": "src/commands/ctx_viz.ts",
+      "to": "src/commands.ts"
+    },
+    {
+      "from": "src/commands/ctx_viz.ts",
+      "to": "src/constants/prompts.ts"
+    },
+    {
+      "from": "src/commands/ctx_viz.ts",
+      "to": "src/context.ts"
+    },
+    {
+      "from": "src/commands/ctx_viz.ts",
+      "to": "src/messages.ts"
+    },
+    {
+      "from": "src/commands/doctor.ts",
+      "to": "src/commands.ts"
+    },
+    {
+      "from": "src/commands/doctor.ts",
+      "to": "src/screens/Doctor.tsx"
+    },
+    {
+      "from": "src/commands/help.tsx",
+      "to": "src/commands.ts"
+    },
+    {
+      "from": "src/commands/help.tsx",
+      "to": "src/components/Help.tsx"
+    },
+    {
+      "from": "src/commands/init.ts",
+      "to": "src/commands.ts"
+    },
+    {
+      "from": "src/commands/init.ts",
+      "to": "src/ProjectOnboarding.tsx"
+    },
+    {
+      "from": "src/commands/listen.ts",
+      "to": "src/commands.ts"
+    },
+    {
+      "from": "src/commands/listen.ts",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/commands/listen.ts",
+      "to": "src/utils/execFileNoThrow.ts"
+    },
+    {
+      "from": "src/commands/login.tsx",
+      "to": "src/commands.ts"
+    },
+    {
+      "from": "src/commands/login.tsx",
+      "to": "src/components/ConsoleOAuthFlow.tsx"
+    },
+    {
+      "from": "src/commands/login.tsx",
+      "to": "src/utils/terminal.ts"
+    },
+    {
+      "from": "src/commands/login.tsx",
+      "to": "src/utils/auth.ts"
+    },
+    {
+      "from": "src/commands/login.tsx",
+      "to": "src/hooks/useExitOnCtrlCD.ts"
+    },
+    {
+      "from": "src/commands/login.tsx",
+      "to": "src/commands/clear.ts"
+    },
+    {
+      "from": "src/commands/logout.tsx",
+      "to": "src/commands.ts"
+    },
+    {
+      "from": "src/commands/logout.tsx",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/commands/logout.tsx",
+      "to": "src/utils/terminal.ts"
+    },
+    {
+      "from": "src/commands/onboarding.tsx",
+      "to": "src/commands.ts"
+    },
+    {
+      "from": "src/commands/onboarding.tsx",
+      "to": "src/components/Onboarding.tsx"
+    },
+    {
+      "from": "src/commands/onboarding.tsx",
+      "to": "src/utils/terminal.ts"
+    },
+    {
+      "from": "src/commands/onboarding.tsx",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/commands/onboarding.tsx",
+      "to": "src/commands/clear.ts"
+    },
+    {
+      "from": "src/commands/pr_comments.ts",
+      "to": "src/commands.ts"
+    },
+    {
+      "from": "src/commands/release-notes.ts",
+      "to": "src/commands.ts"
+    },
+    {
+      "from": "src/commands/release-notes.ts",
+      "to": "src/constants/releaseNotes.ts"
+    },
+    {
+      "from": "src/commands/resume.tsx",
+      "to": "src/commands.ts"
+    },
+    {
+      "from": "src/commands/resume.tsx",
+      "to": "src/screens/ResumeConversation.tsx"
+    },
+    {
+      "from": "src/commands/resume.tsx",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/commands/review.ts",
+      "to": "src/commands.ts"
+    },
+    {
+      "from": "src/commands/review.ts",
+      "to": "src/tools/BashTool/BashTool.tsx"
+    },
+    {
+      "from": "src/commands/terminalSetup.ts",
+      "to": "src/commands.ts"
+    },
+    {
+      "from": "src/commands/terminalSetup.ts",
+      "to": "src/utils/execFileNoThrow.ts"
+    },
+    {
+      "from": "src/commands/terminalSetup.ts",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/commands/terminalSetup.ts",
+      "to": "src/utils/env.ts"
+    },
+    {
+      "from": "src/commands/terminalSetup.ts",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/commands/terminalSetup.ts",
+      "to": "src/ProjectOnboarding.tsx"
+    },
+    {
+      "from": "src/commands/terminalSetup.ts",
+      "to": "src/utils/json.ts"
+    },
+    {
+      "from": "src/commands/terminalSetup.ts",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/commands.ts",
+      "to": "src/commands/bug.tsx"
+    },
+    {
+      "from": "src/commands.ts",
+      "to": "src/commands/clear.ts"
+    },
+    {
+      "from": "src/commands.ts",
+      "to": "src/commands/compact.ts"
+    },
+    {
+      "from": "src/commands.ts",
+      "to": "src/commands/config.tsx"
+    },
+    {
+      "from": "src/commands.ts",
+      "to": "src/commands/cost.ts"
+    },
+    {
+      "from": "src/commands.ts",
+      "to": "src/commands/ctx_viz.ts"
+    },
+    {
+      "from": "src/commands.ts",
+      "to": "src/commands/doctor.ts"
+    },
+    {
+      "from": "src/commands.ts",
+      "to": "src/commands/help.tsx"
+    },
+    {
+      "from": "src/commands.ts",
+      "to": "src/commands/init.ts"
+    },
+    {
+      "from": "src/commands.ts",
+      "to": "src/commands/listen.ts"
+    },
+    {
+      "from": "src/commands.ts",
+      "to": "src/commands/login.tsx"
+    },
+    {
+      "from": "src/commands.ts",
+      "to": "src/commands/logout.tsx"
+    },
+    {
+      "from": "src/commands.ts",
+      "to": "src/commands/onboarding.tsx"
+    },
+    {
+      "from": "src/commands.ts",
+      "to": "src/commands/pr_comments.ts"
+    },
+    {
+      "from": "src/commands.ts",
+      "to": "src/commands/release-notes.ts"
+    },
+    {
+      "from": "src/commands.ts",
+      "to": "src/commands/review.ts"
+    },
+    {
+      "from": "src/commands.ts",
+      "to": "src/commands/terminalSetup.ts"
+    },
+    {
+      "from": "src/commands.ts",
+      "to": "src/commands/resume.tsx"
+    },
+    {
+      "from": "src/commands.ts",
+      "to": "src/services/mcpClient.ts"
+    },
+    {
+      "from": "src/commands.ts",
+      "to": "src/query.ts"
+    },
+    {
+      "from": "src/commands.ts",
+      "to": "src/utils/auth.ts"
+    },
+    {
+      "from": "src/components/AnimatedClaudeAsterisk.tsx",
+      "to": "src/constants/claude-asterisk-ascii-art.tsx"
+    },
+    {
+      "from": "src/components/AnimatedClaudeAsterisk.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/ApproveApiKey.tsx",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/components/ApproveApiKey.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/ApproveApiKey.tsx",
+      "to": "src/hooks/useExitOnCtrlCD.ts"
+    },
+    {
+      "from": "src/components/AsciiLogo.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/AutoUpdater.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/AutoUpdater.tsx",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/components/AutoUpdater.tsx",
+      "to": "src/utils/autoUpdater.ts"
+    },
+    {
+      "from": "src/components/AutoUpdater.tsx",
+      "to": "src/hooks/useInterval.ts"
+    },
+    {
+      "from": "src/components/AutoUpdater.tsx",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/components/Bug.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/Bug.tsx",
+      "to": "src/messages.ts"
+    },
+    {
+      "from": "src/components/Bug.tsx",
+      "to": "src/query.ts"
+    },
+    {
+      "from": "src/components/Bug.tsx",
+      "to": "src/components/TextInput.tsx"
+    },
+    {
+      "from": "src/components/Bug.tsx",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/components/Bug.tsx",
+      "to": "src/utils/env.ts"
+    },
+    {
+      "from": "src/components/Bug.tsx",
+      "to": "src/utils/git.ts"
+    },
+    {
+      "from": "src/components/Bug.tsx",
+      "to": "src/hooks/useTerminalSize.ts"
+    },
+    {
+      "from": "src/components/Bug.tsx",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/components/Bug.tsx",
+      "to": "src/utils/http.ts"
+    },
+    {
+      "from": "src/components/Bug.tsx",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/components/Bug.tsx",
+      "to": "src/constants/product.ts"
+    },
+    {
+      "from": "src/components/Bug.tsx",
+      "to": "src/services/claude.ts"
+    },
+    {
+      "from": "src/components/Bug.tsx",
+      "to": "src/utils/browser.ts"
+    },
+    {
+      "from": "src/components/Bug.tsx",
+      "to": "src/hooks/useExitOnCtrlCD.ts"
+    },
+    {
+      "from": "src/components/Config.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/Config.tsx",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/components/Config.tsx",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/components/Config.tsx",
+      "to": "src/constants/product.ts"
+    },
+    {
+      "from": "src/components/Config.tsx",
+      "to": "src/hooks/useExitOnCtrlCD.ts"
+    },
+    {
+      "from": "src/components/ConsoleOAuthFlow.tsx",
+      "to": "src/components/TextInput.tsx"
+    },
+    {
+      "from": "src/components/ConsoleOAuthFlow.tsx",
+      "to": "src/services/oauth.ts"
+    },
+    {
+      "from": "src/components/ConsoleOAuthFlow.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/ConsoleOAuthFlow.tsx",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/components/ConsoleOAuthFlow.tsx",
+      "to": "src/components/AsciiLogo.tsx"
+    },
+    {
+      "from": "src/components/ConsoleOAuthFlow.tsx",
+      "to": "src/hooks/useTerminalSize.ts"
+    },
+    {
+      "from": "src/components/ConsoleOAuthFlow.tsx",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/components/ConsoleOAuthFlow.tsx",
+      "to": "src/utils/terminal.ts"
+    },
+    {
+      "from": "src/components/ConsoleOAuthFlow.tsx",
+      "to": "src/components/Spinner.tsx"
+    },
+    {
+      "from": "src/components/ConsoleOAuthFlow.tsx",
+      "to": "src/components/Onboarding.tsx"
+    },
+    {
+      "from": "src/components/ConsoleOAuthFlow.tsx",
+      "to": "src/constants/product.ts"
+    },
+    {
+      "from": "src/components/ConsoleOAuthFlow.tsx",
+      "to": "src/services/notifier.ts"
+    },
+    {
+      "from": "src/components/CostThresholdDialog.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/CostThresholdDialog.tsx",
+      "to": "src/components/Link.tsx"
+    },
+    {
+      "from": "src/components/CustomSelect/option-map.ts",
+      "to": "src/components/CustomSelect/select.tsx"
+    },
+    {
+      "from": "src/components/CustomSelect/select.tsx",
+      "to": "src/components/CustomSelect/select-option.tsx"
+    },
+    {
+      "from": "src/components/CustomSelect/select.tsx",
+      "to": "src/components/CustomSelect/use-select-state.ts"
+    },
+    {
+      "from": "src/components/CustomSelect/select.tsx",
+      "to": "src/components/CustomSelect/use-select.ts"
+    },
+    {
+      "from": "src/components/CustomSelect/use-select-state.ts",
+      "to": "src/components/CustomSelect/option-map.ts"
+    },
+    {
+      "from": "src/components/CustomSelect/use-select-state.ts",
+      "to": "src/components/CustomSelect/select.tsx"
+    },
+    {
+      "from": "src/components/CustomSelect/use-select.ts",
+      "to": "src/components/CustomSelect/use-select-state.ts"
+    },
+    {
+      "from": "src/components/FallbackToolUseRejectedMessage.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/FileEditToolUpdatedMessage.tsx",
+      "to": "src/utils/array.ts"
+    },
+    {
+      "from": "src/components/FileEditToolUpdatedMessage.tsx",
+      "to": "src/components/StructuredDiff.tsx"
+    },
+    {
+      "from": "src/components/FileEditToolUpdatedMessage.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/FileEditToolUpdatedMessage.tsx",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/components/FileEditToolUpdatedMessage.tsx",
+      "to": "src/hooks/useTerminalSize.ts"
+    },
+    {
+      "from": "src/components/Help.tsx",
+      "to": "src/commands.ts"
+    },
+    {
+      "from": "src/components/Help.tsx",
+      "to": "src/constants/product.ts"
+    },
+    {
+      "from": "src/components/Help.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/Help.tsx",
+      "to": "src/components/PressEnterToContinue.tsx"
+    },
+    {
+      "from": "src/components/HighlightedCode.tsx",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/components/InvalidConfigDialog.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/InvalidConfigDialog.tsx",
+      "to": "src/utils/errors.ts"
+    },
+    {
+      "from": "src/components/InvalidConfigDialog.tsx",
+      "to": "src/hooks/useExitOnCtrlCD.ts"
+    },
+    {
+      "from": "src/components/Link.tsx",
+      "to": "src/utils/env.ts"
+    },
+    {
+      "from": "src/components/LogSelector.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/LogSelector.tsx",
+      "to": "src/hooks/useTerminalSize.ts"
+    },
+    {
+      "from": "src/components/LogSelector.tsx",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/components/Logo.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/Logo.tsx",
+      "to": "src/constants/product.ts"
+    },
+    {
+      "from": "src/components/Logo.tsx",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/components/Logo.tsx",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/components/Logo.tsx",
+      "to": "src/services/mcpClient.ts"
+    },
+    {
+      "from": "src/components/MCPServerApprovalDialog.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/MCPServerApprovalDialog.tsx",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/components/MCPServerApprovalDialog.tsx",
+      "to": "src/components/MCPServerDialogCopy.tsx"
+    },
+    {
+      "from": "src/components/MCPServerApprovalDialog.tsx",
+      "to": "src/hooks/useExitOnCtrlCD.ts"
+    },
+    {
+      "from": "src/components/MCPServerMultiselectDialog.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/MCPServerMultiselectDialog.tsx",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/components/MCPServerMultiselectDialog.tsx",
+      "to": "src/components/MCPServerDialogCopy.tsx"
+    },
+    {
+      "from": "src/components/MCPServerMultiselectDialog.tsx",
+      "to": "src/hooks/useExitOnCtrlCD.ts"
+    },
+    {
+      "from": "src/components/Message.tsx",
+      "to": "src/query.ts"
+    },
+    {
+      "from": "src/components/Message.tsx",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/components/Message.tsx",
+      "to": "src/components/messages/UserToolResultMessage/UserToolResultMessage.tsx"
+    },
+    {
+      "from": "src/components/Message.tsx",
+      "to": "src/components/messages/AssistantToolUseMessage.tsx"
+    },
+    {
+      "from": "src/components/Message.tsx",
+      "to": "src/components/messages/AssistantTextMessage.tsx"
+    },
+    {
+      "from": "src/components/Message.tsx",
+      "to": "src/components/messages/UserTextMessage.tsx"
+    },
+    {
+      "from": "src/components/Message.tsx",
+      "to": "src/utils/messages.tsx"
+    },
+    {
+      "from": "src/components/Message.tsx",
+      "to": "src/components/messages/AssistantThinkingMessage.tsx"
+    },
+    {
+      "from": "src/components/Message.tsx",
+      "to": "src/components/messages/AssistantRedactedThinkingMessage.tsx"
+    },
+    {
+      "from": "src/components/Message.tsx",
+      "to": "src/hooks/useTerminalSize.ts"
+    },
+    {
+      "from": "src/components/MessageSelector.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/MessageSelector.tsx",
+      "to": "src/components/Message.tsx"
+    },
+    {
+      "from": "src/components/MessageSelector.tsx",
+      "to": "src/utils/messages.tsx"
+    },
+    {
+      "from": "src/components/MessageSelector.tsx",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/components/MessageSelector.tsx",
+      "to": "src/query.ts"
+    },
+    {
+      "from": "src/components/MessageSelector.tsx",
+      "to": "src/hooks/useExitOnCtrlCD.ts"
+    },
+    {
+      "from": "src/components/Onboarding.tsx",
+      "to": "src/constants/product.ts"
+    },
+    {
+      "from": "src/components/Onboarding.tsx",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/components/Onboarding.tsx",
+      "to": "src/hooks/useExitOnCtrlCD.ts"
+    },
+    {
+      "from": "src/components/Onboarding.tsx",
+      "to": "src/components/Logo.tsx"
+    },
+    {
+      "from": "src/components/Onboarding.tsx",
+      "to": "src/components/ConsoleOAuthFlow.tsx"
+    },
+    {
+      "from": "src/components/Onboarding.tsx",
+      "to": "src/components/ApproveApiKey.tsx"
+    },
+    {
+      "from": "src/components/Onboarding.tsx",
+      "to": "src/components/StructuredDiff.tsx"
+    },
+    {
+      "from": "src/components/Onboarding.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/Onboarding.tsx",
+      "to": "src/utils/auth.ts"
+    },
+    {
+      "from": "src/components/Onboarding.tsx",
+      "to": "src/components/Link.tsx"
+    },
+    {
+      "from": "src/components/Onboarding.tsx",
+      "to": "src/utils/terminal.ts"
+    },
+    {
+      "from": "src/components/Onboarding.tsx",
+      "to": "src/components/PressEnterToContinue.tsx"
+    },
+    {
+      "from": "src/components/PressEnterToContinue.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/PromptInput.tsx",
+      "to": "src/utils/exampleCommands.ts"
+    },
+    {
+      "from": "src/components/PromptInput.tsx",
+      "to": "src/query.ts"
+    },
+    {
+      "from": "src/components/PromptInput.tsx",
+      "to": "src/utils/messages.tsx"
+    },
+    {
+      "from": "src/components/PromptInput.tsx",
+      "to": "src/hooks/useArrowKeyHistory.ts"
+    },
+    {
+      "from": "src/components/PromptInput.tsx",
+      "to": "src/hooks/useSlashCommandTypeahead.ts"
+    },
+    {
+      "from": "src/components/PromptInput.tsx",
+      "to": "src/history.ts"
+    },
+    {
+      "from": "src/components/PromptInput.tsx",
+      "to": "src/components/TextInput.tsx"
+    },
+    {
+      "from": "src/components/PromptInput.tsx",
+      "to": "src/utils/tokens.ts"
+    },
+    {
+      "from": "src/components/PromptInput.tsx",
+      "to": "src/components/SentryErrorBoundary.ts"
+    },
+    {
+      "from": "src/components/PromptInput.tsx",
+      "to": "src/components/AutoUpdater.tsx"
+    },
+    {
+      "from": "src/components/PromptInput.tsx",
+      "to": "src/utils/autoUpdater.ts"
+    },
+    {
+      "from": "src/components/PromptInput.tsx",
+      "to": "src/commands.ts"
+    },
+    {
+      "from": "src/components/PromptInput.tsx",
+      "to": "src/components/TokenWarning.tsx"
+    },
+    {
+      "from": "src/components/PromptInput.tsx",
+      "to": "src/hooks/useTerminalSize.ts"
+    },
+    {
+      "from": "src/components/PromptInput.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/PromptInput.tsx",
+      "to": "src/utils/model.ts"
+    },
+    {
+      "from": "src/components/PromptInput.tsx",
+      "to": "src/utils/terminal.ts"
+    },
+    {
+      "from": "src/components/PromptInput.tsx",
+      "to": "src/commands/terminalSetup.ts"
+    },
+    {
+      "from": "src/components/SentryErrorBoundary.ts",
+      "to": "src/services/sentry.ts"
+    },
+    {
+      "from": "src/components/Spinner.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/StickerRequestForm.tsx",
+      "to": "src/components/TextInput.tsx"
+    },
+    {
+      "from": "src/components/StickerRequestForm.tsx",
+      "to": "src/utils/validate.ts"
+    },
+    {
+      "from": "src/components/StickerRequestForm.tsx",
+      "to": "src/utils/browser.ts"
+    },
+    {
+      "from": "src/components/StickerRequestForm.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/StickerRequestForm.tsx",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/components/StickerRequestForm.tsx",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/components/StickerRequestForm.tsx",
+      "to": "src/components/AnimatedClaudeAsterisk.tsx"
+    },
+    {
+      "from": "src/components/StickerRequestForm.tsx",
+      "to": "src/hooks/useTerminalSize.ts"
+    },
+    {
+      "from": "src/components/StructuredDiff.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/StructuredDiff.tsx",
+      "to": "src/utils/format.tsx"
+    },
+    {
+      "from": "src/components/TextInput.tsx",
+      "to": "src/hooks/useTextInput.ts"
+    },
+    {
+      "from": "src/components/TextInput.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/TokenWarning.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/ToolUseLoader.tsx",
+      "to": "src/hooks/useInterval.ts"
+    },
+    {
+      "from": "src/components/ToolUseLoader.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/ToolUseLoader.tsx",
+      "to": "src/constants/figures.ts"
+    },
+    {
+      "from": "src/components/TrustDialog.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/TrustDialog.tsx",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/components/TrustDialog.tsx",
+      "to": "src/constants/product.ts"
+    },
+    {
+      "from": "src/components/TrustDialog.tsx",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/components/TrustDialog.tsx",
+      "to": "src/hooks/useExitOnCtrlCD.ts"
+    },
+    {
+      "from": "src/components/TrustDialog.tsx",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/components/TrustDialog.tsx",
+      "to": "src/components/Link.tsx"
+    },
+    {
+      "from": "src/components/binary-feedback/BinaryFeedback.tsx",
+      "to": "src/hooks/useNotifyAfterTimeout.ts"
+    },
+    {
+      "from": "src/components/binary-feedback/BinaryFeedback.tsx",
+      "to": "src/query.ts"
+    },
+    {
+      "from": "src/components/binary-feedback/BinaryFeedback.tsx",
+      "to": "src/utils/messages.tsx"
+    },
+    {
+      "from": "src/components/binary-feedback/BinaryFeedback.tsx",
+      "to": "src/components/binary-feedback/BinaryFeedbackView.tsx"
+    },
+    {
+      "from": "src/components/binary-feedback/BinaryFeedback.tsx",
+      "to": "src/components/binary-feedback/utils.ts"
+    },
+    {
+      "from": "src/components/binary-feedback/BinaryFeedbackOption.tsx",
+      "to": "src/tools/FileEditTool/FileEditTool.tsx"
+    },
+    {
+      "from": "src/components/binary-feedback/BinaryFeedbackOption.tsx",
+      "to": "src/components/permissions/FileEditPermissionRequest/FileEditToolDiff.tsx"
+    },
+    {
+      "from": "src/components/binary-feedback/BinaryFeedbackOption.tsx",
+      "to": "src/components/Message.tsx"
+    },
+    {
+      "from": "src/components/binary-feedback/BinaryFeedbackOption.tsx",
+      "to": "src/utils/messages.tsx"
+    },
+    {
+      "from": "src/components/binary-feedback/BinaryFeedbackOption.tsx",
+      "to": "src/hooks/useTerminalSize.ts"
+    },
+    {
+      "from": "src/components/binary-feedback/BinaryFeedbackOption.tsx",
+      "to": "src/tools/FileWriteTool/FileWriteTool.tsx"
+    },
+    {
+      "from": "src/components/binary-feedback/BinaryFeedbackOption.tsx",
+      "to": "src/components/permissions/FileWritePermissionRequest/FileWriteToolDiff.tsx"
+    },
+    {
+      "from": "src/components/binary-feedback/BinaryFeedbackOption.tsx",
+      "to": "src/query.ts"
+    },
+    {
+      "from": "src/components/binary-feedback/BinaryFeedbackView.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/binary-feedback/BinaryFeedbackView.tsx",
+      "to": "src/utils/messages.tsx"
+    },
+    {
+      "from": "src/components/binary-feedback/BinaryFeedbackView.tsx",
+      "to": "src/components/binary-feedback/BinaryFeedbackOption.tsx"
+    },
+    {
+      "from": "src/components/binary-feedback/BinaryFeedbackView.tsx",
+      "to": "src/query.ts"
+    },
+    {
+      "from": "src/components/binary-feedback/BinaryFeedbackView.tsx",
+      "to": "src/components/binary-feedback/utils.ts"
+    },
+    {
+      "from": "src/components/binary-feedback/BinaryFeedbackView.tsx",
+      "to": "src/hooks/useExitOnCtrlCD.ts"
+    },
+    {
+      "from": "src/components/binary-feedback/BinaryFeedbackView.tsx",
+      "to": "src/components/binary-feedback/utils.ts"
+    },
+    {
+      "from": "src/components/binary-feedback/utils.ts",
+      "to": "src/query.ts"
+    },
+    {
+      "from": "src/components/binary-feedback/utils.ts",
+      "to": "src/services/claude.ts"
+    },
+    {
+      "from": "src/components/binary-feedback/utils.ts",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/components/binary-feedback/utils.ts",
+      "to": "src/utils/git.ts"
+    },
+    {
+      "from": "src/components/messages/AssistantBashOutputMessage.tsx",
+      "to": "src/tools/BashTool/BashToolResultMessage.tsx"
+    },
+    {
+      "from": "src/components/messages/AssistantBashOutputMessage.tsx",
+      "to": "src/utils/messages.tsx"
+    },
+    {
+      "from": "src/components/messages/AssistantLocalCommandOutputMessage.tsx",
+      "to": "src/utils/messages.tsx"
+    },
+    {
+      "from": "src/components/messages/AssistantLocalCommandOutputMessage.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/messages/AssistantRedactedThinkingMessage.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/messages/AssistantTextMessage.tsx",
+      "to": "src/components/messages/AssistantBashOutputMessage.tsx"
+    },
+    {
+      "from": "src/components/messages/AssistantTextMessage.tsx",
+      "to": "src/components/messages/AssistantLocalCommandOutputMessage.tsx"
+    },
+    {
+      "from": "src/components/messages/AssistantTextMessage.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/messages/AssistantTextMessage.tsx",
+      "to": "src/components/Cost.tsx"
+    },
+    {
+      "from": "src/components/messages/AssistantTextMessage.tsx",
+      "to": "src/services/claude.ts"
+    },
+    {
+      "from": "src/components/messages/AssistantTextMessage.tsx",
+      "to": "src/utils/messages.tsx"
+    },
+    {
+      "from": "src/components/messages/AssistantTextMessage.tsx",
+      "to": "src/constants/figures.ts"
+    },
+    {
+      "from": "src/components/messages/AssistantTextMessage.tsx",
+      "to": "src/utils/markdown.ts"
+    },
+    {
+      "from": "src/components/messages/AssistantTextMessage.tsx",
+      "to": "src/hooks/useTerminalSize.ts"
+    },
+    {
+      "from": "src/components/messages/AssistantThinkingMessage.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/messages/AssistantThinkingMessage.tsx",
+      "to": "src/utils/markdown.ts"
+    },
+    {
+      "from": "src/components/messages/AssistantToolUseMessage.tsx",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/components/messages/AssistantToolUseMessage.tsx",
+      "to": "src/components/Cost.tsx"
+    },
+    {
+      "from": "src/components/messages/AssistantToolUseMessage.tsx",
+      "to": "src/components/ToolUseLoader.tsx"
+    },
+    {
+      "from": "src/components/messages/AssistantToolUseMessage.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/messages/AssistantToolUseMessage.tsx",
+      "to": "src/constants/figures.ts"
+    },
+    {
+      "from": "src/components/messages/AssistantToolUseMessage.tsx",
+      "to": "src/tools/ThinkTool/ThinkTool.tsx"
+    },
+    {
+      "from": "src/components/messages/AssistantToolUseMessage.tsx",
+      "to": "src/components/messages/AssistantThinkingMessage.tsx"
+    },
+    {
+      "from": "src/components/messages/UserBashInputMessage.tsx",
+      "to": "src/utils/messages.tsx"
+    },
+    {
+      "from": "src/components/messages/UserBashInputMessage.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/messages/UserCommandMessage.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/messages/UserCommandMessage.tsx",
+      "to": "src/utils/messages.tsx"
+    },
+    {
+      "from": "src/components/messages/UserPromptMessage.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/messages/UserPromptMessage.tsx",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/components/messages/UserPromptMessage.tsx",
+      "to": "src/hooks/useTerminalSize.ts"
+    },
+    {
+      "from": "src/components/messages/UserTextMessage.tsx",
+      "to": "src/components/messages/UserBashInputMessage.tsx"
+    },
+    {
+      "from": "src/components/messages/UserTextMessage.tsx",
+      "to": "src/components/messages/UserCommandMessage.tsx"
+    },
+    {
+      "from": "src/components/messages/UserTextMessage.tsx",
+      "to": "src/components/messages/UserPromptMessage.tsx"
+    },
+    {
+      "from": "src/components/messages/UserTextMessage.tsx",
+      "to": "src/services/claude.ts"
+    },
+    {
+      "from": "src/components/messages/UserToolResultMessage/UserToolCanceledMessage.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/messages/UserToolResultMessage/UserToolErrorMessage.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/messages/UserToolResultMessage/UserToolRejectMessage.tsx",
+      "to": "src/query.ts"
+    },
+    {
+      "from": "src/components/messages/UserToolResultMessage/UserToolRejectMessage.tsx",
+      "to": "src/components/FallbackToolUseRejectedMessage.tsx"
+    },
+    {
+      "from": "src/components/messages/UserToolResultMessage/UserToolRejectMessage.tsx",
+      "to": "src/components/messages/UserToolResultMessage/utils.tsx"
+    },
+    {
+      "from": "src/components/messages/UserToolResultMessage/UserToolRejectMessage.tsx",
+      "to": "src/hooks/useTerminalSize.ts"
+    },
+    {
+      "from": "src/components/messages/UserToolResultMessage/UserToolResultMessage.tsx",
+      "to": "src/query.ts"
+    },
+    {
+      "from": "src/components/messages/UserToolResultMessage/UserToolResultMessage.tsx",
+      "to": "src/utils/messages.tsx"
+    },
+    {
+      "from": "src/components/messages/UserToolResultMessage/UserToolResultMessage.tsx",
+      "to": "src/components/messages/UserToolResultMessage/UserToolCanceledMessage.tsx"
+    },
+    {
+      "from": "src/components/messages/UserToolResultMessage/UserToolResultMessage.tsx",
+      "to": "src/components/messages/UserToolResultMessage/UserToolErrorMessage.tsx"
+    },
+    {
+      "from": "src/components/messages/UserToolResultMessage/UserToolResultMessage.tsx",
+      "to": "src/components/messages/UserToolResultMessage/UserToolRejectMessage.tsx"
+    },
+    {
+      "from": "src/components/messages/UserToolResultMessage/UserToolResultMessage.tsx",
+      "to": "src/components/messages/UserToolResultMessage/UserToolSuccessMessage.tsx"
+    },
+    {
+      "from": "src/components/messages/UserToolResultMessage/UserToolSuccessMessage.tsx",
+      "to": "src/query.ts"
+    },
+    {
+      "from": "src/components/messages/UserToolResultMessage/UserToolSuccessMessage.tsx",
+      "to": "src/components/messages/UserToolResultMessage/utils.tsx"
+    },
+    {
+      "from": "src/components/messages/UserToolResultMessage/utils.tsx",
+      "to": "src/query.ts"
+    },
+    {
+      "from": "src/components/messages/UserToolResultMessage/utils.tsx",
+      "to": "src/tools/GlobTool/GlobTool.tsx"
+    },
+    {
+      "from": "src/components/messages/UserToolResultMessage/utils.tsx",
+      "to": "src/tools/GrepTool/GrepTool.tsx"
+    },
+    {
+      "from": "src/components/messages/UserToolResultMessage/utils.tsx",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/components/permissions/BashPermissionRequest/BashPermissionRequest.tsx",
+      "to": "src/hooks/usePermissionRequestLogging.ts"
+    },
+    {
+      "from": "src/components/permissions/BashPermissionRequest/BashPermissionRequest.tsx",
+      "to": "src/permissions.ts"
+    },
+    {
+      "from": "src/components/permissions/BashPermissionRequest/BashPermissionRequest.tsx",
+      "to": "src/tools/BashTool/BashTool.tsx"
+    },
+    {
+      "from": "src/components/permissions/BashPermissionRequest/BashPermissionRequest.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/permissions/BashPermissionRequest/BashPermissionRequest.tsx",
+      "to": "src/components/permissions/hooks.ts"
+    },
+    {
+      "from": "src/components/permissions/BashPermissionRequest/BashPermissionRequest.tsx",
+      "to": "src/components/permissions/PermissionRequest.tsx"
+    },
+    {
+      "from": "src/components/permissions/BashPermissionRequest/BashPermissionRequest.tsx",
+      "to": "src/components/permissions/PermissionRequestTitle.tsx"
+    },
+    {
+      "from": "src/components/permissions/BashPermissionRequest/BashPermissionRequest.tsx",
+      "to": "src/components/permissions/utils.ts"
+    },
+    {
+      "from": "src/components/permissions/BashPermissionRequest/BashPermissionRequest.tsx",
+      "to": "src/components/CustomSelect/select.tsx"
+    },
+    {
+      "from": "src/components/permissions/BashPermissionRequest/BashPermissionRequest.tsx",
+      "to": "src/components/permissions/toolUseOptions.ts"
+    },
+    {
+      "from": "src/components/permissions/FallbackPermissionRequest.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/permissions/FallbackPermissionRequest.tsx",
+      "to": "src/components/permissions/PermissionRequestTitle.tsx"
+    },
+    {
+      "from": "src/components/permissions/FallbackPermissionRequest.tsx",
+      "to": "src/utils/unaryLogging.ts"
+    },
+    {
+      "from": "src/components/permissions/FallbackPermissionRequest.tsx",
+      "to": "src/utils/env.ts"
+    },
+    {
+      "from": "src/components/permissions/FallbackPermissionRequest.tsx",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/components/permissions/FallbackPermissionRequest.tsx",
+      "to": "src/permissions.ts"
+    },
+    {
+      "from": "src/components/permissions/FallbackPermissionRequest.tsx",
+      "to": "src/components/permissions/PermissionRequest.tsx"
+    },
+    {
+      "from": "src/components/permissions/FallbackPermissionRequest.tsx",
+      "to": "src/hooks/usePermissionRequestLogging.ts"
+    },
+    {
+      "from": "src/components/permissions/FileEditPermissionRequest/FileEditPermissionRequest.tsx",
+      "to": "src/hooks/usePermissionRequestLogging.ts"
+    },
+    {
+      "from": "src/components/permissions/FileEditPermissionRequest/FileEditPermissionRequest.tsx",
+      "to": "src/permissions.ts"
+    },
+    {
+      "from": "src/components/permissions/FileEditPermissionRequest/FileEditPermissionRequest.tsx",
+      "to": "src/utils/env.ts"
+    },
+    {
+      "from": "src/components/permissions/FileEditPermissionRequest/FileEditPermissionRequest.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/permissions/FileEditPermissionRequest/FileEditPermissionRequest.tsx",
+      "to": "src/utils/unaryLogging.ts"
+    },
+    {
+      "from": "src/components/permissions/FileEditPermissionRequest/FileEditPermissionRequest.tsx",
+      "to": "src/components/permissions/PermissionRequest.tsx"
+    },
+    {
+      "from": "src/components/permissions/FileEditPermissionRequest/FileEditPermissionRequest.tsx",
+      "to": "src/components/permissions/PermissionRequestTitle.tsx"
+    },
+    {
+      "from": "src/components/permissions/FileEditPermissionRequest/FileEditPermissionRequest.tsx",
+      "to": "src/components/permissions/FileEditPermissionRequest/FileEditToolDiff.tsx"
+    },
+    {
+      "from": "src/components/permissions/FileEditPermissionRequest/FileEditPermissionRequest.tsx",
+      "to": "src/hooks/useTerminalSize.ts"
+    },
+    {
+      "from": "src/components/permissions/FileEditPermissionRequest/FileEditPermissionRequest.tsx",
+      "to": "src/utils/permissions/filesystem.ts"
+    },
+    {
+      "from": "src/components/permissions/FileEditPermissionRequest/FileEditToolDiff.tsx",
+      "to": "src/components/StructuredDiff.tsx"
+    },
+    {
+      "from": "src/components/permissions/FileEditPermissionRequest/FileEditToolDiff.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/permissions/FileEditPermissionRequest/FileEditToolDiff.tsx",
+      "to": "src/utils/array.ts"
+    },
+    {
+      "from": "src/components/permissions/FileEditPermissionRequest/FileEditToolDiff.tsx",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/components/permissions/FileEditPermissionRequest/FileEditToolDiff.tsx",
+      "to": "src/utils/diff.ts"
+    },
+    {
+      "from": "src/components/permissions/FileWritePermissionRequest/FileWritePermissionRequest.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/permissions/FileWritePermissionRequest/FileWritePermissionRequest.tsx",
+      "to": "src/components/permissions/PermissionRequestTitle.tsx"
+    },
+    {
+      "from": "src/components/permissions/FileWritePermissionRequest/FileWritePermissionRequest.tsx",
+      "to": "src/utils/unaryLogging.ts"
+    },
+    {
+      "from": "src/components/permissions/FileWritePermissionRequest/FileWritePermissionRequest.tsx",
+      "to": "src/utils/env.ts"
+    },
+    {
+      "from": "src/components/permissions/FileWritePermissionRequest/FileWritePermissionRequest.tsx",
+      "to": "src/permissions.ts"
+    },
+    {
+      "from": "src/components/permissions/FileWritePermissionRequest/FileWritePermissionRequest.tsx",
+      "to": "src/components/permissions/PermissionRequest.tsx"
+    },
+    {
+      "from": "src/components/permissions/FileWritePermissionRequest/FileWritePermissionRequest.tsx",
+      "to": "src/hooks/usePermissionRequestLogging.ts"
+    },
+    {
+      "from": "src/components/permissions/FileWritePermissionRequest/FileWritePermissionRequest.tsx",
+      "to": "src/components/permissions/FileWritePermissionRequest/FileWriteToolDiff.tsx"
+    },
+    {
+      "from": "src/components/permissions/FileWritePermissionRequest/FileWritePermissionRequest.tsx",
+      "to": "src/hooks/useTerminalSize.ts"
+    },
+    {
+      "from": "src/components/permissions/FileWritePermissionRequest/FileWriteToolDiff.tsx",
+      "to": "src/components/StructuredDiff.tsx"
+    },
+    {
+      "from": "src/components/permissions/FileWritePermissionRequest/FileWriteToolDiff.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/permissions/FileWritePermissionRequest/FileWriteToolDiff.tsx",
+      "to": "src/utils/array.ts"
+    },
+    {
+      "from": "src/components/permissions/FileWritePermissionRequest/FileWriteToolDiff.tsx",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/components/permissions/FileWritePermissionRequest/FileWriteToolDiff.tsx",
+      "to": "src/utils/file.ts"
+    },
+    {
+      "from": "src/components/permissions/FileWritePermissionRequest/FileWriteToolDiff.tsx",
+      "to": "src/components/HighlightedCode.tsx"
+    },
+    {
+      "from": "src/components/permissions/FileWritePermissionRequest/FileWriteToolDiff.tsx",
+      "to": "src/utils/diff.ts"
+    },
+    {
+      "from": "src/components/permissions/FilesystemPermissionRequest/FilesystemPermissionRequest.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/permissions/FilesystemPermissionRequest/FilesystemPermissionRequest.tsx",
+      "to": "src/components/permissions/PermissionRequestTitle.tsx"
+    },
+    {
+      "from": "src/components/permissions/FilesystemPermissionRequest/FilesystemPermissionRequest.tsx",
+      "to": "src/utils/unaryLogging.ts"
+    },
+    {
+      "from": "src/components/permissions/FilesystemPermissionRequest/FilesystemPermissionRequest.tsx",
+      "to": "src/utils/env.ts"
+    },
+    {
+      "from": "src/components/permissions/FilesystemPermissionRequest/FilesystemPermissionRequest.tsx",
+      "to": "src/components/permissions/PermissionRequest.tsx"
+    },
+    {
+      "from": "src/components/permissions/FilesystemPermissionRequest/FilesystemPermissionRequest.tsx",
+      "to": "src/hooks/usePermissionRequestLogging.ts"
+    },
+    {
+      "from": "src/components/permissions/FilesystemPermissionRequest/FilesystemPermissionRequest.tsx",
+      "to": "src/tools/FileEditTool/FileEditTool.tsx"
+    },
+    {
+      "from": "src/components/permissions/FilesystemPermissionRequest/FilesystemPermissionRequest.tsx",
+      "to": "src/tools/FileWriteTool/FileWriteTool.tsx"
+    },
+    {
+      "from": "src/components/permissions/FilesystemPermissionRequest/FilesystemPermissionRequest.tsx",
+      "to": "src/tools/GrepTool/GrepTool.tsx"
+    },
+    {
+      "from": "src/components/permissions/FilesystemPermissionRequest/FilesystemPermissionRequest.tsx",
+      "to": "src/tools/GlobTool/GlobTool.tsx"
+    },
+    {
+      "from": "src/components/permissions/FilesystemPermissionRequest/FilesystemPermissionRequest.tsx",
+      "to": "src/tools/lsTool/lsTool.tsx"
+    },
+    {
+      "from": "src/components/permissions/FilesystemPermissionRequest/FilesystemPermissionRequest.tsx",
+      "to": "src/tools/FileReadTool/FileReadTool.tsx"
+    },
+    {
+      "from": "src/components/permissions/FilesystemPermissionRequest/FilesystemPermissionRequest.tsx",
+      "to": "src/tools/NotebookEditTool/NotebookEditTool.tsx"
+    },
+    {
+      "from": "src/components/permissions/FilesystemPermissionRequest/FilesystemPermissionRequest.tsx",
+      "to": "src/tools/NotebookReadTool/NotebookReadTool.tsx"
+    },
+    {
+      "from": "src/components/permissions/FilesystemPermissionRequest/FilesystemPermissionRequest.tsx",
+      "to": "src/components/permissions/FallbackPermissionRequest.tsx"
+    },
+    {
+      "from": "src/components/permissions/FilesystemPermissionRequest/FilesystemPermissionRequest.tsx",
+      "to": "src/utils/permissions/filesystem.ts"
+    },
+    {
+      "from": "src/components/permissions/FilesystemPermissionRequest/FilesystemPermissionRequest.tsx",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/components/permissions/PermissionRequest.tsx",
+      "to": "src/query.ts"
+    },
+    {
+      "from": "src/components/permissions/PermissionRequest.tsx",
+      "to": "src/tools/FileEditTool/FileEditTool.tsx"
+    },
+    {
+      "from": "src/components/permissions/PermissionRequest.tsx",
+      "to": "src/tools/FileWriteTool/FileWriteTool.tsx"
+    },
+    {
+      "from": "src/components/permissions/PermissionRequest.tsx",
+      "to": "src/tools/BashTool/BashTool.tsx"
+    },
+    {
+      "from": "src/components/permissions/PermissionRequest.tsx",
+      "to": "src/components/permissions/FileEditPermissionRequest/FileEditPermissionRequest.tsx"
+    },
+    {
+      "from": "src/components/permissions/PermissionRequest.tsx",
+      "to": "src/components/permissions/BashPermissionRequest/BashPermissionRequest.tsx"
+    },
+    {
+      "from": "src/components/permissions/PermissionRequest.tsx",
+      "to": "src/components/permissions/FallbackPermissionRequest.tsx"
+    },
+    {
+      "from": "src/components/permissions/PermissionRequest.tsx",
+      "to": "src/hooks/useNotifyAfterTimeout.ts"
+    },
+    {
+      "from": "src/components/permissions/PermissionRequest.tsx",
+      "to": "src/components/permissions/FileWritePermissionRequest/FileWritePermissionRequest.tsx"
+    },
+    {
+      "from": "src/components/permissions/PermissionRequest.tsx",
+      "to": "src/utils/commands.ts"
+    },
+    {
+      "from": "src/components/permissions/PermissionRequest.tsx",
+      "to": "src/components/permissions/FilesystemPermissionRequest/FilesystemPermissionRequest.tsx"
+    },
+    {
+      "from": "src/components/permissions/PermissionRequest.tsx",
+      "to": "src/tools/NotebookEditTool/NotebookEditTool.tsx"
+    },
+    {
+      "from": "src/components/permissions/PermissionRequest.tsx",
+      "to": "src/tools/GlobTool/GlobTool.tsx"
+    },
+    {
+      "from": "src/components/permissions/PermissionRequest.tsx",
+      "to": "src/tools/GrepTool/GrepTool.tsx"
+    },
+    {
+      "from": "src/components/permissions/PermissionRequest.tsx",
+      "to": "src/tools/lsTool/lsTool.tsx"
+    },
+    {
+      "from": "src/components/permissions/PermissionRequest.tsx",
+      "to": "src/tools/FileReadTool/FileReadTool.tsx"
+    },
+    {
+      "from": "src/components/permissions/PermissionRequest.tsx",
+      "to": "src/tools/NotebookReadTool/NotebookReadTool.tsx"
+    },
+    {
+      "from": "src/components/permissions/PermissionRequestTitle.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/permissions/hooks.ts",
+      "to": "src/utils/unaryLogging.ts"
+    },
+    {
+      "from": "src/components/permissions/hooks.ts",
+      "to": "src/components/permissions/PermissionRequest.tsx"
+    },
+    {
+      "from": "src/components/permissions/hooks.ts",
+      "to": "src/utils/env.ts"
+    },
+    {
+      "from": "src/components/permissions/hooks.ts",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/components/permissions/toolUseOptions.ts",
+      "to": "src/components/permissions/PermissionRequest.tsx"
+    },
+    {
+      "from": "src/components/permissions/toolUseOptions.ts",
+      "to": "src/utils/commands.ts"
+    },
+    {
+      "from": "src/components/permissions/toolUseOptions.ts",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/components/permissions/toolUseOptions.ts",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/components/permissions/toolUseOptions.ts",
+      "to": "src/components/CustomSelect/select.tsx"
+    },
+    {
+      "from": "src/components/permissions/utils.ts",
+      "to": "src/utils/env.ts"
+    },
+    {
+      "from": "src/components/permissions/utils.ts",
+      "to": "src/utils/unaryLogging.ts"
+    },
+    {
+      "from": "src/components/permissions/utils.ts",
+      "to": "src/components/permissions/PermissionRequest.tsx"
+    },
+    {
+      "from": "src/constants/figures.ts",
+      "to": "src/utils/env.ts"
+    },
+    {
+      "from": "src/constants/prompts.ts",
+      "to": "src/utils/env.ts"
+    },
+    {
+      "from": "src/constants/prompts.ts",
+      "to": "src/utils/git.ts"
+    },
+    {
+      "from": "src/constants/prompts.ts",
+      "to": "src/utils/messages.tsx"
+    },
+    {
+      "from": "src/constants/prompts.ts",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/constants/prompts.ts",
+      "to": "src/constants/product.ts"
+    },
+    {
+      "from": "src/constants/prompts.ts",
+      "to": "src/tools/BashTool/BashTool.tsx"
+    },
+    {
+      "from": "src/constants/prompts.ts",
+      "to": "src/utils/model.ts"
+    },
+    {
+      "from": "src/context.ts",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/context.ts",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/context.ts",
+      "to": "src/utils/style.ts"
+    },
+    {
+      "from": "src/context.ts",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/context.ts",
+      "to": "src/tools/lsTool/lsTool.tsx"
+    },
+    {
+      "from": "src/context.ts",
+      "to": "src/utils/git.ts"
+    },
+    {
+      "from": "src/context.ts",
+      "to": "src/utils/ripgrep.ts"
+    },
+    {
+      "from": "src/context.ts",
+      "to": "src/utils/execFileNoThrow.ts"
+    },
+    {
+      "from": "src/context.ts",
+      "to": "src/utils/model.ts"
+    },
+    {
+      "from": "src/context.ts",
+      "to": "src/utils/generators.ts"
+    },
+    {
+      "from": "src/context.ts",
+      "to": "src/utils/user.ts"
+    },
+    {
+      "from": "src/cost-tracker.ts",
+      "to": "src/utils/format.tsx"
+    },
+    {
+      "from": "src/cost-tracker.ts",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/cost-tracker.ts",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/services/sentry.ts"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/constants/product.ts"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/screens/REPL.tsx"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/history.ts"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/context.ts"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/utils/ask.tsx"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/permissions.ts"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/tools.ts"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/components/Onboarding.tsx"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/screens/Doctor.tsx"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/components/ApproveApiKey.tsx"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/components/TrustDialog.tsx"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/utils/model.ts"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/screens/LogList.tsx"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/screens/ResumeConversation.tsx"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/entrypoints/mcp.ts"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/utils/env.ts"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/commands.ts"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/utils/cleanup.ts"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/commands/approvedTools.ts"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/services/mcpClient.ts"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/services/mcpServerApproval.tsx"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/utils/exampleCommands.ts"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/utils/autoUpdater.ts"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/utils/PersistentShell.ts"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/constants/betas.ts"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/utils/terminal.ts"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/components/InvalidConfigDialog.tsx"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/utils/errors.ts"
+    },
+    {
+      "from": "src/entrypoints/cli.tsx",
+      "to": "src/utils/permissions/filesystem.ts"
+    },
+    {
+      "from": "src/entrypoints/mcp.ts",
+      "to": "src/tools/AgentTool/AgentTool.tsx"
+    },
+    {
+      "from": "src/entrypoints/mcp.ts",
+      "to": "src/permissions.ts"
+    },
+    {
+      "from": "src/entrypoints/mcp.ts",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/entrypoints/mcp.ts",
+      "to": "src/utils/model.ts"
+    },
+    {
+      "from": "src/entrypoints/mcp.ts",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/entrypoints/mcp.ts",
+      "to": "src/tools/lsTool/lsTool.tsx"
+    },
+    {
+      "from": "src/entrypoints/mcp.ts",
+      "to": "src/tools/BashTool/BashTool.tsx"
+    },
+    {
+      "from": "src/entrypoints/mcp.ts",
+      "to": "src/tools/FileEditTool/FileEditTool.tsx"
+    },
+    {
+      "from": "src/entrypoints/mcp.ts",
+      "to": "src/tools/FileReadTool/FileReadTool.tsx"
+    },
+    {
+      "from": "src/entrypoints/mcp.ts",
+      "to": "src/tools/GlobTool/GlobTool.tsx"
+    },
+    {
+      "from": "src/entrypoints/mcp.ts",
+      "to": "src/tools/GrepTool/GrepTool.tsx"
+    },
+    {
+      "from": "src/entrypoints/mcp.ts",
+      "to": "src/tools/FileWriteTool/FileWriteTool.tsx"
+    },
+    {
+      "from": "src/entrypoints/mcp.ts",
+      "to": "src/commands.ts"
+    },
+    {
+      "from": "src/entrypoints/mcp.ts",
+      "to": "src/commands/review.ts"
+    },
+    {
+      "from": "src/entrypoints/mcp.ts",
+      "to": "src/utils/generators.ts"
+    },
+    {
+      "from": "src/history.ts",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/hooks/useApiKeyVerification.ts",
+      "to": "src/services/claude.ts"
+    },
+    {
+      "from": "src/hooks/useApiKeyVerification.ts",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/hooks/useArrowKeyHistory.ts",
+      "to": "src/history.ts"
+    },
+    {
+      "from": "src/hooks/useCanUseTool.ts",
+      "to": "src/permissions.ts"
+    },
+    {
+      "from": "src/hooks/useCanUseTool.ts",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/hooks/useCanUseTool.ts",
+      "to": "src/tools/BashTool/BashTool.tsx"
+    },
+    {
+      "from": "src/hooks/useCanUseTool.ts",
+      "to": "src/utils/commands.ts"
+    },
+    {
+      "from": "src/hooks/useCanUseTool.ts",
+      "to": "src/utils/messages.tsx"
+    },
+    {
+      "from": "src/hooks/useCanUseTool.ts",
+      "to": "src/query.ts"
+    },
+    {
+      "from": "src/hooks/useCanUseTool.ts",
+      "to": "src/components/permissions/PermissionRequest.tsx"
+    },
+    {
+      "from": "src/hooks/useCanUseTool.ts",
+      "to": "src/utils/errors.ts"
+    },
+    {
+      "from": "src/hooks/useCanUseTool.ts",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/hooks/useCancelRequest.ts",
+      "to": "src/components/permissions/PermissionRequest.tsx"
+    },
+    {
+      "from": "src/hooks/useCancelRequest.ts",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/hooks/useCancelRequest.ts",
+      "to": "src/screens/REPL.tsx"
+    },
+    {
+      "from": "src/hooks/useExitOnCtrlCD.ts",
+      "to": "src/hooks/useDoublePress.ts"
+    },
+    {
+      "from": "src/hooks/useLogMessages.ts",
+      "to": "src/query.ts"
+    },
+    {
+      "from": "src/hooks/useLogMessages.ts",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/hooks/useLogStartupTime.ts",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/hooks/useNotifyAfterTimeout.ts",
+      "to": "src/services/notifier.ts"
+    },
+    {
+      "from": "src/hooks/usePermissionRequestLogging.ts",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/hooks/usePermissionRequestLogging.ts",
+      "to": "src/utils/unaryLogging.ts"
+    },
+    {
+      "from": "src/hooks/usePermissionRequestLogging.ts",
+      "to": "src/components/permissions/PermissionRequest.tsx"
+    },
+    {
+      "from": "src/hooks/usePermissionRequestLogging.ts",
+      "to": "src/utils/env.ts"
+    },
+    {
+      "from": "src/hooks/useSlashCommandTypeahead.ts",
+      "to": "src/commands.ts"
+    },
+    {
+      "from": "src/hooks/useTextInput.ts",
+      "to": "src/hooks/useDoublePress.ts"
+    },
+    {
+      "from": "src/hooks/useTextInput.ts",
+      "to": "src/utils/Cursor.ts"
+    },
+    {
+      "from": "src/hooks/useTextInput.ts",
+      "to": "src/utils/imagePaste.ts"
+    },
+    {
+      "from": "src/messages.ts",
+      "to": "src/query.ts"
+    },
+    {
+      "from": "src/permissions.ts",
+      "to": "src/hooks/useCanUseTool.ts"
+    },
+    {
+      "from": "src/permissions.ts",
+      "to": "src/tools/BashTool/BashTool.tsx"
+    },
+    {
+      "from": "src/permissions.ts",
+      "to": "src/tools/FileEditTool/FileEditTool.tsx"
+    },
+    {
+      "from": "src/permissions.ts",
+      "to": "src/tools/FileWriteTool/FileWriteTool.tsx"
+    },
+    {
+      "from": "src/permissions.ts",
+      "to": "src/tools/NotebookEditTool/NotebookEditTool.tsx"
+    },
+    {
+      "from": "src/permissions.ts",
+      "to": "src/utils/commands.ts"
+    },
+    {
+      "from": "src/permissions.ts",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/permissions.ts",
+      "to": "src/utils/errors.ts"
+    },
+    {
+      "from": "src/permissions.ts",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/permissions.ts",
+      "to": "src/utils/permissions/filesystem.ts"
+    },
+    {
+      "from": "src/permissions.ts",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/query.ts",
+      "to": "src/components/binary-feedback/utils.ts"
+    },
+    {
+      "from": "src/query.ts",
+      "to": "src/hooks/useCanUseTool.ts"
+    },
+    {
+      "from": "src/query.ts",
+      "to": "src/services/claude.ts"
+    },
+    {
+      "from": "src/query.ts",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/query.ts",
+      "to": "src/utils/generators.ts"
+    },
+    {
+      "from": "src/query.ts",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/query.ts",
+      "to": "src/utils/messages.tsx"
+    },
+    {
+      "from": "src/query.ts",
+      "to": "src/tools/BashTool/BashTool.tsx"
+    },
+    {
+      "from": "src/query.ts",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/screens/ConfigureNpmPrefix.tsx",
+      "to": "src/components/TextInput.tsx"
+    },
+    {
+      "from": "src/screens/ConfigureNpmPrefix.tsx",
+      "to": "src/components/Spinner.tsx"
+    },
+    {
+      "from": "src/screens/ConfigureNpmPrefix.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/screens/ConfigureNpmPrefix.tsx",
+      "to": "src/hooks/useTerminalSize.ts"
+    },
+    {
+      "from": "src/screens/ConfigureNpmPrefix.tsx",
+      "to": "src/constants/product.ts"
+    },
+    {
+      "from": "src/screens/ConfigureNpmPrefix.tsx",
+      "to": "src/utils/autoUpdater.ts"
+    },
+    {
+      "from": "src/screens/ConfigureNpmPrefix.tsx",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/screens/ConfigureNpmPrefix.tsx",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/screens/Doctor.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/screens/Doctor.tsx",
+      "to": "src/screens/ConfigureNpmPrefix.tsx"
+    },
+    {
+      "from": "src/screens/Doctor.tsx",
+      "to": "src/utils/autoUpdater.ts"
+    },
+    {
+      "from": "src/screens/Doctor.tsx",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/screens/Doctor.tsx",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/screens/Doctor.tsx",
+      "to": "src/constants/product.ts"
+    },
+    {
+      "from": "src/screens/Doctor.tsx",
+      "to": "src/components/PressEnterToContinue.tsx"
+    },
+    {
+      "from": "src/screens/LogList.tsx",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/screens/LogList.tsx",
+      "to": "src/components/LogSelector.tsx"
+    },
+    {
+      "from": "src/screens/LogList.tsx",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/screens/LogList.tsx",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/ProjectOnboarding.tsx"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/components/CostThresholdDialog.tsx"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/commands.ts"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/components/Logo.tsx"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/components/Message.tsx"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/components/MessageResponse.tsx"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/components/MessageSelector.tsx"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/components/permissions/PermissionRequest.tsx"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/components/PromptInput.tsx"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/components/Spinner.tsx"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/constants/prompts.ts"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/context.ts"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/cost-tracker.ts"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/hooks/useLogStartupTime.ts"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/history.ts"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/hooks/useApiKeyVerification.ts"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/hooks/useCancelRequest.ts"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/hooks/useCanUseTool.ts"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/hooks/useLogMessages.ts"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/messages.ts"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/query.ts"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/services/mcpClient.ts"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/utils/autoUpdater.ts"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/utils/messages.tsx"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/utils/model.ts"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/utils/terminal.ts"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/components/binary-feedback/BinaryFeedback.tsx"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/utils/thinking.ts"
+    },
+    {
+      "from": "src/screens/REPL.tsx",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/screens/ResumeConversation.tsx",
+      "to": "src/screens/REPL.tsx"
+    },
+    {
+      "from": "src/screens/ResumeConversation.tsx",
+      "to": "src/components/LogSelector.tsx"
+    },
+    {
+      "from": "src/screens/ResumeConversation.tsx",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/screens/ResumeConversation.tsx",
+      "to": "src/commands.ts"
+    },
+    {
+      "from": "src/screens/ResumeConversation.tsx",
+      "to": "src/utils/model.ts"
+    },
+    {
+      "from": "src/services/claude.ts",
+      "to": "src/utils/betas.ts"
+    },
+    {
+      "from": "src/services/claude.ts",
+      "to": "src/cost-tracker.ts"
+    },
+    {
+      "from": "src/services/claude.ts",
+      "to": "src/query.ts"
+    },
+    {
+      "from": "src/services/claude.ts",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/services/claude.ts",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/services/claude.ts",
+      "to": "src/utils/http.ts"
+    },
+    {
+      "from": "src/services/claude.ts",
+      "to": "src/utils/messages.tsx"
+    },
+    {
+      "from": "src/services/claude.ts",
+      "to": "src/utils/tokens.ts"
+    },
+    {
+      "from": "src/services/claude.ts",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/services/claude.ts",
+      "to": "src/services/vcr.ts"
+    },
+    {
+      "from": "src/services/claude.ts",
+      "to": "src/utils/model.ts"
+    },
+    {
+      "from": "src/services/claude.ts",
+      "to": "src/constants/prompts.ts"
+    },
+    {
+      "from": "src/services/claude.ts",
+      "to": "src/utils/model.ts"
+    },
+    {
+      "from": "src/services/mcpClient.ts",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/services/mcpClient.ts",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/services/mcpClient.ts",
+      "to": "src/utils/json.ts"
+    },
+    {
+      "from": "src/services/mcpClient.ts",
+      "to": "src/tools/MCPTool/MCPTool.tsx"
+    },
+    {
+      "from": "src/services/mcpClient.ts",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/services/mcpClient.ts",
+      "to": "src/commands.ts"
+    },
+    {
+      "from": "src/services/mcpClient.ts",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/services/mcpServerApproval.tsx",
+      "to": "src/components/MCPServerMultiselectDialog.tsx"
+    },
+    {
+      "from": "src/services/mcpServerApproval.tsx",
+      "to": "src/components/MCPServerApprovalDialog.tsx"
+    },
+    {
+      "from": "src/services/mcpServerApproval.tsx",
+      "to": "src/services/mcpClient.ts"
+    },
+    {
+      "from": "src/services/mcpServerApproval.tsx",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/services/notifier.ts",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/services/oauth.ts",
+      "to": "src/constants/oauth.ts"
+    },
+    {
+      "from": "src/services/oauth.ts",
+      "to": "src/utils/browser.ts"
+    },
+    {
+      "from": "src/services/oauth.ts",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/services/oauth.ts",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/services/oauth.ts",
+      "to": "src/services/claude.ts"
+    },
+    {
+      "from": "src/services/oauth.ts",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/services/sentry.ts",
+      "to": "src/utils/user.ts"
+    },
+    {
+      "from": "src/services/sentry.ts",
+      "to": "src/utils/env.ts"
+    },
+    {
+      "from": "src/services/sentry.ts",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/services/sentry.ts",
+      "to": "src/constants/keys.ts"
+    },
+    {
+      "from": "src/services/sentry.ts",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/services/sentry.ts",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/services/sentry.ts",
+      "to": "src/utils/git.ts"
+    },
+    {
+      "from": "src/services/statsig.ts",
+      "to": "src/services/browserMocks.ts"
+    },
+    {
+      "from": "src/services/statsig.ts",
+      "to": "src/services/statsigStorage.ts"
+    },
+    {
+      "from": "src/services/statsig.ts",
+      "to": "src/constants/keys.ts"
+    },
+    {
+      "from": "src/services/statsig.ts",
+      "to": "src/utils/env.ts"
+    },
+    {
+      "from": "src/services/statsig.ts",
+      "to": "src/utils/user.ts"
+    },
+    {
+      "from": "src/services/statsig.ts",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/services/statsig.ts",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/services/statsig.ts",
+      "to": "src/utils/betas.ts"
+    },
+    {
+      "from": "src/services/statsig.ts",
+      "to": "src/utils/git.ts"
+    },
+    {
+      "from": "src/services/statsig.ts",
+      "to": "src/utils/model.ts"
+    },
+    {
+      "from": "src/services/statsigStorage.ts",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/services/vcr.ts",
+      "to": "src/query.ts"
+    },
+    {
+      "from": "src/services/vcr.ts",
+      "to": "src/utils/env.ts"
+    },
+    {
+      "from": "src/services/vcr.ts",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/tools/AgentTool/AgentTool.tsx",
+      "to": "src/components/FallbackToolUseRejectedMessage.tsx"
+    },
+    {
+      "from": "src/tools/AgentTool/AgentTool.tsx",
+      "to": "src/constants/prompts.ts"
+    },
+    {
+      "from": "src/tools/AgentTool/AgentTool.tsx",
+      "to": "src/context.ts"
+    },
+    {
+      "from": "src/tools/AgentTool/AgentTool.tsx",
+      "to": "src/permissions.ts"
+    },
+    {
+      "from": "src/tools/AgentTool/AgentTool.tsx",
+      "to": "src/query.ts"
+    },
+    {
+      "from": "src/tools/AgentTool/AgentTool.tsx",
+      "to": "src/utils/format.tsx"
+    },
+    {
+      "from": "src/tools/AgentTool/AgentTool.tsx",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/tools/AgentTool/AgentTool.tsx",
+      "to": "src/utils/markdown.ts"
+    },
+    {
+      "from": "src/tools/AgentTool/AgentTool.tsx",
+      "to": "src/utils/messages.tsx"
+    },
+    {
+      "from": "src/tools/AgentTool/AgentTool.tsx",
+      "to": "src/utils/model.ts"
+    },
+    {
+      "from": "src/tools/AgentTool/AgentTool.tsx",
+      "to": "src/utils/thinking.ts"
+    },
+    {
+      "from": "src/tools/AgentTool/AgentTool.tsx",
+      "to": "src/tools/AgentTool/prompt.ts"
+    },
+    {
+      "from": "src/tools/AgentTool/AgentTool.tsx",
+      "to": "src/tools/AgentTool/constants.ts"
+    },
+    {
+      "from": "src/tools/AgentTool/prompt.ts",
+      "to": "src/tools.ts"
+    },
+    {
+      "from": "src/tools/AgentTool/prompt.ts",
+      "to": "src/tools/AgentTool/AgentTool.tsx"
+    },
+    {
+      "from": "src/tools/AgentTool/prompt.ts",
+      "to": "src/tools/BashTool/BashTool.tsx"
+    },
+    {
+      "from": "src/tools/AgentTool/prompt.ts",
+      "to": "src/tools/FileWriteTool/FileWriteTool.tsx"
+    },
+    {
+      "from": "src/tools/AgentTool/prompt.ts",
+      "to": "src/tools/FileEditTool/FileEditTool.tsx"
+    },
+    {
+      "from": "src/tools/AgentTool/prompt.ts",
+      "to": "src/tools/NotebookEditTool/NotebookEditTool.tsx"
+    },
+    {
+      "from": "src/tools/AgentTool/prompt.ts",
+      "to": "src/tools/GlobTool/GlobTool.tsx"
+    },
+    {
+      "from": "src/tools/AgentTool/prompt.ts",
+      "to": "src/tools/FileReadTool/FileReadTool.tsx"
+    },
+    {
+      "from": "src/tools/ArchitectTool/ArchitectTool.tsx",
+      "to": "src/components/FallbackToolUseRejectedMessage.tsx"
+    },
+    {
+      "from": "src/tools/ArchitectTool/ArchitectTool.tsx",
+      "to": "src/components/HighlightedCode.tsx"
+    },
+    {
+      "from": "src/tools/ArchitectTool/ArchitectTool.tsx",
+      "to": "src/context.ts"
+    },
+    {
+      "from": "src/tools/ArchitectTool/ArchitectTool.tsx",
+      "to": "src/query.ts"
+    },
+    {
+      "from": "src/tools/ArchitectTool/ArchitectTool.tsx",
+      "to": "src/utils/generators.ts"
+    },
+    {
+      "from": "src/tools/ArchitectTool/ArchitectTool.tsx",
+      "to": "src/utils/messages.tsx"
+    },
+    {
+      "from": "src/tools/ArchitectTool/ArchitectTool.tsx",
+      "to": "src/tools/BashTool/BashTool.tsx"
+    },
+    {
+      "from": "src/tools/ArchitectTool/ArchitectTool.tsx",
+      "to": "src/tools/FileReadTool/FileReadTool.tsx"
+    },
+    {
+      "from": "src/tools/ArchitectTool/ArchitectTool.tsx",
+      "to": "src/tools/FileWriteTool/FileWriteTool.tsx"
+    },
+    {
+      "from": "src/tools/ArchitectTool/ArchitectTool.tsx",
+      "to": "src/tools/GlobTool/GlobTool.tsx"
+    },
+    {
+      "from": "src/tools/ArchitectTool/ArchitectTool.tsx",
+      "to": "src/tools/GrepTool/GrepTool.tsx"
+    },
+    {
+      "from": "src/tools/ArchitectTool/ArchitectTool.tsx",
+      "to": "src/tools/lsTool/lsTool.tsx"
+    },
+    {
+      "from": "src/tools/ArchitectTool/ArchitectTool.tsx",
+      "to": "src/tools/ArchitectTool/prompt.ts"
+    },
+    {
+      "from": "src/tools/BashTool/BashTool.tsx",
+      "to": "src/components/FallbackToolUseRejectedMessage.tsx"
+    },
+    {
+      "from": "src/tools/BashTool/BashTool.tsx",
+      "to": "src/constants/product.ts"
+    },
+    {
+      "from": "src/tools/BashTool/BashTool.tsx",
+      "to": "src/services/claude.ts"
+    },
+    {
+      "from": "src/tools/BashTool/BashTool.tsx",
+      "to": "src/utils/commands.ts"
+    },
+    {
+      "from": "src/tools/BashTool/BashTool.tsx",
+      "to": "src/utils/file.ts"
+    },
+    {
+      "from": "src/tools/BashTool/BashTool.tsx",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/tools/BashTool/BashTool.tsx",
+      "to": "src/utils/PersistentShell.ts"
+    },
+    {
+      "from": "src/tools/BashTool/BashTool.tsx",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/tools/BashTool/BashTool.tsx",
+      "to": "src/tools/BashTool/BashToolResultMessage.tsx"
+    },
+    {
+      "from": "src/tools/BashTool/BashTool.tsx",
+      "to": "src/tools/BashTool/prompt.ts"
+    },
+    {
+      "from": "src/tools/BashTool/BashTool.tsx",
+      "to": "src/tools/BashTool/utils.ts"
+    },
+    {
+      "from": "src/tools/BashTool/BashTool.tsx",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/tools/BashTool/BashToolResultMessage.tsx",
+      "to": "src/tools/BashTool/OutputLine.tsx"
+    },
+    {
+      "from": "src/tools/BashTool/BashToolResultMessage.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/tools/BashTool/BashToolResultMessage.tsx",
+      "to": "src/tools/BashTool/BashTool.tsx"
+    },
+    {
+      "from": "src/tools/BashTool/OutputLine.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/tools/BashTool/OutputLine.tsx",
+      "to": "src/tools/BashTool/prompt.ts"
+    },
+    {
+      "from": "src/tools/BashTool/prompt.ts",
+      "to": "src/constants/product.ts"
+    },
+    {
+      "from": "src/tools/BashTool/prompt.ts",
+      "to": "src/tools/AgentTool/constants.ts"
+    },
+    {
+      "from": "src/tools/BashTool/prompt.ts",
+      "to": "src/tools/FileReadTool/FileReadTool.tsx"
+    },
+    {
+      "from": "src/tools/BashTool/prompt.ts",
+      "to": "src/tools/GlobTool/prompt.ts"
+    },
+    {
+      "from": "src/tools/BashTool/prompt.ts",
+      "to": "src/tools/GrepTool/prompt.ts"
+    },
+    {
+      "from": "src/tools/BashTool/prompt.ts",
+      "to": "src/tools/lsTool/lsTool.tsx"
+    },
+    {
+      "from": "src/tools/BashTool/utils.ts",
+      "to": "src/services/claude.ts"
+    },
+    {
+      "from": "src/tools/BashTool/utils.ts",
+      "to": "src/utils/messages.tsx"
+    },
+    {
+      "from": "src/tools/BashTool/utils.ts",
+      "to": "src/tools/BashTool/prompt.ts"
+    },
+    {
+      "from": "src/tools/FileEditTool/FileEditTool.tsx",
+      "to": "src/components/FileEditToolUpdatedMessage.tsx"
+    },
+    {
+      "from": "src/tools/FileEditTool/FileEditTool.tsx",
+      "to": "src/components/StructuredDiff.tsx"
+    },
+    {
+      "from": "src/tools/FileEditTool/FileEditTool.tsx",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/tools/FileEditTool/FileEditTool.tsx",
+      "to": "src/utils/array.ts"
+    },
+    {
+      "from": "src/tools/FileEditTool/FileEditTool.tsx",
+      "to": "src/utils/file.ts"
+    },
+    {
+      "from": "src/tools/FileEditTool/FileEditTool.tsx",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/tools/FileEditTool/FileEditTool.tsx",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/tools/FileEditTool/FileEditTool.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/tools/FileEditTool/FileEditTool.tsx",
+      "to": "src/tools/NotebookEditTool/NotebookEditTool.tsx"
+    },
+    {
+      "from": "src/tools/FileEditTool/FileEditTool.tsx",
+      "to": "src/tools/FileEditTool/prompt.ts"
+    },
+    {
+      "from": "src/tools/FileEditTool/FileEditTool.tsx",
+      "to": "src/tools/FileEditTool/utils.ts"
+    },
+    {
+      "from": "src/tools/FileEditTool/FileEditTool.tsx",
+      "to": "src/utils/permissions/filesystem.ts"
+    },
+    {
+      "from": "src/tools/FileEditTool/prompt.ts",
+      "to": "src/tools/NotebookEditTool/NotebookEditTool.tsx"
+    },
+    {
+      "from": "src/tools/FileEditTool/utils.ts",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/tools/FileEditTool/utils.ts",
+      "to": "src/utils/file.ts"
+    },
+    {
+      "from": "src/tools/FileEditTool/utils.ts",
+      "to": "src/utils/diff.ts"
+    },
+    {
+      "from": "src/tools/FileReadTool/FileReadTool.tsx",
+      "to": "src/components/FallbackToolUseRejectedMessage.tsx"
+    },
+    {
+      "from": "src/tools/FileReadTool/FileReadTool.tsx",
+      "to": "src/components/HighlightedCode.tsx"
+    },
+    {
+      "from": "src/tools/FileReadTool/FileReadTool.tsx",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/tools/FileReadTool/FileReadTool.tsx",
+      "to": "src/utils/file.ts"
+    },
+    {
+      "from": "src/tools/FileReadTool/FileReadTool.tsx",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/tools/FileReadTool/FileReadTool.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/tools/FileReadTool/FileReadTool.tsx",
+      "to": "src/tools/FileReadTool/prompt.ts"
+    },
+    {
+      "from": "src/tools/FileReadTool/FileReadTool.tsx",
+      "to": "src/utils/permissions/filesystem.ts"
+    },
+    {
+      "from": "src/tools/FileReadTool/prompt.ts",
+      "to": "src/tools/NotebookReadTool/NotebookReadTool.tsx"
+    },
+    {
+      "from": "src/tools/FileWriteTool/FileWriteTool.tsx",
+      "to": "src/components/FileEditToolUpdatedMessage.tsx"
+    },
+    {
+      "from": "src/tools/FileWriteTool/FileWriteTool.tsx",
+      "to": "src/components/HighlightedCode.tsx"
+    },
+    {
+      "from": "src/tools/FileWriteTool/FileWriteTool.tsx",
+      "to": "src/components/StructuredDiff.tsx"
+    },
+    {
+      "from": "src/tools/FileWriteTool/FileWriteTool.tsx",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/tools/FileWriteTool/FileWriteTool.tsx",
+      "to": "src/utils/array.ts"
+    },
+    {
+      "from": "src/tools/FileWriteTool/FileWriteTool.tsx",
+      "to": "src/utils/file.ts"
+    },
+    {
+      "from": "src/tools/FileWriteTool/FileWriteTool.tsx",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/tools/FileWriteTool/FileWriteTool.tsx",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/tools/FileWriteTool/FileWriteTool.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/tools/FileWriteTool/FileWriteTool.tsx",
+      "to": "src/tools/FileWriteTool/prompt.ts"
+    },
+    {
+      "from": "src/tools/FileWriteTool/FileWriteTool.tsx",
+      "to": "src/utils/permissions/filesystem.ts"
+    },
+    {
+      "from": "src/tools/FileWriteTool/FileWriteTool.tsx",
+      "to": "src/utils/diff.ts"
+    },
+    {
+      "from": "src/tools/GlobTool/GlobTool.tsx",
+      "to": "src/components/Cost.tsx"
+    },
+    {
+      "from": "src/tools/GlobTool/GlobTool.tsx",
+      "to": "src/components/FallbackToolUseRejectedMessage.tsx"
+    },
+    {
+      "from": "src/tools/GlobTool/GlobTool.tsx",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/tools/GlobTool/GlobTool.tsx",
+      "to": "src/utils/file.ts"
+    },
+    {
+      "from": "src/tools/GlobTool/GlobTool.tsx",
+      "to": "src/tools/GlobTool/prompt.ts"
+    },
+    {
+      "from": "src/tools/GlobTool/GlobTool.tsx",
+      "to": "src/utils/permissions/filesystem.ts"
+    },
+    {
+      "from": "src/tools/GrepTool/GrepTool.tsx",
+      "to": "src/components/Cost.tsx"
+    },
+    {
+      "from": "src/tools/GrepTool/GrepTool.tsx",
+      "to": "src/components/FallbackToolUseRejectedMessage.tsx"
+    },
+    {
+      "from": "src/tools/GrepTool/GrepTool.tsx",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/tools/GrepTool/GrepTool.tsx",
+      "to": "src/utils/file.ts"
+    },
+    {
+      "from": "src/tools/GrepTool/GrepTool.tsx",
+      "to": "src/utils/ripgrep.ts"
+    },
+    {
+      "from": "src/tools/GrepTool/GrepTool.tsx",
+      "to": "src/tools/GrepTool/prompt.ts"
+    },
+    {
+      "from": "src/tools/GrepTool/GrepTool.tsx",
+      "to": "src/utils/permissions/filesystem.ts"
+    },
+    {
+      "from": "src/tools/MCPTool/MCPTool.tsx",
+      "to": "src/components/FallbackToolUseRejectedMessage.tsx"
+    },
+    {
+      "from": "src/tools/MCPTool/MCPTool.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/tools/MCPTool/MCPTool.tsx",
+      "to": "src/tools/MCPTool/prompt.ts"
+    },
+    {
+      "from": "src/tools/MCPTool/MCPTool.tsx",
+      "to": "src/tools/BashTool/OutputLine.tsx"
+    },
+    {
+      "from": "src/tools/MemoryReadTool/MemoryReadTool.tsx",
+      "to": "src/components/FallbackToolUseRejectedMessage.tsx"
+    },
+    {
+      "from": "src/tools/MemoryReadTool/MemoryReadTool.tsx",
+      "to": "src/utils/env.ts"
+    },
+    {
+      "from": "src/tools/MemoryWriteTool/MemoryWriteTool.tsx",
+      "to": "src/components/FallbackToolUseRejectedMessage.tsx"
+    },
+    {
+      "from": "src/tools/MemoryWriteTool/MemoryWriteTool.tsx",
+      "to": "src/utils/env.ts"
+    },
+    {
+      "from": "src/tools/NotebookEditTool/NotebookEditTool.tsx",
+      "to": "src/components/FallbackToolUseRejectedMessage.tsx"
+    },
+    {
+      "from": "src/tools/NotebookEditTool/NotebookEditTool.tsx",
+      "to": "src/components/HighlightedCode.tsx"
+    },
+    {
+      "from": "src/tools/NotebookEditTool/NotebookEditTool.tsx",
+      "to": "src/utils/file.ts"
+    },
+    {
+      "from": "src/tools/NotebookEditTool/NotebookEditTool.tsx",
+      "to": "src/utils/json.ts"
+    },
+    {
+      "from": "src/tools/NotebookEditTool/NotebookEditTool.tsx",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/tools/NotebookEditTool/NotebookEditTool.tsx",
+      "to": "src/tools/NotebookEditTool/prompt.ts"
+    },
+    {
+      "from": "src/tools/NotebookEditTool/NotebookEditTool.tsx",
+      "to": "src/utils/permissions/filesystem.ts"
+    },
+    {
+      "from": "src/tools/NotebookReadTool/NotebookReadTool.tsx",
+      "to": "src/components/FallbackToolUseRejectedMessage.tsx"
+    },
+    {
+      "from": "src/tools/NotebookReadTool/NotebookReadTool.tsx",
+      "to": "src/tools/BashTool/utils.ts"
+    },
+    {
+      "from": "src/tools/NotebookReadTool/NotebookReadTool.tsx",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/tools/NotebookReadTool/NotebookReadTool.tsx",
+      "to": "src/utils/file.ts"
+    },
+    {
+      "from": "src/tools/NotebookReadTool/NotebookReadTool.tsx",
+      "to": "src/tools/NotebookReadTool/prompt.ts"
+    },
+    {
+      "from": "src/tools/NotebookReadTool/NotebookReadTool.tsx",
+      "to": "src/utils/permissions/filesystem.ts"
+    },
+    {
+      "from": "src/tools/StickerRequestTool/StickerRequestTool.tsx",
+      "to": "src/tools/StickerRequestTool/prompt.ts"
+    },
+    {
+      "from": "src/tools/StickerRequestTool/StickerRequestTool.tsx",
+      "to": "src/components/StickerRequestForm.tsx"
+    },
+    {
+      "from": "src/tools/StickerRequestTool/StickerRequestTool.tsx",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/tools/StickerRequestTool/StickerRequestTool.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/tools/ThinkTool/ThinkTool.tsx",
+      "to": "src/tools/ThinkTool/prompt.ts"
+    },
+    {
+      "from": "src/tools/ThinkTool/ThinkTool.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/tools/ThinkTool/ThinkTool.tsx",
+      "to": "src/components/MessageResponse.tsx"
+    },
+    {
+      "from": "src/tools/ThinkTool/ThinkTool.tsx",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/tools/ThinkTool/ThinkTool.tsx",
+      "to": "src/utils/model.ts"
+    },
+    {
+      "from": "src/tools/lsTool/lsTool.tsx",
+      "to": "src/components/FallbackToolUseRejectedMessage.tsx"
+    },
+    {
+      "from": "src/tools/lsTool/lsTool.tsx",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/tools/lsTool/lsTool.tsx",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/tools/lsTool/lsTool.tsx",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/tools/lsTool/lsTool.tsx",
+      "to": "src/tools/lsTool/prompt.ts"
+    },
+    {
+      "from": "src/tools/lsTool/lsTool.tsx",
+      "to": "src/utils/permissions/filesystem.ts"
+    },
+    {
+      "from": "src/tools.ts",
+      "to": "src/tools/AgentTool/AgentTool.tsx"
+    },
+    {
+      "from": "src/tools.ts",
+      "to": "src/tools/ArchitectTool/ArchitectTool.tsx"
+    },
+    {
+      "from": "src/tools.ts",
+      "to": "src/tools/BashTool/BashTool.tsx"
+    },
+    {
+      "from": "src/tools.ts",
+      "to": "src/tools/FileEditTool/FileEditTool.tsx"
+    },
+    {
+      "from": "src/tools.ts",
+      "to": "src/tools/FileReadTool/FileReadTool.tsx"
+    },
+    {
+      "from": "src/tools.ts",
+      "to": "src/tools/FileWriteTool/FileWriteTool.tsx"
+    },
+    {
+      "from": "src/tools.ts",
+      "to": "src/tools/GlobTool/GlobTool.tsx"
+    },
+    {
+      "from": "src/tools.ts",
+      "to": "src/tools/GrepTool/GrepTool.tsx"
+    },
+    {
+      "from": "src/tools.ts",
+      "to": "src/tools/lsTool/lsTool.tsx"
+    },
+    {
+      "from": "src/tools.ts",
+      "to": "src/tools/MemoryReadTool/MemoryReadTool.tsx"
+    },
+    {
+      "from": "src/tools.ts",
+      "to": "src/tools/MemoryWriteTool/MemoryWriteTool.tsx"
+    },
+    {
+      "from": "src/tools.ts",
+      "to": "src/tools/NotebookEditTool/NotebookEditTool.tsx"
+    },
+    {
+      "from": "src/tools.ts",
+      "to": "src/tools/NotebookReadTool/NotebookReadTool.tsx"
+    },
+    {
+      "from": "src/tools.ts",
+      "to": "src/tools/StickerRequestTool/StickerRequestTool.tsx"
+    },
+    {
+      "from": "src/tools.ts",
+      "to": "src/tools/ThinkTool/ThinkTool.tsx"
+    },
+    {
+      "from": "src/tools.ts",
+      "to": "src/services/mcpClient.ts"
+    },
+    {
+      "from": "src/utils/PersistentShell.ts",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/utils/PersistentShell.ts",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/utils/ask.tsx",
+      "to": "src/commands.ts"
+    },
+    {
+      "from": "src/utils/ask.tsx",
+      "to": "src/constants/prompts.ts"
+    },
+    {
+      "from": "src/utils/ask.tsx",
+      "to": "src/context.ts"
+    },
+    {
+      "from": "src/utils/ask.tsx",
+      "to": "src/cost-tracker.ts"
+    },
+    {
+      "from": "src/utils/ask.tsx",
+      "to": "src/query.ts"
+    },
+    {
+      "from": "src/utils/ask.tsx",
+      "to": "src/hooks/useCanUseTool.ts"
+    },
+    {
+      "from": "src/utils/ask.tsx",
+      "to": "src/utils/model.ts"
+    },
+    {
+      "from": "src/utils/ask.tsx",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/utils/ask.tsx",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/utils/ask.tsx",
+      "to": "src/utils/messages.tsx"
+    },
+    {
+      "from": "src/utils/auth.ts",
+      "to": "src/utils/model.ts"
+    },
+    {
+      "from": "src/utils/auth.ts",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/utils/autoUpdater.ts",
+      "to": "src/utils/execFileNoThrow.ts"
+    },
+    {
+      "from": "src/utils/autoUpdater.ts",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/utils/autoUpdater.ts",
+      "to": "src/utils/env.ts"
+    },
+    {
+      "from": "src/utils/autoUpdater.ts",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/utils/betas.ts",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/utils/betas.ts",
+      "to": "src/constants/betas.ts"
+    },
+    {
+      "from": "src/utils/browser.ts",
+      "to": "src/utils/execFileNoThrow.ts"
+    },
+    {
+      "from": "src/utils/cleanup.ts",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/utils/cleanup.ts",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/utils/commands.ts",
+      "to": "src/services/claude.ts"
+    },
+    {
+      "from": "src/utils/commands.ts",
+      "to": "src/constants/product.ts"
+    },
+    {
+      "from": "src/utils/config.ts",
+      "to": "src/utils/env.ts"
+    },
+    {
+      "from": "src/utils/config.ts",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/utils/config.ts",
+      "to": "src/utils/json.ts"
+    },
+    {
+      "from": "src/utils/config.ts",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/utils/config.ts",
+      "to": "src/constants/betas.ts"
+    },
+    {
+      "from": "src/utils/config.ts",
+      "to": "src/utils/errors.ts"
+    },
+    {
+      "from": "src/utils/config.ts",
+      "to": "src/utils/theme.ts"
+    },
+    {
+      "from": "src/utils/env.ts",
+      "to": "src/utils/execFileNoThrow.ts"
+    },
+    {
+      "from": "src/utils/exampleCommands.ts",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/utils/exampleCommands.ts",
+      "to": "src/utils/env.ts"
+    },
+    {
+      "from": "src/utils/exampleCommands.ts",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/utils/exampleCommands.ts",
+      "to": "src/services/claude.ts"
+    },
+    {
+      "from": "src/utils/exampleCommands.ts",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/utils/exampleCommands.ts",
+      "to": "src/utils/git.ts"
+    },
+    {
+      "from": "src/utils/execFileNoThrow.ts",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/utils/execFileNoThrow.ts",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/utils/file.ts",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/utils/file.ts",
+      "to": "src/utils/ripgrep.ts"
+    },
+    {
+      "from": "src/utils/file.ts",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/utils/git.ts",
+      "to": "src/utils/execFileNoThrow.ts"
+    },
+    {
+      "from": "src/utils/json.ts",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/utils/log.ts",
+      "to": "src/services/sentry.ts"
+    },
+    {
+      "from": "src/utils/markdown.ts",
+      "to": "src/utils/messages.tsx"
+    },
+    {
+      "from": "src/utils/markdown.ts",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/utils/messages.tsx",
+      "to": "src/query.ts"
+    },
+    {
+      "from": "src/utils/messages.tsx",
+      "to": "src/commands.ts"
+    },
+    {
+      "from": "src/utils/messages.tsx",
+      "to": "src/utils/errors.ts"
+    },
+    {
+      "from": "src/utils/messages.tsx",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/utils/messages.tsx",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/utils/messages.tsx",
+      "to": "src/utils/generators.ts"
+    },
+    {
+      "from": "src/utils/messages.tsx",
+      "to": "src/services/claude.ts"
+    },
+    {
+      "from": "src/utils/messages.tsx",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/utils/messages.tsx",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/utils/messages.tsx",
+      "to": "src/components/messages/UserBashInputMessage.tsx"
+    },
+    {
+      "from": "src/utils/messages.tsx",
+      "to": "src/components/Spinner.tsx"
+    },
+    {
+      "from": "src/utils/messages.tsx",
+      "to": "src/tools/BashTool/BashTool.tsx"
+    },
+    {
+      "from": "src/utils/model.ts",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/utils/model.ts",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/utils/permissions/filesystem.ts",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/utils/ripgrep.ts",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/utils/ripgrep.ts",
+      "to": "src/utils/execFileNoThrow.ts"
+    },
+    {
+      "from": "src/utils/state.ts",
+      "to": "src/utils/PersistentShell.ts"
+    },
+    {
+      "from": "src/utils/style.ts",
+      "to": "src/utils/state.ts"
+    },
+    {
+      "from": "src/utils/terminal.ts",
+      "to": "src/services/claude.ts"
+    },
+    {
+      "from": "src/utils/terminal.ts",
+      "to": "src/utils/json.ts"
+    },
+    {
+      "from": "src/utils/terminal.ts",
+      "to": "src/utils/log.ts"
+    },
+    {
+      "from": "src/utils/theme.ts",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/utils/thinking.ts",
+      "to": "src/query.ts"
+    },
+    {
+      "from": "src/utils/thinking.ts",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/utils/thinking.ts",
+      "to": "src/utils/messages.tsx"
+    },
+    {
+      "from": "src/utils/thinking.ts",
+      "to": "src/tools/ThinkTool/ThinkTool.tsx"
+    },
+    {
+      "from": "src/utils/thinking.ts",
+      "to": "src/utils/model.ts"
+    },
+    {
+      "from": "src/utils/tokens.ts",
+      "to": "src/query.ts"
+    },
+    {
+      "from": "src/utils/tokens.ts",
+      "to": "src/utils/messages.tsx"
+    },
+    {
+      "from": "src/utils/unaryLogging.ts",
+      "to": "src/services/statsig.ts"
+    },
+    {
+      "from": "src/utils/user.ts",
+      "to": "src/utils/config.ts"
+    },
+    {
+      "from": "src/utils/user.ts",
+      "to": "src/utils/env.ts"
+    },
+    {
+      "from": "src/utils/user.ts",
+      "to": "src/utils/execFileNoThrow.ts"
+    },
+    {
+      "from": "src/utils/user.ts",
+      "to": "src/utils/log.ts"
+    }
+  ]
+}
