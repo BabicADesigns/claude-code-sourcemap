@@ -16,6 +16,10 @@ Some of its key capabilities include:
 
 **Learn more in the [official documentation](https://docs.anthropic.com/en/docs/agents/claude-code/introduction)**.
 
+## Project skills
+
+This repo bundles the 49 product management skills from [deanpeters/Product-Manager-Skills](https://github.com/deanpeters/Product-Manager-Skills) (Dean Peters, CC BY-NC-SA 4.0 — non-commercial use, share-alike) under `.claude/skills/`. They cover discovery, strategy, prioritization, roadmapping, finance, and career-readiness frameworks (e.g. `user-story`, `prd-development`, `opportunity-solution-tree`, `jobs-to-be-done`, `prioritization-advisor`), each as a self-contained `SKILL.md` Claude Code can load by name or description. See the bundled [license](.claude/skills/PRODUCT-MANAGER-SKILLS-LICENSE) for usage terms.
+
 ## Get started
 
 <ol>
