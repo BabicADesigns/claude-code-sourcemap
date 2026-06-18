@@ -56,3 +56,18 @@ If you choose to send us feedback about Claude Code, such as transcripts of your
 We have implemented several safeguards to protect your data, including limited retention periods for sensitive information, restricted access to user session data, and clear policies against using feedback for model training.
 
 For full details, please review our [Commercial Terms of Service](https://www.anthropic.com/legal/commercial-terms) and [Privacy Policy](https://www.anthropic.com/legal/privacy).
+
+## Academic Research Skills
+
+This repo bundles the **Academic Research Skills (ARS)** suite as project-level
+Claude Code skills, commands, and subagents: `deep-research`, `academic-paper`,
+`academic-paper-reviewer`, and `academic-pipeline` (10-stage orchestrator), each
+under `.claude/skills/`, with their slash commands in `.claude/commands/`
+(`/ars-full`, `/ars-lit-review`, `/ars-plan`, etc.) and shared subagents in
+`.claude/agents/`.
+
+Based on Academic Research Skills by Cheng-I Wu, licensed CC BY-NC 4.0 —
+<https://github.com/Imbad0202/academic-research-skills>. See
+[`third_party/academic-research-skills/`](third_party/academic-research-skills/README.md)
+for what was vendored, what was intentionally left out, and full license/notice
+files. Noncommercial use only; attribution required.
