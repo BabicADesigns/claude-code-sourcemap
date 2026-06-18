@@ -16,6 +16,10 @@ Some of its key capabilities include:
 
 **Learn more in the [official documentation](https://docs.anthropic.com/en/docs/agents/claude-code/introduction)**.
 
+## Project skills
+
+This repo bundles 97 engineering skills from [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) (MIT licensed) under `.claude/skills/`. They span architecture, cloud/infrastructure, security, DevOps/SRE, data/ML, backend/frontend, testing, and AI/agent tooling — see [`.claude/skills/README.md`](.claude/skills/README.md) for the full categorized list and [the bundled license](.claude/skills/CLAUDE-SKILLS-LICENSE). The upstream repo also covers many non-engineering domains (marketing, finance, C-suite personas, etc.) that were intentionally left out of this import.
+
 ## Get started
 
 <ol>
