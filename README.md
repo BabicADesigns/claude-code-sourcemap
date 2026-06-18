@@ -16,6 +16,10 @@ Some of its key capabilities include:
 
 **Learn more in the [official documentation](https://docs.anthropic.com/en/docs/agents/claude-code/introduction)**.
 
+## Project skills
+
+This repo bundles the [`gpt-image`](.claude/skills/gpt-image/SKILL.md) skill (vendored from [wuyoscar/GPT-Image2-Skill](https://github.com/wuyoscar/GPT-Image2-Skill), MIT licensed) under `.claude/skills/`. It teaches Claude Code how to generate and edit images with OpenAI's GPT Image 2 model via a bundled prompt gallery and CLI launcher. It requires an `OPENAI_API_KEY` and either `uv`/`uvx` or the `gpt-image` CLI on `PATH`.
+
 ## Get started
 
 <ol>
