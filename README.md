@@ -56,3 +56,18 @@ If you choose to send us feedback about Claude Code, such as transcripts of your
 We have implemented several safeguards to protect your data, including limited retention periods for sensitive information, restricted access to user session data, and clear policies against using feedback for model training.
 
 For full details, please review our [Commercial Terms of Service](https://www.anthropic.com/legal/commercial-terms) and [Privacy Policy](https://www.anthropic.com/legal/privacy).
+
+## Scientific Agent Skills
+
+This repo bundles all 147 **Scientific Agent Skills** as project-level Claude
+Code skills under `.claude/skills/`, covering bioinformatics, cheminformatics,
+clinical research, medical imaging, machine learning, materials science,
+physics, geospatial science, laboratory automation, and scientific
+communication/writing.
+
+Based on Scientific Agent Skills by K-Dense Inc., licensed MIT —
+<https://github.com/K-Dense-AI/scientific-agent-skills>. See
+[`third_party/scientific-agent-skills/`](third_party/scientific-agent-skills/README.md)
+for what was vendored, what was left out, and a note on why upstream's
+automated `SECURITY.md` CRITICAL/HIGH findings were manually reviewed and
+found to be scanner noise rather than real risk.
