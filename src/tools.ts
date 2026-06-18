@@ -14,6 +14,7 @@ import { NotebookEditTool } from './tools/NotebookEditTool/NotebookEditTool.js'
 import { NotebookReadTool } from './tools/NotebookReadTool/NotebookReadTool.js'
 import { StickerRequestTool } from './tools/StickerRequestTool/StickerRequestTool.js'
 import { ThinkTool } from './tools/ThinkTool/ThinkTool.js'
+import { TranslateTool } from './tools/TranslateTool/TranslateTool.js'
 import { getMCPTools } from './services/mcpClient.js'
 import { memoize } from 'lodash-es'
 
@@ -34,6 +35,7 @@ export const getAllTools = (): Tool[] => {
     NotebookEditTool,
     StickerRequestTool,
     ThinkTool,
+    TranslateTool,
     ...(process.env.USER_TYPE === 'ant' ? ANT_ONLY_TOOLS : []),
   ]
 }
