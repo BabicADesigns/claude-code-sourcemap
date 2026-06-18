@@ -1,0 +1,9 @@
+# Auto-created Python environment
+.venv/
+__pycache__/
+*.pyc
+
+# Skill runtime data: Google auth state, browser profile, notebook library
+# NEVER commit - contains authentication cookies and personal notebook URLs
+data/
+.env
