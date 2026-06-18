@@ -56,3 +56,7 @@ If you choose to send us feedback about Claude Code, such as transcripts of your
 We have implemented several safeguards to protect your data, including limited retention periods for sensitive information, restricted access to user session data, and clear policies against using feedback for model training.
 
 For full details, please review our [Commercial Terms of Service](https://www.anthropic.com/legal/commercial-terms) and [Privacy Policy](https://www.anthropic.com/legal/privacy).
+
+## Project skills
+
+- [`vimax-video-generation`](.claude/skills/vimax-video-generation/SKILL.md) — guidance for setting up and driving [ViMax](https://github.com/HKUDS/ViMax) (MIT licensed), an agentic video generation framework that turns ideas, scripts, or novels into rendered video via multi-agent scriptwriting, storyboarding, and shot generation.
