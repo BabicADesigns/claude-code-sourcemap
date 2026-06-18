@@ -16,6 +16,41 @@ Some of its key capabilities include:
 
 **Learn more in the [official documentation](https://docs.anthropic.com/en/docs/agents/claude-code/introduction)**.
 
+## Project skills
+
+This repo vendors third-party Claude Code skills under `.claude/skills/`. Each skill is a self-contained `SKILL.md` plus the scripts/references it needs — Claude Code picks them up automatically from that directory.
+
+### ai-marketing-skills
+
+22 marketing/sales automation skills vendored from [ericosiu/ai-marketing-skills](https://github.com/ericosiu/ai-marketing-skills) (MIT licensed). Most require Python dependencies (each skill's own `requirements.txt`) and API keys for the services they integrate with (set up per-skill via `.env`).
+
+| Skill | What it does |
+|---|---|
+| [`autoresearch`](.claude/skills/autoresearch) | Karpathy-inspired optimization loops for conversion content — generates 50+ variants, scores them with an expert panel, and evolves winners |
+| [`clone-site`](.claude/skills/clone-site) | Clones any website into a pixel-perfect Next.js replica using parallel builder agents |
+| [`closed-loop-analytics-upgrade`](.claude/skills/closed-loop-analytics-upgrade) | Upgrades marketing/SEO/revenue skills so changes are judged by platform analytics instead of vibes |
+| [`content-eval`](.claude/skills/content-eval) | Generates and scores content ideas with an expert panel into a ranked content menu |
+| [`content-ops`](.claude/skills/content-ops) | Quality scoring via expert panels, editorial workflows, and quote mining |
+| [`conversion-ops`](.claude/skills/conversion-ops) | CRO audits for landing pages and survey-to-lead-magnet generation |
+| [`deck-generator`](.claude/skills/deck-generator) | AI-generated slide decks with consistent visual styles |
+| [`finance-ops`](.claude/skills/finance-ops) | AI CFO workflows — cost analysis, estimates, and scenario modeling |
+| [`growth-engine`](.claude/skills/growth-engine) | Autonomous marketing experiments with bootstrap/Mann-Whitney statistical testing and weekly scorecards |
+| [`lead-dossier`](.claude/skills/lead-dossier) | Multi-source account research, cascade enrichment, and lead sourcing pipeline |
+| [`outbound-engine`](.claude/skills/outbound-engine) | Cold outbound automation from ICP definition to email delivery |
+| [`podcast-ops`](.claude/skills/podcast-ops) | Turns one podcast episode into 20+ content pieces across platforms |
+| [`revenue-intelligence`](.claude/skills/revenue-intelligence) | Sales call insight pipelines and revenue attribution reporting |
+| [`sales-pipeline`](.claude/skills/sales-pipeline) | Visitor-to-pipeline automation — lead routing, deal resurrection, ICP learning |
+| [`sales-playbook`](.claude/skills/sales-playbook) | Value-based pricing framework, call analysis, and pricing pattern library |
+| [`seo-ops`](.claude/skills/seo-ops) | Keyword research, GSC optimization, and competitive content attack briefs |
+| [`short-form-pipeline`](.claude/skills/short-form-pipeline) | Extracts viral short-form clips (TikTok/Reels/Shorts) from long-form YouTube videos |
+| [`team-ops`](.claude/skills/team-ops) | Performance audits and meeting-to-action extraction |
+| [`video-caption-generator`](.claude/skills/video-caption-generator) | Transcribes Drive videos and generates social captions/titles |
+| [`video-clip-pipeline`](.claude/skills/video-clip-pipeline) | Converts long-form YouTube episodes into standalone highlight clips |
+| [`x-longform-post`](.claude/skills/x-longform-post) | Writes X long-form articles with an AI-slop humanizer checklist |
+| [`yt-competitive-analysis`](.claude/skills/yt-competitive-analysis) | Finds outlier videos and packaging patterns across YouTube channels |
+
+The upstream repo also ships optional `security/` (PII sanitizer/pre-commit hook) and `telemetry/` (opt-in usage tracking) tooling that these skills degrade gracefully without; it isn't vendored here — see the [source repo](https://github.com/ericosiu/ai-marketing-skills) if you want it.
+
 ## Get started
 
 <ol>
