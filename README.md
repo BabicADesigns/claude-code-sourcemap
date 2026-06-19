@@ -16,6 +16,8 @@ Some of its key capabilities include:
 
 **Learn more in the [official documentation](https://docs.anthropic.com/en/docs/agents/claude-code/introduction)**.
 
+See [AWESOME_CLAUDE_CODE.md](./AWESOME_CLAUDE_CODE.md) for a curated list of Claude Code resources, guides, and tools.
+
 ## Get started
 
 <ol>
