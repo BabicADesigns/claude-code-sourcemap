@@ -1,0 +1,581 @@
+{
+  "version": 1,
+  "skills": {
+    "1password": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/1password/SKILL.md",
+      "computedHash": "64c2ba53a92e1d17adc0eba607e4adc94b2417e9db6538790ed3b64b6faed735"
+    },
+    "agent-transcript": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/agent-transcript/SKILL.md",
+      "computedHash": "99e30b39d35e6a4821a466eda3a0e8226b4f34d62bc218978dfcb3acc9c9b7d0"
+    },
+    "apple-notes": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/apple-notes/SKILL.md",
+      "computedHash": "44cd1583bc434194991c29b589859f9061410ee4b766d2385e543aaf94f147a1"
+    },
+    "apple-reminders": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/apple-reminders/SKILL.md",
+      "computedHash": "7c0eb54a71106e3c48cc175a02745239dbf1c309b6b45f6db0d0f7d469803fef"
+    },
+    "autoreview": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/autoreview/SKILL.md",
+      "computedHash": "911de4f7d43df7f9ff827cc62e66bbf24adb630b47e9e3b754b592abf0530801"
+    },
+    "bear-notes": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/bear-notes/SKILL.md",
+      "computedHash": "34b7faa7c791623c17694925b041103b11bfe2fc5f4a0254d99ce94764b732cb"
+    },
+    "blogwatcher": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/blogwatcher/SKILL.md",
+      "computedHash": "4450088e99b1993dcf0fcdf6402ffeca1c62bb66c9cb85904f4816a0982bb78d"
+    },
+    "blucli": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/blucli/SKILL.md",
+      "computedHash": "b460af75a8a2354a632f5e1215a78d6671db87864721222e4bfe60f60b5fb090"
+    },
+    "camsnap": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/camsnap/SKILL.md",
+      "computedHash": "a621a729b37ed575bb43f036dc053fff580eae8101b465d91bca76d472466709"
+    },
+    "canvas": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/canvas/SKILL.md",
+      "computedHash": "346ad42c9463934ae9d1d47b250d7440a797475938fe96b21c400e471996ba93"
+    },
+    "channel-message-flows": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/channel-message-flows/SKILL.md",
+      "computedHash": "c3d2696e5b85bb291b57083cf3e3356ea59a25b4618482f4eaaeb5aa2228f9cc"
+    },
+    "clawdtributor": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/clawdtributor/SKILL.md",
+      "computedHash": "fc717851fe9ddad63764ece4020c61b5650afcdebf4df6112d4cba49b8a1bc6d"
+    },
+    "clawhub": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/clawhub/SKILL.md",
+      "computedHash": "a1fdb62991c18d5efbe2152feea00546848da729ee4496dff893a8688a82ae0d"
+    },
+    "clawsweeper": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/clawsweeper/SKILL.md",
+      "computedHash": "dc20e877c8790827c2bb8f50b8761613458b119191550ab4b315493ea028b584"
+    },
+    "coding-agent": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/coding-agent/SKILL.md",
+      "computedHash": "b329fc9158bb04146892c1eb67de7abf8c718cb38266ceca6f4af86e37e9a83e"
+    },
+    "control-ui-e2e": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/control-ui-e2e/SKILL.md",
+      "computedHash": "a50a07d9d46864f387d7f182045b08c6581c1947af6fd63968c1009e669c19f5"
+    },
+    "crabbox": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/crabbox/SKILL.md",
+      "computedHash": "dfd2d22c8cb94900da4ee24dfd7eff99be2185e576d2580b8a4572a6737b0224"
+    },
+    "diagram-maker": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/diagram-maker/SKILL.md",
+      "computedHash": "c0378f61dcfebe4bacf254152836a0c6a848001a088588f271d02e94d54d01db"
+    },
+    "discord": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/discord/SKILL.md",
+      "computedHash": "2baaf86d275f94dd5e489daadee13e7fd662a0261682effc9fecc95dc0992b1d"
+    },
+    "discord-clawd": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/discord-clawd/SKILL.md",
+      "computedHash": "8c85ccfcd74e656a350e5e2df3b57eabcfbb9515d6924fedf81d20ebe05a202b"
+    },
+    "discrawl": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/discrawl/SKILL.md",
+      "computedHash": "e9dc9a366c2440047077968af043149f07e20926934aea1b7913bc9f977574ac"
+    },
+    "eightctl": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/eightctl/SKILL.md",
+      "computedHash": "04144fd038e7640b9bcbddb55fa9902405e9c892ad7d13c88368b380455cf9cd"
+    },
+    "gemini": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/gemini/SKILL.md",
+      "computedHash": "09a4edcea3c17cbd3d6366667c63297437908099f25ed1352dbef007d87c88b5"
+    },
+    "gh-issues": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/gh-issues/SKILL.md",
+      "computedHash": "eea74c9e3b8bf4e57f1f3991a9b136f00f1bc104172c661c659e1e8534f177ec"
+    },
+    "gifgrep": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/gifgrep/SKILL.md",
+      "computedHash": "9ce6aa79ae46f8363badd9c97d4fc3504d68baf060d3013eae85a8d3d9823ab5"
+    },
+    "gitcrawl": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/gitcrawl/SKILL.md",
+      "computedHash": "eb428563673d49cbe9b9929ebc9686f81957a046821ee8635d8f36b68d343bfa"
+    },
+    "github": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/github/SKILL.md",
+      "computedHash": "8532659705fbdc685363fd3da68d64a1ec0bcaf0c7f726b74ab02e144b4a6450"
+    },
+    "gog": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/gog/SKILL.md",
+      "computedHash": "7fe5a57a5179cf7699633fcf619567faf7a4b28496a09370a19d56b23673e893"
+    },
+    "goplaces": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/goplaces/SKILL.md",
+      "computedHash": "87f613a4c36b56602084201f587865fb9b7e16569f4ea9aface045cd9da63734"
+    },
+    "graincrawl": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/graincrawl/SKILL.md",
+      "computedHash": "e58341f166eadb184e653ef4fa9b2620d74178015fa7dc0c354be3745e87b8a5"
+    },
+    "healthcheck": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/healthcheck/SKILL.md",
+      "computedHash": "8853c2add86c0212377474008e2b54bf38083a944a35d4309b0c1bf5c0bcf92a"
+    },
+    "himalaya": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/himalaya/SKILL.md",
+      "computedHash": "072d244c85a6402e805f74574aaa8edf6248b2037d7ba8397034eec95bfdc168"
+    },
+    "imsg": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/imsg/SKILL.md",
+      "computedHash": "41c8df44e0d1188218656b2641520509ef2abebcab45e4250a31f8eefc00c640"
+    },
+    "mcporter": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/mcporter/SKILL.md",
+      "computedHash": "ea5a58a5ab2f9b5927671cbabc7b4deb432e67e49faeb6a29d05ee9e1854b8c0"
+    },
+    "meme-maker": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/meme-maker/SKILL.md",
+      "computedHash": "1c6dcf3ea8986aa48b3c5d8cabf0f732e24e02cca2183826f50102183baa2105"
+    },
+    "model-usage": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/model-usage/SKILL.md",
+      "computedHash": "b69d1eec1a1bffe469ad15ce34ccc2cf5c63bec2c3ae33bbd9076183830eeac4"
+    },
+    "nano-pdf": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/nano-pdf/SKILL.md",
+      "computedHash": "5779641e7a0ed61bd0531859dd6a0e195b5d0204606f6d9ea78a428e73326fea"
+    },
+    "node-connect": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/node-connect/SKILL.md",
+      "computedHash": "81ce6fb12b74cc979eb1024c963abd8ab517eabe1676459e951fd051f39a920f"
+    },
+    "node-inspect-debugger": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/node-inspect-debugger/SKILL.md",
+      "computedHash": "2bb09ecb37950ef2af7a41779f4de7057ecc42001c5d67db5d5b27c9b410859f"
+    },
+    "notcrawl": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/notcrawl/SKILL.md",
+      "computedHash": "7d9821ff3e1de1eea9a411e5e004e529642cd245037ff4c0de7a8dae8ccda534"
+    },
+    "notion": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/notion/SKILL.md",
+      "computedHash": "a7bcb767e2a94deccb3e93ee53ae15ca27fa71463226f03b3e71dbd92b708bae"
+    },
+    "obsidian": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/obsidian/SKILL.md",
+      "computedHash": "1222d61801d38fb71b63cd990c299f7fabfd66f0920bd0185be6f36ecab31a54"
+    },
+    "openai-whisper": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/openai-whisper/SKILL.md",
+      "computedHash": "91dfa3149f593d2e794aadc9f78cffd5d274ff1366f01b777b77abfd2b5474d8"
+    },
+    "openai-whisper-api": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/openai-whisper-api/SKILL.md",
+      "computedHash": "f8cdab9b0a126ffaeac3e45bef07418a4d5cf95374d225a088d89c8f6d008a2b"
+    },
+    "openclaw-changelog-update": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/openclaw-changelog-update/SKILL.md",
+      "computedHash": "74214a7de5ecc184e77a5d0411bd10a55050a0dd0463f0a3be40c250f9ae812a"
+    },
+    "openclaw-debugging": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/openclaw-debugging/SKILL.md",
+      "computedHash": "1dc9a5917ee9008537b7e682b2b7861ae129fefef820f158ac21d3e4833b7c3c"
+    },
+    "openclaw-docker-e2e-authoring": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/openclaw-docker-e2e-authoring/SKILL.md",
+      "computedHash": "1ad1c49918a8c116150db5ac6279d3d6c027d18dc976bf16b4ef630c62fec74d"
+    },
+    "openclaw-ghsa-maintainer": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/openclaw-ghsa-maintainer/SKILL.md",
+      "computedHash": "1508001c1c6ad93e21de2cec60f16392a3b94642e8506c290ee6811acdcb7f05"
+    },
+    "openclaw-landable-bug-sweep": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/openclaw-landable-bug-sweep/SKILL.md",
+      "computedHash": "f47a155d029b509c89c0e07110c1a22904923443d371071b449b26d06fdc8313"
+    },
+    "openclaw-parallels-smoke": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/openclaw-parallels-smoke/SKILL.md",
+      "computedHash": "ed1d445b1465056cabcd0875dcbb7fa0eab299e33e6bfeb0705a94c38b943db1"
+    },
+    "openclaw-pr-maintainer": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/openclaw-pr-maintainer/SKILL.md",
+      "computedHash": "f4f356009b91d0be642a16d99263bd1693c1f22415fe22e2dc108616cbc9ebae"
+    },
+    "openclaw-qa-testing": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/openclaw-qa-testing/SKILL.md",
+      "computedHash": "5306d02370a0afb28571e92a3eb8362c07d869c036c245a54fb22976846b2fc9"
+    },
+    "openclaw-refactor-docs": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/openclaw-refactor-docs/SKILL.md",
+      "computedHash": "6e7dec142622d91ebbdf76af5781d5cb9b43842fa3e9639daeccc941892a2c43"
+    },
+    "openclaw-secret-scanning-maintainer": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/openclaw-secret-scanning-maintainer/SKILL.md",
+      "computedHash": "f8bc88bd7f482da1551b2cea15353098a93cfbe7d2a710a9d6a74629763cdaee"
+    },
+    "openclaw-small-bugfix-sweep": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/openclaw-small-bugfix-sweep/SKILL.md",
+      "computedHash": "3c45f78bb6b1f3c5c155eb9393b1848372e60a382b62d14bf75bf43705fca5ae"
+    },
+    "openclaw-test-heap-leaks": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/openclaw-test-heap-leaks/SKILL.md",
+      "computedHash": "618b2359f611e72243fc9ff6925dd15864093e85f7fa5711156bce0733c04e1b"
+    },
+    "openclaw-test-performance": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/openclaw-test-performance/SKILL.md",
+      "computedHash": "5b7d514d2788919d7ecf7b6087dbb198bcc1a3b6d1ebb970d744a822b4c068bb"
+    },
+    "openclaw-testing": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/openclaw-testing/SKILL.md",
+      "computedHash": "cd244ae5815c76f5913a0ef799dc12c2bb70b649f5e0f18d01040e198504f621"
+    },
+    "openhue": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/openhue/SKILL.md",
+      "computedHash": "e08ac2ccb7a91e31bba6a915561038efbb795e25aff6d344fc4c58f44930f3b5"
+    },
+    "oracle": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/oracle/SKILL.md",
+      "computedHash": "dfdf2045a70cd5f4691f4b3cf82ce84a39d529de3f33ba5687832ec2d433a413"
+    },
+    "ordercli": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/ordercli/SKILL.md",
+      "computedHash": "261195f43b6fe794788df9a1c2621601140c80a040e70699eff187b91d1ba741"
+    },
+    "parallels-discord-roundtrip": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/parallels-discord-roundtrip/SKILL.md",
+      "computedHash": "6168a4239bcb777e5783524d93b38b96b8c7bbe2ba5b891ac2c89f50bbe6a693"
+    },
+    "peekaboo": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/peekaboo/SKILL.md",
+      "computedHash": "78115ae6d7295f3ccdecf5756905218008b15cf2f0af4b480484b67552f9883f"
+    },
+    "python-debugpy": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/python-debugpy/SKILL.md",
+      "computedHash": "9691be76f85ebabe0860890116a0d82a0c17659dceba315d6a7e9ec0f02e4f0c"
+    },
+    "release-openclaw-announcement": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/release-openclaw-announcement/SKILL.md",
+      "computedHash": "41fb9863e9c9329ce9cc46e58569a74a5fd5f31e252a5eb2132409eff9575f40"
+    },
+    "release-openclaw-ci": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/release-openclaw-ci/SKILL.md",
+      "computedHash": "9f336148bbb9d5c55c7ff667d00a36cde916da576069ba0b76a74efb48d5507b"
+    },
+    "release-openclaw-mac": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/release-openclaw-mac/SKILL.md",
+      "computedHash": "9e8b7aefb3de3b0258b2bf186febf7904a145ee749a110496779a793c26b8cb5"
+    },
+    "release-openclaw-maintainer": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/release-openclaw-maintainer/SKILL.md",
+      "computedHash": "af6c648086327d8f3f7f68e983cc1f5a219011f4d80b4554cee8526a04945c6d"
+    },
+    "release-openclaw-nightly": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/release-openclaw-nightly/SKILL.md",
+      "computedHash": "750daefce5d1cd320dc568ae6ec668729af1942a87f00447e465d02beeb01676"
+    },
+    "release-openclaw-plugin-testing": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/release-openclaw-plugin-testing/SKILL.md",
+      "computedHash": "0d33d20e5389af94225542506b3cb0568439f53c58cc2abe91fbf4c4235efb76"
+    },
+    "sag": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/sag/SKILL.md",
+      "computedHash": "464b2895859722d6c5ad2dc69eaf8b5343213e8dd34ce33e74e0d22df5957c3c"
+    },
+    "security-triage": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/security-triage/SKILL.md",
+      "computedHash": "dd050dc59a5323355f20c4e3084815e726723866cdecb4f9d0a220089c5a1440"
+    },
+    "session-logs": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/session-logs/SKILL.md",
+      "computedHash": "cfa4b29d9669bc72467bb13f72f7d53771e01b8314326be8894e0b73d2f2f342"
+    },
+    "sherpa-onnx-tts": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/sherpa-onnx-tts/SKILL.md",
+      "computedHash": "c5e023ef5289e34b4120f071474d41702315d6563734faa033be569f24913910"
+    },
+    "skill-creator": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/skill-creator/SKILL.md",
+      "computedHash": "7836c09ff4d22e699f960d0a7e2bb8502c1d34e7ddea0b4dae376cbd9c03e452"
+    },
+    "slack": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/slack/SKILL.md",
+      "computedHash": "6311efb36b716aa37b44b7cde74cf2d249c11562d4ed619b89daacb3549b9da9"
+    },
+    "slacrawl": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/slacrawl/SKILL.md",
+      "computedHash": "966820fbbe65a30c6cc30dff55994ad56c1873a532bf88409dbd78faa558e7ff"
+    },
+    "songsee": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/songsee/SKILL.md",
+      "computedHash": "8aab48c34379f427699cee37bf9822ee106202dbef469a20d9b2691cff3f8b80"
+    },
+    "sonoscli": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/sonoscli/SKILL.md",
+      "computedHash": "64dbba655d505273ca3ca0f4024c89126c9ab6a7205d773aa553a942ba63bbbd"
+    },
+    "spike": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/spike/SKILL.md",
+      "computedHash": "7684348ca286e8d9eae94f72282d5d1b93cdd50b94bc3108c12d085470023954"
+    },
+    "spotify-player": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/spotify-player/SKILL.md",
+      "computedHash": "34ea45ee106ab5baf8339e4229b647e44495b6b7d0364c3057c004c33259a61b"
+    },
+    "summarize": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/summarize/SKILL.md",
+      "computedHash": "67b9a5d86c3d9675e53e8bdb3f336661d55ccc689ecaaa3c99d984aa991458b6"
+    },
+    "tag-duplicate-prs-issues": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/tag-duplicate-prs-issues/SKILL.md",
+      "computedHash": "9cca96a885d1915c826f4ca2e4a549941da4ea951987e23010d422d6ccf87b07"
+    },
+    "taskflow": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/taskflow/SKILL.md",
+      "computedHash": "7f994759439d6332eae87353b2907c22b7649d2984ebb28dff98eaa17b8ab99e"
+    },
+    "taskflow-inbox-triage": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/taskflow-inbox-triage/SKILL.md",
+      "computedHash": "1855bc2ff1086918fab4c32545f44834a2f7b239ec8a242cf3dd4e731bd3399b"
+    },
+    "technical-documentation": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/technical-documentation/SKILL.md",
+      "computedHash": "70b11b1a762b62cbaeb4c27bcd19dc7465f7616b2ad8a36c6f86130841c7864e"
+    },
+    "telegram-crabbox-e2e-proof": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/telegram-crabbox-e2e-proof/SKILL.md",
+      "computedHash": "f657251d27cf8147bbb58ba878ec2529be1060358a9e3b444596a7575aa7c989"
+    },
+    "things-mac": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/things-mac/SKILL.md",
+      "computedHash": "1642360daa9bf83c6940ba0f1c74c71036bff32ca96bf4afe0a6c06eebf259dd"
+    },
+    "tmux": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/tmux/SKILL.md",
+      "computedHash": "ac61fad44978a9a2ca345f4c7de49de3f2b27cdb0096cbddf21f817c99d2fbce"
+    },
+    "trello": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/trello/SKILL.md",
+      "computedHash": "f5cb79259a14717f23775e49c2209882712cb7f2dd93813d7af33c6da5811bfd"
+    },
+    "verify-release": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/verify-release/SKILL.md",
+      "computedHash": "f5a4e994f71263af067e64f4d59702e872a6f7d83d2300acc73fe81e1ef9f177"
+    },
+    "video-frames": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/video-frames/SKILL.md",
+      "computedHash": "77dffe08eb504e9e1187b4f45abe455c586453fd2c9c3a923436ea69353c3e57"
+    },
+    "voice-call": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/voice-call/SKILL.md",
+      "computedHash": "42b2923ed33954877db17c6d0f042e41504d02f548f0d4b73cc83a4fd9d7d0a0"
+    },
+    "wacli": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/wacli/SKILL.md",
+      "computedHash": "f306ac101c64a15b4b57700f3100e08d40c1df346bbcbf8cf55fb4df4d97e4cd"
+    },
+    "weather": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/weather/SKILL.md",
+      "computedHash": "4dfc969d0d7f8f124965c2b6180fabf16858cd3528bb2514ab746dc082159932"
+    },
+    "xurl": {
+      "source": "openclaw/openclaw",
+      "sourceType": "github",
+      "skillPath": "skills/xurl/SKILL.md",
+      "computedHash": "0aaadcfaf51647e7e764c7bdaa4397ec9296aa3f373cdb14799d3fa2c358ddeb"
+    }
+  }
+}
