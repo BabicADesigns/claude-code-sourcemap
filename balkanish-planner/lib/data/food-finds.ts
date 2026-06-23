@@ -15,6 +15,10 @@ export const mockFoodFinds: FoodFind[] = [
     where_to_try: "Family-run konobas in Split and the islands, never a hotel buffet",
     hero_image_url: "https://picsum.photos/seed/pasticada-dish/1200/800",
     is_featured: true,
+    ritual:
+      "It starts marinating on Friday. By Sunday morning, whoever's grandmother is in charge has already chased everyone out of the kitchen twice — pašticada isn't cooked so much as supervised, for two days straight, by someone who refuses help.",
+    local_anecdote:
+      "Ask a Splićanin for the recipe and watch them go vague on purpose. Every family insists their version — extra prunes, no prunes, a splash of vinegar nobody else uses — is the only correct one, and the argument has outlived several marriages.",
   },
   {
     id: "peka",
@@ -29,6 +33,10 @@ export const mockFoodFinds: FoodFind[] = [
     where_to_try: "Inland konobas that still cook outdoors, away from the coast road",
     hero_image_url: "https://picsum.photos/seed/peka-dish/1200/800",
     is_featured: true,
+    ritual:
+      "You call ahead, usually the day before, and someone starts the embers hours before you arrive — there is no version of peka made to order. Showing up hungry and unannounced is the one way to guarantee you'll be eating something else.",
+    local_anecdote:
+      "The iron bell goes on, gets buried in coals, and nobody touches it again until the owner decides it's ready — not the clock, not the guests. Lifting the lid early is treated roughly the way opening someone else's oven would be.",
   },
   {
     id: "soparnik",
@@ -43,6 +51,10 @@ export const mockFoodFinds: FoodFind[] = [
     where_to_try: "Village bakeries around Poljica, especially during religious festivals",
     hero_image_url: "https://picsum.photos/seed/soparnik-pie/1200/800",
     is_featured: false,
+    ritual:
+      "Lenten fasting rules meant no meat, no eggs, no dairy — so Poljica households built a feast around chard, oil, and garlic instead, baked under embers on a metal lid the way bread was, long before anyone owned an oven.",
+    local_anecdote:
+      "During festivals, whole streets in Poljica smell like it at once, because everyone's grandmother decided to bake on the same afternoon. Nobody coordinates it. It just happens, every year, the same week.",
   },
   {
     id: "crni-rizot",
@@ -56,6 +68,10 @@ export const mockFoodFinds: FoodFind[] = [
     where_to_try: "Konobas within sight of the harbour where the squid boats come in",
     hero_image_url: "https://picsum.photos/seed/crni-rizot/1200/800",
     is_featured: false,
+    ritual:
+      "Nothing about the catch goes to waste, the ink included — the dish exists because someone, generations ago, refused to throw away a usable part of the cuttlefish. The black colour is the proof, not a garnish.",
+    local_anecdote:
+      "Order it somewhere within walking distance of a harbour and you can usually time your meal to the boats coming in — the rižot on your plate and the squid still being unloaded outside are, more often than not, from the same morning.",
   },
   {
     id: "burek",
@@ -68,6 +84,10 @@ export const mockFoodFinds: FoodFind[] = [
     where_to_try: "Bakeries, not restaurants — and always still warm",
     hero_image_url: "https://picsum.photos/seed/burek-pastry/1200/800",
     is_featured: true,
+    ritual:
+      "There's an unwritten order of operations: cheese for breakfast, meat for lunch, whatever's left at 2am. Nobody taught this rule explicitly — you just absorb it from watching what everyone else buys and when.",
+    local_anecdote:
+      "Every city in the region insists its bakery does it best, and every city is visibly wrong about at least one other city's burek. It is one of the few arguments where everyone is allowed to be a little bit right.",
   },
   {
     id: "kulen",
@@ -80,6 +100,10 @@ export const mockFoodFinds: FoodFind[] = [
     where_to_try: "Farmhouse tables in Slavonia, sold by the kilogram at village markets",
     hero_image_url: "https://picsum.photos/seed/kulen-sausage/1200/800",
     is_featured: false,
+    ritual:
+      "Pig-slaughter season, once a year, in winter — whole extended families show up to help, because making kulen properly is a multi-day job nobody manages alone. It's closer to a household event than a recipe.",
+    local_anecdote:
+      "Households quietly keep score on whose kulen turned out better that year, comparing smoke, spice, and how long it hung curing. The comparing rarely happens out loud. The tasting, somehow, always does.",
   },
 ];
 

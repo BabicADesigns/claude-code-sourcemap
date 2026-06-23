@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getFoodFindBySlug, getFoodFinds } from "@/lib/data/food-finds";
 import { EditorialImage, PullQuote, HandwrittenNote } from "@/components/brand/editorial";
+import { LocalWisdom } from "@/components/brand/content-blocks";
 
 export async function generateStaticParams() {
   const foodFinds = await getFoodFinds();
@@ -54,6 +55,15 @@ export default async function FoodFindDetailPage({
               {food.history}
             </p>
           </section>
+
+          {food.ritual && (
+            <section>
+              <h2 className="font-display text-2xl text-sage-dark">The Ritual</h2>
+              <p className="mt-3 font-serif leading-relaxed text-foreground/85">{food.ritual}</p>
+            </section>
+          )}
+
+          {food.local_anecdote && <LocalWisdom context={food.region}>{food.local_anecdote}</LocalWisdom>}
         </div>
         <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
           <div className="rounded-xl border border-border bg-card p-6">

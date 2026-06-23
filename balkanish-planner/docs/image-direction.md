@@ -75,13 +75,29 @@
 - **Matchmaker:** Treat result imagery the same as Hidden Gems (quiet, specific, uncrowded) — it's still a destination recommendation, just arrived at differently.
 - **Postcards:** Images here are framed inside the `PostcardFrame` component (deckled cream border, corner travel stamp, slight tilt) — the photo itself can be a simple, centred, single-subject shot, since the frame is doing the styling work, not the crop.
 
-## 9. Technical Specs
+## 9. AI Planner
+
+**Mood:** Anticipatory, not transactional — these images should feel like the start of a trip being imagined, not a booking-engine confirmation screen.
+
+- **Framing:** Favor small, specific itinerary-adjacent details — a ferry timetable chalkboard, a map folded open on a café table, a packed bag by a door — over generic "planning" iconography (calendars, checkmarks, app UI mockups).
+- **Subject choice:** If a destination thumbnail appears inside a generated plan, reuse that destination's existing house-look image rather than introducing a new style — the planner should feel like it's assembling pieces of the same magazine, not a separate product.
+- **Light & editing:** Same warm, soft-overcast grade as the rest of the site. Nothing here should look like dashboard software.
+
+## 10. Technical Specs
 
 - **Aspect ratios in use:** 4:3 for grid cards (Hidden Gems, Food Finds, Culture Notes), 3:4 for Premium Guides covers, 16:9–ish wide crops for hero banners.
 - **Minimum resolution:** 1200px on the long edge for cards, 1920px for hero banners.
 - **File format:** WebP or optimized JPEG; no visible compression artifacts in skies or skin tones.
 - **Alt text:** Always descriptive and specific to the actual image content (not the page topic) — see existing `alt` props in `DestinationCard`, `FoodFindCard`, etc. as the pattern to continue.
 
-## 7. Quick Gut-Check
+## 11. The Imagery Vocabulary
+
+A recurring, specific vocabulary — not a generic Adriatic-coastline rotation. Draw from this list across all sections rather than repeating the same wide harbor shot:
+
+Cafés and their plastic or wicker chairs · stone streets and worn steps · ferries and ferry-port waiting benches · olive trees and groves · fishing boats (working, not yachts) · local markets and produce stalls · handwritten menus and chalkboards · coastal textures — limestone, weathered shutters, salt-bleached wood, fishing nets · laundry lines · konoba interiors · vineyard rows on a slope · church bell towers glimpsed between rooftops · hands at work (pouring, kneading, mending nets).
+
+If an image can't be tied to at least one item on this list, it's probably too generic for the brand.
+
+## 12. Quick Gut-Check
 
 Before approving any image: would this photo look out of place in a tourism board's Instagram feed? If the honest answer is "no, it would fit right in," it's the wrong image for this brand.

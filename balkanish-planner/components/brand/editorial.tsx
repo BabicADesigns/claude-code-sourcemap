@@ -190,6 +190,24 @@ export function TravelStamp({ label = "BALKANISH", className }: { label?: string
   );
 }
 
+/** A circular postal cancellation mark — pairs with TravelStamp to complete the mailed-postcard illusion. */
+export function Postmark({ label = "BALKANISH POST", className }: { label?: string; className?: string }) {
+  return (
+    <div
+      className={cn(
+        "relative flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-2 border-sage-dark/40 text-sage-dark/80 mix-blend-multiply",
+        className
+      )}
+      aria-hidden="true"
+    >
+      <div className="absolute inset-1 rounded-full border border-dashed border-sage-dark/30" />
+      <span className="-rotate-[12deg] px-1 text-center font-sans text-[6.5px] font-semibold uppercase leading-tight tracking-widest">
+        {label}
+      </span>
+    </div>
+  );
+}
+
 /** Vintage postcard framing — deckled border, faint corner stamp, slight tilt. */
 export function PostcardFrame({
   children,
@@ -207,6 +225,54 @@ export function PostcardFrame({
     >
       <TravelStamp className="absolute -right-3 -top-3 z-10" />
       {children}
+    </div>
+  );
+}
+
+/** A small recurring motif: a location pin + place name, for use over images or near headings. */
+export function LocationTag({ label, className }: { label: string; className?: string }) {
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center gap-1.5 rounded-full border border-cream/40 bg-charcoal/30 px-3 py-1 font-sans text-[11px] uppercase tracking-widest text-cream backdrop-blur-sm",
+        className
+      )}
+    >
+      <MapPin className="h-3 w-3" aria-hidden="true" />
+      {label}
+    </span>
+  );
+}
+
+/** A faint dotted route-line accent — a quiet map detail used sparingly near destination content. */
+export function MapDetailAccent({ label, className }: { label: string; className?: string }) {
+  return (
+    <div className={cn("flex items-center gap-2 text-muted-foreground/70", className)} aria-hidden="true">
+      <svg width="40" height="12" viewBox="0 0 40 12" className="shrink-0" role="presentation">
+        <path d="M0 6 H40" stroke="currentColor" strokeWidth="1" strokeDasharray="2 3" />
+        <circle cx="36" cy="6" r="2.5" fill="currentColor" />
+      </svg>
+      <span className="font-sans text-[10px] uppercase tracking-widest">{label}</span>
+    </div>
+  );
+}
+
+/** A vintage-guidebook-style clipping — a quoted-from-an-old-travel-guide rule, set in serif italic between two faint hairlines. */
+export function GuidebookReference({
+  children,
+  source,
+  className,
+}: {
+  children: React.ReactNode;
+  source?: string;
+  className?: string;
+}) {
+  return (
+    <div className={cn("border-y border-foreground/15 py-3", className)}>
+      <p className="font-serif text-sm italic leading-relaxed text-foreground/70">{children}</p>
+      {source && (
+        <p className="mt-1.5 font-sans text-[10px] uppercase tracking-widest text-muted-foreground">{source}</p>
+      )}
     </div>
   );
 }

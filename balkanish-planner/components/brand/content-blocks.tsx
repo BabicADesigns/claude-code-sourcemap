@@ -1,6 +1,7 @@
 import type { LucideIcon } from "lucide-react";
-import { Coffee, Quote, Clock, Wine, Sparkles, Heart } from "lucide-react";
+import { Coffee, Quote, Clock, Wine, Sparkles, Heart, Moon, Sunrise, ArrowRightLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
+import type { Destination, SecretSwap } from "@/lib/types";
 
 interface BlockProps {
   children: React.ReactNode;
@@ -128,6 +129,80 @@ export function RakijaDiplomacy({ children, className, context }: BlockProps) {
   return (
     <BrandBlock icon={Wine} label="Rakija Diplomacy" tone="rose" className={className} context={context}>
       {children}
+    </BrandBlock>
+  );
+}
+
+interface DestinationBlockProps {
+  destination: Destination;
+  className?: string;
+}
+
+function slowMomentFor(destination: Destination): string {
+  if (destination.sunset_score >= 8.5) {
+    return `Sunset, wherever the stone meets the water. ${destination.name}'s sunset score is too high to spend it indoors.`;
+  }
+  if (destination.slow_living_score >= 8.5) {
+    return "Mid-afternoon, no plan, one coffee that quietly becomes two. That's the whole itinerary.";
+  }
+  return `Find the bench nobody else found. ${destination.name} rewards sitting still more than seeing everything.`;
+}
+
+/** The destination's best slow moment — derived from its sunset and slow-living scores. */
+export function BestSlowMoment({ destination, className }: DestinationBlockProps) {
+  return (
+    <BrandBlock icon={Moon} label="Best Slow Moment" tone="sage" className={className} context={destination.best_season}>
+      {slowMomentFor(destination)}
+    </BrandBlock>
+  );
+}
+
+function earlyReasonFor(destination: Destination): string {
+  if (destination.crowd_score <= 3) {
+    return `Honestly, not much — ${destination.name} barely fills up even at noon.`;
+  }
+  return `The hour before the day-trippers arrive, when ${destination.name} still belongs to the people who live there.`;
+}
+
+/** A reason to set an alarm — derived from how crowded the destination gets later in the day. */
+export function WorthWakingUpFor({ destination, className }: DestinationBlockProps) {
+  return (
+    <BrandBlock icon={Sunrise} label="Worth Waking Up Early For" tone="rose" className={className}>
+      {earlyReasonFor(destination)}
+    </BrandBlock>
+  );
+}
+
+function skipDoFor(destination: Destination, swap?: SecretSwap): { skip: string; doInstead: string } {
+  if (swap) {
+    return {
+      skip: `Fighting the crowds in ${swap.famous_name}`,
+      doInstead: `${destination.name} — same coastline, none of the queue.`,
+    };
+  }
+  if (destination.food_score >= 8.5) {
+    return {
+      skip: "The waterfront menu with photos of the food",
+      doInstead: "Whatever the place with the handwritten menu is serving today.",
+    };
+  }
+  return {
+    skip: "Rushing through on a day trip",
+    doInstead: `Staying one night longer than planned in ${destination.name}.`,
+  };
+}
+
+/** A direct, opinionated swap — what to skip here, and what to do instead. */
+export function SkipThisDoThis({
+  destination,
+  swap,
+  className,
+}: DestinationBlockProps & { swap?: SecretSwap }) {
+  const { skip, doInstead } = skipDoFor(destination, swap);
+  return (
+    <BrandBlock icon={ArrowRightLeft} label="Skip This, Do This Instead" tone="sage-dark" className={className}>
+      <span className="block font-display text-lg leading-snug text-cream/55 line-through sm:text-xl">{skip}</span>
+      <span className="mt-1.5 block">{doInstead}</span>
     </BrandBlock>
   );
 }

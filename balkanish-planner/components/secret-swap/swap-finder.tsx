@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import type { SecretSwap } from "@/lib/types";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { EditorialImage } from "@/components/brand/editorial";
 
 export function SwapFinder({ swaps }: { swaps: SecretSwap[] }) {
   const [selectedId, setSelectedId] = useState<string>(swaps[0]?.id ?? "");
@@ -33,25 +33,28 @@ export function SwapFinder({ swaps }: { swaps: SecretSwap[] }) {
 
       {selected && (
         <div className="mt-8 grid gap-6 sm:mt-10 sm:gap-8 lg:grid-cols-2">
-          <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
-            <Image src={selected.famous_image_url} alt={selected.famous_name} fill className="object-cover" />
-            <p className="absolute left-3 top-3 rounded-full bg-charcoal/70 px-3 py-1 font-sans text-xs uppercase tracking-widest text-cream sm:left-4 sm:top-4 sm:px-4">
+          <EditorialImage
+            src={selected.famous_image_url}
+            alt={selected.famous_name}
+            vignette
+            className="aspect-[4/3] rounded-xl"
+          >
+            <p className="absolute left-3 top-3 z-20 rounded-full bg-charcoal/70 px-3 py-1 font-sans text-xs uppercase tracking-widest text-cream sm:left-4 sm:top-4 sm:px-4">
               The famous spot
             </p>
-          </div>
-          <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
-            <Image
-              src={selected.alternative.hero_image_url}
-              alt={selected.alternative.name}
-              fill
-              className="object-cover"
-            />
-            <p className="absolute left-3 top-3 rounded-full bg-accent px-3 py-1 font-sans text-xs uppercase tracking-widest text-accent-foreground sm:left-4 sm:top-4 sm:px-4">
+          </EditorialImage>
+          <EditorialImage
+            src={selected.alternative.hero_image_url}
+            alt={selected.alternative.name}
+            vignette
+            className="aspect-[4/3] rounded-xl"
+          >
+            <p className="absolute left-3 top-3 z-20 rounded-full bg-accent px-3 py-1 font-sans text-xs uppercase tracking-widest text-accent-foreground sm:left-4 sm:top-4 sm:px-4">
               Try this instead
             </p>
-          </div>
+          </EditorialImage>
 
-          <div className="lg:col-span-2">
+          <div className="min-w-0 lg:col-span-2">
             <h2 className="font-display text-2xl text-sage-dark sm:text-3xl">
               Instead of {selected.famous_name}, try {selected.alternative.name}
             </h2>

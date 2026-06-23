@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import { mockDestinations } from "@/lib/data/destinations-mock";
 import { LogoMark } from "@/components/brand/logo-mark";
-import { TravelStamp } from "@/components/brand/editorial";
+import { TravelStamp, Postmark } from "@/components/brand/editorial";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -106,9 +106,10 @@ export function PostcardEditor() {
       <div className="flex flex-col items-center gap-5">
         <div
           ref={cardRef}
-          className="relative w-full max-w-md rounded-sm border-[6px] border-cream bg-cream shadow-[0_8px_30px_-8px_rgba(28,25,23,0.35)]"
+          className="relative w-full max-w-md -rotate-1 rounded-sm border-[6px] border-cream bg-cream shadow-[0_12px_34px_-10px_rgba(28,25,23,0.4)] ring-1 ring-inset ring-charcoal/5 transition-transform duration-300 hover:rotate-0"
         >
           <TravelStamp className="absolute -right-3 -top-3 z-30" />
+          <Postmark className="absolute -right-1 -top-1 z-40" />
           <div className="editorial-frame editorial-frame--vignette relative aspect-[4/5] w-full overflow-hidden">
             <Image
               src={destination.hero_image_url}

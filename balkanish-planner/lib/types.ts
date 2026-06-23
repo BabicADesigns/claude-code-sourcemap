@@ -72,6 +72,10 @@ export interface FoodFind {
   where_to_try: string;
   hero_image_url: string;
   is_featured: boolean;
+  /** The social ritual around the dish — who makes it, when, and why it's never rushed. */
+  ritual?: string;
+  /** A specific, lived-in moment that says more than a general description could. */
+  local_anecdote?: string;
 }
 
 export interface CultureNote {

@@ -4,7 +4,15 @@ import { DestinationCard } from "@/components/cards/destination-card";
 import { FoodFindCard } from "@/components/cards/food-find-card";
 import { CultureNoteCard } from "@/components/cards/culture-note-card";
 import { BalkanishTruth } from "@/components/brand/content-blocks";
-import { EditorialImage, PullQuote, WaveDivider, FeatureLead } from "@/components/brand/editorial";
+import {
+  EditorialImage,
+  PullQuote,
+  WaveDivider,
+  FeatureLead,
+  TravelStamp,
+  LocationTag,
+  GuidebookReference,
+} from "@/components/brand/editorial";
 import { DESTINATION_CATEGORY_LABELS } from "@/lib/types";
 import { getDestinations } from "@/lib/data/destinations";
 import { getFoodFinds } from "@/lib/data/food-finds";
@@ -24,6 +32,7 @@ export default async function HomePage() {
   const featuredCulture = cultureNotes.filter((c) => c.is_featured).slice(0, 3);
   const featuredSwap = secretSwaps[0];
   const [leadGem, ...restGems] = featuredGems;
+  const postcardPick = featuredGems[featuredGems.length - 1] ?? destinations[0];
 
   return (
     <div>
@@ -135,6 +144,38 @@ export default async function HomePage() {
           ))}
         </div>
       </SectionShell>
+
+      {/* A tactile interlude — a postcard from the road, not another grid */}
+      {postcardPick && (
+        <section className="overflow-hidden border-y border-border bg-cream/40 py-14 sm:py-20">
+          <div className="container grid items-center gap-10 lg:grid-cols-[1fr_360px] lg:gap-14">
+            <div>
+              <p className="font-sans text-xs uppercase tracking-widest text-accent">Postcards</p>
+              <h2 className="mt-1 max-w-md font-display text-2xl text-sage-dark sm:text-4xl">
+                Some places are worth mailing home about
+              </h2>
+              <GuidebookReference source="Balkanish Field Notes" className="mt-5 max-w-md">
+                Every destination on this site doubles as a postcard — pick a mood, write a line worth
+                keeping, and send it the slow way.
+              </GuidebookReference>
+              <Button asChild variant="link" className="mt-4 px-0">
+                <Link href="/postcards">Make your own postcard →</Link>
+              </Button>
+            </div>
+            <div className="relative mx-auto w-full max-w-xs rotate-2 rounded-sm border-[6px] border-cream bg-cream shadow-[0_16px_40px_-12px_rgba(28,25,23,0.4)] transition-transform duration-300 hover:rotate-0">
+              <TravelStamp className="absolute -right-3 -top-3 z-30" />
+              <EditorialImage
+                src={postcardPick.hero_image_url}
+                alt={postcardPick.name}
+                vignette
+                className="aspect-[4/5] rounded-[2px]"
+              >
+                <LocationTag label={postcardPick.name} className="absolute bottom-3 left-3 z-20" />
+              </EditorialImage>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Featured Secret Swap */}
       {featuredSwap && (

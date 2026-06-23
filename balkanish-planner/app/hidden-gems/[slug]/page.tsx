@@ -12,8 +12,22 @@ import { FoodFindCard } from "@/components/cards/food-find-card";
 import { CultureNoteCard } from "@/components/cards/culture-note-card";
 import { ScoreGrid } from "@/components/cards/score-badges";
 import { BalkanishTruth } from "@/components/brand/content-blocks";
-import { EditorialImage, PullQuote, WhatLocalsKnow, HandwrittenNote, TravelStamp } from "@/components/brand/editorial";
+import {
+  EditorialImage,
+  PullQuote,
+  WhatLocalsKnow,
+  HandwrittenNote,
+  TravelStamp,
+  LocationTag,
+  MapDetailAccent,
+  GuidebookReference,
+} from "@/components/brand/editorial";
+import { BestSlowMoment, WorthWakingUpFor, SkipThisDoThis } from "@/components/brand/content-blocks";
 import { Button } from "@/components/ui/button";
+
+function guidebookLine(destination: Destination): string {
+  return `${destination.name} — ${DESTINATION_CATEGORY_LABELS[destination.category].toLowerCase()}, ${destination.region}. Best visited ${destination.best_season.toLowerCase()}.`;
+}
 
 function localTips(destination: Destination): string[] {
   const tips: string[] = [
@@ -89,6 +103,7 @@ export default async function DestinationDetailPage({
         className="h-[38vh] min-h-[280px] w-full sm:h-[50vh] sm:min-h-[360px]"
       >
         <div className="absolute inset-0 z-10 bg-gradient-to-t from-charcoal/75 via-charcoal/10 to-transparent" />
+        <LocationTag label={destination.country} className="absolute right-4 top-4 z-20 sm:right-6 sm:top-6" />
         <div className="container absolute inset-0 z-20 flex flex-col items-start justify-end gap-2 pb-6 text-cream sm:gap-3 sm:pb-10">
           <Badge variant="accent">{DESTINATION_CATEGORY_LABELS[destination.category]}</Badge>
           <h1 className="font-display text-3xl font-semibold sm:text-6xl">{destination.name}</h1>
@@ -103,6 +118,9 @@ export default async function DestinationDetailPage({
           <section>
             <h2 className="font-display text-2xl text-sage-dark">Description</h2>
             <p className="mt-3 font-serif leading-relaxed text-foreground/85">{destination.description}</p>
+            <GuidebookReference source="Balkanish Field Notes" className="mt-5">
+              {guidebookLine(destination)}
+            </GuidebookReference>
           </section>
 
           <PullQuote centered attribution={`Why We Love ${destination.name}`}>
@@ -112,6 +130,13 @@ export default async function DestinationDetailPage({
           <BalkanishTruth context={destination.name}>{pickTruth(destination.id)}</BalkanishTruth>
 
           <WhatLocalsKnow tips={tips} />
+
+          <div className="grid gap-5 sm:grid-cols-2">
+            <BestSlowMoment destination={destination} />
+            <WorthWakingUpFor destination={destination} />
+          </div>
+
+          <SkipThisDoThis destination={destination} swap={swapForThis} />
 
           <section>
             <h2 className="font-display text-2xl text-sage-dark">The Scorecard</h2>
@@ -162,6 +187,7 @@ export default async function DestinationDetailPage({
             <TravelStamp className="absolute -right-3 -top-3" />
             <h3 className="font-sans text-xs uppercase tracking-widest text-muted-foreground">Best Season</h3>
             <p className="mt-2 font-display text-xl text-sage-dark">{destination.best_season}</p>
+            <MapDetailAccent label={`${destination.region} · ${destination.country}`} className="mt-3" />
           </div>
           <HandwrittenNote>Locals go off-season for a reason.</HandwrittenNote>
           <Button asChild className="w-full">
