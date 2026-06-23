@@ -1,6 +1,10 @@
 # Image Direction — BabicADesigns / Balkanish Planner
 
-**Purpose:** This is the brief a photographer, photo editor, or AI image-generation prompt should follow for every image on the site. The goal is one consistent feeling across four very different sections: it should never look like stock photography, a listing site, or a destination-marketing brochure.
+**Purpose:** This is the brief a photographer, photo editor, or AI image-generation prompt should follow for every image on the site. The goal is one consistent feeling across every section: it should never look like stock photography, a listing site, or a destination-marketing brochure.
+
+**Visual references:** *Kinfolk*, *Cereal Magazine*, *Cabana Magazine*, *Monocle Travel Guides*. Warm Mediterranean light, authentic local moments, imperfect beauty, quiet luxury, coastal texture (stone, olive trees, linen, sea, cafés), human presence that never looks staged.
+
+**Implementation note:** This codebase has no photography pipeline or image-generation capability — every image is a `picsum.photos` placeholder. The house look above is therefore enforced in code via the `EditorialImage` component and `.editorial-frame` CSS utility (`components/brand/editorial.tsx`, `app/globals.css`): a warm rose→sage colour-grade overlay plus a faint film-grain layer, applied consistently to every photo on the site. This is a deliberate stand-in for a real photo system — when actual photography is sourced, shoot/select to the brief below and the CSS treatment can be lightened or retired per image.
 
 ---
 
@@ -49,7 +53,29 @@
 - **The alternative:** Shown calm, spacious, unhurried — reinforcing why it's the better trade, without needing caption text to explain it.
 - **Editing:** Keep both images in the same color grade as the rest of the site — the contrast should come from content (crowd vs. calm), not from a colder/warmer split-edit trick.
 
-## 6. Technical Specs
+## 6. Homepage Hero
+
+**Mood:** The one image that has to do the most work — it should read as a single, specific moment, not a generic "Croatia coastline" banner.
+
+- **Framing:** Wide, but anchored by one concrete detail in the foreground (stone texture, a boat line, café chairs) so it doesn't collapse into wallpaper.
+- **Light:** Golden hour, non-negotiable — this is the first impression of "warm Mediterranean light, quiet luxury."
+- **Editing:** Slightly heavier vignette than other sections is acceptable here, since type sits on top of it.
+
+## 7. Destination Pages
+
+**Mood:** Feature-article opener, not a listing thumbnail — the hero should feel like the first spread of a magazine story.
+
+- **Framing:** One strong establishing image per destination; favor a human-scale detail (a doorway, a fishing boat, a café table) over the postcard wide shot whenever one exists.
+- **Pairing with text:** Pull quotes and "what locals know" callouts should interrupt the image rhythm rather than always trailing the text block — alternate placement page to page so the format doesn't feel templated.
+
+## 8. Matchmaker & Postcards
+
+**Mood:** Lighter and more playful than the rest of the site — this is where the brand can wink a little.
+
+- **Matchmaker:** Treat result imagery the same as Hidden Gems (quiet, specific, uncrowded) — it's still a destination recommendation, just arrived at differently.
+- **Postcards:** Images here are framed inside the `PostcardFrame` component (deckled cream border, corner travel stamp, slight tilt) — the photo itself can be a simple, centred, single-subject shot, since the frame is doing the styling work, not the crop.
+
+## 9. Technical Specs
 
 - **Aspect ratios in use:** 4:3 for grid cards (Hidden Gems, Food Finds, Culture Notes), 3:4 for Premium Guides covers, 16:9–ish wide crops for hero banners.
 - **Minimum resolution:** 1200px on the long edge for cards, 1920px for hero banners.

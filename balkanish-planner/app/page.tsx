@@ -1,10 +1,11 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { DestinationCard } from "@/components/cards/destination-card";
 import { FoodFindCard } from "@/components/cards/food-find-card";
 import { CultureNoteCard } from "@/components/cards/culture-note-card";
 import { BalkanishTruth } from "@/components/brand/content-blocks";
+import { EditorialImage, PullQuote, WaveDivider, FeatureLead } from "@/components/brand/editorial";
+import { DESTINATION_CATEGORY_LABELS } from "@/lib/types";
 import { getDestinations } from "@/lib/data/destinations";
 import { getFoodFinds } from "@/lib/data/food-finds";
 import { getCultureNotes } from "@/lib/data/culture-notes";
@@ -22,6 +23,7 @@ export default async function HomePage() {
   const featuredFood = foodFinds.filter((f) => f.is_featured).slice(0, 3);
   const featuredCulture = cultureNotes.filter((c) => c.is_featured).slice(0, 3);
   const featuredSwap = secretSwaps[0];
+  const [leadGem, ...restGems] = featuredGems;
 
   return (
     <div>
@@ -29,16 +31,15 @@ export default async function HomePage() {
       <section className="relative overflow-hidden border-b border-border">
         <div className="absolute inset-0 bg-cipka bg-repeat opacity-60" aria-hidden="true" />
         <div className="relative">
-          <div className="relative h-[62vh] min-h-[460px] w-full sm:h-[72vh]">
-            <Image
-              src="https://picsum.photos/seed/balkanish-hero/1920/1080"
-              alt="Stone coastline along the Adriatic at golden hour"
-              fill
-              priority
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-charcoal/75 via-charcoal/25 to-transparent" />
-            <div className="container absolute inset-0 flex flex-col items-start justify-end gap-4 pb-12 text-cream sm:gap-5 sm:pb-16">
+          <EditorialImage
+            src="https://picsum.photos/seed/balkanish-hero/1920/1080"
+            alt="Stone coastline along the Adriatic at golden hour"
+            priority
+            vignette
+            className="h-[62vh] min-h-[460px] w-full sm:h-[72vh]"
+          >
+            <div className="absolute inset-0 z-10 bg-gradient-to-t from-charcoal/75 via-charcoal/25 to-transparent" />
+            <div className="container absolute inset-0 z-20 flex flex-col items-start justify-end gap-4 pb-12 text-cream sm:gap-5 sm:pb-16">
               <p className="font-script text-sm italic text-rose sm:text-base">The Balkanish AI Way</p>
               <h1 className="max-w-2xl font-display text-4xl font-semibold leading-[1.05] text-balance sm:text-6xl lg:text-7xl">
                 Travel the Balkans like someone invited you.
@@ -56,21 +57,35 @@ export default async function HomePage() {
                 </Button>
               </div>
             </div>
-          </div>
+          </EditorialImage>
         </div>
       </section>
 
-      {/* Featured Hidden Gems */}
+      {/* Featured Hidden Gems — one lead feature, two supporting cards, magazine-style */}
       <SectionShell
+        index={1}
         eyebrow="Hidden Gems"
         title="The places that never make the brochure"
         href="/hidden-gems"
         linkLabel="See all hidden gems"
       >
-        <div className="grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-          {featuredGems.map((d) => (
-            <DestinationCard key={d.id} destination={d} />
-          ))}
+        <div className="grid gap-5 sm:gap-6 lg:grid-cols-3">
+          {leadGem && (
+            <FeatureLead
+              href={`/hidden-gems/${leadGem.slug}`}
+              src={leadGem.hero_image_url}
+              alt={leadGem.name}
+              eyebrow={DESTINATION_CATEGORY_LABELS[leadGem.category]}
+              title={leadGem.name}
+              description={leadGem.summary}
+              className="lg:col-span-2"
+            />
+          )}
+          <div className="flex flex-col gap-5 sm:gap-6">
+            {restGems.map((d) => (
+              <DestinationCard key={d.id} destination={d} />
+            ))}
+          </div>
         </div>
       </SectionShell>
 
@@ -80,6 +95,7 @@ export default async function HomePage() {
 
       {/* Featured Food Finds */}
       <SectionShell
+        index={2}
         eyebrow="Food Finds"
         title="Dishes worth a two-hour lunch"
         href="/food-finds"
@@ -93,8 +109,21 @@ export default async function HomePage() {
         </div>
       </SectionShell>
 
+      {/* A pause between sections — editorial rhythm, not another card grid */}
+      {featuredCulture[0] && (
+        <div className="container py-10 sm:py-14">
+          <div className="mx-auto max-w-2xl">
+            <PullQuote centered attribution={featuredCulture[0].title}>
+              {featuredCulture[0].excerpt}
+            </PullQuote>
+          </div>
+          <WaveDivider className="mx-auto mt-10 w-20" />
+        </div>
+      )}
+
       {/* Featured Culture Notes */}
       <SectionShell
+        index={3}
         eyebrow="Culture Notes"
         title="Short stories that explain everything"
         href="/culture-notes"
@@ -110,6 +139,7 @@ export default async function HomePage() {
       {/* Featured Secret Swap */}
       {featuredSwap && (
         <SectionShell
+          index={4}
           eyebrow="Secret Swap"
           title="Loved the famous spot? Try this instead."
           href="/secret-swap"
@@ -127,14 +157,12 @@ export default async function HomePage() {
                 <Link href="/secret-swap">Explore Secret Swap →</Link>
               </Button>
             </div>
-            <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
-              <Image
-                src={featuredSwap.alternative.hero_image_url}
-                alt={featuredSwap.alternative.name}
-                fill
-                className="object-cover"
-              />
-            </div>
+            <EditorialImage
+              src={featuredSwap.alternative.hero_image_url}
+              alt={featuredSwap.alternative.name}
+              vignette
+              className="aspect-[4/3] rounded-xl"
+            />
           </div>
         </SectionShell>
       )}
@@ -166,6 +194,7 @@ function SectionShell({
   href,
   linkLabel,
   tone = "default",
+  index,
   children,
 }: {
   eyebrow: string;
@@ -173,6 +202,7 @@ function SectionShell({
   href: string;
   linkLabel: string;
   tone?: "default" | "muted";
+  index?: number;
   children: React.ReactNode;
 }) {
   return (
@@ -180,7 +210,12 @@ function SectionShell({
       <div className="container">
         <div className="mb-6 flex flex-wrap items-end justify-between gap-4 sm:mb-8">
           <div>
-            <p className="font-sans text-xs uppercase tracking-widest text-accent">{eyebrow}</p>
+            <p className="font-sans text-xs uppercase tracking-widest text-accent">
+              {typeof index === "number" && (
+                <span className="mr-2 text-muted-foreground">No. {String(index).padStart(2, "0")}</span>
+              )}
+              {eyebrow}
+            </p>
             <h2 className="mt-1 font-display text-2xl text-sage-dark sm:text-4xl">{title}</h2>
           </div>
           <Link href={href} className="font-sans text-sm text-primary underline-offset-4 hover:underline">

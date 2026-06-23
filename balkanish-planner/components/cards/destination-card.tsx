@@ -1,8 +1,8 @@
 import Link from "next/link";
-import Image from "next/image";
 import { DESTINATION_CATEGORY_LABELS, type Destination } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
 import { ScoreStrip } from "@/components/cards/score-badges";
+import { EditorialImage } from "@/components/brand/editorial";
 
 export function DestinationCard({ destination }: { destination: Destination }) {
   return (
@@ -10,18 +10,17 @@ export function DestinationCard({ destination }: { destination: Destination }) {
       href={`/hidden-gems/${destination.slug}`}
       className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card transition-shadow hover:shadow-lg"
     >
-      <div className="relative aspect-[4/3] overflow-hidden">
-        <Image
-          src={destination.hero_image_url}
-          alt={destination.name}
-          fill
-          sizes="(min-width: 1024px) 33vw, 100vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-        />
-        <Badge variant="accent" className="absolute left-3 top-3">
+      <EditorialImage
+        src={destination.hero_image_url}
+        alt={destination.name}
+        className="aspect-[4/3]"
+        sizes="(min-width: 1024px) 33vw, 100vw"
+        imageClassName="transition-transform duration-500 group-hover:scale-105"
+      >
+        <Badge variant="accent" className="absolute left-3 top-3 z-20">
           {DESTINATION_CATEGORY_LABELS[destination.category]}
         </Badge>
-      </div>
+      </EditorialImage>
       <div className="flex flex-1 flex-col gap-1.5 p-4 sm:p-5">
         <p className="font-sans text-xs uppercase tracking-widest text-muted-foreground">
           {destination.region}, {destination.country}

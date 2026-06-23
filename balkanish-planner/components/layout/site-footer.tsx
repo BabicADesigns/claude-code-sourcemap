@@ -54,9 +54,8 @@ export function SiteFooter() {
 
         <div className="mt-6 flex flex-col items-center gap-2 text-center">
           <p className="font-serif text-sm text-cream/75">Made in the Balkans.</p>
-          <p className="font-serif text-sm text-cream/75">
-            Created with Vegeta and Love by BabicADesigns.
-          </p>
+          <p className="font-serif text-sm text-cream/75">© 2026 BabicADesigns. All rights reserved.</p>
+          <p className="font-serif text-sm text-cream/75">Created with Love and Vegeta.</p>
         </div>
       </div>
     </footer>

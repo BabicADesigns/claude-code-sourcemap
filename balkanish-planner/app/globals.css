@@ -57,4 +57,45 @@
     background-position: center;
     height: 1.25rem;
   }
+  .wave-divider {
+    background-image: url('/patterns/wave-divider.svg');
+    background-repeat: repeat-x;
+    background-position: center;
+    height: 1rem;
+  }
+
+  /*
+   * Editorial photo treatment: a warm Mediterranean colour grade plus a
+   * faint grain layer, simulating film photography over placeholder imagery.
+   * See /docs/image-direction.md.
+   */
+  .editorial-frame {
+    position: relative;
+    overflow: hidden;
+  }
+  .editorial-frame::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    background-image: url('/patterns/grain.svg');
+    background-size: 160px 160px;
+    opacity: 0.16;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+  .editorial-frame::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    background: linear-gradient(165deg, rgba(196, 160, 150, 0.28) 0%, rgba(28, 25, 23, 0) 45%, rgba(56, 80, 72, 0.32) 100%);
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+  .editorial-frame--vignette::after {
+    background:
+      radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 55%, rgba(28, 25, 23, 0.35) 100%),
+      linear-gradient(165deg, rgba(196, 160, 150, 0.25) 0%, rgba(28, 25, 23, 0) 45%, rgba(56, 80, 72, 0.3) 100%);
+  }
 }

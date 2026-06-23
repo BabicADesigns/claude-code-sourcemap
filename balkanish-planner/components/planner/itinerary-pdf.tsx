@@ -71,7 +71,9 @@ export function ItineraryPdfDocument({ itinerary, input }: { itinerary: Generate
           </Text>
         ))}
 
-        <Text style={styles.footer}>Made in the Balkans. Created with Vegeta and Love by BabicADesigns.</Text>
+        <Text style={styles.footer}>
+          Made in the Balkans. © 2026 BabicADesigns. All rights reserved. Created with Love and Vegeta.
+        </Text>
       </Page>
     </Document>
   );
