@@ -14,7 +14,7 @@ export default function SignUpPage() {
         title="Create your account"
         description="Save trips, favorite hidden gems, and keep your AI-generated itineraries in one place."
       />
-      <div className="container py-12">
+      <div className="container py-8 sm:py-12">
         <AuthForm mode="sign-up" />
       </div>
     </div>

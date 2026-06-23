@@ -15,12 +15,13 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-border/70 bg-background/95 backdrop-blur-sm">
-      <div className="container flex h-20 items-center justify-between">
-        <Link href="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
-          <LogoMark size={36} />
+      <div className="container flex h-16 items-center justify-between sm:h-20">
+        <Link href="/" className="flex items-center gap-2 sm:gap-3" onClick={() => setOpen(false)}>
+          <LogoMark size={30} className="sm:hidden" />
+          <LogoMark size={36} className="hidden sm:block" />
           <span className="flex flex-col leading-tight">
-            <span className="font-display text-xl font-semibold text-sage-dark">BabicADesigns</span>
-            <span className="font-script text-xs italic text-rose">The Balkanish AI Way</span>
+            <span className="font-display text-base font-semibold text-sage-dark sm:text-xl">BabicADesigns</span>
+            <span className="hidden font-script text-xs italic text-rose sm:block">The Balkanish AI Way</span>
           </span>
         </Link>
 
@@ -49,7 +50,7 @@ export function SiteHeader() {
         </div>
 
         <button
-          className="p-2 lg:hidden"
+          className="-mr-2 flex h-11 w-11 items-center justify-center lg:hidden"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
@@ -60,13 +61,14 @@ export function SiteHeader() {
 
       {open && (
         <nav className="border-t border-border bg-background lg:hidden">
-          <ul className="container flex flex-col gap-1 py-4">
+          <p className="container pt-3 font-script text-xs italic text-rose">The Balkanish AI Way</p>
+          <ul className="container flex flex-col gap-1 py-3">
             {mainNav.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="block rounded-sm px-2 py-3 font-sans text-sm text-foreground/85 hover:bg-muted"
+                  className="block min-h-11 rounded-sm px-2 py-3 font-sans text-base text-foreground/85 hover:bg-muted"
                 >
                   {item.label}
                 </Link>
@@ -76,9 +78,18 @@ export function SiteHeader() {
               <Link
                 href="/sign-in"
                 onClick={() => setOpen(false)}
-                className="block rounded-sm px-2 py-3 font-sans text-sm text-foreground/85 hover:bg-muted"
+                className="block min-h-11 rounded-sm px-2 py-3 font-sans text-base text-foreground/85 hover:bg-muted"
               >
                 Sign In
+              </Link>
+            </li>
+            <li className="pt-1">
+              <Link
+                href="/planner"
+                onClick={() => setOpen(false)}
+                className="block rounded-md bg-primary px-2 py-3 text-center font-sans text-base font-medium text-primary-foreground"
+              >
+                Plan My Trip
               </Link>
             </li>
           </ul>

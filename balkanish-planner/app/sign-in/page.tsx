@@ -10,7 +10,7 @@ export default function SignInPage() {
   return (
     <div>
       <PageHeader eyebrow="Account" title="Welcome back" description="Sign in to pick up your saved trips and favorites." />
-      <div className="container py-12">
+      <div className="container py-8 sm:py-12">
         <AuthForm mode="sign-in" />
       </div>
     </div>

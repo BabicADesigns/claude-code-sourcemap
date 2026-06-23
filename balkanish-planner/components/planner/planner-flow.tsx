@@ -108,14 +108,14 @@ export function PlannerFlow() {
     return (
       <div className="max-w-3xl">
         <p className="font-sans text-xs uppercase tracking-widest text-accent">Your itinerary</p>
-        <h2 className="mt-2 font-display text-4xl text-sage-dark">{itinerary.trip_title}</h2>
+        <h2 className="mt-2 font-display text-3xl text-sage-dark sm:text-4xl">{itinerary.trip_title}</h2>
         <p className="mt-3 font-serif text-foreground/85">{itinerary.overview}</p>
 
-        <div className="mt-8 flex flex-col gap-6">
+        <div className="mt-8 flex flex-col gap-5 sm:gap-6">
           {itinerary.days.map((day) => (
-            <div key={day.day} className="rounded-md border border-border p-5">
+            <div key={day.day} className="rounded-xl border border-border p-4 sm:p-5">
               <p className="font-sans text-xs uppercase tracking-widest text-muted-foreground">Day {day.day}</p>
-              <h3 className="mt-1 font-display text-2xl text-sage-dark">{day.title}</h3>
+              <h3 className="mt-1 font-display text-xl text-sage-dark sm:text-2xl">{day.title}</h3>
               <p className="mt-2 font-serif text-sm text-foreground/85">{day.summary}</p>
               <dl className="mt-4 grid gap-3 sm:grid-cols-2">
                 <div>
@@ -139,14 +139,14 @@ export function PlannerFlow() {
           ))}
         </div>
 
-        <div className="mt-10 grid gap-8 sm:grid-cols-2">
+        <div className="mt-8 grid gap-6 sm:mt-10 sm:grid-cols-2 sm:gap-8">
           <PlannerListSection title="Hidden gems" items={itinerary.hidden_gems} />
           <PlannerListSection title="Restaurants worth the detour" items={itinerary.restaurant_picks} />
           <PlannerListSection title="Culture notes" items={itinerary.culture_notes} />
           <PlannerListSection title="Packing list" items={itinerary.packing_list} />
         </div>
 
-        <div className="mt-10 flex flex-wrap gap-3">
+        <div className="mt-8 flex flex-wrap gap-3 sm:mt-10">
           <Button onClick={exportPdf} disabled={isExporting}>
             {isExporting ? "Preparing PDF…" : "Export Premium PDF — €14.99"}
           </Button>

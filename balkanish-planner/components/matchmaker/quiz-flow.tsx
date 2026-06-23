@@ -39,15 +39,15 @@ export function QuizFlow() {
     const destination = mockDestinations.find((d) => d.slug === profile.destinationSlug);
 
     return (
-      <div className="grid gap-8 lg:grid-cols-2">
+      <div className="grid gap-6 sm:gap-8 lg:grid-cols-2">
         {destination && (
-          <div className="relative aspect-[4/3] overflow-hidden rounded-md">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
             <Image src={destination.hero_image_url} alt={destination.name} fill className="object-cover" />
           </div>
         )}
         <div>
           <p className="font-sans text-xs uppercase tracking-widest text-accent">{profile.personalityTitle}</p>
-          <h2 className="mt-2 font-display text-4xl text-sage-dark">{profile.resultTitle}</h2>
+          <h2 className="mt-2 font-display text-3xl text-sage-dark sm:text-4xl">{profile.resultTitle}</h2>
           <p className="mt-4 font-serif text-foreground/85">{profile.description}</p>
 
           <ul className="mt-6 flex flex-wrap gap-2">
@@ -83,14 +83,14 @@ export function QuizFlow() {
         Question {step + 1} of {quizQuestions.length}
       </p>
 
-      <h2 className="mt-4 font-display text-3xl text-sage-dark">{question.prompt}</h2>
+      <h2 className="mt-4 font-display text-2xl text-sage-dark sm:text-3xl">{question.prompt}</h2>
 
       <div className="mt-6 flex flex-col gap-3">
         {question.options.map((option) => (
           <button
             key={option.text}
             onClick={() => answer(option.result)}
-            className="rounded-md border border-border px-5 py-4 text-left font-serif text-foreground/90 transition-colors hover:border-primary hover:bg-muted/40"
+            className="min-h-12 rounded-xl border border-border px-5 py-4 text-left font-serif text-foreground/90 transition-colors hover:border-primary hover:bg-muted/40"
           >
             {option.text}
           </button>

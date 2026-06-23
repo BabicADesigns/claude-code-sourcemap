@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getCultureNoteBySlug, getCultureNotes } from "@/lib/data/culture-notes";
+import { EditorialImage, PullQuote, WaveDivider } from "@/components/brand/editorial";
 
 export async function generateStaticParams() {
   const notes = await getCultureNotes();
@@ -29,18 +29,29 @@ export default async function CultureNoteDetailPage({
   if (!note) notFound();
 
   return (
-    <article className="container max-w-3xl py-14">
+    <article className="container max-w-3xl py-10 sm:py-14">
       {note.region && (
         <p className="font-sans text-xs uppercase tracking-widest text-accent">{note.region}</p>
       )}
-      <h1 className="mt-2 font-display text-4xl text-sage-dark sm:text-5xl">{note.title}</h1>
-      <p className="mt-4 font-serif text-lg italic text-foreground/80">{note.excerpt}</p>
+      <h1 className="mt-2 font-display text-3xl text-sage-dark sm:text-5xl">{note.title}</h1>
 
-      <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-md">
-        <Image src={note.hero_image_url} alt={note.title} fill priority className="object-cover" />
-      </div>
+      <EditorialImage
+        src={note.hero_image_url}
+        alt={note.title}
+        priority
+        vignette
+        className="mt-6 aspect-[16/9] rounded-xl sm:mt-8"
+      />
 
-      <p className="mt-8 font-serif text-lg leading-relaxed text-foreground/90">{note.body}</p>
+      <PullQuote centered className="mt-8 sm:mt-10">
+        {note.excerpt}
+      </PullQuote>
+
+      <p className="mt-6 font-serif text-base leading-relaxed text-foreground/90 first-letter:float-left first-letter:mr-1 first-letter:font-display first-letter:text-5xl first-letter:leading-[0.85] first-letter:text-sage-dark sm:mt-8 sm:text-lg sm:first-letter:text-6xl">
+        {note.body}
+      </p>
+
+      <WaveDivider className="mx-auto mt-10 w-16 sm:mt-12" />
     </article>
   );
 }

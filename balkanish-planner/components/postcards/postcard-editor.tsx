@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import { mockDestinations } from "@/lib/data/destinations-mock";
 import { LogoMark } from "@/components/brand/logo-mark";
+import { TravelStamp } from "@/components/brand/editorial";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -44,7 +45,7 @@ export function PostcardEditor() {
   }
 
   return (
-    <div className="grid gap-10 lg:grid-cols-[360px_1fr]">
+    <div className="grid gap-8 lg:grid-cols-[360px_1fr] lg:gap-10">
       <div className="flex flex-col gap-6">
         <div>
           <Label htmlFor="destination">Destination</Label>
@@ -100,38 +101,42 @@ export function PostcardEditor() {
             ))}
           </div>
         </div>
-
-        <Button onClick={downloadPostcard} disabled={isExporting}>
-          {isExporting ? "Preparing…" : "Download postcard"}
-        </Button>
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex flex-col items-center gap-5">
         <div
           ref={cardRef}
-          className="relative aspect-[4/5] w-full max-w-md overflow-hidden rounded-md shadow-lg"
+          className="relative w-full max-w-md rounded-sm border-[6px] border-cream bg-cream shadow-[0_8px_30px_-8px_rgba(28,25,23,0.35)]"
         >
-          <Image
-            src={destination.hero_image_url}
-            alt={destination.name}
-            fill
-            className="object-cover"
-            crossOrigin="anonymous"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-charcoal/85 via-charcoal/10 to-transparent" />
+          <TravelStamp className="absolute -right-3 -top-3 z-30" />
+          <div className="editorial-frame editorial-frame--vignette relative aspect-[4/5] w-full overflow-hidden">
+            <Image
+              src={destination.hero_image_url}
+              alt={destination.name}
+              fill
+              className="object-cover"
+              crossOrigin="anonymous"
+            />
+            <div className="absolute inset-0 z-20 bg-gradient-to-t from-charcoal/85 via-charcoal/10 to-transparent" />
 
-          <p className="absolute left-6 top-6 font-sans text-xs uppercase tracking-widest text-cream/90">{mood}</p>
+            <p className="absolute left-6 top-6 z-20 font-sans text-xs uppercase tracking-widest text-cream/90">{mood}</p>
 
-          <div className="absolute bottom-0 left-0 right-0 p-6">
-            <p className="font-display text-2xl italic leading-snug text-cream sm:text-3xl">&ldquo;{quote}&rdquo;</p>
-            <div className="mt-4 flex items-center gap-2">
-              <LogoMark size={22} color="#F0E6D3" />
-              <p className="font-sans text-xs uppercase tracking-widest text-cream/90">
-                {destination.name} · Balkanish
+            <div className="absolute bottom-0 left-0 right-0 z-20 p-6">
+              <p className="-rotate-1 font-script text-2xl italic leading-snug text-cream sm:text-3xl">
+                &ldquo;{quote}&rdquo;
               </p>
+              <div className="mt-4 flex items-center gap-2">
+                <LogoMark size={22} color="#F5EEE6" />
+                <p className="font-sans text-xs uppercase tracking-widest text-cream/90">
+                  {destination.name} · Balkanish
+                </p>
+              </div>
             </div>
           </div>
         </div>
+        <Button onClick={downloadPostcard} disabled={isExporting} className="w-full max-w-md">
+          {isExporting ? "Preparing…" : "Download postcard"}
+        </Button>
       </div>
     </div>
   );
