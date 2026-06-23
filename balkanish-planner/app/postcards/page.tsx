@@ -15,7 +15,7 @@ export default function PostcardsPage() {
         title="Send a postcard, the slow way"
         description="Pick a destination, a mood, and a line worth keeping. Download it, send it, frame it."
       />
-      <div className="container py-12">
+      <div className="container py-8 sm:py-12">
         <PostcardEditor />
       </div>
     </div>

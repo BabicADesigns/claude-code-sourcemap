@@ -3,77 +3,77 @@
 -- it's reading from Supabase or from the local fallback.
 
 insert into public.destinations
-  (slug, name, region, country, category, summary, description, why_we_love_it, best_season, local_score, crowd_score, hero_image_url, is_featured)
+  (slug, name, region, country, category, summary, description, why_we_love_it, best_season, local_score, crowd_score, slow_living_score, food_score, story_score, sunset_score, hero_image_url, is_featured)
 values
   ('vis', 'Vis', 'Dalmatian Islands', 'Croatia', 'island_secrets',
    'The island the ferries forgot — and locals are quietly grateful.',
    'Closed to foreign visitors for decades as a military base, Vis missed the package-tour wave entirely. What''s left is a slow island of stone villages, vineyards, and a harbour that still smells like fish nets, not sunscreen.',
    'Vis feels like Hvar did thirty years ago. No mega-yachts, no queues for ice cream — just konobas where the owner''s mother is still cooking.',
    'Late May to mid-June, or September',
-   9.2, 2.1, 'https://picsum.photos/seed/vis-island/1200/800', true),
+   9.2, 2.1, 9.5, 8.7, 9.0, 8.5, 'https://picsum.photos/seed/vis-island/1200/800', true),
 
   ('cavtat', 'Cavtat', 'Dubrovnik Riviera', 'Croatia', 'quiet_escapes',
    'Dubrovnik''s view, without Dubrovnik''s crowds.',
    'A 25-minute drive from the Old Town, Cavtat has the same limestone-and-cypress beauty with a fraction of the foot traffic. Locals go here precisely to avoid where the cruise ships dock.',
    'You get the postcard Adriatic waterfront promenade, minus the selfie-stick gridlock.',
    'May, June, September, October',
-   8.6, 3.4, 'https://picsum.photos/seed/cavtat-town/1200/800', true),
+   8.6, 3.4, 7.5, 7.8, 6.5, 8.8, 'https://picsum.photos/seed/cavtat-town/1200/800', true),
 
   ('rovinj', 'Rovinj', 'Istria', 'Croatia', 'romantic_spots',
    'Venice''s little cousin, with better seafood and half the price.',
    'Pastel houses stacked above the harbour, a hilltop church bell tower, and the kind of golden-hour light that makes every dinner feel like an occasion.',
    'Two glasses of malvazija on a quay at sunset will tell you everything you need to know.',
    'April–June, September',
-   8.8, 4.5, 'https://picsum.photos/seed/rovinj-harbour/1200/800', true),
+   8.8, 4.5, 6.0, 9.0, 7.5, 9.4, 'https://picsum.photos/seed/rovinj-harbour/1200/800', true),
 
   ('mostar', 'Mostar', 'Herzegovina', 'Bosnia and Herzegovina', 'local_favorites',
    'One bridge, one river, and a thousand years of resilience.',
    'The rebuilt Stari Most arches over the Neretva''s impossible turquoise water. Beyond the famous dive spot, the old bazaar still trades copper and coffee the way it has for centuries.',
    'It is the rare place where the history lesson and the view are the same thing.',
    'April–June, September–October',
-   9.0, 4.8, 'https://picsum.photos/seed/mostar-bridge/1200/800', false),
+   9.0, 4.8, 5.5, 8.0, 9.6, 7.0, 'https://picsum.photos/seed/mostar-bridge/1200/800', false),
 
   ('korcula', 'Korčula', 'Dalmatian Islands', 'Croatia', 'romantic_spots',
    'A walled old town on a hill, ringed by vineyards and (allegedly) Marco Polo''s birthplace.',
    'Smaller and calmer than Dubrovnik, Korčula''s old town has the same red-roof, honey-stone drama, plus some of the best skipped-the-guidebook wine on the coast.',
    'Sunset from the city walls, a glass of Pošip in hand — that''s the whole pitch.',
    'June, September',
-   8.9, 4.2, 'https://picsum.photos/seed/korcula-walls/1200/800', true),
+   8.9, 4.2, 7.8, 8.2, 8.0, 9.2, 'https://picsum.photos/seed/korcula-walls/1200/800', true),
 
   ('plitvice', 'Plitvice Lakes', 'Central Croatia', 'Croatia', 'nature',
    'Sixteen turquoise lakes, connected by waterfalls, inside a national park.',
    'Wooden boardwalks weave between travertine pools so clear you can watch trout move beneath them. Go early or go late — midday brings the tour buses.',
    'It looks digitally enhanced. It is not.',
    'May–June, September–October',
-   8.4, 6.0, 'https://picsum.photos/seed/plitvice-lakes/1200/800', false),
+   8.4, 6.0, 4.0, 5.5, 7.0, 4.5, 'https://picsum.photos/seed/plitvice-lakes/1200/800', false),
 
   ('lastovo', 'Lastovo', 'Dalmatian Islands', 'Croatia', 'island_secrets',
    'A nature park island with more chimneys than people on most days.',
    'Lastovo''s distinctive cylindrical chimneys top stone houses on a hillside that looks out over thirty-odd surrounding islets. The ferry schedule alone keeps the crowds away.',
    'If "undiscovered Croatia" still exists, this is it.',
    'June, September',
-   9.4, 1.6, 'https://picsum.photos/seed/lastovo-island/1200/800', false),
+   9.4, 1.6, 9.8, 7.5, 8.5, 8.0, 'https://picsum.photos/seed/lastovo-island/1200/800', false),
 
   ('konavle', 'Konavle Valley', 'Dubrovnik Riviera', 'Croatia', 'family_friendly',
    'Vineyards, donkey trails, and konobas that serve five-course lunches without trying hard.',
    'A patchwork valley between Dubrovnik and Montenegro, Konavle is where Dubrovnik families go to slow down — agritourism farms, old watermills, and home-pressed olive oil.',
    'It''s the antidote to Dubrovnik''s Old Town crush, fifteen minutes away.',
    'April–October',
-   8.7, 2.8, 'https://picsum.photos/seed/konavle-valley/1200/800', false),
+   8.7, 2.8, 9.0, 9.2, 7.0, 7.2, 'https://picsum.photos/seed/konavle-valley/1200/800', false),
 
   ('peljesac', 'Pelješac Peninsula', 'Dalmatian Coast', 'Croatia', 'local_favorites',
    'Croatia''s most serious wine country, on a knife-edge peninsula.',
    'Dingač and Postup vineyards cling to nearly vertical slopes above the sea. Oyster farms in Mali Ston add a second reason to linger.',
    'Ask any Dubrovnik local where they actually drink, and they''ll point here.',
    'May–June, September–October',
-   8.9, 3.0, 'https://picsum.photos/seed/peljesac-vineyards/1200/800', false),
+   8.9, 3.0, 8.0, 9.4, 7.8, 8.6, 'https://picsum.photos/seed/peljesac-vineyards/1200/800', false),
 
   ('perast', 'Perast', 'Bay of Kotor', 'Montenegro', 'romantic_spots',
    'Kotor''s view, minus Kotor''s cruise-ship tide.',
    'A single baroque street between the mountains and the bay, with two islet churches just offshore. Perast has the Bay of Kotor''s entire postcard, condensed.',
    'Best seen from a kayak, paddling out to Our Lady of the Rocks at golden hour.',
    'May, June, September',
-   8.5, 3.6, 'https://picsum.photos/seed/perast-bay/1200/800', false);
+   8.5, 3.6, 7.2, 7.0, 8.2, 9.5, 'https://picsum.photos/seed/perast-bay/1200/800', false);
 
 insert into public.food_finds
   (slug, name, region, story, history, drink_pairing, where_to_try, hero_image_url, is_featured)

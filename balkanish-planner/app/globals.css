@@ -4,33 +4,33 @@
 
 @layer base {
   :root {
-    /* Balkanish Planner brand tokens — see /brand/BRAND_KIT.md */
-    --background: 39 49% 88%; /* #F0E6D3 warm cream */
+    /* Balkanish Planner brand tokens — see /docs/brand-system.md */
+    --background: 32 43% 93%; /* #F5EEE6 cream */
     --foreground: 24 10% 10%; /* #1C1917 deep charcoal */
 
-    --card: 39 49% 91%;
+    --card: 32 40% 95%;
     --card-foreground: 24 10% 10%;
 
-    --primary: 160 18% 27%; /* #385048 dark sage green */
-    --primary-foreground: 39 49% 95%;
+    --primary: 160 18% 27%; /* #385048 dark sage */
+    --primary-foreground: 32 43% 96%;
 
-    --secondary: 117 10% 58%; /* #8A9E89 sage green */
+    --secondary: 89 14% 54%; /* #8B9B7A muted sage */
     --secondary-foreground: 24 10% 10%;
 
-    --accent: 9 26% 69%; /* #C4A09A dusty rose */
+    --accent: 13 28% 68%; /* #C4A096 dusty rose */
     --accent-foreground: 24 10% 10%;
 
-    --muted: 39 30% 82%;
+    --muted: 32 30% 86%;
     --muted-foreground: 24 8% 32%;
 
     --destructive: 6 60% 45%;
-    --destructive-foreground: 39 49% 95%;
+    --destructive-foreground: 32 43% 96%;
 
-    --border: 39 20% 78%;
-    --input: 39 20% 78%;
+    --border: 32 20% 81%;
+    --input: 32 20% 81%;
     --ring: 160 18% 27%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
   }
 }
 

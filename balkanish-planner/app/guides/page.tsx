@@ -18,8 +18,8 @@ export default async function GuidesPage() {
         title="For when you want to go deeper"
         description="Single-region guides, written the same way as everything else here — no listicle padding, just the places worth your time."
       />
-      <div className="container py-12">
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="container py-8 sm:py-12">
+        <div className="grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
           {guides.map((guide) => (
             <GuideCard key={guide.id} guide={guide} />
           ))}

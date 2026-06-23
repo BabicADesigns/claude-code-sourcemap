@@ -47,7 +47,7 @@ export function GemsExplorer({ destinations }: { destinations: Destination[] }) 
         {filtered.length} {filtered.length === 1 ? "destination" : "destinations"}
       </p>
 
-      <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-6 grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
         {filtered.map((destination) => (
           <DestinationCard key={destination.id} destination={destination} />
         ))}

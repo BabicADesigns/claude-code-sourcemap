@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
   subtitle: { fontSize: 11, color: "#555555", marginBottom: 18 },
   sectionTitle: { fontSize: 14, marginTop: 18, marginBottom: 8, color: "#385048" },
   dayBlock: { marginBottom: 10 },
-  dayTitle: { fontSize: 13, marginTop: 12, marginBottom: 2, color: "#8A9E89" },
+  dayTitle: { fontSize: 13, marginTop: 12, marginBottom: 2, color: "#8B9B7A" },
   label: { fontSize: 10, marginTop: 4, fontWeight: 700 },
   text: { fontSize: 10, lineHeight: 1.4, marginBottom: 2 },
   listItem: { fontSize: 10, marginBottom: 3 },

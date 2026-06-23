@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/layout/page-header";
 import { CultureNoteCard } from "@/components/cards/culture-note-card";
+import { AuntieAdvice } from "@/components/brand/content-blocks";
 import { getCultureNotes } from "@/lib/data/culture-notes";
 
 export const metadata: Metadata = {
@@ -15,11 +16,14 @@ export default async function CultureNotesPage() {
     <div>
       <PageHeader
         eyebrow="Culture Notes"
-        title="Short stories from the Balkans"
-        description="Why Croatians never rush coffee, what pomalo really means, and other small truths."
+        title="Short stories that explain everything"
+        description="Why coffee takes an hour, what pomalo actually means, and other small truths nobody puts in a guidebook."
       />
-      <div className="container py-12">
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="container py-8 sm:py-12">
+        <AuntieAdvice>
+          Every family has one aunt who&rsquo;s always right about where to eat and never explains how she knows.
+        </AuntieAdvice>
+        <div className="mt-8 grid gap-5 sm:mt-10 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
           {notes.map((note) => (
             <CultureNoteCard key={note.id} note={note} />
           ))}

@@ -44,7 +44,7 @@ export function PostcardEditor() {
   }
 
   return (
-    <div className="grid gap-10 lg:grid-cols-[360px_1fr]">
+    <div className="grid gap-8 lg:grid-cols-[360px_1fr] lg:gap-10">
       <div className="flex flex-col gap-6">
         <div>
           <Label htmlFor="destination">Destination</Label>
@@ -109,7 +109,7 @@ export function PostcardEditor() {
       <div className="flex justify-center">
         <div
           ref={cardRef}
-          className="relative aspect-[4/5] w-full max-w-md overflow-hidden rounded-md shadow-lg"
+          className="relative aspect-[4/5] w-full max-w-md overflow-hidden rounded-xl shadow-lg"
         >
           <Image
             src={destination.hero_image_url}
@@ -125,7 +125,7 @@ export function PostcardEditor() {
           <div className="absolute bottom-0 left-0 right-0 p-6">
             <p className="font-display text-2xl italic leading-snug text-cream sm:text-3xl">&ldquo;{quote}&rdquo;</p>
             <div className="mt-4 flex items-center gap-2">
-              <LogoMark size={22} color="#F0E6D3" />
+              <LogoMark size={22} color="#F5EEE6" />
               <p className="font-sans text-xs uppercase tracking-widest text-cream/90">
                 {destination.name} · Balkanish
               </p>

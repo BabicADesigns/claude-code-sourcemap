@@ -29,18 +29,18 @@ export default async function CultureNoteDetailPage({
   if (!note) notFound();
 
   return (
-    <article className="container max-w-3xl py-14">
+    <article className="container max-w-3xl py-10 sm:py-14">
       {note.region && (
         <p className="font-sans text-xs uppercase tracking-widest text-accent">{note.region}</p>
       )}
-      <h1 className="mt-2 font-display text-4xl text-sage-dark sm:text-5xl">{note.title}</h1>
-      <p className="mt-4 font-serif text-lg italic text-foreground/80">{note.excerpt}</p>
+      <h1 className="mt-2 font-display text-3xl text-sage-dark sm:text-5xl">{note.title}</h1>
+      <p className="mt-4 font-serif text-base italic text-foreground/80 sm:text-lg">{note.excerpt}</p>
 
-      <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-md">
+      <div className="relative mt-6 aspect-[16/9] overflow-hidden rounded-xl sm:mt-8">
         <Image src={note.hero_image_url} alt={note.title} fill priority className="object-cover" />
       </div>
 
-      <p className="mt-8 font-serif text-lg leading-relaxed text-foreground/90">{note.body}</p>
+      <p className="mt-6 font-serif text-base leading-relaxed text-foreground/90 sm:mt-8 sm:text-lg">{note.body}</p>
     </article>
   );
 }

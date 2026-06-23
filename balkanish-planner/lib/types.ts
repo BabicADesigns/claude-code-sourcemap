@@ -27,10 +27,39 @@ export interface Destination {
   best_season: string;
   local_score: number;
   crowd_score: number;
+  slow_living_score: number;
+  food_score: number;
+  story_score: number;
+  sunset_score: number;
   hero_image_url: string;
   gallery_image_urls: string[];
   is_featured: boolean;
 }
+
+export type ScoreKey =
+  | "local_score"
+  | "crowd_score"
+  | "slow_living_score"
+  | "food_score"
+  | "story_score"
+  | "sunset_score";
+
+export interface ScoreDefinition {
+  key: ScoreKey;
+  label: string;
+  hint: string;
+  /** Higher is better for most scores, except crowd (lower = quieter). */
+  invert?: boolean;
+}
+
+export const DESTINATION_SCORES: ScoreDefinition[] = [
+  { key: "local_score", label: "Local Score", hint: "How much of this place still belongs to the people who live there" },
+  { key: "crowd_score", label: "Crowd Score", hint: "Lower means quieter — this is the only score where less is more" , invert: true },
+  { key: "slow_living_score", label: "Slow Living Score", hint: "Room to do nothing and feel good about it" },
+  { key: "food_score", label: "Food Score", hint: "Is the best meal here an accident or a destination" },
+  { key: "story_score", label: "Story Score", hint: "Will you still be telling people about this in a year" },
+  { key: "sunset_score", label: "Sunset Score", hint: "Worth stopping what you're doing for" },
+];
 
 export interface FoodFind {
   id: string;

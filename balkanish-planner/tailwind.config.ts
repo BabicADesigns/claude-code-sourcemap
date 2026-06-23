@@ -12,10 +12,10 @@ const config: Config = {
     },
     extend: {
       colors: {
-        cream: "#F0E6D3",
+        cream: "#F5EEE6",
         "sage-dark": "#385048",
-        sage: "#8A9E89",
-        rose: "#C4A09A",
+        sage: "#8B9B7A",
+        rose: "#C4A096",
         charcoal: "#1C1917",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

@@ -15,7 +15,7 @@ export default function PlannerPage() {
         title="Your trip, planned the Balkanish way"
         description="Duration, season, budget, and style — tell us what matters, and we'll build a day-by-day plan with hidden gems, food, and culture worked in."
       />
-      <div className="container py-12">
+      <div className="container py-8 sm:py-12">
         <PlannerFlow />
       </div>
     </div>

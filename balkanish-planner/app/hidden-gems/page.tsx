@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/layout/page-header";
 import { GemsExplorer } from "@/components/hidden-gems/gems-explorer";
+import { LocalWisdom } from "@/components/brand/content-blocks";
 import { getDestinations } from "@/lib/data/destinations";
 
 export const metadata: Metadata = {
@@ -15,11 +16,14 @@ export default async function HiddenGemsPage() {
     <div>
       <PageHeader
         eyebrow="Hidden Gems"
-        title="Places most tourists miss"
-        description="Island secrets, quiet escapes, and local favorites — filtered by the kind of trip you're after."
+        title="The places that didn't make the brochure"
+        description="Quiet islands, towns with no tour buses, and the kind of place a local actually goes back to — filtered by the trip you're after."
       />
-      <div className="container py-12">
-        <GemsExplorer destinations={destinations} />
+      <div className="container py-8 sm:py-12">
+        <LocalWisdom>Locals don&rsquo;t rank these places. They just keep going back to the same three.</LocalWisdom>
+        <div className="mt-8 sm:mt-10">
+          <GemsExplorer destinations={destinations} />
+        </div>
       </div>
     </div>
   );

@@ -32,46 +32,46 @@ export function SwapFinder({ swaps }: { swaps: SecretSwap[] }) {
       </div>
 
       {selected && (
-        <div className="mt-10 grid gap-8 lg:grid-cols-2">
-          <div className="relative aspect-[4/3] overflow-hidden rounded-md">
+        <div className="mt-8 grid gap-6 sm:mt-10 sm:gap-8 lg:grid-cols-2">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
             <Image src={selected.famous_image_url} alt={selected.famous_name} fill className="object-cover" />
-            <p className="absolute left-4 top-4 rounded-full bg-charcoal/70 px-4 py-1 font-sans text-xs uppercase tracking-widest text-cream">
+            <p className="absolute left-3 top-3 rounded-full bg-charcoal/70 px-3 py-1 font-sans text-xs uppercase tracking-widest text-cream sm:left-4 sm:top-4 sm:px-4">
               The famous spot
             </p>
           </div>
-          <div className="relative aspect-[4/3] overflow-hidden rounded-md">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
             <Image
               src={selected.alternative.hero_image_url}
               alt={selected.alternative.name}
               fill
               className="object-cover"
             />
-            <p className="absolute left-4 top-4 rounded-full bg-accent px-4 py-1 font-sans text-xs uppercase tracking-widest text-accent-foreground">
+            <p className="absolute left-3 top-3 rounded-full bg-accent px-3 py-1 font-sans text-xs uppercase tracking-widest text-accent-foreground sm:left-4 sm:top-4 sm:px-4">
               Try this instead
             </p>
           </div>
 
           <div className="lg:col-span-2">
-            <h2 className="font-display text-3xl text-sage-dark">
+            <h2 className="font-display text-2xl text-sage-dark sm:text-3xl">
               Instead of {selected.famous_name}, try {selected.alternative.name}
             </h2>
             <p className="mt-3 max-w-2xl font-serif text-foreground/85">{selected.why_text}</p>
 
-            <div className="mt-6 overflow-hidden rounded-md border border-border">
-              <table className="w-full text-left font-sans text-sm">
+            <div className="mt-6 overflow-x-auto rounded-xl border border-border">
+              <table className="w-full min-w-[480px] text-left font-sans text-sm">
                 <thead className="bg-muted/50">
                   <tr>
-                    <th className="p-3 font-medium text-muted-foreground"> </th>
-                    <th className="p-3 font-medium text-foreground">{selected.famous_name}</th>
-                    <th className="p-3 font-medium text-foreground">{selected.alternative.name}</th>
+                    <th className="p-2.5 font-medium text-muted-foreground sm:p-3"> </th>
+                    <th className="p-2.5 font-medium text-foreground sm:p-3">{selected.famous_name}</th>
+                    <th className="p-2.5 font-medium text-foreground sm:p-3">{selected.alternative.name}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {selected.comparison_points.map((point) => (
                     <tr key={point.label} className="border-t border-border">
-                      <td className="p-3 font-medium text-muted-foreground">{point.label}</td>
-                      <td className="p-3">{point.famous}</td>
-                      <td className="p-3 text-sage-dark">{point.alternative}</td>
+                      <td className="p-2.5 font-medium text-muted-foreground sm:p-3">{point.label}</td>
+                      <td className="p-2.5 sm:p-3">{point.famous}</td>
+                      <td className="p-2.5 text-sage-dark sm:p-3">{point.alternative}</td>
                     </tr>
                   ))}
                 </tbody>

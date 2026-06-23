@@ -5,11 +5,11 @@ import { mainNav } from "@/lib/nav";
 export function SiteFooter() {
   return (
     <footer className="border-t border-border bg-sage-dark text-cream">
-      <div className="container py-14">
-        <div className="grid gap-10 md:grid-cols-3">
+      <div className="container py-10 sm:py-14">
+        <div className="grid gap-8 sm:gap-10 md:grid-cols-3">
           <div>
             <div className="flex items-center gap-3">
-              <LogoMark size={32} color="#F0E6D3" />
+              <LogoMark size={32} color="#F5EEE6" />
               <div>
                 <p className="font-display text-lg font-semibold">BabicADesigns</p>
                 <p className="font-script text-xs italic text-rose">The Balkanish AI Way</p>

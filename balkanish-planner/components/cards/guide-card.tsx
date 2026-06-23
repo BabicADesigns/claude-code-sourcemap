@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 export function GuideCard({ guide }: { guide: PremiumGuide }) {
   return (
-    <div className="flex flex-col overflow-hidden rounded-md border border-border bg-card">
+    <div className="flex flex-col overflow-hidden rounded-xl border border-border bg-card">
       <div className="relative aspect-[3/4] overflow-hidden">
         <Image
           src={guide.cover_image_url}
@@ -19,9 +19,9 @@ export function GuideCard({ guide }: { guide: PremiumGuide }) {
           {formatEUR(guide.price_eur)}
         </Badge>
       </div>
-      <div className="flex flex-1 flex-col gap-2 p-5">
-        <h3 className="font-display text-2xl leading-snug text-sage-dark">{guide.title}</h3>
-        <p className="line-clamp-4 flex-1 font-serif text-sm text-foreground/80">{guide.description}</p>
+      <div className="flex flex-1 flex-col gap-1.5 p-4 sm:gap-2 sm:p-5">
+        <h3 className="font-display text-xl leading-snug text-sage-dark sm:text-2xl">{guide.title}</h3>
+        <p className="line-clamp-3 flex-1 font-serif text-sm text-foreground/80 sm:line-clamp-4">{guide.description}</p>
         <Button disabled className="mt-3 w-full">
           Checkout coming soon
         </Button>
