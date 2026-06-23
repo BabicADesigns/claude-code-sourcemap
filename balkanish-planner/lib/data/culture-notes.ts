@@ -1,0 +1,68 @@
+import type { CultureNote } from "@/lib/types";
+import { createSupabaseServerClient, isSupabaseConfigured } from "@/lib/supabase/server";
+
+export const mockCultureNotes: CultureNote[] = [
+  {
+    id: "croatians-never-rush-coffee",
+    slug: "croatians-never-rush-coffee",
+    title: "Why Croatians Never Rush Coffee",
+    excerpt: "A coffee here is rarely about the coffee.",
+    body:
+      "Order a kava in any Croatian town and you'll notice the same thing tourists often miss: nobody is in a hurry. The coffee itself, usually a small, strong espresso, is almost beside the point — it's the ticket that buys you a table for an hour, two hours, sometimes the whole afternoon. Rushing it is read as a small social failure, not efficiency.",
+    hero_image_url: "https://picsum.photos/seed/coffee-culture/1200/800",
+    region: "Dalmatia",
+    is_featured: true,
+  },
+  {
+    id: "what-pomalo-means",
+    slug: "what-pomalo-means",
+    title: 'What "Pomalo" Really Means',
+    excerpt: 'Not "slowly." Closer to "in good time, and not a moment before."',
+    body:
+      '"Pomalo" gets translated as "slowly" or "take it easy," but that undersells it. It\'s closer to a worldview: things will get done, the fish will get caught, the guests will be fed — just not on anyone else\'s clock. Locals use it as advice, as an apology, and occasionally as a gentle warning.',
+    hero_image_url: "https://picsum.photos/seed/pomalo-life/1200/800",
+    region: null,
+    is_featured: true,
+  },
+  {
+    id: "the-art-of-one-more-coffee",
+    slug: "the-art-of-one-more-coffee",
+    title: "The Art of Staying for One More Coffee",
+    excerpt: "The best conversations in the Balkans happen on the second cup, never the first.",
+    body:
+      "Hospitality here has a rhythm: the first coffee is a greeting, the second is where the real talk starts, and refusing a third can feel like leaving a story unfinished. Visitors who treat coffee as a quick stop miss most of what it's actually for.",
+    hero_image_url: "https://picsum.photos/seed/second-coffee/1200/800",
+    region: null,
+    is_featured: false,
+  },
+  {
+    id: "rakija-as-diplomacy",
+    slug: "rakija-as-diplomacy",
+    title: "How Rakija Became Diplomacy",
+    excerpt: "A shot of homemade brandy has settled more disputes than most courtrooms.",
+    body:
+      "Rakija — homemade fruit brandy, usually plum or grape — shows up at weddings, funerals, business deals, and chance encounters with neighbours. Refusing a glass, even a small one, can read as refusing the relationship itself. Accepting one, even badly, usually opens a door.",
+    hero_image_url: "https://picsum.photos/seed/rakija-toast/1200/800",
+    region: null,
+    is_featured: true,
+  },
+];
+
+export async function getCultureNotes(): Promise<CultureNote[]> {
+  if (!isSupabaseConfigured()) return mockCultureNotes;
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("culture_notes")
+    .select("*")
+    .order("is_featured", { ascending: false });
+  if (error || !data) return mockCultureNotes;
+  return data as CultureNote[];
+}
+
+export async function getCultureNoteBySlug(slug: string): Promise<CultureNote | undefined> {
+  if (!isSupabaseConfigured()) return mockCultureNotes.find((c) => c.slug === slug);
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase.from("culture_notes").select("*").eq("slug", slug).maybeSingle();
+  if (error || !data) return mockCultureNotes.find((c) => c.slug === slug);
+  return data as CultureNote;
+}

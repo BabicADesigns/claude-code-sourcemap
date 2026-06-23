@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Balkanish Planner brand tokens — see /brand/BRAND_KIT.md */
+    --background: 39 49% 88%; /* #F0E6D3 warm cream */
+    --foreground: 24 10% 10%; /* #1C1917 deep charcoal */
+
+    --card: 39 49% 91%;
+    --card-foreground: 24 10% 10%;
+
+    --primary: 160 18% 27%; /* #385048 dark sage green */
+    --primary-foreground: 39 49% 95%;
+
+    --secondary: 117 10% 58%; /* #8A9E89 sage green */
+    --secondary-foreground: 24 10% 10%;
+
+    --accent: 9 26% 69%; /* #C4A09A dusty rose */
+    --accent-foreground: 24 10% 10%;
+
+    --muted: 39 30% 82%;
+    --muted-foreground: 24 8% 32%;
+
+    --destructive: 6 60% 45%;
+    --destructive-foreground: 39 49% 95%;
+
+    --border: 39 20% 78%;
+    --input: 39 20% 78%;
+    --ring: 160 18% 27%;
+
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-serif;
+    font-feature-settings: "liga" 1, "kern" 1;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display tracking-tight;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .lace-divider {
+    background-image: url('/patterns/cipka-divider.svg');
+    background-repeat: repeat-x;
+    background-position: center;
+    height: 1.25rem;
+  }
+}
