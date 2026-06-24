@@ -7,12 +7,14 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { updateProfile } from "@/lib/actions/profile";
 import { TRAVEL_STYLE_LABELS, type Profile, type TravelStyle } from "@/lib/types";
+import { LOCALES, LOCALE_LABELS, DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
 
 export function ProfileForm({ email, profile }: { email: string; profile: Profile | null }) {
   const [displayName, setDisplayName] = useState(profile?.display_name ?? "");
   const [country, setCountry] = useState(profile?.country ?? "");
   const [travelStyle, setTravelStyle] = useState<TravelStyle | "">(profile?.travel_style ?? "");
   const [favoriteRegion, setFavoriteRegion] = useState(profile?.favorite_region ?? "");
+  const [preferredLanguage, setPreferredLanguage] = useState<Locale>(profile?.preferred_language ?? DEFAULT_LOCALE);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
@@ -28,6 +30,7 @@ export function ProfileForm({ email, profile }: { email: string; profile: Profil
     formData.set("country", country);
     formData.set("travelStyle", travelStyle);
     formData.set("favoriteRegion", favoriteRegion);
+    formData.set("preferredLanguage", preferredLanguage);
 
     const result = await updateProfile(formData);
     setIsSubmitting(false);
@@ -86,6 +89,22 @@ export function ProfileForm({ email, profile }: { email: string; profile: Profil
             value={favoriteRegion}
             onChange={(e) => setFavoriteRegion(e.target.value)}
           />
+        </div>
+
+        <div>
+          <Label htmlFor="preferredLanguage">Preferred language</Label>
+          <Select value={preferredLanguage} onValueChange={(value) => setPreferredLanguage(value as Locale)}>
+            <SelectTrigger id="preferredLanguage" className="mt-2">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {LOCALES.map((code) => (
+                <SelectItem key={code} value={code}>
+                  {LOCALE_LABELS[code]}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </div>
 

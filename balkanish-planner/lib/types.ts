@@ -1,3 +1,5 @@
+import type { Locale } from "@/lib/i18n/config";
+
 export type DestinationCategory =
   | "island_secrets"
   | "quiet_escapes"
@@ -311,6 +313,7 @@ export interface Profile {
   country: string | null;
   travel_style: TravelStyle | null;
   favorite_region: string | null;
+  preferred_language: Locale;
   created_at: string;
   updated_at: string;
 }
@@ -339,6 +342,7 @@ export interface SavedPostcard {
 export interface SavedItinerary {
   id: string;
   user_id: string | null;
+  title: string | null;
   duration_days: number;
   month: string;
   budget: string;

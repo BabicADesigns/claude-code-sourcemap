@@ -53,6 +53,12 @@ export function SiteHeader({ user }: { user: { email: string } | null }) {
               >
                 {t("common", "actions.myBalkans")}
               </Link>
+              <Link
+                href="/my-trips"
+                className="font-sans text-sm text-foreground/80 transition-colors hover:text-primary"
+              >
+                {t("common", "actions.myTrips")}
+              </Link>
               <Link href="/account" className="font-sans text-sm text-foreground/80 transition-colors hover:text-primary">
                 {t("common", "actions.account")}
               </Link>
@@ -111,6 +117,15 @@ export function SiteHeader({ user }: { user: { email: string } | null }) {
                     className="block min-h-11 rounded-sm px-2 py-3 font-sans text-base text-foreground/85 hover:bg-muted"
                   >
                     {t("common", "actions.myBalkans")}
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/my-trips"
+                    onClick={() => setOpen(false)}
+                    className="block min-h-11 rounded-sm px-2 py-3 font-sans text-base text-foreground/85 hover:bg-muted"
+                  >
+                    {t("common", "actions.myTrips")}
                   </Link>
                 </li>
                 <li>

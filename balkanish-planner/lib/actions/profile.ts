@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import type { TravelStyle } from "@/lib/types";
+import { isLocale } from "@/lib/i18n/config";
 import { createSupabaseServerClient, getCurrentUser, isSupabaseConfigured } from "@/lib/supabase/server";
 
 export async function updateProfile(formData: FormData): Promise<{ error?: string }> {
@@ -14,6 +15,7 @@ export async function updateProfile(formData: FormData): Promise<{ error?: strin
   const country = String(formData.get("country") ?? "").trim();
   const travelStyle = String(formData.get("travelStyle") ?? "") as TravelStyle | "";
   const favoriteRegion = String(formData.get("favoriteRegion") ?? "").trim();
+  const preferredLanguage = String(formData.get("preferredLanguage") ?? "");
 
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase
@@ -23,6 +25,7 @@ export async function updateProfile(formData: FormData): Promise<{ error?: strin
       country: country || null,
       travel_style: travelStyle || null,
       favorite_region: favoriteRegion || null,
+      ...(isLocale(preferredLanguage) ? { preferred_language: preferredLanguage } : {}),
     })
     .eq("id", user.id);
 
