@@ -3,6 +3,7 @@ import Link from "next/link";
 import { MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import type { ImageCredit } from "@/lib/types";
 
 /** Recurring horizontal motif: a faint Adriatic wave line, used between sections instead of the lace divider when a lighter touch is wanted. */
 export function WaveDivider({ className }: { className?: string }) {
@@ -58,6 +59,7 @@ export function FeatureLead({
   eyebrow,
   title,
   description,
+  credit,
   className,
 }: {
   href: string;
@@ -66,6 +68,7 @@ export function FeatureLead({
   eyebrow?: string;
   title: string;
   description: string;
+  credit?: ImageCredit;
   className?: string;
 }) {
   return (
@@ -86,6 +89,7 @@ export function FeatureLead({
           )}
           <h3 className="mt-3 font-display text-2xl sm:text-4xl">{title}</h3>
           <p className="mt-2 max-w-md font-serif text-sm text-cream/90 sm:text-base">{description}</p>
+          {credit && <PhotoCredit credit={credit} className="mt-3 w-fit" />}
         </div>
       </EditorialImage>
     </Link>
@@ -240,6 +244,20 @@ export function LocationTag({ label, className }: { label: string; className?: s
     >
       <MapPin className="h-3 w-3" aria-hidden="true" />
       {label}
+    </span>
+  );
+}
+
+/** The quiet "Photo: name · source" attribution real travel magazines tuck into a hero's corner — pass the credit off an ImageAsset. */
+export function PhotoCredit({ credit, className }: { credit: ImageCredit; className?: string }) {
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center gap-1 rounded-full bg-charcoal/30 px-2.5 py-1 font-sans text-[10px] uppercase tracking-wide text-cream/80 backdrop-blur-sm",
+        className
+      )}
+    >
+      Photo: {credit.photographer} · {credit.source}
     </span>
   );
 }

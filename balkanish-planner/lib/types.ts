@@ -46,6 +46,25 @@ export const TRAVEL_TYPE_LABELS: Record<TravelType, string> = {
   weekend_escape: "Weekend Escape",
 };
 
+/** Where a photo came from and how it should be attributed — placeholder values until real photography is sourced. */
+export interface ImageCredit {
+  photographer: string;
+  source: string;
+  license?: string;
+}
+
+/**
+ * A single image plus the metadata an editorial travel product needs to actually show it responsibly:
+ * descriptive alt text, an optional caption, and who to credit. `alt`/`caption` are plain strings for now —
+ * see docs/image-direction-v2.md for how these become locale-keyed once translations ship.
+ */
+export interface ImageAsset {
+  url: string;
+  alt: string;
+  caption?: string;
+  credit: ImageCredit;
+}
+
 export interface Destination {
   id: string;
   slug: string;
@@ -66,6 +85,10 @@ export interface Destination {
   sunset_score: number;
   hero_image_url: string;
   gallery_image_urls: string[];
+  /** Structured counterpart to hero_image_url — credited, captioned, alt-texted. Used on the destination detail page hero; card/list views keep reading hero_image_url. */
+  hero_image: ImageAsset;
+  /** Structured gallery, replacing the previously-unused gallery_image_urls as the field destination pages actually render. */
+  gallery_images: ImageAsset[];
   is_featured: boolean;
   latitude: number;
   longitude: number;

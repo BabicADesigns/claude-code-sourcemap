@@ -21,6 +21,7 @@ import {
   LocationTag,
   MapDetailAccent,
   GuidebookReference,
+  PhotoCredit,
 } from "@/components/brand/editorial";
 import { BestSlowMoment, WorthWakingUpFor, SkipThisDoThis } from "@/components/brand/content-blocks";
 import { Button } from "@/components/ui/button";
@@ -68,7 +69,7 @@ export async function generateMetadata({
   return {
     title: destination.name,
     description: destination.summary,
-    openGraph: { images: [destination.hero_image_url] },
+    openGraph: { images: [destination.hero_image.url] },
   };
 }
 
@@ -105,8 +106,8 @@ export default async function DestinationDetailPage({
     <article>
       <TrackView event={ANALYTICS_EVENTS.DESTINATION_VIEW} props={{ slug: destination.slug }} />
       <EditorialImage
-        src={destination.hero_image_url}
-        alt={destination.name}
+        src={destination.hero_image.url}
+        alt={destination.hero_image.alt}
         priority
         vignette
         className="h-[38vh] min-h-[280px] w-full sm:h-[50vh] sm:min-h-[360px]"
@@ -122,6 +123,7 @@ export default async function DestinationDetailPage({
           <p className="font-sans text-sm uppercase tracking-widest text-cream/80">
             {destination.region}, {destination.country}
           </p>
+          <PhotoCredit credit={destination.hero_image.credit} className="mt-1" />
         </div>
       </EditorialImage>
 
@@ -157,6 +159,28 @@ export default async function DestinationDetailPage({
             </p>
             <ScoreGrid destination={destination} className="mt-4" />
           </section>
+
+          {destination.gallery_images.length > 0 && (
+            <section>
+              <h2 className="font-display text-2xl text-sage-dark">Gallery</h2>
+              <p className="mt-1 font-serif text-sm text-foreground/70">
+                More of {destination.name}, beyond the cover shot.
+              </p>
+              <div className="mt-4 grid gap-4 sm:grid-cols-2 sm:gap-5">
+                {destination.gallery_images.map((image, i) => (
+                  <EditorialImage
+                    key={i}
+                    src={image.url}
+                    alt={image.alt}
+                    sizes="(min-width: 1024px) 33vw, 50vw"
+                    className="aspect-[4/3] rounded-xl"
+                  >
+                    <PhotoCredit credit={image.credit} className="absolute bottom-3 left-3 z-20" />
+                  </EditorialImage>
+                ))}
+              </div>
+            </section>
+          )}
 
           {relatedCulture.length > 0 && (
             <section>

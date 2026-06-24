@@ -25,6 +25,24 @@ export const mockDestinations: Destination[] = [
     longitude: 16.181,
     hero_image_url: "https://picsum.photos/seed/vis-island/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/vis-island/1200/800",
+      alt: "Editorial placeholder image for Vis, Dalmatian Islands — to be replaced with real on-location photography.",
+      caption: "Vis, Dalmatian Islands",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/vis-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Vis — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/vis-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Vis — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: true,
   },
   {
@@ -51,6 +69,24 @@ export const mockDestinations: Destination[] = [
     longitude: 18.2188,
     hero_image_url: "https://picsum.photos/seed/cavtat-town/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/cavtat-town/1200/800",
+      alt: "Editorial placeholder image for Cavtat, Dubrovnik Riviera — to be replaced with real on-location photography.",
+      caption: "Cavtat, Dubrovnik Riviera",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/cavtat-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Cavtat — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/cavtat-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Cavtat — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: true,
   },
   {
@@ -77,6 +113,24 @@ export const mockDestinations: Destination[] = [
     longitude: 13.6387,
     hero_image_url: "https://picsum.photos/seed/rovinj-harbour/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/rovinj-harbour/1200/800",
+      alt: "Editorial placeholder image for Rovinj, Istria — to be replaced with real on-location photography.",
+      caption: "Rovinj, Istria",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/rovinj-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Rovinj — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/rovinj-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Rovinj — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: true,
   },
   {
@@ -102,6 +156,24 @@ export const mockDestinations: Destination[] = [
     longitude: 17.8078,
     hero_image_url: "https://picsum.photos/seed/mostar-bridge/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/mostar-bridge/1200/800",
+      alt: "Editorial placeholder image for Mostar, Herzegovina — to be replaced with real on-location photography.",
+      caption: "Mostar, Herzegovina",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/mostar-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Mostar — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/mostar-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Mostar — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   {
@@ -127,6 +199,24 @@ export const mockDestinations: Destination[] = [
     longitude: 16.8862,
     hero_image_url: "https://picsum.photos/seed/korcula-walls/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/korcula-walls/1200/800",
+      alt: "Editorial placeholder image for Korčula, Dalmatian Islands — to be replaced with real on-location photography.",
+      caption: "Korčula, Dalmatian Islands",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/korcula-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Korčula — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/korcula-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Korčula — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: true,
   },
   {
@@ -152,6 +242,24 @@ export const mockDestinations: Destination[] = [
     longitude: 15.582,
     hero_image_url: "https://picsum.photos/seed/plitvice-lakes/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/plitvice-lakes/1200/800",
+      alt: "Editorial placeholder image for Plitvice Lakes, Central Croatia — to be replaced with real on-location photography.",
+      caption: "Plitvice Lakes, Central Croatia",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/plitvice-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Plitvice Lakes — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/plitvice-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Plitvice Lakes — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   {
@@ -177,6 +285,24 @@ export const mockDestinations: Destination[] = [
     longitude: 16.9114,
     hero_image_url: "https://picsum.photos/seed/lastovo-island/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/lastovo-island/1200/800",
+      alt: "Editorial placeholder image for Lastovo, Dalmatian Islands — to be replaced with real on-location photography.",
+      caption: "Lastovo, Dalmatian Islands",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/lastovo-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Lastovo — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/lastovo-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Lastovo — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   {
@@ -202,6 +328,24 @@ export const mockDestinations: Destination[] = [
     longitude: 18.2667,
     hero_image_url: "https://picsum.photos/seed/konavle-valley/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/konavle-valley/1200/800",
+      alt: "Editorial placeholder image for Konavle Valley, Dubrovnik Riviera — to be replaced with real on-location photography.",
+      caption: "Konavle Valley, Dubrovnik Riviera",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/konavle-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Konavle Valley — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/konavle-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Konavle Valley — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   {
@@ -227,6 +371,24 @@ export const mockDestinations: Destination[] = [
     longitude: 17.37,
     hero_image_url: "https://picsum.photos/seed/peljesac-vineyards/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/peljesac-vineyards/1200/800",
+      alt: "Editorial placeholder image for Pelješac Peninsula, Dalmatian Coast — to be replaced with real on-location photography.",
+      caption: "Pelješac Peninsula, Dalmatian Coast",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/peljesac-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Pelješac Peninsula — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/peljesac-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Pelješac Peninsula — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   {
@@ -252,6 +414,24 @@ export const mockDestinations: Destination[] = [
     longitude: 18.6967,
     hero_image_url: "https://picsum.photos/seed/perast-bay/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/perast-bay/1200/800",
+      alt: "Editorial placeholder image for Perast, Bay of Kotor — to be replaced with real on-location photography.",
+      caption: "Perast, Bay of Kotor",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/perast-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Perast — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/perast-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Perast — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   // --- Istria (Croatia) ---
@@ -278,6 +458,24 @@ export const mockDestinations: Destination[] = [
     longitude: 13.8328,
     hero_image_url: "https://picsum.photos/seed/motovun-hilltop/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/motovun-hilltop/1200/800",
+      alt: "Editorial placeholder image for Motovun, Istria — to be replaced with real on-location photography.",
+      caption: "Motovun, Istria",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/motovun-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Motovun — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/motovun-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Motovun — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   {
@@ -303,6 +501,24 @@ export const mockDestinations: Destination[] = [
     longitude: 13.7167,
     hero_image_url: "https://picsum.photos/seed/groznjan-village/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/groznjan-village/1200/800",
+      alt: "Editorial placeholder image for Grožnjan, Istria — to be replaced with real on-location photography.",
+      caption: "Grožnjan, Istria",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/groznjan-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Grožnjan — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/groznjan-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Grožnjan — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   {
@@ -328,6 +544,24 @@ export const mockDestinations: Destination[] = [
     longitude: 13.8496,
     hero_image_url: "https://picsum.photos/seed/pula-arena/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/pula-arena/1200/800",
+      alt: "Editorial placeholder image for Pula, Istria — to be replaced with real on-location photography.",
+      caption: "Pula, Istria",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/pula-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Pula — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/pula-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Pula — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   // --- Kvarner (Croatia) ---
@@ -354,6 +588,24 @@ export const mockDestinations: Destination[] = [
     longitude: 14.4084,
     hero_image_url: "https://picsum.photos/seed/cres-island/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/cres-island/1200/800",
+      alt: "Editorial placeholder image for Cres, Kvarner — to be replaced with real on-location photography.",
+      caption: "Cres, Kvarner",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/cres-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Cres — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/cres-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Cres — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   {
@@ -379,6 +631,24 @@ export const mockDestinations: Destination[] = [
     longitude: 14.4683,
     hero_image_url: "https://picsum.photos/seed/losinj-coast/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/losinj-coast/1200/800",
+      alt: "Editorial placeholder image for Lošinj, Kvarner — to be replaced with real on-location photography.",
+      caption: "Lošinj, Kvarner",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/losinj-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Lošinj — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/losinj-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Lošinj — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   {
@@ -404,6 +674,24 @@ export const mockDestinations: Destination[] = [
     longitude: 14.5775,
     hero_image_url: "https://picsum.photos/seed/krk-beach/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/krk-beach/1200/800",
+      alt: "Editorial placeholder image for Krk, Kvarner — to be replaced with real on-location photography.",
+      caption: "Krk, Kvarner",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/krk-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Krk — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/krk-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Krk — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   {
@@ -429,6 +717,24 @@ export const mockDestinations: Destination[] = [
     longitude: 14.3055,
     hero_image_url: "https://picsum.photos/seed/opatija-promenade/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/opatija-promenade/1200/800",
+      alt: "Editorial placeholder image for Opatija, Kvarner — to be replaced with real on-location photography.",
+      caption: "Opatija, Kvarner",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/opatija-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Opatija — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/opatija-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Opatija — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   // --- Lika (Croatia) ---
@@ -455,6 +761,24 @@ export const mockDestinations: Destination[] = [
     longitude: 15.5614,
     hero_image_url: "https://picsum.photos/seed/rastoke-watermills/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/rastoke-watermills/1200/800",
+      alt: "Editorial placeholder image for Rastoke, Lika — to be replaced with real on-location photography.",
+      caption: "Rastoke, Lika",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/rastoke-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Rastoke — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/rastoke-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Rastoke — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   // --- Zagorje (Croatia) ---
@@ -481,6 +805,24 @@ export const mockDestinations: Destination[] = [
     longitude: 16.1972,
     hero_image_url: "https://picsum.photos/seed/trakoscan-castle/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/trakoscan-castle/1200/800",
+      alt: "Editorial placeholder image for Trakošćan, Zagorje — to be replaced with real on-location photography.",
+      caption: "Trakošćan, Zagorje",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/trakoscan-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Trakošćan — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/trakoscan-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Trakošćan — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   {
@@ -506,6 +848,24 @@ export const mockDestinations: Destination[] = [
     longitude: 16.3366,
     hero_image_url: "https://picsum.photos/seed/varazdin-baroque/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/varazdin-baroque/1200/800",
+      alt: "Editorial placeholder image for Varaždin, Zagorje — to be replaced with real on-location photography.",
+      caption: "Varaždin, Zagorje",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/varazdin-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Varaždin — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/varazdin-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Varaždin — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   // --- Slavonia (Croatia) ---
@@ -532,6 +892,24 @@ export const mockDestinations: Destination[] = [
     longitude: 18.6955,
     hero_image_url: "https://picsum.photos/seed/osijek-fortress/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/osijek-fortress/1200/800",
+      alt: "Editorial placeholder image for Osijek, Slavonia — to be replaced with real on-location photography.",
+      caption: "Osijek, Slavonia",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/osijek-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Osijek — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/osijek-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Osijek — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   {
@@ -557,6 +935,24 @@ export const mockDestinations: Destination[] = [
     longitude: 18.8167,
     hero_image_url: "https://picsum.photos/seed/kopacki-rit-wetlands/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/kopacki-rit-wetlands/1200/800",
+      alt: "Editorial placeholder image for Kopački Rit, Slavonia — to be replaced with real on-location photography.",
+      caption: "Kopački Rit, Slavonia",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/kopacki-rit-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Kopački Rit — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/kopacki-rit-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Kopački Rit — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   // --- Dalmatia (Croatia) ---
@@ -583,6 +979,24 @@ export const mockDestinations: Destination[] = [
     longitude: 16.2517,
     hero_image_url: "https://picsum.photos/seed/trogir-islet/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/trogir-islet/1200/800",
+      alt: "Editorial placeholder image for Trogir, Central Dalmatia — to be replaced with real on-location photography.",
+      caption: "Trogir, Central Dalmatia",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/trogir-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Trogir — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/trogir-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Trogir — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   {
@@ -608,6 +1022,24 @@ export const mockDestinations: Destination[] = [
     longitude: 15.8952,
     hero_image_url: "https://picsum.photos/seed/sibenik-cathedral/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/sibenik-cathedral/1200/800",
+      alt: "Editorial placeholder image for Šibenik, Central Dalmatia — to be replaced with real on-location photography.",
+      caption: "Šibenik, Central Dalmatia",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/sibenik-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Šibenik — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/sibenik-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Šibenik — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   // --- Bosnia and Herzegovina ---
@@ -634,6 +1066,24 @@ export const mockDestinations: Destination[] = [
     longitude: 17.8975,
     hero_image_url: "https://picsum.photos/seed/blagaj-tekija/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/blagaj-tekija/1200/800",
+      alt: "Editorial placeholder image for Blagaj, Herzegovina — to be replaced with real on-location photography.",
+      caption: "Blagaj, Herzegovina",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/blagaj-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Blagaj — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/blagaj-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Blagaj — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   {
@@ -659,6 +1109,24 @@ export const mockDestinations: Destination[] = [
     longitude: 17.2706,
     hero_image_url: "https://picsum.photos/seed/jajce-waterfall/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/jajce-waterfall/1200/800",
+      alt: "Editorial placeholder image for Jajce, Central Bosnia — to be replaced with real on-location photography.",
+      caption: "Jajce, Central Bosnia",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/jajce-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Jajce — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/jajce-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Jajce — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   {
@@ -684,6 +1152,24 @@ export const mockDestinations: Destination[] = [
     longitude: 18.3439,
     hero_image_url: "https://picsum.photos/seed/trebinje-square/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/trebinje-square/1200/800",
+      alt: "Editorial placeholder image for Trebinje, Herzegovina — to be replaced with real on-location photography.",
+      caption: "Trebinje, Herzegovina",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/trebinje-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Trebinje — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/trebinje-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Trebinje — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   // --- Montenegro ---
@@ -710,6 +1196,24 @@ export const mockDestinations: Destination[] = [
     longitude: 18.7712,
     hero_image_url: "https://picsum.photos/seed/kotor-walls/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/kotor-walls/1200/800",
+      alt: "Editorial placeholder image for Kotor, Bay of Kotor — to be replaced with real on-location photography.",
+      caption: "Kotor, Bay of Kotor",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/kotor-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Kotor — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/kotor-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Kotor — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   {
@@ -735,6 +1239,24 @@ export const mockDestinations: Destination[] = [
     longitude: 18.5375,
     hero_image_url: "https://picsum.photos/seed/herceg-novi-stairs/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/herceg-novi-stairs/1200/800",
+      alt: "Editorial placeholder image for Herceg Novi, Bay of Kotor — to be replaced with real on-location photography.",
+      caption: "Herceg Novi, Bay of Kotor",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/herceg-novi-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Herceg Novi — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/herceg-novi-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Herceg Novi — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   {
@@ -760,6 +1282,24 @@ export const mockDestinations: Destination[] = [
     longitude: 19.0667,
     hero_image_url: "https://picsum.photos/seed/durmitor-canyon/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/durmitor-canyon/1200/800",
+      alt: "Editorial placeholder image for Durmitor, Northern Montenegro — to be replaced with real on-location photography.",
+      caption: "Durmitor, Northern Montenegro",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/durmitor-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Durmitor — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/durmitor-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Durmitor — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   // --- Serbia ---
@@ -786,6 +1326,24 @@ export const mockDestinations: Destination[] = [
     longitude: 19.8335,
     hero_image_url: "https://picsum.photos/seed/novi-sad-fortress/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/novi-sad-fortress/1200/800",
+      alt: "Editorial placeholder image for Novi Sad, Vojvodina — to be replaced with real on-location photography.",
+      caption: "Novi Sad, Vojvodina",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/novi-sad-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Novi Sad — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/novi-sad-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Novi Sad — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   {
@@ -811,6 +1369,24 @@ export const mockDestinations: Destination[] = [
     longitude: 19.4961,
     hero_image_url: "https://picsum.photos/seed/tara-canyon/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/tara-canyon/1200/800",
+      alt: "Editorial placeholder image for Tara National Park, Western Serbia — to be replaced with real on-location photography.",
+      caption: "Tara National Park, Western Serbia",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/tara-national-park-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Tara National Park — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/tara-national-park-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Tara National Park — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   {
@@ -836,6 +1412,24 @@ export const mockDestinations: Destination[] = [
     longitude: 19.665,
     hero_image_url: "https://picsum.photos/seed/subotica-artnouveau/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/subotica-artnouveau/1200/800",
+      alt: "Editorial placeholder image for Subotica, Vojvodina — to be replaced with real on-location photography.",
+      caption: "Subotica, Vojvodina",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/subotica-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Subotica — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/subotica-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Subotica — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   // --- Slovenia ---
@@ -862,6 +1456,24 @@ export const mockDestinations: Destination[] = [
     longitude: 13.5683,
     hero_image_url: "https://picsum.photos/seed/piran-harbour/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/piran-harbour/1200/800",
+      alt: "Editorial placeholder image for Piran, Slovenian Istria — to be replaced with real on-location photography.",
+      caption: "Piran, Slovenian Istria",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/piran-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Piran — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/piran-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Piran — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
   {
@@ -887,6 +1499,24 @@ export const mockDestinations: Destination[] = [
     longitude: 13.6406,
     hero_image_url: "https://picsum.photos/seed/soca-valley-river/1200/800",
     gallery_image_urls: [],
+    hero_image: {
+      url: "https://picsum.photos/seed/soca-valley-river/1200/800",
+      alt: "Editorial placeholder image for Soča Valley, Julian Alps — to be replaced with real on-location photography.",
+      caption: "Soča Valley, Julian Alps",
+      credit: { photographer: "Unassigned", source: "Picsum" },
+    },
+    gallery_images: [
+      {
+        url: "https://picsum.photos/seed/soca-valley-gallery-1/1200/900",
+        alt: "Editorial placeholder gallery image for Soča Valley — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+      {
+        url: "https://picsum.photos/seed/soca-valley-gallery-2/1200/900",
+        alt: "Editorial placeholder gallery image for Soča Valley — to be replaced with real on-location photography.",
+        credit: { photographer: "Unassigned", source: "Picsum" },
+      },
+    ],
     is_featured: false,
   },
 ];

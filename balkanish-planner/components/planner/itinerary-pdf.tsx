@@ -4,6 +4,19 @@ import { TRAVEL_STYLE_LABELS, ITINERARY_FOCUS_LABELS } from "@/lib/types";
 import { ItineraryMapPdf } from "@/components/planner/itinerary-map-pdf";
 import { buildMapModel } from "@/lib/maps/itinerary-map-model";
 
+/**
+ * Future photography architecture (not yet wired — see docs/image-direction-v2.md §6):
+ * once real on-location photography exists, this document would gain an `Image` import
+ * from "@react-pdf/renderer" and render destination/food photos in four places — cover,
+ * the destination-facing sections (Daily Itinerary, Day Trips), Map Overview, and Food
+ * Recommendations — each marked with a comment at the relevant spot below. Left unwired
+ * for now because `@react-pdf/renderer`'s `Image` resolves its `src` over the network at
+ * render time; doing that with the current picsum.photos placeholders would make every
+ * PDF export depend on a third-party image host, which is a reliability change beyond
+ * "architecture only." Reserved style slots are defined alongside the rest of `styles`
+ * below so the layout math (dimensions, spacing) is already decided.
+ */
+
 const COLOR = {
   sageDark: "#385048",
   sage: "#8B9B7A",
@@ -92,6 +105,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   footerText: { fontSize: 8, color: COLOR.muted },
+
+  // --- Reserved photography slots (unused today — see the file-level comment above) ---
+  /** Would sit as a full-bleed background layer behind the cover's text block, e.g. the trip's first stop's hero_image. */
+  coverImageSlot: { position: "absolute", top: 0, left: 0, right: 0, bottom: 0 },
+  /** A small destination thumbnail next to a Daily Itinerary day's title or a Day Trip card's title. */
+  destinationThumb: { width: 64, height: 64, borderRadius: 4, marginBottom: 6 },
+  /** A small circular destination photo beside a Map Overview legend row, in place of the numbered marker text. */
+  mapStopThumb: { width: 16, height: 16, borderRadius: 8 },
+  /** A small square photo beside a Food Recommendations list item, once restaurant picks carry an ImageAsset. */
+  foodItemThumb: { width: 40, height: 40, borderRadius: 4, marginRight: 8 },
 });
 
 function PageFooter() {
@@ -110,6 +133,11 @@ export function ItineraryPdfDocument({ itinerary, input }: { itinerary: Generate
     <Document title={itinerary.trip_title}>
       {/* Cover Page */}
       <Page size="A4" style={styles.coverPage}>
+        {/*
+          Future photography slot: an `<Image style={styles.coverImageSlot} src={...} />`
+          would render here, behind the text blocks below, using the first stop's
+          hero_image (mapModel.stops[0].slug → getDestinationBySlug → hero_image.url).
+        */}
         <View>
           <Text style={styles.coverEyebrow}>A Balkanish Itinerary · {ITINERARY_FOCUS_LABELS[itinerary.focus]}</Text>
           <Text style={styles.coverTitle}>{itinerary.trip_title}</Text>
@@ -182,6 +210,11 @@ export function ItineraryPdfDocument({ itinerary, input }: { itinerary: Generate
         <Text style={styles.sectionTitle}>Day by day</Text>
         {itinerary.days.map((day) => (
           <View key={day.day} style={styles.dayBlock} wrap={false}>
+            {/*
+              Future photography slot: a `<Image style={styles.destinationThumb} src={...} />`
+              would render here, sourced by matching this day number against
+              itinerary.map_points (slug → getDestinationBySlug → hero_image.url).
+            */}
             <Text style={styles.dayEyebrow}>Day {day.day}</Text>
             <Text style={styles.dayTitle}>{day.title}</Text>
             <Text style={styles.text}>{day.summary}</Text>
@@ -209,6 +242,11 @@ export function ItineraryPdfDocument({ itinerary, input }: { itinerary: Generate
 
         {mapModel.stops.map((stop) => (
           <View key={stop.slug} style={styles.mapLegendItem}>
+            {/*
+              Future photography slot: swap this numbered marker for an
+              `<Image style={styles.mapStopThumb} src={...} />` using
+              getDestinationBySlug(stop.slug)?.hero_image.url once available.
+            */}
             <View style={styles.mapLegendMarkerWrap}>
               <Text style={styles.mapLegendMarkerText}>{stop.order}</Text>
             </View>
@@ -239,6 +277,11 @@ export function ItineraryPdfDocument({ itinerary, input }: { itinerary: Generate
           <Text style={styles.sectionTitle}>Worth the detour</Text>
           {itinerary.day_trips.map((trip) => (
             <View key={`${trip.destination_slug}-${trip.day}`} style={styles.dayTripCard} wrap={false}>
+              {/*
+                Future photography slot: an `<Image style={styles.destinationThumb} src={...} />`
+                would render here — trip.destination_slug already gives a direct
+                getDestinationBySlug lookup, the most direct of the four image hooks.
+              */}
               <Text style={styles.dayTripEyebrow}>
                 Day {trip.day} · From {trip.origin}
               </Text>
@@ -256,6 +299,13 @@ export function ItineraryPdfDocument({ itinerary, input }: { itinerary: Generate
       <Page size="A4" style={styles.page}>
         <Text style={styles.sectionEyebrow}>Food Recommendations</Text>
         <Text style={styles.sectionTitle}>Eat like a local</Text>
+        {/*
+          Future photography slot: each restaurant_picks string is free text today
+          (no FoodFind slug carried through). Once grounding passes through a slug,
+          each row below would gain a leading `<Image style={styles.foodItemThumb} src={...} />`
+          sourced from a FoodFind hero image — see docs/image-direction-v2.md §2 for the
+          note on extending the ImageAsset pattern beyond Destination to FoodFind.
+        */}
         {itinerary.restaurant_picks.map((item, i) => (
           <Text key={i} style={styles.listItem}>
             • {item}

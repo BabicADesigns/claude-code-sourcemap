@@ -12,6 +12,7 @@ import {
   TravelStamp,
   LocationTag,
   GuidebookReference,
+  PhotoCredit,
 } from "@/components/brand/editorial";
 import { NewsletterSignup } from "@/components/newsletter/newsletter-signup";
 import { DESTINATION_CATEGORY_LABELS } from "@/lib/types";
@@ -83,11 +84,12 @@ export default async function HomePage() {
           {leadGem && (
             <FeatureLead
               href={`/hidden-gems/${leadGem.slug}`}
-              src={leadGem.hero_image_url}
-              alt={leadGem.name}
+              src={leadGem.hero_image.url}
+              alt={leadGem.hero_image.alt}
               eyebrow={DESTINATION_CATEGORY_LABELS[leadGem.category]}
               title={leadGem.name}
               description={leadGem.summary}
+              credit={leadGem.hero_image.credit}
               className="lg:col-span-2"
             />
           )}
@@ -166,12 +168,15 @@ export default async function HomePage() {
             <div className="relative mx-auto w-full max-w-xs rotate-2 rounded-sm border-[6px] border-cream bg-cream shadow-[0_16px_40px_-12px_rgba(28,25,23,0.4)] transition-transform duration-300 hover:rotate-0">
               <TravelStamp className="absolute -right-3 -top-3 z-30" />
               <EditorialImage
-                src={postcardPick.hero_image_url}
-                alt={postcardPick.name}
+                src={postcardPick.hero_image.url}
+                alt={postcardPick.hero_image.alt}
                 vignette
                 className="aspect-[4/5] rounded-[2px]"
               >
-                <LocationTag label={postcardPick.name} className="absolute bottom-3 left-3 z-20" />
+                <div className="absolute bottom-3 left-3 z-20 flex flex-col items-start gap-1.5">
+                  <LocationTag label={postcardPick.name} />
+                  <PhotoCredit credit={postcardPick.hero_image.credit} />
+                </div>
               </EditorialImage>
             </div>
           </div>
@@ -200,11 +205,13 @@ export default async function HomePage() {
               </Button>
             </div>
             <EditorialImage
-              src={featuredSwap.alternative.hero_image_url}
-              alt={featuredSwap.alternative.name}
+              src={featuredSwap.alternative.hero_image.url}
+              alt={featuredSwap.alternative.hero_image.alt}
               vignette
               className="aspect-[4/3] rounded-xl"
-            />
+            >
+              <PhotoCredit credit={featuredSwap.alternative.hero_image.credit} className="absolute bottom-3 left-3 z-20" />
+            </EditorialImage>
           </div>
         </SectionShell>
       )}
