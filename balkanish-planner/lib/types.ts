@@ -14,13 +14,46 @@ export type TravelStyle =
   | "romantic_getaway"
   | "family_friendly";
 
+export type Country = "Croatia" | "Bosnia and Herzegovina" | "Montenegro" | "Serbia" | "Slovenia";
+
+/** The kind of trip a destination suits — distinct from DestinationCategory, which drives the Hidden Gems filter UI. A destination can belong to several. */
+export type TravelType =
+  | "island_escape"
+  | "mountain_escape"
+  | "national_park"
+  | "historic_town"
+  | "food_destination"
+  | "wine_region"
+  | "romantic"
+  | "family_friendly"
+  | "road_trip_stop"
+  | "cultural_experience"
+  | "slow_living"
+  | "weekend_escape";
+
+export const TRAVEL_TYPE_LABELS: Record<TravelType, string> = {
+  island_escape: "Island Escape",
+  mountain_escape: "Mountain Escape",
+  national_park: "National Park",
+  historic_town: "Historic Town",
+  food_destination: "Food Destination",
+  wine_region: "Wine Region",
+  romantic: "Romantic",
+  family_friendly: "Family Friendly",
+  road_trip_stop: "Road Trip Stop",
+  cultural_experience: "Cultural Experience",
+  slow_living: "Slow Living",
+  weekend_escape: "Weekend Escape",
+};
+
 export interface Destination {
   id: string;
   slug: string;
   name: string;
   region: string;
-  country: string;
+  country: Country;
   category: DestinationCategory;
+  travel_types: TravelType[];
   summary: string;
   description: string;
   why_we_love_it: string;
@@ -35,6 +68,44 @@ export interface Destination {
   gallery_image_urls: string[];
   is_featured: boolean;
 }
+
+export interface DayTrip {
+  id: string;
+  slug: string;
+  origin: string;
+  /** Slug of the matching entry in mockDestinations, when one exists. */
+  destination_slug: string | null;
+  destination_name: string;
+  drive_time: string;
+  why_go: string;
+  highlights: string[];
+  best_season: string;
+  local_tip: string;
+}
+
+/** The shape of trip a planner request is built around — used to map requests onto matching travel types ahead of real itinerary generation. */
+export type ItineraryFocus =
+  | "coast"
+  | "food"
+  | "wine"
+  | "culture"
+  | "national_park"
+  | "mixed"
+  | "family"
+  | "romantic"
+  | "road_trip";
+
+export const ITINERARY_FOCUS_LABELS: Record<ItineraryFocus, string> = {
+  coast: "Coast",
+  food: "Food",
+  wine: "Wine",
+  culture: "Culture",
+  national_park: "National Park",
+  mixed: "Mixed",
+  family: "Family",
+  romantic: "Romantic",
+  road_trip: "Road Trip",
+};
 
 export type ScoreKey =
   | "local_score"
