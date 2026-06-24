@@ -3,7 +3,21 @@ import Link from "next/link";
 import { MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-import type { ImageCredit } from "@/lib/types";
+import { ASPECT_RATIO_CLASSES, type ImageAsset, type ImageCredit } from "@/lib/types";
+import { resolveCaption } from "@/lib/media/caption";
+import type { Locale } from "@/lib/i18n/config";
+
+/**
+ * Shared hero-height tiers (docs/image-direction-v2.md §4 audit flagged Hidden Gems and Food
+ * Finds detail heroes as hand-tuned to two different, undocumented values). Pages pick a tier
+ * instead of hand-tuning their own — `full` for a homepage/landing hero, `detail` for a
+ * destination/food-find/culture-note detail page. Culture Notes deliberately uses neither — its
+ * in-flow essay treatment with no full-bleed hero is intentional, not an oversight.
+ */
+export const HERO_HEIGHT = {
+  full: "h-[62vh] min-h-[460px] sm:h-[72vh]",
+  detail: "h-[38vh] min-h-[280px] sm:h-[50vh] sm:min-h-[360px]",
+} as const;
 
 /** Recurring horizontal motif: a faint Adriatic wave line, used between sections instead of the lace divider when a lighter touch is wanted. */
 export function WaveDivider({ className }: { className?: string }) {
@@ -248,10 +262,11 @@ export function LocationTag({ label, className }: { label: string; className?: s
   );
 }
 
-/** The quiet "Photo: name · source" attribution real travel magazines tuck into a hero's corner — pass the credit off an ImageAsset. */
+/** The quiet "Photo: name · source" attribution real travel magazines tuck into a hero's corner — pass the credit off an ImageAsset. `copyright`, when set, surfaces as a hover title rather than cluttering the badge itself. */
 export function PhotoCredit({ credit, className }: { credit: ImageCredit; className?: string }) {
   return (
     <span
+      title={credit.copyright}
       className={cn(
         "inline-flex items-center gap-1 rounded-full bg-charcoal/30 px-2.5 py-1 font-sans text-[10px] uppercase tracking-wide text-cream/80 backdrop-blur-sm",
         className
@@ -259,6 +274,59 @@ export function PhotoCredit({ credit, className }: { credit: ImageCredit; classN
     >
       Photo: {credit.photographer} · {credit.source}
     </span>
+  );
+}
+
+/**
+ * Gallery layout for a mixed set of landscape/portrait/square images — CSS multi-column masonry
+ * instead of a fixed grid with a hardcoded aspect ratio, so a portrait or square image doesn't get
+ * force-cropped or leave an empty gap next to a landscape neighbour (requirement: no hardcoded
+ * aspect-ratio assumptions). `locale` resolves any multilingual captions to plain text up front,
+ * keeping this component itself a plain presentational client of lib/media/caption.
+ */
+export function MasonryGallery({
+  images,
+  locale,
+  className,
+}: {
+  images: ImageAsset[];
+  locale: Locale;
+  className?: string;
+}) {
+  if (images.length === 0) return null;
+  return (
+    <div className={cn("columns-1 gap-4 sm:columns-2", className)}>
+      {images.map((image, i) => {
+        const caption = resolveCaption(image.caption, locale);
+        return (
+          <figure key={i} className="mb-4 break-inside-avoid">
+            <div
+              className={cn(
+                "relative overflow-hidden rounded-xl",
+                ASPECT_RATIO_CLASSES[image.aspect_ratio ?? "landscape"]
+              )}
+            >
+              <Image
+                src={image.url}
+                alt={image.alt}
+                fill
+                sizes="(min-width: 768px) 50vw, 100vw"
+                className="object-cover"
+              />
+              {image.location && (
+                <LocationTag label={image.location} className="absolute left-3 top-3 z-10" />
+              )}
+              <PhotoCredit credit={image.credit} className="absolute bottom-3 right-3 z-10" />
+            </div>
+            {caption && (
+              <figcaption className="px-1 pt-2 font-serif text-sm italic text-foreground/70">
+                {caption}
+              </figcaption>
+            )}
+          </figure>
+        );
+      })}
+    </div>
   );
 }
 

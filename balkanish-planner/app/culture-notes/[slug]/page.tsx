@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getCultureNoteBySlug, getCultureNotes } from "@/lib/data/culture-notes";
-import { EditorialImage, PullQuote, WaveDivider, HandwrittenNote } from "@/components/brand/editorial";
+import { EditorialImage, PullQuote, WaveDivider, HandwrittenNote, PhotoCredit } from "@/components/brand/editorial";
 import { SaveButton } from "@/components/save/save-button";
 import { TrackView } from "@/components/analytics/track-view";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getSavedEntityIds } from "@/lib/data/favorites";
+import { getServerLocale } from "@/lib/i18n/server";
+import { resolveCaption } from "@/lib/media/caption";
 
 export async function generateStaticParams() {
   const notes = await getCultureNotes();
@@ -21,7 +23,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const note = await getCultureNoteBySlug(slug);
   if (!note) return {};
-  return { title: note.title, description: note.excerpt, openGraph: { images: [note.hero_image_url] } };
+  return { title: note.title, description: note.excerpt, openGraph: { images: [note.hero_image.url] } };
 }
 
 export default async function CultureNoteDetailPage({
@@ -33,8 +35,9 @@ export default async function CultureNoteDetailPage({
   const note = await getCultureNoteBySlug(slug);
   if (!note) notFound();
 
-  const user = await getCurrentUser();
+  const [user, locale] = await Promise.all([getCurrentUser(), getServerLocale()]);
   const isSaved = user ? (await getSavedEntityIds(user.id, "culture_note")).has(note.id) : false;
+  const heroCaption = resolveCaption(note.hero_image.caption, locale);
 
   const wordCount = note.body.split(/\s+/).filter(Boolean).length;
   const readMinutes = Math.max(1, Math.round(wordCount / 200));
@@ -59,12 +62,17 @@ export default async function CultureNoteDetailPage({
       <h1 className="mt-3 font-display text-3xl leading-[1.1] text-sage-dark sm:text-5xl">{note.title}</h1>
 
       <EditorialImage
-        src={note.hero_image_url}
-        alt={note.title}
+        src={note.hero_image.url}
+        alt={note.hero_image.alt}
         priority
         vignette
         className="mt-6 aspect-[16/9] rounded-xl sm:mt-8"
-      />
+      >
+        <PhotoCredit credit={note.hero_image.credit} className="absolute bottom-3 right-3 z-10" />
+      </EditorialImage>
+      {heroCaption && (
+        <p className="mt-2 font-serif text-sm italic text-foreground/70">{heroCaption}</p>
+      )}
 
       <PullQuote centered className="mt-8 sm:mt-10">
         {note.excerpt}

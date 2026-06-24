@@ -9,7 +9,7 @@ import { getDictionary, translate } from "@/lib/i18n/dictionaries";
 type Translate = (key: string, vars?: Record<string, string | number>) => string;
 
 /**
- * Future photography architecture (not yet wired — see docs/image-direction-v2.md §6):
+ * Future photography architecture (not yet wired — see docs/media-library-architecture.md §6):
  * once real on-location photography exists, this document would gain an `Image` import
  * from "@react-pdf/renderer" and render destination/food photos in four places — cover,
  * the destination-facing sections (Daily Itinerary, Day Trips), Map Overview, and Food
@@ -18,7 +18,10 @@ type Translate = (key: string, vars?: Record<string, string | number>) => string
  * render time; doing that with the current picsum.photos placeholders would make every
  * PDF export depend on a third-party image host, which is a reliability change beyond
  * "architecture only." Reserved style slots are defined alongside the rest of `styles`
- * below so the layout math (dimensions, spacing) is already decided.
+ * below so the layout math (dimensions, spacing) is already decided. As of Phase 12 every
+ * `ImageAsset` (Destination, FoodFind, CultureNote) carries title/location/credit/caption
+ * metadata too, so once wired, each slot below could also surface a credit line, not just
+ * the bare image.
  */
 
 const COLOR = {
@@ -390,11 +393,13 @@ export function ItineraryPdfDocument({
         <Text style={styles.sectionEyebrow}>{t("sections.foodRecommendations.eyebrow")}</Text>
         <Text style={styles.sectionTitle}>{t("sections.foodRecommendations.title")}</Text>
         {/*
-          Future photography slot: each restaurant_picks string is free text today
-          (no FoodFind slug carried through). Once grounding passes through a slug,
-          each row below would gain a leading `<Image style={styles.foodItemThumb} src={...} />`
-          sourced from a FoodFind hero image — see docs/image-direction-v2.md §2 for the
-          note on extending the ImageAsset pattern beyond Destination to FoodFind.
+          Future photography slot: FoodFind.hero_image (an ImageAsset, added Phase 12)
+          already exists, but each restaurant_picks string below is still free text with
+          no FoodFind slug carried through grounding — so there's no lookup key yet, even
+          though the image data itself is no longer the blocker. Once grounding threads a
+          slug through, each row would gain a leading
+          `<Image style={styles.foodItemThumb} src={...} />` sourced from that FoodFind's
+          hero_image.url.
         */}
         {itinerary.restaurant_picks.map((item, i) => (
           <Text key={i} style={styles.listItem}>

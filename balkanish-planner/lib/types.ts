@@ -107,18 +107,57 @@ export interface ImageCredit {
   photographer: string;
   source: string;
   license?: string;
+  /**
+   * Rights/usage line distinct from `license` — e.g. "© 2024 Ivana Babić" once real photography is
+   * sourced. For placeholder imagery this must read as an honest placeholder ("Placeholder — rights
+   * holder not yet determined"), never a fabricated real-sounding claim — see docs/image-direction-v2.md
+   * and docs/media-library-architecture.md's "placeholder honesty" principle.
+   */
+  copyright?: string;
 }
 
 /**
+ * A piece of editorial text available in multiple locales. `en` is required as the guaranteed
+ * fallback (see lib/media/caption.ts's resolveCaption); other locales are filled in opportunistically,
+ * not as a translation backlog — see docs/media-library-architecture.md §8 (Multilingual Readiness).
+ */
+export type LocalizedText = Partial<Record<Locale, string>> & { en: string };
+
+/**
+ * Which part of the editorial system an image belongs to — drives layout/treatment decisions
+ * (hero height tier, PDF slot eligibility) without each call site re-deriving them from context.
+ */
+export type MediaCategory = "hero" | "gallery" | "food" | "culture" | "map_illustration" | "pdf";
+
+/** An image's natural framing. Layout code reads this instead of assuming a fixed crop. */
+export type AspectRatio = "landscape" | "portrait" | "square";
+
+/** Tailwind aspect-ratio class per `AspectRatio` — the one place that mapping is allowed to live. */
+export const ASPECT_RATIO_CLASSES: Record<AspectRatio, string> = {
+  landscape: "aspect-[4/3]",
+  portrait: "aspect-[3/4]",
+  square: "aspect-square",
+};
+
+/**
  * A single image plus the metadata an editorial travel product needs to actually show it responsibly:
- * descriptive alt text, an optional caption, and who to credit. `alt`/`caption` are plain strings for now —
- * see docs/image-direction-v2.md for how these become locale-keyed once translations ship.
+ * descriptive alt text, an optional caption, and who to credit. `alt` stays a plain required string —
+ * an accessibility feature should never silently render undefined (docs/image-direction-v2.md §5) — but
+ * `caption` may be a `LocalizedText` once a translated caption exists; most entries still use a plain
+ * string, which every render path treats as the `en` value. `title`/`location`/`aspect_ratio`/`category`
+ * are optional and backfilled by lib/media/normalize.ts for entries that don't set them explicitly.
  */
 export interface ImageAsset {
   url: string;
   alt: string;
-  caption?: string;
+  caption?: string | LocalizedText;
   credit: ImageCredit;
+  /** Short editorial title for this image, e.g. for a gallery lightbox or PDF caption strip. */
+  title?: string;
+  /** Where the photo was taken — distinct from a destination's own `region`, since a gallery image may be a detail shot, not a place. */
+  location?: string;
+  aspect_ratio?: AspectRatio;
+  category?: MediaCategory;
 }
 
 export interface Destination {
@@ -275,6 +314,8 @@ export interface FoodFind {
   drink_pairing: string;
   where_to_try: string;
   hero_image_url: string;
+  /** Structured counterpart to hero_image_url — credited, captioned, alt-texted. Added Phase 12; see docs/media-library-architecture.md. */
+  hero_image: ImageAsset;
   is_featured: boolean;
   /** The social ritual around the dish — who makes it, when, and why it's never rushed. */
   ritual?: string;
@@ -289,6 +330,8 @@ export interface CultureNote {
   excerpt: string;
   body: string;
   hero_image_url: string;
+  /** Structured counterpart to hero_image_url — credited, captioned, alt-texted. Added Phase 12; see docs/media-library-architecture.md. */
+  hero_image: ImageAsset;
   region: string | null;
   is_featured: boolean;
 }

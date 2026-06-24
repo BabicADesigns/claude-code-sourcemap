@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { cn } from "@/lib/utils";
 import { DESTINATION_CATEGORY_LABELS, type Destination } from "@/lib/types";
 import { getDestinationBySlug, getDestinations } from "@/lib/data/destinations";
 import { getFoodFinds } from "@/lib/data/food-finds";
@@ -22,6 +23,8 @@ import {
   MapDetailAccent,
   GuidebookReference,
   PhotoCredit,
+  MasonryGallery,
+  HERO_HEIGHT,
 } from "@/components/brand/editorial";
 import { BestSlowMoment, WorthWakingUpFor, SkipThisDoThis } from "@/components/brand/content-blocks";
 import { Button } from "@/components/ui/button";
@@ -31,6 +34,18 @@ import { TrackView } from "@/components/analytics/track-view";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getSavedEntityIds } from "@/lib/data/favorites";
+import { getServerLocale } from "@/lib/i18n/server";
+import { DestinationCard } from "@/components/cards/destination-card";
+
+/**
+ * The five named editorial sections requirement #3 of Phase 12 asks every destination page to
+ * support. Each wraps an existing content block (Hero Story, Visual Highlights, Local Perspective,
+ * Food Moments) except "Hidden Gems", which is new — a related-destinations module the page didn't
+ * have before, included specifically to give that name something real to point at.
+ */
+function SectionEyebrow({ children }: { children: React.ReactNode }) {
+  return <p className="font-sans text-xs font-semibold uppercase tracking-widest text-accent">{children}</p>;
+}
 
 function guidebookLine(destination: Destination): string {
   return `${destination.name} — ${DESTINATION_CATEGORY_LABELS[destination.category].toLowerCase()}, ${destination.region}. Best visited ${destination.best_season.toLowerCase()}.`;
@@ -82,11 +97,13 @@ export default async function DestinationDetailPage({
   const destination = await getDestinationBySlug(slug);
   if (!destination) notFound();
 
-  const [foodFinds, cultureNotes, secretSwaps, user] = await Promise.all([
+  const [allDestinations, foodFinds, cultureNotes, secretSwaps, user, locale] = await Promise.all([
+    getDestinations(),
     getFoodFinds(),
     getCultureNotes(),
     getSecretSwaps(),
     getCurrentUser(),
+    getServerLocale(),
   ]);
   const isSaved = user ? (await getSavedEntityIds(user.id, "destination")).has(destination.id) : false;
 
@@ -99,6 +116,15 @@ export default async function DestinationDetailPage({
     .filter((c) => !c.region || c.region === destination.region)
     .slice(0, 2);
 
+  const sameCategoryGems = allDestinations.filter(
+    (d) => d.id !== destination.id && d.category === destination.category
+  );
+  const moreHiddenGems = (
+    sameCategoryGems.length > 0
+      ? sameCategoryGems
+      : allDestinations.filter((d) => d.id !== destination.id && d.country === destination.country)
+  ).slice(0, 3);
+
   const swapForThis = secretSwaps.find((s) => s.alternative_destination_id === destination.id);
   const tips = localTips(destination);
 
@@ -110,7 +136,7 @@ export default async function DestinationDetailPage({
         alt={destination.hero_image.alt}
         priority
         vignette
-        className="h-[38vh] min-h-[280px] w-full sm:h-[50vh] sm:min-h-[360px]"
+        className={cn(HERO_HEIGHT.detail, "w-full")}
       >
         <div className="absolute inset-0 z-10 bg-gradient-to-t from-charcoal/75 via-charcoal/10 to-transparent" />
         <div className="absolute right-4 top-4 z-20 flex items-center gap-2 sm:right-6 sm:top-6">
@@ -130,7 +156,8 @@ export default async function DestinationDetailPage({
       <div className="container grid gap-10 py-10 sm:gap-12 sm:py-14 lg:grid-cols-3">
         <div className="space-y-8 lg:col-span-2 lg:space-y-10">
           <section>
-            <h2 className="font-display text-2xl text-sage-dark">Description</h2>
+            <SectionEyebrow>Hero Story</SectionEyebrow>
+            <h2 className="mt-1 font-display text-2xl text-sage-dark">Description</h2>
             <p className="mt-3 font-serif leading-relaxed text-foreground/85">{destination.description}</p>
             <GuidebookReference source="Balkanish Field Notes" className="mt-5">
               {guidebookLine(destination)}
@@ -143,14 +170,17 @@ export default async function DestinationDetailPage({
 
           <BalkanishTruth context={destination.name}>{pickTruth(destination.id)}</BalkanishTruth>
 
-          <WhatLocalsKnow tips={tips} />
-
-          <div className="grid gap-5 sm:grid-cols-2">
-            <BestSlowMoment destination={destination} />
-            <WorthWakingUpFor destination={destination} />
-          </div>
-
-          <SkipThisDoThis destination={destination} swap={swapForThis} />
+          <section>
+            <SectionEyebrow>Local Perspective</SectionEyebrow>
+            <div className="mt-3 space-y-5">
+              <WhatLocalsKnow tips={tips} />
+              <div className="grid gap-5 sm:grid-cols-2">
+                <BestSlowMoment destination={destination} />
+                <WorthWakingUpFor destination={destination} />
+              </div>
+              <SkipThisDoThis destination={destination} swap={swapForThis} />
+            </div>
+          </section>
 
           <section>
             <h2 className="font-display text-2xl text-sage-dark">The Scorecard</h2>
@@ -162,23 +192,12 @@ export default async function DestinationDetailPage({
 
           {destination.gallery_images.length > 0 && (
             <section>
-              <h2 className="font-display text-2xl text-sage-dark">Gallery</h2>
+              <SectionEyebrow>Visual Highlights</SectionEyebrow>
+              <h2 className="mt-1 font-display text-2xl text-sage-dark">Beyond the Cover Shot</h2>
               <p className="mt-1 font-serif text-sm text-foreground/70">
-                More of {destination.name}, beyond the cover shot.
+                More of {destination.name}, shown at whatever ratio the photo actually is.
               </p>
-              <div className="mt-4 grid gap-4 sm:grid-cols-2 sm:gap-5">
-                {destination.gallery_images.map((image, i) => (
-                  <EditorialImage
-                    key={i}
-                    src={image.url}
-                    alt={image.alt}
-                    sizes="(min-width: 1024px) 33vw, 50vw"
-                    className="aspect-[4/3] rounded-xl"
-                  >
-                    <PhotoCredit credit={image.credit} className="absolute bottom-3 left-3 z-20" />
-                  </EditorialImage>
-                ))}
-              </div>
+              <MasonryGallery images={destination.gallery_images} locale={locale} className="mt-4" />
             </section>
           )}
 
@@ -195,10 +214,26 @@ export default async function DestinationDetailPage({
 
           {relatedFood.length > 0 && (
             <section>
-              <h2 className="font-display text-2xl text-sage-dark">Nearby Food Finds</h2>
+              <SectionEyebrow>Food Moments</SectionEyebrow>
+              <h2 className="mt-1 font-display text-2xl text-sage-dark">Nearby Food Finds</h2>
               <div className="mt-4 grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
                 {relatedFood.map((food) => (
                   <FoodFindCard key={food.id} foodFind={food} />
+                ))}
+              </div>
+            </section>
+          )}
+
+          {moreHiddenGems.length > 0 && (
+            <section>
+              <SectionEyebrow>Hidden Gems</SectionEyebrow>
+              <h2 className="mt-1 font-display text-2xl text-sage-dark">More Like {destination.name}</h2>
+              <p className="mt-1 font-serif text-sm text-foreground/70">
+                Other quiet places that share the same kind of pull.
+              </p>
+              <div className="mt-4 grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+                {moreHiddenGems.map((gem) => (
+                  <DestinationCard key={gem.id} destination={gem} />
                 ))}
               </div>
             </section>

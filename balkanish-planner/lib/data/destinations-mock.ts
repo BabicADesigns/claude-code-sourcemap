@@ -35,11 +35,14 @@ export const mockDestinations: Destination[] = [
       {
         url: "https://picsum.photos/seed/vis-gallery-1/1200/900",
         alt: "Editorial placeholder gallery image for Vis — to be replaced with real on-location photography.",
+        caption: "Vis Town harbour, where the ferries used to be the only way in.",
+        location: "Vis Town",
         credit: { photographer: "Unassigned", source: "Picsum" },
       },
       {
-        url: "https://picsum.photos/seed/vis-gallery-2/1200/900",
+        url: "https://picsum.photos/seed/vis-gallery-2/900/1200",
         alt: "Editorial placeholder gallery image for Vis — to be replaced with real on-location photography.",
+        aspect_ratio: "portrait",
         credit: { photographer: "Unassigned", source: "Picsum" },
       },
     ],
@@ -126,8 +129,9 @@ export const mockDestinations: Destination[] = [
         credit: { photographer: "Unassigned", source: "Picsum" },
       },
       {
-        url: "https://picsum.photos/seed/rovinj-gallery-2/1200/900",
+        url: "https://picsum.photos/seed/rovinj-gallery-2/1000/1000",
         alt: "Editorial placeholder gallery image for Rovinj — to be replaced with real on-location photography.",
+        aspect_ratio: "square",
         credit: { photographer: "Unassigned", source: "Picsum" },
       },
     ],
@@ -164,8 +168,9 @@ export const mockDestinations: Destination[] = [
     },
     gallery_images: [
       {
-        url: "https://picsum.photos/seed/mostar-gallery-1/1200/900",
+        url: "https://picsum.photos/seed/mostar-gallery-1/900/1200",
         alt: "Editorial placeholder gallery image for Mostar — to be replaced with real on-location photography.",
+        aspect_ratio: "portrait",
         credit: { photographer: "Unassigned", source: "Picsum" },
       },
       {
