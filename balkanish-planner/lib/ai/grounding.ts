@@ -1,14 +1,17 @@
 import type {
+  Country,
   CultureNote,
   Destination,
   DestinationCategory,
   DayTrip,
   FoodFind,
   ItineraryFocus,
+  PlannerStyle,
   ScoreKey,
-  TravelStyle,
+  TravelType,
+  TripPace,
 } from "@/lib/types";
-import { DESTINATION_SCORES } from "@/lib/types";
+import { DESTINATION_SCORES, PLANNER_STYLE_LABELS } from "@/lib/types";
 import { mockDestinations } from "@/lib/data/destinations-mock";
 import { mockDayTrips } from "@/lib/data/day-trips";
 import { mockFoodFinds } from "@/lib/data/food-finds-mock";
@@ -20,17 +23,25 @@ import { getDestinationsForFocus } from "@/lib/data/itinerary-focus";
  * driving times. Everything here reads from the real destinations/day-trips/food-finds/
  * culture-notes datasets only. The AI layer (lib/ai/itinerary.ts) is fed the output of this
  * module as a fixed factual skeleton and is only allowed to add prose around it.
+ *
+ * Phase 8 adds: country + pace as selection inputs, a five-factor scoring breakdown per
+ * destination (style/food/culture/nature/pacing — see scoreDestination), deterministic
+ * selection-reason sentences built from that same breakdown, and a coverageScore diagnostic
+ * (docs/ai-expansion-roadmap.md Stage 1) that flags when the curated pool had to widen beyond
+ * the requested country.
  */
 
-// --- Focus derivation (no new UI — derived from the existing travelStyle + interests inputs) ---
+// --- Focus derivation (no new UI — derived from the existing plannerStyle + interests inputs) ---
 
-const TRAVEL_STYLE_FOCUS_WEIGHTS: Record<TravelStyle, Partial<Record<ItineraryFocus, number>>> = {
-  slow_and_soulful: { slow_living: 3, coast: 1 },
+const PLANNER_STYLE_FOCUS_WEIGHTS: Record<PlannerStyle, Partial<Record<ItineraryFocus, number>>> = {
+  slow_travel: { slow_living: 3, coast: 1 },
   food_and_wine: { food: 2, wine: 2 },
-  active_outdoors: { national_park: 3, road_trip: 1 },
-  culture_and_history: { culture: 3 },
-  romantic_getaway: { romantic: 3 },
-  family_friendly: { family: 3 },
+  road_trip: { road_trip: 3, culture: 1 },
+  romantic_escape: { romantic: 3 },
+  family: { family: 3 },
+  culture: { culture: 3 },
+  nature: { national_park: 3, coast: 1 },
+  mixed: {},
 };
 
 const INTEREST_FOCUS_WEIGHTS: Record<string, Partial<Record<ItineraryFocus, number>>> = {
@@ -58,8 +69,8 @@ const FOCUS_PRIORITY: ItineraryFocus[] = [
   "mixed",
 ];
 
-/** Maps the planner's existing travelStyle + interests inputs onto one of the 10 itinerary types. */
-export function deriveItineraryFocus(travelStyle: TravelStyle, interests: string[]): ItineraryFocus {
+/** Maps the planner wizard's plannerStyle + interests inputs onto one of the 10 itinerary types. */
+export function deriveItineraryFocus(plannerStyle: PlannerStyle, interests: string[]): ItineraryFocus {
   const scores = new Map<ItineraryFocus, number>();
   const add = (weights: Partial<Record<ItineraryFocus, number>> | undefined) => {
     if (!weights) return;
@@ -67,7 +78,7 @@ export function deriveItineraryFocus(travelStyle: TravelStyle, interests: string
       scores.set(focus, (scores.get(focus) ?? 0) + weight);
     }
   };
-  add(TRAVEL_STYLE_FOCUS_WEIGHTS[travelStyle]);
+  add(PLANNER_STYLE_FOCUS_WEIGHTS[plannerStyle]);
   interests.forEach((interest) => add(INTEREST_FOCUS_WEIGHTS[interest]));
 
   const maxScore = Math.max(0, ...scores.values());
@@ -117,7 +128,7 @@ function sequenceGeographically(destinations: Destination[]): Destination[] {
   return route;
 }
 
-// --- Destination selection & scoring ---
+// --- Destination scoring (five factors: style, food, culture, nature, pacing) ---
 
 const FOCUS_SCORE_KEYS: Record<ItineraryFocus, ScoreKey[]> = {
   coast: ["sunset_score", "slow_living_score"],
@@ -134,27 +145,155 @@ const FOCUS_SCORE_KEYS: Record<ItineraryFocus, ScoreKey[]> = {
 
 const INVERTED_SCORE_KEYS = new Set(DESTINATION_SCORES.filter((s) => s.invert).map((s) => s.key));
 
-function scoreDestinationForFocus(destination: Destination, focus: ItineraryFocus): number {
+const NATURE_TRAVEL_TYPES: TravelType[] = ["national_park", "mountain_escape", "island_escape"];
+const FOOD_TRAVEL_TYPES: TravelType[] = ["food_destination", "wine_region"];
+const CULTURE_TRAVEL_TYPES: TravelType[] = ["historic_town", "cultural_experience"];
+
+/** 0–1: how well a destination fits the itinerary's derived focus (sunset/story/food/etc — see FOCUS_SCORE_KEYS). */
+function styleMatchScore(destination: Destination, focus: ItineraryFocus): number {
   const keys = FOCUS_SCORE_KEYS[focus];
   const total = keys.reduce((sum, key) => {
     const raw = destination[key];
     return sum + (INVERTED_SCORE_KEYS.has(key) ? 10 - raw : raw);
   }, 0);
-  return total / keys.length;
+  return total / keys.length / 10;
 }
 
-function destinationCountForDuration(days: number, poolSize: number): number {
-  const ideal = Math.round(days / 2.5);
-  return Math.max(2, Math.min(ideal, poolSize, 6));
+/** 0–1: food/drink strength — the destination's own food_score, with a small bonus if it's a named food/wine type. */
+function foodMatchScore(destination: Destination): number {
+  const base = destination.food_score / 10;
+  const bonus = destination.travel_types.some((t) => FOOD_TRAVEL_TYPES.includes(t)) ? 0.1 : 0;
+  return Math.min(1, base + bonus);
 }
 
-function selectDestinations(focus: ItineraryFocus, durationDays: number): Destination[] {
-  const pool = getDestinationsForFocus(focus, mockDestinations);
-  const candidates = pool.length > 0 ? pool : mockDestinations;
-  const count = destinationCountForDuration(durationDays, candidates.length);
-  return [...candidates]
-    .sort((a, b) => scoreDestinationForFocus(b, focus) - scoreDestinationForFocus(a, focus))
-    .slice(0, count);
+/** 0–1: history/story strength — the destination's own story_score, with a small bonus for historic/cultural types. */
+function cultureMatchScore(destination: Destination): number {
+  const base = destination.story_score / 10;
+  const bonus = destination.travel_types.some((t) => CULTURE_TRAVEL_TYPES.includes(t)) ? 0.1 : 0;
+  return Math.min(1, base + bonus);
+}
+
+/** 0–1: scenery/outdoor pull — sunset score plus a bonus for being a genuinely uncrowded nature spot, not just photogenic. */
+function natureMatchScore(destination: Destination): number {
+  const base = (destination.sunset_score + (10 - destination.crowd_score)) / 20;
+  const bonus = destination.travel_types.some((t) => NATURE_TRAVEL_TYPES.includes(t)) ? 0.15 : 0;
+  return Math.min(1, base + bonus);
+}
+
+/**
+ * 0–1: how well a destination suits the requested pace. Relaxed pace rewards genuinely calm
+ * places (high slow-living, low crowd); active pace rewards places with a lot to actually do
+ * (story + food density); balanced sits between the two.
+ */
+function pacingFitScore(destination: Destination, pace: TripPace): number {
+  const calmScore = (destination.slow_living_score + (10 - destination.crowd_score)) / 20;
+  const activeScore = (destination.story_score + destination.food_score) / 20;
+  if (pace === "relaxed") return calmScore;
+  if (pace === "active") return activeScore;
+  return (calmScore + activeScore) / 2;
+}
+
+export interface DestinationScoreBreakdown {
+  styleMatch: number;
+  foodMatch: number;
+  cultureMatch: number;
+  natureMatch: number;
+  pacingFit: number;
+  total: number;
+}
+
+/** Per-plannerStyle weighting of the five score factors above — each row sums to 1. */
+const SCORE_WEIGHTS: Record<PlannerStyle, Omit<DestinationScoreBreakdown, "total">> = {
+  slow_travel: { styleMatch: 0.35, foodMatch: 0.15, cultureMatch: 0.15, natureMatch: 0.1, pacingFit: 0.25 },
+  food_and_wine: { styleMatch: 0.2, foodMatch: 0.45, cultureMatch: 0.15, natureMatch: 0.05, pacingFit: 0.15 },
+  road_trip: { styleMatch: 0.3, foodMatch: 0.15, cultureMatch: 0.2, natureMatch: 0.2, pacingFit: 0.15 },
+  romantic_escape: { styleMatch: 0.4, foodMatch: 0.15, cultureMatch: 0.15, natureMatch: 0.1, pacingFit: 0.2 },
+  family: { styleMatch: 0.3, foodMatch: 0.15, cultureMatch: 0.15, natureMatch: 0.15, pacingFit: 0.25 },
+  culture: { styleMatch: 0.25, foodMatch: 0.1, cultureMatch: 0.45, natureMatch: 0.05, pacingFit: 0.15 },
+  nature: { styleMatch: 0.25, foodMatch: 0.1, cultureMatch: 0.1, natureMatch: 0.45, pacingFit: 0.1 },
+  mixed: { styleMatch: 0.25, foodMatch: 0.2, cultureMatch: 0.2, natureMatch: 0.2, pacingFit: 0.15 },
+};
+
+/** The ranking function behind requirement #4 — distance is handled at the route/variant level (legDistancesKm), not per-candidate. */
+export function scoreDestination(
+  destination: Destination,
+  plannerStyle: PlannerStyle,
+  focus: ItineraryFocus,
+  pace: TripPace
+): DestinationScoreBreakdown {
+  const styleMatch = styleMatchScore(destination, focus);
+  const foodMatch = foodMatchScore(destination);
+  const cultureMatch = cultureMatchScore(destination);
+  const natureMatch = natureMatchScore(destination);
+  const pacingFit = pacingFitScore(destination, pace);
+  const weights = SCORE_WEIGHTS[plannerStyle];
+  const total =
+    styleMatch * weights.styleMatch +
+    foodMatch * weights.foodMatch +
+    cultureMatch * weights.cultureMatch +
+    natureMatch * weights.natureMatch +
+    pacingFit * weights.pacingFit;
+  return { styleMatch, foodMatch, cultureMatch, natureMatch, pacingFit, total };
+}
+
+// --- Destination selection ---
+
+/** Below this pool size, a country-restricted search widens rather than risk a repetitive or empty itinerary. */
+const MIN_POOL_SIZE = 2;
+
+const PACE_DAYS_PER_STOP: Record<TripPace, number> = { relaxed: 3.5, balanced: 2.5, active: 1.8 };
+
+/** Uncapped "how many stops would feel right" for this duration/pace — used both for selection and as the coverage denominator. */
+function idealStopCount(days: number, pace: TripPace): number {
+  return Math.max(2, Math.round(days / PACE_DAYS_PER_STOP[pace]));
+}
+
+function destinationCountForDuration(days: number, poolSize: number, pace: TripPace): number {
+  return Math.max(2, Math.min(idealStopCount(days, pace), poolSize, 6));
+}
+
+interface SelectionResult {
+  destinations: Destination[];
+  /** True when the requested country's pool was too thin and the search widened to the full curated dataset. */
+  widenedSearch: boolean;
+  /** 0–1 diagnostic: how comfortably the curated pool covered this request — see docs/ai-expansion-roadmap.md Stage 1. */
+  coverageScore: number;
+}
+
+function poolForCountryAndFocus(
+  country: Country | null,
+  focus: ItineraryFocus
+): { pool: Destination[]; widenedSearch: boolean } {
+  if (!country) {
+    const focusPool = getDestinationsForFocus(focus, mockDestinations);
+    return { pool: focusPool.length > 0 ? focusPool : mockDestinations, widenedSearch: false };
+  }
+  const countryAll = mockDestinations.filter((d) => d.country === country);
+  const countryFocus = getDestinationsForFocus(focus, countryAll);
+  if (countryFocus.length >= MIN_POOL_SIZE) return { pool: countryFocus, widenedSearch: false };
+  if (countryAll.length >= MIN_POOL_SIZE) return { pool: countryAll, widenedSearch: false };
+
+  // The requested country alone can't support a real trip yet — widen to the full curated
+  // dataset rather than fail or repeat the same one or two places. Flagged via widenedSearch
+  // so the itinerary can be honest about it instead of silently ignoring the request.
+  const allFocus = getDestinationsForFocus(focus, mockDestinations);
+  return { pool: allFocus.length > 0 ? allFocus : mockDestinations, widenedSearch: true };
+}
+
+function selectDestinations(
+  plannerStyle: PlannerStyle,
+  focus: ItineraryFocus,
+  country: Country | null,
+  durationDays: number,
+  pace: TripPace
+): SelectionResult {
+  const { pool, widenedSearch } = poolForCountryAndFocus(country, focus);
+  const count = destinationCountForDuration(durationDays, pool.length, pace);
+  const ranked = [...pool].sort(
+    (a, b) => scoreDestination(b, plannerStyle, focus, pace).total - scoreDestination(a, plannerStyle, focus, pace).total
+  );
+  const coverageScore = Math.min(1, pool.length / idealStopCount(durationDays, pace));
+  return { destinations: ranked.slice(0, count), widenedSearch, coverageScore };
 }
 
 // --- Day-range assignment ---
@@ -179,7 +318,7 @@ function assignDayRanges(destinations: Destination[], durationDays: number): Iti
   });
 }
 
-// --- Day trips (precise origin-match only — see audit for the documented coverage gap) ---
+// --- Day trips (precise origin-match — Zagreb/Split/Dubrovnik now exist as real Destination entries, so their day trips attach) ---
 
 export interface GroundedDayTrip {
   dayTrip: DayTrip;
@@ -188,7 +327,14 @@ export interface GroundedDayTrip {
   fromDestinationSlug: string;
 }
 
-function attachDayTrips(stops: ItineraryStop[]): GroundedDayTrip[] {
+/** How many day trips a route takes on, by pace — relaxed itineraries stay light, active ones pack more in. */
+const PACE_MAX_DAY_TRIPS: Record<TripPace, number> = {
+  relaxed: 1,
+  balanced: 2,
+  active: Infinity,
+};
+
+function attachDayTrips(stops: ItineraryStop[], pace: TripPace): GroundedDayTrip[] {
   const selectedSlugs = new Set(stops.map((s) => s.destination.slug));
   const attached: GroundedDayTrip[] = [];
   for (const stop of stops) {
@@ -204,7 +350,7 @@ function attachDayTrips(stops: ItineraryStop[]): GroundedDayTrip[] {
       attached.push({ dayTrip: trip, destination, day: stop.dayEnd, fromDestinationSlug: stop.destination.slug });
     });
   }
-  return attached;
+  return attached.slice(0, PACE_MAX_DAY_TRIPS[pace]);
 }
 
 // --- Map points ---
@@ -297,6 +443,62 @@ function matchCultureNotes(destinations: Destination[]): CultureNote[] {
   });
 }
 
+// --- Explainability (requirement #5) — built from the same score breakdown used to rank, never invented ---
+
+export interface SelectionReason {
+  destinationSlug: string;
+  destinationName: string;
+  reason: string;
+}
+
+function buildSelectionReason(
+  destination: Destination,
+  breakdown: DestinationScoreBreakdown,
+  plannerStyle: PlannerStyle,
+  routeAvgCrowdScore: number
+): string {
+  const styleLabel = PLANNER_STYLE_LABELS[plannerStyle].toLowerCase();
+  const secondaryDims: { score: number; phrase: string }[] = [
+    { score: breakdown.foodMatch, phrase: "its food and drink scene" },
+    { score: breakdown.cultureMatch, phrase: "its history and story" },
+    { score: breakdown.natureMatch, phrase: "its scenery and the outdoors" },
+  ];
+  const bestSecondary = secondaryDims.reduce((best, dim) => (dim.score > best.score ? dim : best));
+
+  const primaryClause =
+    breakdown.styleMatch >= bestSecondary.score
+      ? `it matches your ${styleLabel} preference`
+      : `it's a strong fit for ${bestSecondary.phrase}`;
+
+  const crowdDelta = destination.crowd_score - routeAvgCrowdScore;
+  const paceClause =
+    crowdDelta < -1
+      ? " and provides a slower, quieter pace than the rest of this route"
+      : crowdDelta > 1
+        ? " and brings more energy and bustle than the rest of this route"
+        : "";
+
+  return `We selected ${destination.name} because ${primaryClause}${paceClause}.`;
+}
+
+function buildSelectionReasons(
+  stops: ItineraryStop[],
+  plannerStyle: PlannerStyle,
+  focus: ItineraryFocus,
+  pace: TripPace
+): SelectionReason[] {
+  const routeAvgCrowdScore =
+    stops.reduce((sum, stop) => sum + stop.destination.crowd_score, 0) / Math.max(stops.length, 1);
+  return stops.map((stop) => {
+    const breakdown = scoreDestination(stop.destination, plannerStyle, focus, pace);
+    return {
+      destinationSlug: stop.destination.slug,
+      destinationName: stop.destination.name,
+      reason: buildSelectionReason(stop.destination, breakdown, plannerStyle, routeAvgCrowdScore),
+    };
+  });
+}
+
 // --- Assembly ---
 
 export interface GroundedItinerary {
@@ -309,13 +511,30 @@ export interface GroundedItinerary {
   cultureNotes: CultureNote[];
   /** Real haversine distance (km) between each consecutive stop, in route order. */
   legDistancesKm: number[];
+  selectionReasons: SelectionReason[];
+  /** True when the requested country's curated pool was too thin and the search widened beyond it. */
+  widenedSearch: boolean;
+  /** 0–1 diagnostic: how comfortably the curated pool covered this request — see docs/ai-expansion-roadmap.md Stage 1. */
+  coverageScore: number;
 }
 
-export function buildGroundedItinerary(focus: ItineraryFocus, durationDays: number): GroundedItinerary {
-  const selected = selectDestinations(focus, durationDays);
+export function buildGroundedItinerary(
+  plannerStyle: PlannerStyle,
+  focus: ItineraryFocus,
+  country: Country | null,
+  durationDays: number,
+  pace: TripPace
+): GroundedItinerary {
+  const { destinations: selected, widenedSearch, coverageScore } = selectDestinations(
+    plannerStyle,
+    focus,
+    country,
+    durationDays,
+    pace
+  );
   const sequenced = sequenceGeographically(selected);
   const stops = assignDayRanges(sequenced, durationDays);
-  const dayTrips = attachDayTrips(stops);
+  const dayTrips = attachDayTrips(stops, pace);
   const legDistancesKm = stops
     .slice(1)
     .map((stop, idx) => Math.round(haversineKm(stops[idx].destination, stop.destination)));
@@ -329,5 +548,8 @@ export function buildGroundedItinerary(focus: ItineraryFocus, durationDays: numb
     foodFinds: matchFoodFinds(sequenced),
     cultureNotes: matchCultureNotes(sequenced),
     legDistancesKm,
+    selectionReasons: buildSelectionReasons(stops, plannerStyle, focus, pace),
+    widenedSearch,
+    coverageScore,
   };
 }

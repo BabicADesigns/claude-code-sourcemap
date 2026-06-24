@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import type { GeneratedItinerary, PlannerInput } from "@/lib/ai/itinerary";
+import { PLANNER_STYLE_TO_TRAVEL_STYLE } from "@/lib/types";
 import { createSupabaseServerClient, getCurrentUser, isSupabaseConfigured } from "@/lib/supabase/server";
 
 export async function saveItinerary(
@@ -19,7 +20,9 @@ export async function saveItinerary(
     duration_days: input.durationDays,
     month: input.month,
     budget: input.budget,
-    travel_style: input.travelStyle,
+    // travel_style is a Postgres enum that still only knows the 6 legacy values, so the wizard's
+    // 8-value plannerStyle is mapped down at the point of writing — see PLANNER_STYLE_TO_TRAVEL_STYLE.
+    travel_style: PLANNER_STYLE_TO_TRAVEL_STYLE[input.plannerStyle],
     interests: input.interests,
     itinerary_json: itinerary,
   });

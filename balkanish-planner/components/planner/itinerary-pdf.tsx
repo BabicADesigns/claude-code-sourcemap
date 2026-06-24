@@ -1,6 +1,6 @@
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 import type { GeneratedItinerary, PlannerInput } from "@/lib/ai/itinerary";
-import { TRAVEL_STYLE_LABELS, ITINERARY_FOCUS_LABELS } from "@/lib/types";
+import { PLANNER_STYLE_LABELS, ITINERARY_FOCUS_LABELS, TRIP_PACE_LABELS, ROUTE_VARIANT_LABELS } from "@/lib/types";
 import { ItineraryMapPdf } from "@/components/planner/itinerary-map-pdf";
 import { buildMapModel } from "@/lib/maps/itinerary-map-model";
 
@@ -142,7 +142,10 @@ export function ItineraryPdfDocument({ itinerary, input }: { itinerary: Generate
           <Text style={styles.coverEyebrow}>A Balkanish Itinerary · {ITINERARY_FOCUS_LABELS[itinerary.focus]}</Text>
           <Text style={styles.coverTitle}>{itinerary.trip_title}</Text>
           <Text style={styles.coverMeta}>
-            {input.durationDays} days · {input.month} · {TRAVEL_STYLE_LABELS[input.travelStyle]}
+            {input.durationDays} days · {input.month} · {PLANNER_STYLE_LABELS[input.plannerStyle]}
+          </Text>
+          <Text style={styles.coverMeta}>
+            {ROUTE_VARIANT_LABELS[itinerary.variant]} · {TRIP_PACE_LABELS[itinerary.pace]} pace
           </Text>
         </View>
 
@@ -178,11 +181,19 @@ export function ItineraryPdfDocument({ itinerary, input }: { itinerary: Generate
           </View>
           <View style={styles.summaryFact}>
             <Text style={styles.summaryFactLabel}>Travel style</Text>
-            <Text style={styles.summaryFactValue}>{TRAVEL_STYLE_LABELS[input.travelStyle]}</Text>
+            <Text style={styles.summaryFactValue}>{PLANNER_STYLE_LABELS[input.plannerStyle]}</Text>
           </View>
           <View style={styles.summaryFact}>
             <Text style={styles.summaryFactLabel}>Trip focus</Text>
             <Text style={styles.summaryFactValue}>{ITINERARY_FOCUS_LABELS[itinerary.focus]}</Text>
+          </View>
+          <View style={styles.summaryFact}>
+            <Text style={styles.summaryFactLabel}>Route</Text>
+            <Text style={styles.summaryFactValue}>{ROUTE_VARIANT_LABELS[itinerary.variant]}</Text>
+          </View>
+          <View style={styles.summaryFact}>
+            <Text style={styles.summaryFactLabel}>Pace</Text>
+            <Text style={styles.summaryFactValue}>{TRIP_PACE_LABELS[itinerary.pace]}</Text>
           </View>
           <View style={styles.summaryFact}>
             <Text style={styles.summaryFactLabel}>Stops</Text>
@@ -191,6 +202,10 @@ export function ItineraryPdfDocument({ itinerary, input }: { itinerary: Generate
           <View style={styles.summaryFact}>
             <Text style={styles.summaryFactLabel}>Day trips</Text>
             <Text style={styles.summaryFactValue}>{itinerary.day_trips.length}</Text>
+          </View>
+          <View style={styles.summaryFact}>
+            <Text style={styles.summaryFactLabel}>Avg. distance</Text>
+            <Text style={styles.summaryFactValue}>{itinerary.route_summary.average_distance_km} km</Text>
           </View>
         </View>
 
@@ -203,6 +218,21 @@ export function ItineraryPdfDocument({ itinerary, input }: { itinerary: Generate
 
         <PageFooter />
       </Page>
+
+      {/* Why These Stops */}
+      {itinerary.selection_reasons.length > 0 && (
+        <Page size="A4" style={styles.page}>
+          <Text style={styles.sectionEyebrow}>Why These Stops</Text>
+          <Text style={styles.sectionTitle}>The thinking behind this route</Text>
+          {itinerary.selection_reasons.map((reason) => (
+            <View key={reason.destination_slug} style={styles.dayTripCard} wrap={false}>
+              <Text style={styles.dayTripTitle}>{reason.destination_name}</Text>
+              <Text style={styles.text}>{reason.reason}</Text>
+            </View>
+          ))}
+          <PageFooter />
+        </Page>
+      )}
 
       {/* Daily Itinerary */}
       <Page size="A4" style={styles.page}>

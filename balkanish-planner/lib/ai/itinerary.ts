@@ -1,12 +1,17 @@
 import OpenAI from "openai";
 import { z } from "zod";
 import {
-  TRAVEL_STYLE_LABELS,
+  COUNTRIES,
   ITINERARY_FOCUS_LABELS,
   DESTINATION_CATEGORY_LABELS,
-  type TravelStyle,
+  PLANNER_STYLE_LABELS,
+  TRIP_PACE_LABELS,
+  type Country,
   type ItineraryFocus,
   type DestinationCategory,
+  type PlannerStyle,
+  type TripPace,
+  type RouteVariant,
 } from "@/lib/types";
 import {
   deriveItineraryFocus,
@@ -20,9 +25,9 @@ export const BUDGET_TIERS = ["budget", "mid_range", "luxury"] as const;
 export type BudgetTier = (typeof BUDGET_TIERS)[number];
 
 export const BUDGET_TIER_LABELS: Record<BudgetTier, string> = {
-  budget: "Budget-conscious — hostels, konobas, ferries",
+  budget: "Budget — hostels, konobas, ferries",
   mid_range: "Mid-range — boutique stays, good tables, the occasional splurge",
-  luxury: "Treat yourself — design hotels, private drivers, tasting menus",
+  luxury: "Premium — design hotels, private drivers, tasting menus",
 };
 
 export const INTEREST_OPTIONS = [
@@ -36,11 +41,28 @@ export const INTEREST_OPTIONS = [
   "Slow mornings & cafés",
 ] as const;
 
+/** The three itineraries generated per submission (requirement #6) — same input, pace locked per variant. */
+export const ROUTE_VARIANTS: RouteVariant[] = ["conservative", "balanced", "explorer"];
+
+const VARIANT_PACE: Record<RouteVariant, TripPace> = {
+  conservative: "relaxed",
+  balanced: "balanced",
+  explorer: "active",
+};
+
+/** Which of the 3 generated variants matches a given pace — used by the wizard to pick a default tab after generation. */
+export function defaultVariantForPace(pace: TripPace): RouteVariant {
+  return ROUTE_VARIANTS.find((variant) => VARIANT_PACE[variant] === pace) ?? "balanced";
+}
+
 export const plannerInputSchema = z.object({
   durationDays: z.number().int().min(2).max(21),
   month: z.string().min(1),
   budget: z.enum(BUDGET_TIERS),
-  travelStyle: z.enum(Object.keys(TRAVEL_STYLE_LABELS) as [TravelStyle, ...TravelStyle[]]),
+  /** Null means "no preference" — the planner draws from the full curated region instead of one country. */
+  country: z.enum(COUNTRIES as [Country, ...Country[]]).nullable(),
+  pace: z.enum(["relaxed", "balanced", "active"] as [TripPace, ...TripPace[]]),
+  plannerStyle: z.enum(Object.keys(PLANNER_STYLE_LABELS) as [PlannerStyle, ...PlannerStyle[]]),
   interests: z.array(z.string()).min(1).max(6),
 });
 export type PlannerInput = z.infer<typeof plannerInputSchema>;
@@ -76,8 +98,25 @@ const mapPointSchema = z.object({
   is_day_trip: z.boolean(),
 });
 
+/** A single deterministic "why this stop" sentence — see requirement #5, built from lib/ai/grounding.ts's score breakdown. */
+const selectionReasonSchema = z.object({
+  destination_slug: z.string(),
+  destination_name: z.string(),
+  reason: z.string(),
+});
+
+/** Numeric route facts, kept separate from the prose overview so a future PDF/export can render them without re-deriving anything (requirement #8). */
+const routeSummarySchema = z.object({
+  stop_count: z.number(),
+  day_trip_count: z.number(),
+  total_distance_km: z.number(),
+  average_distance_km: z.number(),
+});
+
 export const generatedItinerarySchema = z.object({
   trip_title: z.string(),
+  /** Short, non-prose label of the trip's planner style + focus — e.g. "Food & Wine · Wine Journey". For PDF/export headers. */
+  trip_theme: z.string(),
   overview: z.string(),
   days: z.array(itineraryDaySchema),
   hidden_gems: z.array(z.string()),
@@ -88,6 +127,13 @@ export const generatedItinerarySchema = z.object({
   focus: z.enum(Object.keys(ITINERARY_FOCUS_LABELS) as [ItineraryFocus, ...ItineraryFocus[]]),
   day_trips: z.array(dayTripEntrySchema),
   map_points: z.array(mapPointSchema),
+  country: z.enum(COUNTRIES as [Country, ...Country[]]).nullable(),
+  pace: z.enum(["relaxed", "balanced", "active"] as [TripPace, ...TripPace[]]),
+  variant: z.enum(["conservative", "balanced", "explorer"] as [RouteVariant, ...RouteVariant[]]),
+  selection_reasons: z.array(selectionReasonSchema),
+  route_summary: routeSummarySchema,
+  /** True when the curated pool for the requested country was too thin and the search widened beyond it. */
+  widened_search: z.boolean(),
 });
 export type GeneratedItinerary = z.infer<typeof generatedItinerarySchema>;
 
@@ -131,9 +177,27 @@ function buildOverview(input: PlannerInput, focus: ItineraryFocus, grounded: Gro
     grounded.dayTrips.length > 0
       ? ` Day trips to ${grounded.dayTrips.map((dt) => dt.destination.name).join(" and ")} are built in along the way.`
       : "";
+  const widenedNote = grounded.widenedSearch
+    ? ` Our curated list for that country alone is still growing, so this route draws on nearby destinations too.`
+    : "";
   return `A ${input.durationDays}-day ${ITINERARY_FOCUS_LABELS[focus].toLowerCase()} through ${stopNames.join(
     ", "
-  )}, sequenced to follow the real geography rather than backtrack — roughly ${totalKm} km between stops in total.${dayTripNote}`;
+  )}, sequenced to follow the real geography rather than backtrack — roughly ${totalKm} km between stops in total.${dayTripNote}${widenedNote}`;
+}
+
+function buildRouteSummary(grounded: GroundedItinerary): z.infer<typeof routeSummarySchema> {
+  const totalKm = grounded.legDistancesKm.reduce((sum, km) => sum + km, 0);
+  const averageKm = grounded.legDistancesKm.length > 0 ? Math.round(totalKm / grounded.legDistancesKm.length) : 0;
+  return {
+    stop_count: grounded.stops.length,
+    day_trip_count: grounded.dayTrips.length,
+    total_distance_km: totalKm,
+    average_distance_km: averageKm,
+  };
+}
+
+function buildTripTheme(input: PlannerInput, focus: ItineraryFocus): string {
+  return `${PLANNER_STYLE_LABELS[input.plannerStyle]} · ${ITINERARY_FOCUS_LABELS[focus]}`;
 }
 
 function buildDaySkeletons(durationDays: number, grounded: GroundedItinerary): ItineraryDay[] {
@@ -171,10 +235,17 @@ function buildDaySkeletons(durationDays: number, grounded: GroundedItinerary): I
   return days;
 }
 
-function buildSkeleton(input: PlannerInput, focus: ItineraryFocus, grounded: GroundedItinerary): GeneratedItinerary {
+function buildSkeleton(
+  input: PlannerInput,
+  focus: ItineraryFocus,
+  pace: TripPace,
+  variant: RouteVariant,
+  grounded: GroundedItinerary
+): GeneratedItinerary {
   const stopNames = grounded.stops.map((stop) => stop.destination.name);
   return {
     trip_title: `${ITINERARY_FOCUS_LABELS[focus]}: ${stopNames.join(" → ")}`,
+    trip_theme: buildTripTheme(input, focus),
     overview: buildOverview(input, focus, grounded),
     days: buildDaySkeletons(input.durationDays, grounded),
     hidden_gems: grounded.hiddenGems.map((d) => `${d.name} (${d.region}) — ${d.summary}`),
@@ -192,6 +263,16 @@ function buildSkeleton(input: PlannerInput, focus: ItineraryFocus, grounded: Gro
       local_tip: dt.dayTrip.local_tip,
     })),
     map_points: grounded.mapPoints,
+    country: input.country,
+    pace,
+    variant,
+    selection_reasons: grounded.selectionReasons.map((r) => ({
+      destination_slug: r.destinationSlug,
+      destination_name: r.destinationName,
+      reason: r.reason,
+    })),
+    route_summary: buildRouteSummary(grounded),
+    widened_search: grounded.widenedSearch,
   };
 }
 
@@ -225,7 +306,7 @@ const proseSchema = z.object({
   ),
 });
 
-function buildGroundingBrief(input: PlannerInput, grounded: GroundedItinerary): string {
+function buildGroundingBrief(input: PlannerInput, pace: TripPace, grounded: GroundedItinerary): string {
   const stops = grounded.stops.map((stop, idx) => {
     const dayTrip = grounded.dayTrips.find((dt) => dt.fromDestinationSlug === stop.destination.slug);
     return {
@@ -251,7 +332,8 @@ function buildGroundingBrief(input: PlannerInput, grounded: GroundedItinerary): 
     {
       duration_days: input.durationDays,
       month: input.month,
-      travel_style: TRAVEL_STYLE_LABELS[input.travelStyle],
+      travel_style: PLANNER_STYLE_LABELS[input.plannerStyle],
+      pace: TRIP_PACE_LABELS[pace],
       focus: ITINERARY_FOCUS_LABELS[grounded.focus],
       stops,
     },
@@ -293,14 +375,20 @@ function applyProse(skeleton: GeneratedItinerary, prose: z.infer<typeof proseSch
   });
 }
 
-export async function generateItinerary(input: PlannerInput): Promise<GeneratedItinerary> {
-  const focus = deriveItineraryFocus(input.travelStyle, input.interests);
-  const grounded = buildGroundedItinerary(focus, input.durationDays);
-  const skeleton = buildSkeleton(input, focus, grounded);
+/**
+ * Generates one itinerary. `variant` locks the pace used for selection/pacing (see VARIANT_PACE) —
+ * input.pace is not read here; it's UI metadata generateItineraryVariants' caller uses to pick
+ * which of the three variants to show by default, not a second, conflicting pace signal.
+ */
+export async function generateItinerary(input: PlannerInput, variant: RouteVariant = "balanced"): Promise<GeneratedItinerary> {
+  const pace = VARIANT_PACE[variant];
+  const focus = deriveItineraryFocus(input.plannerStyle, input.interests);
+  const grounded = buildGroundedItinerary(input.plannerStyle, focus, input.country, input.durationDays, pace);
+  const skeleton = buildSkeleton(input, focus, pace, variant, grounded);
 
   if (isOpenAIConfigured()) {
     try {
-      const brief = buildGroundingBrief(input, grounded);
+      const brief = buildGroundingBrief(input, pace, grounded);
       const prose = await fetchProse(brief, skeleton.days.length);
       if (prose) applyProse(skeleton, prose);
     } catch (error) {
@@ -309,4 +397,16 @@ export async function generateItinerary(input: PlannerInput): Promise<GeneratedI
   }
 
   return generatedItinerarySchema.parse(skeleton);
+}
+
+/** Requirement #6 — Conservative/Balanced/Explorer, generated from the same input, pace fixed per variant. */
+export async function generateItineraryVariants(
+  input: PlannerInput
+): Promise<Record<RouteVariant, GeneratedItinerary>> {
+  const results = await Promise.all(ROUTE_VARIANTS.map((variant) => generateItinerary(input, variant)));
+  return {
+    conservative: results[0],
+    balanced: results[1],
+    explorer: results[2],
+  };
 }

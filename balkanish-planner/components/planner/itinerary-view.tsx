@@ -11,6 +11,19 @@ export function ItineraryView({ itinerary }: { itinerary: GeneratedItinerary }) 
 
       <ItineraryMap itinerary={itinerary} />
 
+      {itinerary.selection_reasons.length > 0 && (
+        <div className="mt-8 rounded-xl border border-border bg-muted/40 p-4 sm:mt-10 sm:p-5">
+          <h4 className="font-display text-xl text-sage-dark">Why these stops</h4>
+          <ul className="mt-3 flex flex-col gap-2 font-serif text-sm text-foreground/85">
+            {itinerary.selection_reasons.map((reason) => (
+              <li key={reason.destination_slug}>
+                <span className="font-medium text-foreground">{reason.destination_name}</span> — {reason.reason}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       <div className="mt-8 flex flex-col gap-5 sm:gap-6">
         {itinerary.days.map((day) => (
           <div key={day.day} className="break-inside-avoid-page rounded-xl border border-border p-4 sm:p-5">

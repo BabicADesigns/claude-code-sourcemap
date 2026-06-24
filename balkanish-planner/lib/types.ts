@@ -16,6 +16,60 @@ export type TravelStyle =
 
 export type Country = "Croatia" | "Bosnia and Herzegovina" | "Montenegro" | "Serbia" | "Slovenia";
 
+export const COUNTRIES: Country[] = [
+  "Croatia",
+  "Bosnia and Herzegovina",
+  "Montenegro",
+  "Serbia",
+  "Slovenia",
+];
+
+/** How much ground a trip should cover per day — drives stop count, day-trip density, and route variant defaults. */
+export type TripPace = "relaxed" | "balanced" | "active";
+
+export const TRIP_PACE_LABELS: Record<TripPace, string> = {
+  relaxed: "Relaxed",
+  balanced: "Balanced",
+  active: "Active",
+};
+
+/** The three itineraries generated per planner submission — same inputs, different stop-count/pacing tradeoffs. */
+export type RouteVariant = "conservative" | "balanced" | "explorer";
+
+export const ROUTE_VARIANT_LABELS: Record<RouteVariant, string> = {
+  conservative: "Conservative Route",
+  balanced: "Balanced Route",
+  explorer: "Explorer Route",
+};
+
+/**
+ * The planner wizard's travel-style vocabulary. Deliberately a separate type from TravelStyle:
+ * TravelStyle backs a Postgres enum column (profiles.travel_style, generated_itineraries.travel_style)
+ * that Phase 8 is not allowed to migrate, so it can't grow new literal values. PlannerStyle is free to
+ * expand and is mapped down to the nearest legacy TravelStyle (see PLANNER_STYLE_TO_TRAVEL_STYLE) only
+ * at the points where a planner submission is actually persisted to Supabase.
+ */
+export type PlannerStyle =
+  | "slow_travel"
+  | "food_and_wine"
+  | "road_trip"
+  | "romantic_escape"
+  | "family"
+  | "culture"
+  | "nature"
+  | "mixed";
+
+export const PLANNER_STYLE_LABELS: Record<PlannerStyle, string> = {
+  slow_travel: "Slow Travel",
+  food_and_wine: "Food & Wine",
+  road_trip: "Road Trip",
+  romantic_escape: "Romantic Escape",
+  family: "Family",
+  culture: "Culture",
+  nature: "Nature",
+  mixed: "Mixed",
+};
+
 /** The kind of trip a destination suits — distinct from DestinationCategory, which drives the Hidden Gems filter UI. A destination can belong to several. */
 export type TravelType =
   | "island_escape"
@@ -230,6 +284,23 @@ export const TRAVEL_STYLE_LABELS: Record<TravelStyle, string> = {
   culture_and_history: "Culture & History",
   romantic_getaway: "Romantic Getaway",
   family_friendly: "Family Friendly",
+};
+
+/**
+ * Maps the planner wizard's 8-value PlannerStyle onto the legacy 6-value, Postgres-enum-backed
+ * TravelStyle, used only at the moment a planner submission is written to Supabase
+ * (generated_itineraries.travel_style / profiles.travel_style). Never used for itinerary logic —
+ * lib/ai/grounding.ts scores and selects destinations from PlannerStyle directly.
+ */
+export const PLANNER_STYLE_TO_TRAVEL_STYLE: Record<PlannerStyle, TravelStyle> = {
+  slow_travel: "slow_and_soulful",
+  food_and_wine: "food_and_wine",
+  road_trip: "active_outdoors",
+  romantic_escape: "romantic_getaway",
+  family: "family_friendly",
+  culture: "culture_and_history",
+  nature: "active_outdoors",
+  mixed: "slow_and_soulful",
 };
 
 export interface Profile {
