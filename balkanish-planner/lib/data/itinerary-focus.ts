@@ -11,6 +11,7 @@ export const ITINERARY_FOCUS_TRAVEL_TYPES: Record<ItineraryFocus, TravelType[]> 
   coast: ["island_escape", "weekend_escape"],
   food: ["food_destination"],
   wine: ["wine_region"],
+  slow_living: ["slow_living", "mountain_escape"],
   culture: ["historic_town", "cultural_experience"],
   national_park: ["national_park"],
   family: ["family_friendly"],

@@ -67,6 +67,8 @@ export interface Destination {
   hero_image_url: string;
   gallery_image_urls: string[];
   is_featured: boolean;
+  latitude: number;
+  longitude: number;
 }
 
 export interface DayTrip {
@@ -83,28 +85,30 @@ export interface DayTrip {
   local_tip: string;
 }
 
-/** The shape of trip a planner request is built around — used to map requests onto matching travel types ahead of real itinerary generation. */
+/** The shape of trip a planner request is built around — used to map requests onto matching travel types and ground real itinerary generation. */
 export type ItineraryFocus =
   | "coast"
   | "food"
   | "wine"
+  | "slow_living"
+  | "romantic"
+  | "family"
   | "culture"
   | "national_park"
-  | "mixed"
-  | "family"
-  | "romantic"
-  | "road_trip";
+  | "road_trip"
+  | "mixed";
 
 export const ITINERARY_FOCUS_LABELS: Record<ItineraryFocus, string> = {
-  coast: "Coast",
-  food: "Food",
-  wine: "Wine",
-  culture: "Culture",
-  national_park: "National Park",
-  mixed: "Mixed",
-  family: "Family",
-  romantic: "Romantic",
+  coast: "Coast Escape",
+  food: "Food Journey",
+  wine: "Wine Journey",
+  slow_living: "Slow Living",
+  romantic: "Romantic Escape",
+  family: "Family Friendly",
+  culture: "Historic Balkans",
+  national_park: "National Parks",
   road_trip: "Road Trip",
+  mixed: "Mixed Discovery",
 };
 
 export type ScoreKey =
