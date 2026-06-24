@@ -62,3 +62,4 @@ For full details, please review our [Commercial Terms of Service](https://www.an
 ## Related Resources
 
 - [Awesome-Nano-Banana-images](https://github.com/PicoTrex/Awesome-Nano-Banana-images) - A curated collection of creative image examples and prompts generated with Nano Banana / Nano Banana Pro (Gemini-2.5-flash-image), including the openly released Nano-consistent-150K dataset.
+- [Dify](https://github.com/langgenius/dify) - An open-source LLM app development platform for building AI applications through visual workflows, RAG pipelines, and agents, with integrated model management and observability for going from prototype to production.
