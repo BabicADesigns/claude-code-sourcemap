@@ -3,6 +3,11 @@ import { notFound } from "next/navigation";
 import { getFoodFindBySlug, getFoodFinds } from "@/lib/data/food-finds";
 import { EditorialImage, PullQuote, HandwrittenNote } from "@/components/brand/editorial";
 import { LocalWisdom } from "@/components/brand/content-blocks";
+import { SaveButton } from "@/components/save/save-button";
+import { TrackView } from "@/components/analytics/track-view";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
+import { getCurrentUser } from "@/lib/supabase/server";
+import { getSavedEntityIds } from "@/lib/data/favorites";
 
 export async function generateStaticParams() {
   const foodFinds = await getFoodFinds();
@@ -29,8 +34,12 @@ export default async function FoodFindDetailPage({
   const food = await getFoodFindBySlug(slug);
   if (!food) notFound();
 
+  const user = await getCurrentUser();
+  const isSaved = user ? (await getSavedEntityIds(user.id, "food_find")).has(food.id) : false;
+
   return (
     <article>
+      <TrackView event={ANALYTICS_EVENTS.FOOD_FIND_VIEW} props={{ slug: food.slug }} />
       <EditorialImage
         src={food.hero_image_url}
         alt={food.name}
@@ -39,6 +48,12 @@ export default async function FoodFindDetailPage({
         className="h-[34vh] min-h-[240px] w-full sm:h-[42vh] sm:min-h-[300px]"
       >
         <div className="absolute inset-0 z-10 bg-gradient-to-t from-charcoal/70 via-charcoal/10 to-transparent" />
+        <SaveButton
+          entityType="food_find"
+          entityId={food.id}
+          initialSaved={isSaved}
+          className="absolute right-4 top-4 z-20 sm:right-6 sm:top-6"
+        />
         <div className="container absolute inset-0 z-20 flex flex-col items-start justify-end gap-2 pb-6 text-cream sm:pb-10">
           <p className="font-sans text-xs uppercase tracking-widest text-cream/80">{food.region}</p>
           <h1 className="font-display text-3xl font-semibold sm:text-5xl">{food.name}</h1>

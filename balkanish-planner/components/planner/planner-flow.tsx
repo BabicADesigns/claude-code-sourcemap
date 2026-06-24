@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -13,6 +14,9 @@ import {
 } from "@/lib/ai/itinerary";
 import { TRAVEL_STYLE_LABELS, type TravelStyle } from "@/lib/types";
 import { slugify } from "@/lib/utils";
+import { saveItinerary } from "@/lib/actions/itineraries";
+import { ItineraryView } from "@/components/planner/itinerary-view";
+import { track, ANALYTICS_EVENTS } from "@/lib/analytics";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -35,10 +39,14 @@ const defaultValues: PlannerInput = {
 };
 
 export function PlannerFlow() {
+  const router = useRouter();
   const [itinerary, setItinerary] = useState<GeneratedItinerary | null>(null);
   const [submittedInput, setSubmittedInput] = useState<PlannerInput | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
+  const [isSavingItinerary, setIsSavingItinerary] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const [itinerarySaved, setItinerarySaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const {
@@ -75,6 +83,13 @@ export function PlannerFlow() {
       const data = await res.json();
       setItinerary(data.itinerary);
       setSubmittedInput(values);
+      setItinerarySaved(false);
+      track(ANALYTICS_EVENTS.ITINERARY_GENERATED, {
+        durationDays: values.durationDays,
+        month: values.month,
+        budget: values.budget,
+        travelStyle: values.travelStyle,
+      });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
@@ -104,54 +119,37 @@ export function PlannerFlow() {
     }
   }
 
+  async function handleSaveItinerary() {
+    if (!itinerary || !submittedInput) return;
+    setIsSavingItinerary(true);
+    setSaveError(null);
+    const result = await saveItinerary(itinerary, submittedInput);
+    setIsSavingItinerary(false);
+    if (result.error) {
+      if (result.error.toLowerCase().includes("sign in")) {
+        router.push("/sign-in");
+        return;
+      }
+      setSaveError(result.error);
+      return;
+    }
+    setItinerarySaved(true);
+  }
+
   if (itinerary && submittedInput) {
     return (
       <div className="max-w-3xl">
-        <p className="font-sans text-xs uppercase tracking-widest text-accent">Your itinerary</p>
-        <h2 className="mt-2 font-display text-3xl text-sage-dark sm:text-4xl">{itinerary.trip_title}</h2>
-        <p className="mt-3 font-serif text-foreground/85">{itinerary.overview}</p>
-
-        <div className="mt-8 flex flex-col gap-5 sm:gap-6">
-          {itinerary.days.map((day) => (
-            <div key={day.day} className="rounded-xl border border-border p-4 sm:p-5">
-              <p className="font-sans text-xs uppercase tracking-widest text-muted-foreground">Day {day.day}</p>
-              <h3 className="mt-1 font-display text-xl text-sage-dark sm:text-2xl">{day.title}</h3>
-              <p className="mt-2 font-serif text-sm text-foreground/85">{day.summary}</p>
-              <dl className="mt-4 grid gap-3 sm:grid-cols-2">
-                <div>
-                  <dt className="font-sans text-xs uppercase tracking-widest text-muted-foreground">Morning</dt>
-                  <dd className="font-serif text-sm text-foreground/85">{day.morning}</dd>
-                </div>
-                <div>
-                  <dt className="font-sans text-xs uppercase tracking-widest text-muted-foreground">Afternoon</dt>
-                  <dd className="font-serif text-sm text-foreground/85">{day.afternoon}</dd>
-                </div>
-                <div>
-                  <dt className="font-sans text-xs uppercase tracking-widest text-muted-foreground">Evening</dt>
-                  <dd className="font-serif text-sm text-foreground/85">{day.evening}</dd>
-                </div>
-                <div>
-                  <dt className="font-sans text-xs uppercase tracking-widest text-muted-foreground">Food highlight</dt>
-                  <dd className="font-serif text-sm text-foreground/85">{day.food_highlight}</dd>
-                </div>
-              </dl>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-8 grid gap-6 sm:mt-10 sm:grid-cols-2 sm:gap-8">
-          <PlannerListSection title="Hidden gems" items={itinerary.hidden_gems} />
-          <PlannerListSection title="Restaurants worth the detour" items={itinerary.restaurant_picks} />
-          <PlannerListSection title="Culture notes" items={itinerary.culture_notes} />
-          <PlannerListSection title="Packing list" items={itinerary.packing_list} />
-        </div>
+        <ItineraryView itinerary={itinerary} />
 
         <div className="mt-8 flex flex-wrap gap-3 sm:mt-10">
           <Button onClick={exportPdf} disabled={isExporting}>
             {isExporting ? "Preparing PDF…" : "Export Premium PDF — €14.99"}
           </Button>
+          <Button variant="outline" onClick={handleSaveItinerary} disabled={isSavingItinerary}>
+            {isSavingItinerary ? "Saving…" : itinerarySaved ? "Saved to My Balkans" : "Save to My Balkans"}
+          </Button>
           <Button
-            variant="outline"
+            variant="ghost"
             onClick={() => {
               setItinerary(null);
               setSubmittedInput(null);
@@ -160,6 +158,7 @@ export function PlannerFlow() {
             Plan another trip
           </Button>
         </div>
+        {saveError && <p className="mt-3 font-sans text-sm text-destructive">{saveError}</p>}
       </div>
     );
   }
@@ -271,18 +270,5 @@ export function PlannerFlow() {
         {isGenerating ? "Planning your trip…" : "Generate my itinerary"}
       </Button>
     </form>
-  );
-}
-
-function PlannerListSection({ title, items }: { title: string; items: string[] }) {
-  return (
-    <div>
-      <h4 className="font-display text-xl text-sage-dark">{title}</h4>
-      <ul className="mt-3 flex flex-col gap-2 font-serif text-sm text-foreground/85">
-        {items.map((item, i) => (
-          <li key={i}>— {item}</li>
-        ))}
-      </ul>
-    </div>
   );
 }

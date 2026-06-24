@@ -3,8 +3,15 @@ import { DESTINATION_CATEGORY_LABELS, type Destination } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
 import { ScoreStrip } from "@/components/cards/score-badges";
 import { EditorialImage } from "@/components/brand/editorial";
+import { SaveButton } from "@/components/save/save-button";
 
-export function DestinationCard({ destination }: { destination: Destination }) {
+export function DestinationCard({
+  destination,
+  initialSaved = false,
+}: {
+  destination: Destination;
+  initialSaved?: boolean;
+}) {
   return (
     <Link
       href={`/hidden-gems/${destination.slug}`}
@@ -20,6 +27,12 @@ export function DestinationCard({ destination }: { destination: Destination }) {
         <Badge variant="accent" className="absolute left-3 top-3 z-20">
           {DESTINATION_CATEGORY_LABELS[destination.category]}
         </Badge>
+        <SaveButton
+          entityType="destination"
+          entityId={destination.id}
+          initialSaved={initialSaved}
+          className="absolute right-3 top-3 z-20"
+        />
       </EditorialImage>
       <div className="flex flex-1 flex-col gap-1.5 p-4 sm:p-5">
         <p className="font-sans text-xs uppercase tracking-widest text-muted-foreground">

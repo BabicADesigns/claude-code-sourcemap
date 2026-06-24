@@ -24,6 +24,12 @@ import {
 } from "@/components/brand/editorial";
 import { BestSlowMoment, WorthWakingUpFor, SkipThisDoThis } from "@/components/brand/content-blocks";
 import { Button } from "@/components/ui/button";
+import { SaveButton } from "@/components/save/save-button";
+import { NewsletterSignup } from "@/components/newsletter/newsletter-signup";
+import { TrackView } from "@/components/analytics/track-view";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
+import { getCurrentUser } from "@/lib/supabase/server";
+import { getSavedEntityIds } from "@/lib/data/favorites";
 
 function guidebookLine(destination: Destination): string {
   return `${destination.name} — ${DESTINATION_CATEGORY_LABELS[destination.category].toLowerCase()}, ${destination.region}. Best visited ${destination.best_season.toLowerCase()}.`;
@@ -75,11 +81,13 @@ export default async function DestinationDetailPage({
   const destination = await getDestinationBySlug(slug);
   if (!destination) notFound();
 
-  const [foodFinds, cultureNotes, secretSwaps] = await Promise.all([
+  const [foodFinds, cultureNotes, secretSwaps, user] = await Promise.all([
     getFoodFinds(),
     getCultureNotes(),
     getSecretSwaps(),
+    getCurrentUser(),
   ]);
+  const isSaved = user ? (await getSavedEntityIds(user.id, "destination")).has(destination.id) : false;
 
   const nearbyFood = foodFinds
     .filter((f) => f.region.includes(destination.region) || destination.region.includes(f.region))
@@ -95,6 +103,7 @@ export default async function DestinationDetailPage({
 
   return (
     <article>
+      <TrackView event={ANALYTICS_EVENTS.DESTINATION_VIEW} props={{ slug: destination.slug }} />
       <EditorialImage
         src={destination.hero_image_url}
         alt={destination.name}
@@ -103,7 +112,10 @@ export default async function DestinationDetailPage({
         className="h-[38vh] min-h-[280px] w-full sm:h-[50vh] sm:min-h-[360px]"
       >
         <div className="absolute inset-0 z-10 bg-gradient-to-t from-charcoal/75 via-charcoal/10 to-transparent" />
-        <LocationTag label={destination.country} className="absolute right-4 top-4 z-20 sm:right-6 sm:top-6" />
+        <div className="absolute right-4 top-4 z-20 flex items-center gap-2 sm:right-6 sm:top-6">
+          <SaveButton entityType="destination" entityId={destination.id} initialSaved={isSaved} />
+          <LocationTag label={destination.country} />
+        </div>
         <div className="container absolute inset-0 z-20 flex flex-col items-start justify-end gap-2 pb-6 text-cream sm:gap-3 sm:pb-10">
           <Badge variant="accent">{DESTINATION_CATEGORY_LABELS[destination.category]}</Badge>
           <h1 className="font-display text-3xl font-semibold sm:text-6xl">{destination.name}</h1>
@@ -193,6 +205,7 @@ export default async function DestinationDetailPage({
           <Button asChild className="w-full">
             <Link href="/planner">Build an itinerary around {destination.name}</Link>
           </Button>
+          <NewsletterSignup sourcePage={`destination:${destination.slug}`} />
         </aside>
       </div>
     </article>

@@ -3,7 +3,10 @@ import { PageHeader } from "@/components/layout/page-header";
 import { FoodFindCard } from "@/components/cards/food-find-card";
 import { CoffeeRule } from "@/components/brand/content-blocks";
 import { FeatureLead } from "@/components/brand/editorial";
+import { NewsletterSignup } from "@/components/newsletter/newsletter-signup";
 import { getFoodFinds } from "@/lib/data/food-finds";
+import { getCurrentUser } from "@/lib/supabase/server";
+import { getSavedEntityIds } from "@/lib/data/favorites";
 
 export const metadata: Metadata = {
   title: "Food Finds",
@@ -11,7 +14,8 @@ export const metadata: Metadata = {
 };
 
 export default async function FoodFindsPage() {
-  const foodFinds = await getFoodFinds();
+  const [foodFinds, user] = await Promise.all([getFoodFinds(), getCurrentUser()]);
+  const savedIds = user ? await getSavedEntityIds(user.id, "food_find") : new Set<string>();
   const [leadFood, ...restFood] = foodFinds;
 
   return (
@@ -36,9 +40,10 @@ export default async function FoodFindsPage() {
             />
           )}
           {restFood.map((food) => (
-            <FoodFindCard key={food.id} foodFind={food} />
+            <FoodFindCard key={food.id} foodFind={food} initialSaved={savedIds.has(food.id)} />
           ))}
         </div>
+        <NewsletterSignup sourcePage="food-finds" className="mt-10 sm:mt-14" />
       </div>
     </div>
   );

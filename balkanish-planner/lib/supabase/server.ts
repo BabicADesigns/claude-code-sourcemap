@@ -1,5 +1,6 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import type { User } from "@supabase/supabase-js";
 import { isSupabaseConfigured } from "./client";
 
 export { isSupabaseConfigured };
@@ -31,4 +32,12 @@ export async function createSupabaseServerClient() {
       },
     }
   );
+}
+
+/** Returns the signed-in user, or null when signed out or Supabase isn't configured. */
+export async function getCurrentUser(): Promise<User | null> {
+  if (!isSupabaseConfigured()) return null;
+  const supabase = await createSupabaseServerClient();
+  const { data } = await supabase.auth.getUser();
+  return data.user ?? null;
 }

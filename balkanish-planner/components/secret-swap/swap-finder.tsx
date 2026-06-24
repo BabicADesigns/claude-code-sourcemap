@@ -1,15 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { SecretSwap } from "@/lib/types";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { EditorialImage } from "@/components/brand/editorial";
+import { SaveButton } from "@/components/save/save-button";
+import { track, ANALYTICS_EVENTS } from "@/lib/analytics";
 
-export function SwapFinder({ swaps }: { swaps: SecretSwap[] }) {
+export function SwapFinder({ swaps, savedIds = [] }: { swaps: SecretSwap[]; savedIds?: string[] }) {
   const [selectedId, setSelectedId] = useState<string>(swaps[0]?.id ?? "");
   const selected = swaps.find((s) => s.id === selectedId);
+
+  useEffect(() => {
+    if (selected) track(ANALYTICS_EVENTS.SECRET_SWAP_VIEW, { id: selected.id });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selected?.id]);
 
   return (
     <div>
@@ -55,9 +62,17 @@ export function SwapFinder({ swaps }: { swaps: SecretSwap[] }) {
           </EditorialImage>
 
           <div className="min-w-0 lg:col-span-2">
-            <h2 className="font-display text-2xl text-sage-dark sm:text-3xl">
-              Instead of {selected.famous_name}, try {selected.alternative.name}
-            </h2>
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <h2 className="font-display text-2xl text-sage-dark sm:text-3xl">
+                Instead of {selected.famous_name}, try {selected.alternative.name}
+              </h2>
+              <SaveButton
+                entityType="secret_swap"
+                entityId={selected.id}
+                initialSaved={savedIds.includes(selected.id)}
+                variant="pill"
+              />
+            </div>
             <p className="mt-3 max-w-2xl font-serif text-foreground/85">{selected.why_text}</p>
 
             <div className="mt-6 overflow-x-auto rounded-xl border border-border">

@@ -2,6 +2,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getCultureNoteBySlug, getCultureNotes } from "@/lib/data/culture-notes";
 import { EditorialImage, PullQuote, WaveDivider, HandwrittenNote } from "@/components/brand/editorial";
+import { SaveButton } from "@/components/save/save-button";
+import { TrackView } from "@/components/analytics/track-view";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
+import { getCurrentUser } from "@/lib/supabase/server";
+import { getSavedEntityIds } from "@/lib/data/favorites";
 
 export async function generateStaticParams() {
   const notes = await getCultureNotes();
@@ -28,21 +33,28 @@ export default async function CultureNoteDetailPage({
   const note = await getCultureNoteBySlug(slug);
   if (!note) notFound();
 
+  const user = await getCurrentUser();
+  const isSaved = user ? (await getSavedEntityIds(user.id, "culture_note")).has(note.id) : false;
+
   const wordCount = note.body.split(/\s+/).filter(Boolean).length;
   const readMinutes = Math.max(1, Math.round(wordCount / 200));
 
   return (
     <article className="container max-w-2xl py-10 sm:py-14">
-      <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-sans text-xs uppercase tracking-widest text-muted-foreground">
-        <span className="text-accent">Culture Notes</span>
-        {note.region && (
-          <>
-            <span aria-hidden="true">·</span>
-            <span>{note.region}</span>
-          </>
-        )}
-        <span aria-hidden="true">·</span>
-        <span>{readMinutes} min read</span>
+      <TrackView event={ANALYTICS_EVENTS.CULTURE_NOTE_VIEW} props={{ slug: note.slug }} />
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-sans text-xs uppercase tracking-widest text-muted-foreground">
+          <span className="text-accent">Culture Notes</span>
+          {note.region && (
+            <>
+              <span aria-hidden="true">·</span>
+              <span>{note.region}</span>
+            </>
+          )}
+          <span aria-hidden="true">·</span>
+          <span>{readMinutes} min read</span>
+        </div>
+        <SaveButton entityType="culture_note" entityId={note.id} initialSaved={isSaved} variant="pill" />
       </div>
       <h1 className="mt-3 font-display text-3xl leading-[1.1] text-sage-dark sm:text-5xl">{note.title}</h1>
 

@@ -133,3 +133,48 @@ export const TRAVEL_STYLE_LABELS: Record<TravelStyle, string> = {
   romantic_getaway: "Romantic Getaway",
   family_friendly: "Family Friendly",
 };
+
+export interface Profile {
+  id: string;
+  display_name: string | null;
+  avatar_url: string | null;
+  is_premium: boolean;
+  country: string | null;
+  travel_style: TravelStyle | null;
+  favorite_region: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export type FavoriteEntityType = "destination" | "food_find" | "culture_note" | "secret_swap";
+
+export interface Favorite {
+  id: string;
+  user_id: string;
+  entity_type: FavoriteEntityType;
+  entity_id: string;
+  created_at: string;
+}
+
+export interface SavedPostcard {
+  id: string;
+  user_id: string;
+  destination_name: string;
+  mood: string;
+  quote: string;
+  image_url: string | null;
+  is_public: boolean;
+  created_at: string;
+}
+
+export interface SavedItinerary {
+  id: string;
+  user_id: string | null;
+  duration_days: number;
+  month: string;
+  budget: string;
+  travel_style: TravelStyle;
+  interests: string[];
+  itinerary_json: import("@/lib/ai/itinerary").GeneratedItinerary;
+  created_at: string;
+}

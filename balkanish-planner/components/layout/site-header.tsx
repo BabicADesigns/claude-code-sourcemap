@@ -8,8 +8,9 @@ import { LogoMark } from "@/components/brand/logo-mark";
 import { mainNav } from "@/lib/nav";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { SignOutButton } from "@/components/auth/sign-out-button";
 
-export function SiteHeader() {
+export function SiteHeader({ user }: { user: { email: string } | null }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -41,9 +42,24 @@ export function SiteHeader() {
         </nav>
 
         <div className="hidden items-center gap-5 lg:flex">
-          <Link href="/sign-in" className="font-sans text-sm text-foreground/80 transition-colors hover:text-primary">
-            Sign In
-          </Link>
+          {user ? (
+            <>
+              <Link
+                href="/my-balkans"
+                className="font-sans text-sm text-foreground/80 transition-colors hover:text-primary"
+              >
+                My Balkans
+              </Link>
+              <Link href="/account" className="font-sans text-sm text-foreground/80 transition-colors hover:text-primary">
+                Account
+              </Link>
+              <SignOutButton className="font-sans text-sm text-foreground/80 transition-colors hover:text-primary" />
+            </>
+          ) : (
+            <Link href="/sign-in" className="font-sans text-sm text-foreground/80 transition-colors hover:text-primary">
+              Sign In
+            </Link>
+          )}
           <Button asChild size="sm">
             <Link href="/planner">Plan My Trip</Link>
           </Button>
@@ -74,15 +90,41 @@ export function SiteHeader() {
                 </Link>
               </li>
             ))}
-            <li>
-              <Link
-                href="/sign-in"
-                onClick={() => setOpen(false)}
-                className="block min-h-11 rounded-sm px-2 py-3 font-sans text-base text-foreground/85 hover:bg-muted"
-              >
-                Sign In
-              </Link>
-            </li>
+            {user ? (
+              <>
+                <li>
+                  <Link
+                    href="/my-balkans"
+                    onClick={() => setOpen(false)}
+                    className="block min-h-11 rounded-sm px-2 py-3 font-sans text-base text-foreground/85 hover:bg-muted"
+                  >
+                    My Balkans
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/account"
+                    onClick={() => setOpen(false)}
+                    className="block min-h-11 rounded-sm px-2 py-3 font-sans text-base text-foreground/85 hover:bg-muted"
+                  >
+                    Account
+                  </Link>
+                </li>
+                <li>
+                  <SignOutButton className="block min-h-11 w-full rounded-sm px-2 py-3 text-left font-sans text-base text-foreground/85 hover:bg-muted" />
+                </li>
+              </>
+            ) : (
+              <li>
+                <Link
+                  href="/sign-in"
+                  onClick={() => setOpen(false)}
+                  className="block min-h-11 rounded-sm px-2 py-3 font-sans text-base text-foreground/85 hover:bg-muted"
+                >
+                  Sign In
+                </Link>
+              </li>
+            )}
             <li className="pt-1">
               <Link
                 href="/planner"

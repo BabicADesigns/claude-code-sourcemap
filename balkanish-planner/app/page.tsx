@@ -13,6 +13,7 @@ import {
   LocationTag,
   GuidebookReference,
 } from "@/components/brand/editorial";
+import { NewsletterSignup } from "@/components/newsletter/newsletter-signup";
 import { DESTINATION_CATEGORY_LABELS } from "@/lib/types";
 import { getDestinations } from "@/lib/data/destinations";
 import { getFoodFinds } from "@/lib/data/food-finds";
@@ -207,6 +208,10 @@ export default async function HomePage() {
           </div>
         </SectionShell>
       )}
+
+      <div className="container py-10 sm:py-14">
+        <NewsletterSignup sourcePage="homepage" className="mx-auto max-w-2xl" />
+      </div>
 
       {/* AI Planner CTA */}
       <section className="border-t border-border bg-sage-dark py-14 text-cream sm:py-20">
