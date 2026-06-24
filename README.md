@@ -5,6 +5,8 @@
 
 ![](https://img.shields.io/badge/Node.js-18%2B-brightgreen?style=flat-square)
 
+New to this extracted source? See [`ARCHITECTURE.md`](ARCHITECTURE.md) for a generated map of `src/` (directory roles, import graph, tool catalog), backed by [`knowledge-graph.json`](knowledge-graph.json). Regenerate both with `node scripts/generate-knowledge-graph.mjs`.
+
 Claude Code is an agentic coding tool that lives in your terminal, understands your codebase, and helps you code faster by executing routine tasks, explaining complex code, and handling git workflows - all through natural language commands.
 
 Some of its key capabilities include:
