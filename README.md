@@ -62,3 +62,4 @@ For full details, please review our [Commercial Terms of Service](https://www.an
 ## Related Resources
 
 - [Awesome-Nano-Banana-images](https://github.com/PicoTrex/Awesome-Nano-Banana-images) - A curated collection of creative image examples and prompts generated with Nano Banana / Nano Banana Pro (Gemini-2.5-flash-image), including the openly released Nano-consistent-150K dataset.
+- [awesome-n8n-templates](https://github.com/enescingoz/awesome-n8n-templates) - A curated collection of 280+ ready-to-use n8n workflow automation templates organized by service and use case.
