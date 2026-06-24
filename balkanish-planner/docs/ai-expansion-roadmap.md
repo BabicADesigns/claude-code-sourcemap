@@ -1,7 +1,7 @@
 # AI Expansion Roadmap — From Curated Database to Hybrid Travel Advisor
 
 **Product:** Balkanish Planner
-**Status:** Technical recommendation only. Nothing in this document is implemented. No OpenAI changes, no external APIs, no new Supabase tables were added as part of writing it — per the Phase 6 brief, this is planning, not code.
+**Status:** Stages 0–1 were already shipped (Phase 8). **Stage 2 ("gated external discovery") is now implemented as of Phase 11** — see `docs/ai-discovery-architecture.md` for the full architecture, the `DestinationCandidate` model, and the verification strategy. Phase 11 implements Stage 2 using the AI model's own knowledge as the candidate source, gated by deterministic verification, rather than a licensed external dataset; `docs/ai-discovery-architecture.md` §7 documents how a real external `DestinationSource` (OpenStreetMap, Wikivoyage, tourism boards, user submissions) would plug into the same gate later. Stages 3 and 4 below remain technical recommendation only — nothing in those two sections is implemented.
 
 ---
 
@@ -35,8 +35,8 @@ Before adding any new data source, make the *existing* selection logic self-awar
 
 This stage is pure software, no new data, no new APIs — a natural next PR, independent of everything after it.
 
-### Stage 2 — Gated external discovery (interface first, implementation later)
-Define an abstraction the grounding module can query *in addition to* `mockDestinations`, without committing to a specific provider yet:
+### Stage 2 — Gated external discovery (implemented in Phase 11, using the AI model as the source)
+**Implemented as of Phase 11 — see `docs/ai-discovery-architecture.md`.** What shipped: `lib/ai/discovery.ts`'s `discoverDestinationCandidates`, gated by `lib/ai/verification.ts`'s `verifyDestinationCandidate`, triggered by Stage 1's `coverageScore` falling below a threshold or by an explicit free-text discovery query. The abstraction below was the original, provider-agnostic interface this section proposed before implementation; it's left as-written for the historical record and because §7 of `docs/ai-discovery-architecture.md` documents exactly this kind of pluggable `DestinationSource` for OpenStreetMap/Wikivoyage/tourism-board/user-submission integration, none of which is built yet:
 
 ```ts
 // Future shape — not implemented:

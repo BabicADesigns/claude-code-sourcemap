@@ -72,6 +72,11 @@ const styles = StyleSheet.create({
   dayTripCard: { marginBottom: 14, paddingBottom: 12, borderBottomWidth: 1, borderBottomColor: COLOR.hairline },
   dayTripEyebrow: { fontSize: 9.5, letterSpacing: 1.5, color: COLOR.rose, textTransform: "uppercase", marginBottom: 3 },
   dayTripTitle: { fontSize: 14, color: COLOR.sageDark, marginBottom: 2 },
+  aiCandidateCard: { marginBottom: 14, paddingBottom: 12, borderBottomWidth: 1, borderBottomColor: COLOR.hairline },
+  aiCandidateEyebrow: { fontSize: 9.5, letterSpacing: 1.5, color: COLOR.sage, textTransform: "uppercase", marginBottom: 3 },
+  aiCandidateTitle: { fontSize: 14, color: COLOR.sageDark, marginBottom: 2 },
+  curatedBadgeText: { fontSize: 9, letterSpacing: 1, color: COLOR.sageDark, textTransform: "uppercase", marginBottom: 4 },
+  curatedBadgeHint: { fontSize: 9, lineHeight: 1.4, color: COLOR.muted, marginBottom: 10 },
   mapImageWrap: { alignItems: "center", marginBottom: 18 },
   mapLegendItem: { flexDirection: "row", alignItems: "flex-start", marginBottom: 7 },
   mapLegendMarkerWrap: {
@@ -184,6 +189,8 @@ export function ItineraryPdfDocument({
       <Page size="A4" style={styles.page}>
         <Text style={styles.sectionEyebrow}>{t("sections.tripSummary.eyebrow")}</Text>
         <Text style={styles.sectionTitle}>{itinerary.trip_title}</Text>
+        <Text style={styles.curatedBadgeText}>{t("curated.badge")}</Text>
+        <Text style={styles.curatedBadgeHint}>{t("curated.hint")}</Text>
         <Text style={styles.text}>{itinerary.overview}</Text>
 
         <View style={[styles.summaryFactsRow, { marginTop: 14 }]}>
@@ -346,6 +353,31 @@ export function ItineraryPdfDocument({
               <Text style={styles.text}>{trip.why_go}</Text>
               <Text style={[styles.text, { fontStyle: "italic" }]}>
                 {t("dayTripCard.localTipLabel")} {trip.local_tip}
+              </Text>
+            </View>
+          ))}
+          <PageFooter t={t} />
+        </Page>
+      )}
+
+      {/* AI-Suggested Possibilities */}
+      {(itinerary.discovered_candidates ?? []).length > 0 && (
+        <Page size="A4" style={styles.page}>
+          <Text style={styles.sectionEyebrow}>{t("sections.aiSuggested.eyebrow")}</Text>
+          <Text style={styles.sectionTitle}>{t("sections.aiSuggested.title")}</Text>
+          <Text style={[styles.text, { marginBottom: 12 }]}>{t("sections.aiSuggested.description")}</Text>
+          {(itinerary.discovered_candidates ?? []).map((candidate) => (
+            <View key={candidate.name} style={styles.aiCandidateCard} wrap={false}>
+              <Text style={styles.aiCandidateEyebrow}>
+                {t("aiSuggestedCard.badge")} · {t("aiSuggestedCard.confidenceLabel")}:{" "}
+                {Math.round(candidate.confidence_score * 100)}%
+              </Text>
+              <Text style={styles.aiCandidateTitle}>
+                {candidate.name} — {candidate.region}
+              </Text>
+              <Text style={styles.text}>{candidate.rationale}</Text>
+              <Text style={[styles.text, { fontStyle: "italic" }]}>
+                {t(`aiSuggestedCard.verificationStatus.${candidate.verification_status}`)}
               </Text>
             </View>
           ))}

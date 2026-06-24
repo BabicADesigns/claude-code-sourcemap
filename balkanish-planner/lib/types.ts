@@ -190,6 +190,56 @@ export const ITINERARY_FOCUS_LABELS: Record<ItineraryFocus, string> = {
   mixed: "Mixed Discovery",
 };
 
+/**
+ * Where a destination candidate came from. `curated` is the trust backbone (a real `Destination`
+ * row, editorially vetted, with earned scores). `ai_suggested` is Layer B — the AI discovery
+ * layer (docs/ai-discovery-architecture.md) proposing a real place it believes exists, never
+ * scored or sequenced alongside curated stops, always shown with its own provenance badge.
+ */
+export type DestinationSourceType = "curated" | "ai_suggested";
+
+/**
+ * How far an `ai_suggested` candidate has been checked — deterministic structural/geographic
+ * plausibility only (lib/ai/verification.ts), never an editorial fact-check. "structurally_checked"
+ * must not be read by a user as "confirmed real" — copy surfacing it says so explicitly.
+ * "rejected" candidates are dropped server-side and never reach a client.
+ */
+export type VerificationStatus = "unverified" | "structurally_checked" | "rejected";
+
+/**
+ * A destination Layer B (AI discovery) is proposing, distinct from a curated `Destination`:
+ * deliberately thin — no *_score fields, no ImageAsset, no why_we_love_it. Those are earned
+ * through editorial promotion (docs/ai-discovery-architecture.md Stage 3), never invented.
+ */
+export interface DestinationCandidate {
+  name: string;
+  region: string;
+  country: Country;
+  latitude: number;
+  longitude: number;
+  source: DestinationSourceType;
+  /** 0–1, computed deterministically by lib/ai/verification.ts — never self-reported by the AI. */
+  confidence_score: number;
+  verification_status: VerificationStatus;
+  /** One sentence, AI-authored, explaining why this place fits the request — narrative, not a verified fact. */
+  rationale: string;
+  matched_focus: ItineraryFocus[];
+}
+
+/** What kind of smart-discovery request a free-text query expresses — see lib/ai/discovery-query.ts. */
+export type DiscoveryIntent = "alternative_to" | "themed_search" | "route_between" | "general";
+
+/** The structured, deterministically-parsed form of a planner free-text discovery query (requirement #7). */
+export interface DiscoveryQuery {
+  raw: string;
+  intent: DiscoveryIntent;
+  focus_tags: ItineraryFocus[];
+  /** The place name the query is anchored on, e.g. "Mostar" in "hidden waterfalls near Mostar". */
+  anchor_place: string | null;
+  /** Only set for "route_between" — the destination end of a "from X to Y" request. */
+  route_to_place: string | null;
+}
+
 export type ScoreKey =
   | "local_score"
   | "crowd_score"

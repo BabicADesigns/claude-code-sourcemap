@@ -12,6 +12,8 @@ import {
   type PlannerStyle,
   type TripPace,
   type RouteVariant,
+  type VerificationStatus,
+  type DestinationSourceType,
 } from "@/lib/types";
 import {
   deriveItineraryFocus,
@@ -20,6 +22,8 @@ import {
   type GroundedItinerary,
   type GroundedDayTrip,
 } from "@/lib/ai/grounding";
+import { parseDiscoveryQuery } from "@/lib/ai/discovery-query";
+import { discoverDestinationCandidates, DISCOVERY_COVERAGE_THRESHOLD } from "@/lib/ai/discovery";
 
 export const BUDGET_TIERS = ["budget", "mid_range", "luxury"] as const;
 export type BudgetTier = (typeof BUDGET_TIERS)[number];
@@ -64,6 +68,8 @@ export const plannerInputSchema = z.object({
   pace: z.enum(["relaxed", "balanced", "active"] as [TripPace, ...TripPace[]]),
   plannerStyle: z.enum(Object.keys(PLANNER_STYLE_LABELS) as [PlannerStyle, ...PlannerStyle[]]),
   interests: z.array(z.string()).min(1).max(6),
+  /** Free-text smart discovery request (requirement #7), e.g. "quiet alternatives to Dubrovnik". Optional — empty/absent means discovery only kicks in if curated coverage is thin. */
+  discoveryQuery: z.string().max(200).optional(),
 });
 export type PlannerInput = z.infer<typeof plannerInputSchema>;
 
@@ -113,6 +119,23 @@ const routeSummarySchema = z.object({
   average_distance_km: z.number(),
 });
 
+/** Layer B output (requirements #1-5) — a real place the AI is proposing, never scored or sequenced alongside curated stops. See lib/ai/discovery.ts. */
+const destinationCandidateSchema = z.object({
+  name: z.string(),
+  region: z.string(),
+  country: z.enum(COUNTRIES as [Country, ...Country[]]),
+  latitude: z.number(),
+  longitude: z.number(),
+  source: z.enum(["curated", "ai_suggested"] as [DestinationSourceType, ...DestinationSourceType[]]),
+  confidence_score: z.number(),
+  verification_status: z.enum(["unverified", "structurally_checked", "rejected"] as [
+    VerificationStatus,
+    ...VerificationStatus[],
+  ]),
+  rationale: z.string(),
+  matched_focus: z.array(z.enum(Object.keys(ITINERARY_FOCUS_LABELS) as [ItineraryFocus, ...ItineraryFocus[]])),
+});
+
 export const generatedItinerarySchema = z.object({
   trip_title: z.string(),
   /** Short, non-prose label of the trip's planner style + focus — e.g. "Food & Wine · Wine Journey". For PDF/export headers. */
@@ -134,6 +157,8 @@ export const generatedItinerarySchema = z.object({
   route_summary: routeSummarySchema,
   /** True when the curated pool for the requested country was too thin and the search widened beyond it. */
   widened_search: z.boolean(),
+  /** Layer B — AI-suggested destinations, always shown separately from the curated stops above. Empty when discovery wasn't triggered or found nothing verifiable. */
+  discovered_candidates: z.array(destinationCandidateSchema),
 });
 export type GeneratedItinerary = z.infer<typeof generatedItinerarySchema>;
 
@@ -273,6 +298,7 @@ function buildSkeleton(
     })),
     route_summary: buildRouteSummary(grounded),
     widened_search: grounded.widenedSearch,
+    discovered_candidates: [],
   };
 }
 
@@ -386,15 +412,31 @@ export async function generateItinerary(input: PlannerInput, variant: RouteVaria
   const grounded = buildGroundedItinerary(input.plannerStyle, focus, input.country, input.durationDays, pace);
   const skeleton = buildSkeleton(input, focus, pace, variant, grounded);
 
-  if (isOpenAIConfigured()) {
-    try {
-      const brief = buildGroundingBrief(input, pace, grounded);
-      const prose = await fetchProse(brief, skeleton.days.length);
-      if (prose) applyProse(skeleton, prose);
-    } catch (error) {
-      console.error("AI prose layer failed; falling back to deterministic itinerary text.", error);
-    }
-  }
+  const parsedQuery = input.discoveryQuery?.trim() ? parseDiscoveryQuery(input.discoveryQuery) : null;
+  // Layer B runs both when explicitly requested (a discovery query) and proactively when the
+  // curated pool alone barely covers the request (requirement #1 — the two layers combine).
+  const shouldDiscover = grounded.coverageScore < DISCOVERY_COVERAGE_THRESHOLD || parsedQuery !== null;
+
+  const [prose, discoveredCandidates] = await Promise.all([
+    isOpenAIConfigured()
+      ? fetchProse(buildGroundingBrief(input, pace, grounded), skeleton.days.length).catch((error) => {
+          console.error("AI prose layer failed; falling back to deterministic itinerary text.", error);
+          return null;
+        })
+      : Promise.resolve(null),
+    shouldDiscover
+      ? discoverDestinationCandidates({
+          plannerStyle: input.plannerStyle,
+          focus,
+          country: input.country,
+          query: parsedQuery,
+          existingStopNames: grounded.stops.map((stop) => stop.destination.name),
+        })
+      : Promise.resolve([]),
+  ]);
+
+  if (prose) applyProse(skeleton, prose);
+  skeleton.discovered_candidates = discoveredCandidates;
 
   return generatedItinerarySchema.parse(skeleton);
 }

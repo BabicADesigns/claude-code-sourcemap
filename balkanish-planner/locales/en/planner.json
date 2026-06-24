@@ -13,6 +13,11 @@
     "noPreference": "No preference",
     "noPreferenceDescription": "Across the Balkans"
   },
+  "discoveryStep": {
+    "label": "Looking for something specific? (optional)",
+    "description": "Try \"quiet alternatives to Dubrovnik\", \"best wine villages in Istria\", or \"road trip from Zagreb to Kotor\" — our AI discovery layer will look beyond the curated list for you.",
+    "placeholder": "e.g. hidden waterfalls near Mostar"
+  },
   "tripLengthStep": {
     "durationLabel": "Trip length (days)",
     "monthLabel": "Travel month",
@@ -42,6 +47,7 @@
     "travelStyleLabel": "Travel style",
     "budgetLabel": "Budget",
     "interestsLabel": "Interests",
+    "discoveryLabel": "Smart search",
     "variantsNote": "We'll generate three route options — Conservative, Balanced, and Explorer — so you can compare a slower pace against a fuller one."
   },
   "months": [
@@ -66,5 +72,18 @@
     "saving": "Saving…",
     "saved": "Saved to My Balkans",
     "planAnotherTrip": "Plan another trip"
+  },
+  "discovery": {
+    "curatedBadge": "Curated Route",
+    "curatedBadgeHint": "Every stop above comes from our editorially vetted destination database.",
+    "sectionTitle": "AI-suggested possibilities",
+    "sectionDescription": "These places aren't in our curated database yet. Our AI discovery layer proposed them for your request, and each passed a structural plausibility check before being shown here — that's not the same as an editorial fact-check.",
+    "aiSuggestedBadge": "AI Suggested",
+    "confidenceLabel": "Confidence",
+    "verificationStatus": {
+      "unverified": "Unverified",
+      "structurally_checked": "Structurally checked — not an editorial fact-check",
+      "rejected": "Rejected"
+    }
   }
 }

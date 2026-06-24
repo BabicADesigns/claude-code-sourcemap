@@ -13,6 +13,11 @@
     "noPreference": "Bez preferencije",
     "noPreferenceDescription": "Po cijelom Balkanu"
   },
+  "discoveryStep": {
+    "label": "Tražite nešto specifično? (neobavezno)",
+    "description": "Pokušajte \"mirne alternative Dubrovniku\", \"najbolja vinska sela u Istri\" ili \"road trip od Zagreba do Kotora\" — naš AI sloj otkrivanja tražit će i izvan kuriranog popisa.",
+    "placeholder": "npr. skriveni vodopadi blizu Mostara"
+  },
   "tripLengthStep": {
     "durationLabel": "Trajanje putovanja (dani)",
     "monthLabel": "Mjesec putovanja",
@@ -42,6 +47,7 @@
     "travelStyleLabel": "Stil putovanja",
     "budgetLabel": "Budžet",
     "interestsLabel": "Interesi",
+    "discoveryLabel": "Pametna pretraga",
     "variantsNote": "Generirat ćemo tri opcije rute — Konzervativnu, Uravnoteženu i Istraživačku — kako biste mogli usporediti opušteniji tempo s ispunjenijim."
   },
   "months": [
@@ -66,5 +72,18 @@
     "saving": "Spremanje…",
     "saved": "Spremljeno u Moj Balkan",
     "planAnotherTrip": "Planiraj još jedno putovanje"
+  },
+  "discovery": {
+    "curatedBadge": "Kurirana ruta",
+    "curatedBadgeHint": "Svaka stanica gore dolazi iz naše uredničko provjerene baze odredišta.",
+    "sectionTitle": "Mogućnosti koje predlaže AI",
+    "sectionDescription": "Ova mjesta još nisu u našoj kuriranoj bazi. Naš AI sloj otkrivanja predložio ih je za vaš upit, a svako je prošlo provjeru strukturne uvjerljivosti prije nego što je prikazano ovdje — to nije isto što i urednička provjera činjenica.",
+    "aiSuggestedBadge": "AI prijedlog",
+    "confidenceLabel": "Pouzdanost",
+    "verificationStatus": {
+      "unverified": "Nije provjereno",
+      "structurally_checked": "Strukturno provjereno — nije urednička provjera činjenica",
+      "rejected": "Odbijeno"
+    }
   }
 }

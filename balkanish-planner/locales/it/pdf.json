@@ -12,6 +12,11 @@
     "dailyItinerary": { "eyebrow": "Itinerario Giornaliero", "title": "Giorno per giorno" },
     "mapOverview": { "eyebrow": "Panoramica della Mappa", "title": "Il tuo percorso" },
     "dayTrips": { "eyebrow": "Gite di un Giorno", "title": "Vale la deviazione" },
+    "aiSuggested": {
+      "eyebrow": "Possibilità Suggerite dall'AI",
+      "title": "Oltre la lista curata",
+      "description": "Questi luoghi non sono ancora nel nostro database curato. Il nostro livello di scoperta AI li ha proposti per la tua richiesta, e ognuno ha superato un controllo di plausibilità strutturale prima di essere mostrato qui — non è lo stesso di una verifica editoriale dei fatti."
+    },
     "foodRecommendations": { "eyebrow": "Consigli Gastronomici", "title": "Mangia come un local" },
     "hiddenGems": { "eyebrow": "Gemme Nascoste", "title": "Fuori dalla strada principale" },
     "localNotes": { "eyebrow": "Note Locali", "title": "Quello che sanno i locali" }
@@ -45,6 +50,19 @@
     "header": "Giorno {day} · Da {origin}",
     "driveSuffix": "di viaggio",
     "localTipLabel": "Consiglio locale:"
+  },
+  "aiSuggestedCard": {
+    "badge": "Suggerito dall'AI",
+    "confidenceLabel": "Affidabilità",
+    "verificationStatus": {
+      "unverified": "Non verificato",
+      "structurally_checked": "Controllato strutturalmente — non è una verifica editoriale",
+      "rejected": "Respinto"
+    }
+  },
+  "curated": {
+    "badge": "Percorso Curato",
+    "hint": "Ogni tappa sopra proviene dal nostro database di destinazioni curato redazionalmente."
   },
   "footer": {
     "tagline": "BabicADesigns · Creato con Amore e Vegeta"

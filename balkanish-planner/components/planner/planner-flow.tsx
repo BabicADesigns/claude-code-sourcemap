@@ -53,6 +53,7 @@ const defaultValues: PlannerInput = {
   pace: "balanced",
   plannerStyle: "slow_travel",
   interests: [INTEREST_OPTIONS[0]],
+  discoveryQuery: "",
 };
 
 const STEP_KEYS = ["destination", "tripLength", "style", "interests", "review"] as const;
@@ -305,6 +306,17 @@ export function PlannerFlow() {
                 )}
               />
             </div>
+
+            <div className="mt-6">
+              <Label htmlFor="discoveryQuery">{t("planner", "discoveryStep.label")}</Label>
+              <p className="mt-1 font-serif text-sm text-foreground/70">{t("planner", "discoveryStep.description")}</p>
+              <Input
+                id="discoveryQuery"
+                className="mt-2"
+                placeholder={t("planner", "discoveryStep.placeholder")}
+                {...register("discoveryQuery")}
+              />
+            </div>
           </div>
         )}
 
@@ -459,6 +471,9 @@ export function PlannerFlow() {
               />
               <ReviewRow label={t("planner", "reviewStep.budgetLabel")} value={BUDGET_TIER_LABELS[values.budget]} />
               <ReviewRow label={t("planner", "reviewStep.interestsLabel")} value={values.interests.join(", ")} />
+              {values.discoveryQuery?.trim() && (
+                <ReviewRow label={t("planner", "reviewStep.discoveryLabel")} value={values.discoveryQuery} />
+              )}
             </dl>
             <p className="mt-4 font-serif text-sm text-foreground/70">{t("planner", "reviewStep.variantsNote")}</p>
           </div>

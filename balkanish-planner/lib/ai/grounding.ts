@@ -12,6 +12,7 @@ import type {
   TripPace,
 } from "@/lib/types";
 import { DESTINATION_SCORES, PLANNER_STYLE_LABELS } from "@/lib/types";
+import { haversineKm } from "@/lib/geo";
 import { mockDestinations } from "@/lib/data/destinations-mock";
 import { mockDayTrips } from "@/lib/data/day-trips";
 import { mockFoodFinds } from "@/lib/data/food-finds-mock";
@@ -89,23 +90,6 @@ export function deriveItineraryFocus(plannerStyle: PlannerStyle, interests: stri
 }
 
 // --- Geography ---
-
-interface LatLng {
-  latitude: number;
-  longitude: number;
-}
-
-function haversineKm(a: LatLng, b: LatLng): number {
-  const R = 6371;
-  const dLat = ((b.latitude - a.latitude) * Math.PI) / 180;
-  const dLng = ((b.longitude - a.longitude) * Math.PI) / 180;
-  const lat1 = (a.latitude * Math.PI) / 180;
-  const lat2 = (b.latitude * Math.PI) / 180;
-  const sinDLat = Math.sin(dLat / 2);
-  const sinDLng = Math.sin(dLng / 2);
-  const h = sinDLat * sinDLat + Math.cos(lat1) * Math.cos(lat2) * sinDLng * sinDLng;
-  return 2 * R * Math.asin(Math.sqrt(h));
-}
 
 /** Greedy nearest-neighbor ordering, anchored on the best-fit destination, to avoid backtracking. */
 function sequenceGeographically(destinations: Destination[]): Destination[] {

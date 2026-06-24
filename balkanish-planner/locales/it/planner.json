@@ -13,6 +13,11 @@
     "noPreference": "Nessuna preferenza",
     "noPreferenceDescription": "In tutti i Balcani"
   },
+  "discoveryStep": {
+    "label": "Cerchi qualcosa di specifico? (opzionale)",
+    "description": "Prova \"alternative tranquille a Dubrovnik\", \"i migliori villaggi del vino in Istria\" o \"viaggio su strada da Zagabria a Cattaro\" — il nostro livello di scoperta AI cercherà anche oltre la lista curata.",
+    "placeholder": "es. cascate nascoste vicino a Mostar"
+  },
   "tripLengthStep": {
     "durationLabel": "Durata del viaggio (giorni)",
     "monthLabel": "Mese del viaggio",
@@ -42,6 +47,7 @@
     "travelStyleLabel": "Stile di viaggio",
     "budgetLabel": "Budget",
     "interestsLabel": "Interessi",
+    "discoveryLabel": "Ricerca intelligente",
     "variantsNote": "Genereremo tre opzioni di percorso — Conservativo, Equilibrato ed Esploratore — così potrai confrontare un ritmo più lento con uno più intenso."
   },
   "months": [
@@ -66,5 +72,18 @@
     "saving": "Salvataggio…",
     "saved": "Salvato su I Miei Balcani",
     "planAnotherTrip": "Pianifica un altro viaggio"
+  },
+  "discovery": {
+    "curatedBadge": "Percorso Curato",
+    "curatedBadgeHint": "Ogni tappa sopra proviene dal nostro database di destinazioni curato redazionalmente.",
+    "sectionTitle": "Possibilità suggerite dall'AI",
+    "sectionDescription": "Questi luoghi non sono ancora nel nostro database curato. Il nostro livello di scoperta AI li ha proposti per la tua richiesta, e ognuno ha superato un controllo di plausibilità strutturale prima di essere mostrato qui — non è lo stesso di una verifica editoriale dei fatti.",
+    "aiSuggestedBadge": "Suggerito dall'AI",
+    "confidenceLabel": "Affidabilità",
+    "verificationStatus": {
+      "unverified": "Non verificato",
+      "structurally_checked": "Controllato strutturalmente — non è una verifica editoriale",
+      "rejected": "Respinto"
+    }
   }
 }
