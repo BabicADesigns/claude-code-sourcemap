@@ -27,6 +27,7 @@ import { saveItinerary } from "@/lib/actions/itineraries";
 import { generateItineraryPdfBlob } from "@/lib/pdf/generate-itinerary-pdf";
 import { ItineraryView } from "@/components/planner/itinerary-view";
 import { track, ANALYTICS_EVENTS } from "@/lib/analytics";
+import { useLocale } from "@/lib/i18n/locale-provider";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -35,20 +36,14 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const months = [
+const MONTHS_EN = [
   "January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December",
-];
+] as const;
 
 const plannerStyleEntries = Object.entries(PLANNER_STYLE_LABELS) as [PlannerStyle, string][];
 const paceEntries = Object.entries(TRIP_PACE_LABELS) as [TripPace, string][];
 const routeVariantEntries = Object.entries(ROUTE_VARIANT_LABELS) as [RouteVariant, string][];
-
-const PACE_HINTS: Record<TripPace, string> = {
-  relaxed: "Fewer stops, more time to linger",
-  balanced: "A steady mix of moving and staying",
-  active: "More ground covered, fuller days",
-};
 
 const defaultValues: PlannerInput = {
   durationDays: 7,
@@ -60,7 +55,7 @@ const defaultValues: PlannerInput = {
   interests: [INTEREST_OPTIONS[0]],
 };
 
-const STEPS = ["Destination", "Trip length & pace", "Style & budget", "Interests", "Review"] as const;
+const STEP_KEYS = ["destination", "tripLength", "style", "interests", "review"] as const;
 
 const STEP_FIELDS: (keyof PlannerInput)[][] = [
   ["country"],
@@ -98,6 +93,7 @@ function OptionCard({
 
 export function PlannerFlow() {
   const router = useRouter();
+  const { t, tList, locale } = useLocale();
   const [step, setStep] = useState(0);
   const [itineraries, setItineraries] = useState<Record<RouteVariant, GeneratedItinerary> | null>(null);
   const [selectedVariant, setSelectedVariant] = useState<RouteVariant>("balanced");
@@ -125,6 +121,15 @@ export function PlannerFlow() {
   const selectedInterests = watch("interests");
   const values = watch();
 
+  const monthLabels = tList("planner", "months");
+  const months = MONTHS_EN.map((month, i) => ({ value: month, label: monthLabels[i] ?? month }));
+  const reviewMonthLabel = monthLabels[MONTHS_EN.indexOf(values.month as (typeof MONTHS_EN)[number])] ?? values.month;
+  const PACE_HINTS: Record<TripPace, string> = {
+    relaxed: t("planner", "tripLengthStep.paceHints.relaxed"),
+    balanced: t("planner", "tripLengthStep.paceHints.balanced"),
+    active: t("planner", "tripLengthStep.paceHints.active"),
+  };
+
   function toggleInterest(interest: string) {
     const next = selectedInterests.includes(interest)
       ? selectedInterests.filter((i) => i !== interest)
@@ -138,7 +143,7 @@ export function PlannerFlow() {
       const valid = await trigger(fields);
       if (!valid) return;
     }
-    setStep((s) => Math.min(s + 1, STEPS.length - 1));
+    setStep((s) => Math.min(s + 1, STEP_KEYS.length - 1));
   }
 
   function goBack() {
@@ -154,7 +159,7 @@ export function PlannerFlow() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(submitted),
       });
-      if (!res.ok) throw new Error("The planner couldn't put this trip together. Please try again.");
+      if (!res.ok) throw new Error(t("planner", "errors.generateFailed"));
       const data = await res.json();
       setItineraries(data.itineraries);
       setSelectedVariant(defaultVariantForPace(submitted.pace));
@@ -169,7 +174,7 @@ export function PlannerFlow() {
         country: submitted.country ?? "any",
       });
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+      setError(err instanceof Error ? err.message : t("planner", "errors.generic"));
     } finally {
       setIsGenerating(false);
     }
@@ -181,7 +186,7 @@ export function PlannerFlow() {
     if (!activeItinerary || !submittedInput) return;
     setIsExporting(true);
     try {
-      const blob = await generateItineraryPdfBlob(activeItinerary, submittedInput);
+      const blob = await generateItineraryPdfBlob(activeItinerary, submittedInput, locale);
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
@@ -233,13 +238,17 @@ export function PlannerFlow() {
 
         <div className="mt-8 flex flex-wrap gap-3 sm:mt-10 print:hidden">
           <Button onClick={exportPdf} disabled={isExporting}>
-            {isExporting ? "Preparing PDF…" : "Export Premium PDF — €14.99"}
+            {isExporting ? t("planner", "result.preparingPdf") : t("planner", "result.exportPdf")}
           </Button>
           <Button variant="outline" onClick={() => window.print()}>
-            Print
+            {t("planner", "result.print")}
           </Button>
           <Button variant="outline" onClick={handleSaveItinerary} disabled={isSavingItinerary}>
-            {isSavingItinerary ? "Saving…" : itinerarySaved ? "Saved to My Balkans" : "Save to My Balkans"}
+            {isSavingItinerary
+              ? t("planner", "result.saving")
+              : itinerarySaved
+                ? t("planner", "result.saved")
+                : t("planner", "result.save")}
           </Button>
           <Button
             variant="ghost"
@@ -249,7 +258,7 @@ export function PlannerFlow() {
               setStep(0);
             }}
           >
-            Plan another trip
+            {t("planner", "result.planAnotherTrip")}
           </Button>
         </div>
         {saveError && <p className="mt-3 font-sans text-sm text-destructive print:hidden">{saveError}</p>}
@@ -260,22 +269,18 @@ export function PlannerFlow() {
   return (
     <div className="max-w-2xl">
       <div className="mb-6">
-        <Progress value={((step + 1) / STEPS.length) * 100} />
+        <Progress value={((step + 1) / STEP_KEYS.length) * 100} />
         <div className="mt-3 flex items-center justify-between font-sans text-xs uppercase tracking-widest text-muted-foreground">
-          <span>
-            Step {step + 1} of {STEPS.length}
-          </span>
-          <span>{STEPS[step]}</span>
+          <span>{t("planner", "stepIndicator", { current: step + 1, total: STEP_KEYS.length })}</span>
+          <span>{t("planner", `steps.${STEP_KEYS[step]}`)}</span>
         </div>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         {step === 0 && (
           <div>
-            <Label>Where in the Balkans?</Label>
-            <p className="mt-1 font-serif text-sm text-foreground/70">
-              Pick a country to focus on, or leave it open and we&rsquo;ll draw from the whole region.
-            </p>
+            <Label>{t("planner", "destinationStep.heading")}</Label>
+            <p className="mt-1 font-serif text-sm text-foreground/70">{t("planner", "destinationStep.description")}</p>
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
               <Controller
                 control={control}
@@ -284,8 +289,8 @@ export function PlannerFlow() {
                   <>
                     <OptionCard
                       selected={field.value === null}
-                      label="No preference"
-                      description="Across the Balkans"
+                      label={t("planner", "destinationStep.noPreference")}
+                      description={t("planner", "destinationStep.noPreferenceDescription")}
                       onClick={() => field.onChange(null)}
                     />
                     {COUNTRIES.map((country) => (
@@ -306,7 +311,7 @@ export function PlannerFlow() {
         {step === 1 && (
           <div className="grid gap-6 sm:grid-cols-2">
             <div>
-              <Label htmlFor="durationDays">Trip length (days)</Label>
+              <Label htmlFor="durationDays">{t("planner", "tripLengthStep.durationLabel")}</Label>
               <Input
                 id="durationDays"
                 type="number"
@@ -321,19 +326,19 @@ export function PlannerFlow() {
             </div>
 
             <div>
-              <Label htmlFor="month">Travel month</Label>
+              <Label htmlFor="month">{t("planner", "tripLengthStep.monthLabel")}</Label>
               <Controller
                 control={control}
                 name="month"
                 render={({ field }) => (
                   <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger id="month" className="mt-2">
-                      <SelectValue placeholder="Choose a month" />
+                      <SelectValue placeholder={t("planner", "tripLengthStep.monthPlaceholder")} />
                     </SelectTrigger>
                     <SelectContent>
                       {months.map((month) => (
-                        <SelectItem key={month} value={month}>
-                          {month}
+                        <SelectItem key={month.value} value={month.value}>
+                          {month.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -343,7 +348,7 @@ export function PlannerFlow() {
             </div>
 
             <div className="sm:col-span-2">
-              <Label>Pace</Label>
+              <Label>{t("planner", "tripLengthStep.paceLabel")}</Label>
               <div className="mt-3 grid gap-3 sm:grid-cols-3">
                 <Controller
                   control={control}
@@ -369,7 +374,7 @@ export function PlannerFlow() {
 
         {step === 2 && (
           <div>
-            <Label>Travel style</Label>
+            <Label>{t("planner", "styleStep.travelStyleLabel")}</Label>
             <div className="mt-3 grid gap-3 sm:grid-cols-2">
               <Controller
                 control={control}
@@ -390,7 +395,7 @@ export function PlannerFlow() {
             </div>
 
             <div className="mt-6">
-              <Label>Budget</Label>
+              <Label>{t("planner", "styleStep.budgetLabel")}</Label>
               <div className="mt-3 grid gap-3">
                 <Controller
                   control={control}
@@ -415,10 +420,8 @@ export function PlannerFlow() {
 
         {step === 3 && (
           <div>
-            <Label>Interests</Label>
-            <p className="mt-1 font-serif text-sm text-foreground/70">
-              Pick a few — these shape the hidden gems and day trips we surface.
-            </p>
+            <Label>{t("planner", "interestsStep.label")}</Label>
+            <p className="mt-1 font-serif text-sm text-foreground/70">{t("planner", "interestsStep.description")}</p>
             <div className="mt-3 grid gap-3 sm:grid-cols-2">
               {INTEREST_OPTIONS.map((interest) => (
                 <label key={interest} className="flex items-center gap-3 font-serif text-sm text-foreground/90">
@@ -436,19 +439,28 @@ export function PlannerFlow() {
 
         {step === 4 && (
           <div>
-            <Label>Review your trip</Label>
+            <Label>{t("planner", "reviewStep.heading")}</Label>
             <dl className="mt-4 grid gap-4 rounded-xl border border-border p-4 sm:grid-cols-2 sm:p-5">
-              <ReviewRow label="Destination" value={values.country ?? "No preference — across the Balkans"} />
-              <ReviewRow label="Trip length" value={`${values.durationDays} days in ${values.month}`} />
-              <ReviewRow label="Pace" value={TRIP_PACE_LABELS[values.pace]} />
-              <ReviewRow label="Travel style" value={PLANNER_STYLE_LABELS[values.plannerStyle]} />
-              <ReviewRow label="Budget" value={BUDGET_TIER_LABELS[values.budget]} />
-              <ReviewRow label="Interests" value={values.interests.join(", ")} />
+              <ReviewRow
+                label={t("planner", "reviewStep.destinationLabel")}
+                value={values.country ?? t("planner", "reviewStep.noPreferenceLong")}
+              />
+              <ReviewRow
+                label={t("planner", "reviewStep.tripLengthLabel")}
+                value={t("planner", "reviewStep.tripLengthValue", {
+                  days: values.durationDays,
+                  month: reviewMonthLabel,
+                })}
+              />
+              <ReviewRow label={t("planner", "reviewStep.paceLabel")} value={TRIP_PACE_LABELS[values.pace]} />
+              <ReviewRow
+                label={t("planner", "reviewStep.travelStyleLabel")}
+                value={PLANNER_STYLE_LABELS[values.plannerStyle]}
+              />
+              <ReviewRow label={t("planner", "reviewStep.budgetLabel")} value={BUDGET_TIER_LABELS[values.budget]} />
+              <ReviewRow label={t("planner", "reviewStep.interestsLabel")} value={values.interests.join(", ")} />
             </dl>
-            <p className="mt-4 font-serif text-sm text-foreground/70">
-              We&rsquo;ll generate three route options — Conservative, Balanced, and Explorer — so you can compare a
-              slower pace against a fuller one.
-            </p>
+            <p className="mt-4 font-serif text-sm text-foreground/70">{t("planner", "reviewStep.variantsNote")}</p>
           </div>
         )}
 
@@ -457,16 +469,16 @@ export function PlannerFlow() {
         <div className="mt-8 flex gap-3">
           {step > 0 && (
             <Button type="button" variant="outline" onClick={goBack}>
-              Back
+              {t("planner", "nav.back")}
             </Button>
           )}
-          {step < STEPS.length - 1 ? (
+          {step < STEP_KEYS.length - 1 ? (
             <Button type="button" onClick={goNext}>
-              Continue
+              {t("planner", "nav.continue")}
             </Button>
           ) : (
             <Button type="submit" disabled={isGenerating}>
-              {isGenerating ? "Planning your trip…" : "Generate my itinerary"}
+              {isGenerating ? t("planner", "nav.generating") : t("planner", "nav.generate")}
             </Button>
           )}
         </div>

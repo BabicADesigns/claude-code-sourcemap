@@ -1,0 +1,70 @@
+{
+  "steps": {
+    "destination": "Reiseziel",
+    "tripLength": "Reisedauer & Tempo",
+    "style": "Stil & Budget",
+    "interests": "Interessen",
+    "review": "Überblick"
+  },
+  "stepIndicator": "Schritt {current} von {total}",
+  "destinationStep": {
+    "heading": "Wohin auf dem Balkan?",
+    "description": "Wähle ein Land aus oder lass es offen — dann schöpfen wir aus der ganzen Region.",
+    "noPreference": "Keine Präferenz",
+    "noPreferenceDescription": "Im ganzen Balkan"
+  },
+  "tripLengthStep": {
+    "durationLabel": "Reisedauer (Tage)",
+    "monthLabel": "Reisemonat",
+    "monthPlaceholder": "Monat wählen",
+    "paceLabel": "Tempo",
+    "paceHints": {
+      "relaxed": "Weniger Stopps, mehr Zeit zum Verweilen",
+      "balanced": "Eine ausgewogene Mischung aus Unterwegssein und Bleiben",
+      "active": "Mehr Strecke, vollere Tage"
+    }
+  },
+  "styleStep": {
+    "travelStyleLabel": "Reisestil",
+    "budgetLabel": "Budget"
+  },
+  "interestsStep": {
+    "label": "Interessen",
+    "description": "Wähle ein paar aus — sie bestimmen die versteckten Schätze und Tagesausflüge, die wir vorschlagen."
+  },
+  "reviewStep": {
+    "heading": "Überblick über deine Reise",
+    "destinationLabel": "Reiseziel",
+    "noPreferenceLong": "Keine Präferenz — im ganzen Balkan",
+    "tripLengthLabel": "Reisedauer",
+    "tripLengthValue": "{days} Tage im {month}",
+    "paceLabel": "Tempo",
+    "travelStyleLabel": "Reisestil",
+    "budgetLabel": "Budget",
+    "interestsLabel": "Interessen",
+    "variantsNote": "Wir erstellen drei Routenoptionen — Konservativ, Ausgewogen und Entdecker —, damit du ein ruhigeres Tempo mit einem volleren vergleichen kannst."
+  },
+  "months": [
+    "Januar", "Februar", "März", "April", "Mai", "Juni",
+    "Juli", "August", "September", "Oktober", "November", "Dezember"
+  ],
+  "nav": {
+    "back": "Zurück",
+    "continue": "Weiter",
+    "generate": "Meine Reiseroute erstellen",
+    "generating": "Wir planen deine Reise…"
+  },
+  "errors": {
+    "generateFailed": "Der Planer konnte diese Reise nicht zusammenstellen. Bitte versuche es erneut.",
+    "generic": "Etwas ist schiefgelaufen."
+  },
+  "result": {
+    "exportPdf": "Premium-PDF exportieren — 14,99 €",
+    "preparingPdf": "PDF wird vorbereitet…",
+    "print": "Drucken",
+    "save": "Bei Mein Balkan speichern",
+    "saving": "Wird gespeichert…",
+    "saved": "Bei Mein Balkan gespeichert",
+    "planAnotherTrip": "Eine weitere Reise planen"
+  }
+}

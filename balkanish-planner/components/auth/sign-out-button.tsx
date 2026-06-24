@@ -4,7 +4,15 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 
-export function SignOutButton({ className }: { className?: string }) {
+export function SignOutButton({
+  className,
+  children,
+  signingOutLabel,
+}: {
+  className?: string;
+  children: React.ReactNode;
+  signingOutLabel: string;
+}) {
   const router = useRouter();
   const [isSigningOut, setIsSigningOut] = useState(false);
 
@@ -18,7 +26,7 @@ export function SignOutButton({ className }: { className?: string }) {
 
   return (
     <button type="button" onClick={onClick} disabled={isSigningOut} className={className}>
-      {isSigningOut ? "Signing out…" : "Sign out"}
+      {isSigningOut ? signingOutLabel : children}
     </button>
   );
 }

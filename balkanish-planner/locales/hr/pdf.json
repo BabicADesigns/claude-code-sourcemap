@@ -1,0 +1,52 @@
+{
+  "cover": {
+    "eyebrowPrefix": "Balkanish Itinerar",
+    "routeLabel": "Ruta",
+    "brand": "BabicADesigns",
+    "brandScript": "Stvoreno s ljubavlju i Vegetom",
+    "paceSuffix": "tempo"
+  },
+  "sections": {
+    "tripSummary": { "eyebrow": "Sažetak Putovanja" },
+    "whyTheseStops": { "eyebrow": "Zašto Ove Stanice", "title": "Razmišljanje iza ove rute" },
+    "dailyItinerary": { "eyebrow": "Dnevni Itinerar", "title": "Dan po dan" },
+    "mapOverview": { "eyebrow": "Pregled Karte", "title": "Vaša ruta" },
+    "dayTrips": { "eyebrow": "Izleti", "title": "Vrijedi skrenuti" },
+    "foodRecommendations": { "eyebrow": "Preporuke za Hranu", "title": "Jedite kao mještanin" },
+    "hiddenGems": { "eyebrow": "Skrivena Blaga", "title": "Izvan glavne ceste" },
+    "localNotes": { "eyebrow": "Lokalne Bilješke", "title": "Što mještani znaju" }
+  },
+  "summaryFacts": {
+    "duration": "Trajanje",
+    "travelMonth": "Mjesec putovanja",
+    "travelStyle": "Stil putovanja",
+    "tripFocus": "Fokus putovanja",
+    "route": "Ruta",
+    "pace": "Tempo",
+    "stops": "Stanice",
+    "dayTrips": "Izleti",
+    "avgDistance": "Prosj. udaljenost",
+    "whatToPack": "Što ponijeti"
+  },
+  "day": {
+    "dayLabel": "Dan {day}",
+    "morning": "Jutro",
+    "afternoon": "Popodne",
+    "evening": "Večer",
+    "foodHighlight": "Gastro highlight"
+  },
+  "map": {
+    "baseLabel": "Baza: {name} — {dayRange}",
+    "daySingle": "Dan {day}",
+    "dayRange": "Dani {start}–{end}",
+    "dayTripLabel": "Izlet: {name} — Dan {day}, od {from} ({driveTime})"
+  },
+  "dayTripCard": {
+    "header": "Dan {day} · Od {origin}",
+    "driveSuffix": "vožnje",
+    "localTipLabel": "Lokalni savjet:"
+  },
+  "footer": {
+    "tagline": "BabicADesigns · Stvoreno s ljubavlju i Vegetom"
+  }
+}

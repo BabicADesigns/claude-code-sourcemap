@@ -1,0 +1,70 @@
+{
+  "steps": {
+    "destination": "Destinazione",
+    "tripLength": "Durata e ritmo",
+    "style": "Stile e budget",
+    "interests": "Interessi",
+    "review": "Riepilogo"
+  },
+  "stepIndicator": "Passo {current} di {total}",
+  "destinationStep": {
+    "heading": "Dove nei Balcani?",
+    "description": "Scegli un paese su cui concentrarti, oppure lascia libero e attingeremo da tutta la regione.",
+    "noPreference": "Nessuna preferenza",
+    "noPreferenceDescription": "In tutti i Balcani"
+  },
+  "tripLengthStep": {
+    "durationLabel": "Durata del viaggio (giorni)",
+    "monthLabel": "Mese del viaggio",
+    "monthPlaceholder": "Scegli un mese",
+    "paceLabel": "Ritmo",
+    "paceHints": {
+      "relaxed": "Meno tappe, più tempo per goderti il momento",
+      "balanced": "Un equilibrio costante tra spostarsi e fermarsi",
+      "active": "Più strada percorsa, giornate più piene"
+    }
+  },
+  "styleStep": {
+    "travelStyleLabel": "Stile di viaggio",
+    "budgetLabel": "Budget"
+  },
+  "interestsStep": {
+    "label": "Interessi",
+    "description": "Scegline alcuni — definiscono le gemme nascoste e le gite che ti proponiamo."
+  },
+  "reviewStep": {
+    "heading": "Rivedi il tuo viaggio",
+    "destinationLabel": "Destinazione",
+    "noPreferenceLong": "Nessuna preferenza — in tutti i Balcani",
+    "tripLengthLabel": "Durata del viaggio",
+    "tripLengthValue": "{days} giorni a {month}",
+    "paceLabel": "Ritmo",
+    "travelStyleLabel": "Stile di viaggio",
+    "budgetLabel": "Budget",
+    "interestsLabel": "Interessi",
+    "variantsNote": "Genereremo tre opzioni di percorso — Conservativo, Equilibrato ed Esploratore — così potrai confrontare un ritmo più lento con uno più intenso."
+  },
+  "months": [
+    "Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno",
+    "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"
+  ],
+  "nav": {
+    "back": "Indietro",
+    "continue": "Continua",
+    "generate": "Genera il mio itinerario",
+    "generating": "Stiamo pianificando il tuo viaggio…"
+  },
+  "errors": {
+    "generateFailed": "Il pianificatore non è riuscito a creare questo viaggio. Riprova.",
+    "generic": "Qualcosa è andato storto."
+  },
+  "result": {
+    "exportPdf": "Esporta PDF Premium — 14,99 €",
+    "preparingPdf": "Preparazione del PDF…",
+    "print": "Stampa",
+    "save": "Salva su I Miei Balcani",
+    "saving": "Salvataggio…",
+    "saved": "Salvato su I Miei Balcani",
+    "planAnotherTrip": "Pianifica un altro viaggio"
+  }
+}

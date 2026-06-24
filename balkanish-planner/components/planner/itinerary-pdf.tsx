@@ -3,6 +3,10 @@ import type { GeneratedItinerary, PlannerInput } from "@/lib/ai/itinerary";
 import { PLANNER_STYLE_LABELS, ITINERARY_FOCUS_LABELS, TRIP_PACE_LABELS, ROUTE_VARIANT_LABELS } from "@/lib/types";
 import { ItineraryMapPdf } from "@/components/planner/itinerary-map-pdf";
 import { buildMapModel } from "@/lib/maps/itinerary-map-model";
+import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
+import { getDictionary, translate } from "@/lib/i18n/dictionaries";
+
+type Translate = (key: string, vars?: Record<string, string | number>) => string;
 
 /**
  * Future photography architecture (not yet wired — see docs/image-direction-v2.md §6):
@@ -117,17 +121,27 @@ const styles = StyleSheet.create({
   foodItemThumb: { width: 40, height: 40, borderRadius: 4, marginRight: 8 },
 });
 
-function PageFooter() {
+function PageFooter({ t }: { t: Translate }) {
   return (
     <View style={styles.footer} fixed>
-      <Text style={styles.footerText}>BabicADesigns · Created with Love and Vegeta</Text>
+      <Text style={styles.footerText}>{t("footer.tagline")}</Text>
       <Text style={styles.footerText} render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`} />
     </View>
   );
 }
 
-export function ItineraryPdfDocument({ itinerary, input }: { itinerary: GeneratedItinerary; input: PlannerInput }) {
+export function ItineraryPdfDocument({
+  itinerary,
+  input,
+  locale = DEFAULT_LOCALE,
+}: {
+  itinerary: GeneratedItinerary;
+  input: PlannerInput;
+  locale?: Locale;
+}) {
   const mapModel = buildMapModel(itinerary);
+  const dictionary = getDictionary(locale);
+  const t: Translate = (key, vars) => translate(dictionary, "pdf", key, vars);
 
   return (
     <Document title={itinerary.trip_title}>
@@ -139,18 +153,20 @@ export function ItineraryPdfDocument({ itinerary, input }: { itinerary: Generate
           hero_image (mapModel.stops[0].slug → getDestinationBySlug → hero_image.url).
         */}
         <View>
-          <Text style={styles.coverEyebrow}>A Balkanish Itinerary · {ITINERARY_FOCUS_LABELS[itinerary.focus]}</Text>
+          <Text style={styles.coverEyebrow}>
+            {t("cover.eyebrowPrefix")} · {ITINERARY_FOCUS_LABELS[itinerary.focus]}
+          </Text>
           <Text style={styles.coverTitle}>{itinerary.trip_title}</Text>
           <Text style={styles.coverMeta}>
             {input.durationDays} days · {input.month} · {PLANNER_STYLE_LABELS[input.plannerStyle]}
           </Text>
           <Text style={styles.coverMeta}>
-            {ROUTE_VARIANT_LABELS[itinerary.variant]} · {TRIP_PACE_LABELS[itinerary.pace]} pace
+            {ROUTE_VARIANT_LABELS[itinerary.variant]} · {TRIP_PACE_LABELS[itinerary.pace]} {t("cover.paceSuffix")}
           </Text>
         </View>
 
         <View>
-          <Text style={styles.coverStopsLabel}>The route</Text>
+          <Text style={styles.coverStopsLabel}>{t("cover.routeLabel")}</Text>
           {mapModel.stops.map((stop) => (
             <Text key={stop.slug} style={styles.coverStop}>
               {stop.order}. {stop.name}
@@ -159,85 +175,85 @@ export function ItineraryPdfDocument({ itinerary, input }: { itinerary: Generate
         </View>
 
         <View>
-          <Text style={styles.coverBrand}>BabicADesigns</Text>
-          <Text style={styles.coverBrandScript}>Created with Love and Vegeta</Text>
+          <Text style={styles.coverBrand}>{t("cover.brand")}</Text>
+          <Text style={styles.coverBrandScript}>{t("cover.brandScript")}</Text>
         </View>
       </Page>
 
       {/* Trip Summary */}
       <Page size="A4" style={styles.page}>
-        <Text style={styles.sectionEyebrow}>Trip Summary</Text>
+        <Text style={styles.sectionEyebrow}>{t("sections.tripSummary.eyebrow")}</Text>
         <Text style={styles.sectionTitle}>{itinerary.trip_title}</Text>
         <Text style={styles.text}>{itinerary.overview}</Text>
 
         <View style={[styles.summaryFactsRow, { marginTop: 14 }]}>
           <View style={styles.summaryFact}>
-            <Text style={styles.summaryFactLabel}>Duration</Text>
+            <Text style={styles.summaryFactLabel}>{t("summaryFacts.duration")}</Text>
             <Text style={styles.summaryFactValue}>{input.durationDays} days</Text>
           </View>
           <View style={styles.summaryFact}>
-            <Text style={styles.summaryFactLabel}>Travel month</Text>
+            <Text style={styles.summaryFactLabel}>{t("summaryFacts.travelMonth")}</Text>
             <Text style={styles.summaryFactValue}>{input.month}</Text>
           </View>
           <View style={styles.summaryFact}>
-            <Text style={styles.summaryFactLabel}>Travel style</Text>
+            <Text style={styles.summaryFactLabel}>{t("summaryFacts.travelStyle")}</Text>
             <Text style={styles.summaryFactValue}>{PLANNER_STYLE_LABELS[input.plannerStyle]}</Text>
           </View>
           <View style={styles.summaryFact}>
-            <Text style={styles.summaryFactLabel}>Trip focus</Text>
+            <Text style={styles.summaryFactLabel}>{t("summaryFacts.tripFocus")}</Text>
             <Text style={styles.summaryFactValue}>{ITINERARY_FOCUS_LABELS[itinerary.focus]}</Text>
           </View>
           <View style={styles.summaryFact}>
-            <Text style={styles.summaryFactLabel}>Route</Text>
+            <Text style={styles.summaryFactLabel}>{t("summaryFacts.route")}</Text>
             <Text style={styles.summaryFactValue}>{ROUTE_VARIANT_LABELS[itinerary.variant]}</Text>
           </View>
           <View style={styles.summaryFact}>
-            <Text style={styles.summaryFactLabel}>Pace</Text>
+            <Text style={styles.summaryFactLabel}>{t("summaryFacts.pace")}</Text>
             <Text style={styles.summaryFactValue}>{TRIP_PACE_LABELS[itinerary.pace]}</Text>
           </View>
           <View style={styles.summaryFact}>
-            <Text style={styles.summaryFactLabel}>Stops</Text>
+            <Text style={styles.summaryFactLabel}>{t("summaryFacts.stops")}</Text>
             <Text style={styles.summaryFactValue}>{mapModel.stops.length}</Text>
           </View>
           <View style={styles.summaryFact}>
-            <Text style={styles.summaryFactLabel}>Day trips</Text>
+            <Text style={styles.summaryFactLabel}>{t("summaryFacts.dayTrips")}</Text>
             <Text style={styles.summaryFactValue}>{itinerary.day_trips.length}</Text>
           </View>
           <View style={styles.summaryFact}>
-            <Text style={styles.summaryFactLabel}>Avg. distance</Text>
+            <Text style={styles.summaryFactLabel}>{t("summaryFacts.avgDistance")}</Text>
             <Text style={styles.summaryFactValue}>{itinerary.route_summary.average_distance_km} km</Text>
           </View>
         </View>
 
-        <Text style={styles.sectionEyebrow}>What to pack</Text>
+        <Text style={styles.sectionEyebrow}>{t("summaryFacts.whatToPack")}</Text>
         {itinerary.packing_list.map((item, i) => (
           <Text key={i} style={styles.listItem}>
             • {item}
           </Text>
         ))}
 
-        <PageFooter />
+        <PageFooter t={t} />
       </Page>
 
       {/* Why These Stops */}
       {itinerary.selection_reasons.length > 0 && (
         <Page size="A4" style={styles.page}>
-          <Text style={styles.sectionEyebrow}>Why These Stops</Text>
-          <Text style={styles.sectionTitle}>The thinking behind this route</Text>
+          <Text style={styles.sectionEyebrow}>{t("sections.whyTheseStops.eyebrow")}</Text>
+          <Text style={styles.sectionTitle}>{t("sections.whyTheseStops.title")}</Text>
           {itinerary.selection_reasons.map((reason) => (
             <View key={reason.destination_slug} style={styles.dayTripCard} wrap={false}>
               <Text style={styles.dayTripTitle}>{reason.destination_name}</Text>
               <Text style={styles.text}>{reason.reason}</Text>
             </View>
           ))}
-          <PageFooter />
+          <PageFooter t={t} />
         </Page>
       )}
 
       {/* Daily Itinerary */}
       <Page size="A4" style={styles.page}>
-        <Text style={styles.sectionEyebrow}>Daily Itinerary</Text>
-        <Text style={styles.sectionTitle}>Day by day</Text>
+        <Text style={styles.sectionEyebrow}>{t("sections.dailyItinerary.eyebrow")}</Text>
+        <Text style={styles.sectionTitle}>{t("sections.dailyItinerary.title")}</Text>
         {itinerary.days.map((day) => (
           <View key={day.day} style={styles.dayBlock} wrap={false}>
             {/*
@@ -245,26 +261,26 @@ export function ItineraryPdfDocument({ itinerary, input }: { itinerary: Generate
               would render here, sourced by matching this day number against
               itinerary.map_points (slug → getDestinationBySlug → hero_image.url).
             */}
-            <Text style={styles.dayEyebrow}>Day {day.day}</Text>
+            <Text style={styles.dayEyebrow}>{t("day.dayLabel", { day: day.day })}</Text>
             <Text style={styles.dayTitle}>{day.title}</Text>
             <Text style={styles.text}>{day.summary}</Text>
-            <Text style={styles.label}>Morning</Text>
+            <Text style={styles.label}>{t("day.morning")}</Text>
             <Text style={styles.text}>{day.morning}</Text>
-            <Text style={styles.label}>Afternoon</Text>
+            <Text style={styles.label}>{t("day.afternoon")}</Text>
             <Text style={styles.text}>{day.afternoon}</Text>
-            <Text style={styles.label}>Evening</Text>
+            <Text style={styles.label}>{t("day.evening")}</Text>
             <Text style={styles.text}>{day.evening}</Text>
-            <Text style={styles.label}>Food highlight</Text>
+            <Text style={styles.label}>{t("day.foodHighlight")}</Text>
             <Text style={styles.text}>{day.food_highlight}</Text>
           </View>
         ))}
-        <PageFooter />
+        <PageFooter t={t} />
       </Page>
 
       {/* Map Overview */}
       <Page size="A4" style={styles.page}>
-        <Text style={styles.sectionEyebrow}>Map Overview</Text>
-        <Text style={styles.sectionTitle}>Your route</Text>
+        <Text style={styles.sectionEyebrow}>{t("sections.mapOverview.eyebrow")}</Text>
+        <Text style={styles.sectionTitle}>{t("sections.mapOverview.title")}</Text>
 
         <View style={styles.mapImageWrap}>
           <ItineraryMapPdf itinerary={itinerary} />
@@ -281,8 +297,13 @@ export function ItineraryPdfDocument({ itinerary, input }: { itinerary: Generate
               <Text style={styles.mapLegendMarkerText}>{stop.order}</Text>
             </View>
             <Text style={styles.text}>
-              Base: {stop.name} —{" "}
-              {stop.dayStart === stop.dayEnd ? `Day ${stop.dayStart}` : `Days ${stop.dayStart}–${stop.dayEnd}`}
+              {t("map.baseLabel", {
+                name: stop.name,
+                dayRange:
+                  stop.dayStart === stop.dayEnd
+                    ? t("map.daySingle", { day: stop.dayStart })
+                    : t("map.dayRange", { start: stop.dayStart, end: stop.dayEnd }),
+              })}
             </Text>
           </View>
         ))}
@@ -292,19 +313,24 @@ export function ItineraryPdfDocument({ itinerary, input }: { itinerary: Generate
               <View style={styles.mapLegendDayTripDot} />
             </View>
             <Text style={styles.text}>
-              Day trip: {trip.name} — Day {trip.day}, from {trip.fromStopName} ({trip.driveTime})
+              {t("map.dayTripLabel", {
+                name: trip.name,
+                day: trip.day,
+                from: trip.fromStopName,
+                driveTime: trip.driveTime,
+              })}
             </Text>
           </View>
         ))}
 
-        <PageFooter />
+        <PageFooter t={t} />
       </Page>
 
       {/* Day Trips */}
       {itinerary.day_trips.length > 0 && (
         <Page size="A4" style={styles.page}>
-          <Text style={styles.sectionEyebrow}>Day Trips</Text>
-          <Text style={styles.sectionTitle}>Worth the detour</Text>
+          <Text style={styles.sectionEyebrow}>{t("sections.dayTrips.eyebrow")}</Text>
+          <Text style={styles.sectionTitle}>{t("sections.dayTrips.title")}</Text>
           {itinerary.day_trips.map((trip) => (
             <View key={`${trip.destination_slug}-${trip.day}`} style={styles.dayTripCard} wrap={false}>
               {/*
@@ -312,23 +338,25 @@ export function ItineraryPdfDocument({ itinerary, input }: { itinerary: Generate
                 would render here — trip.destination_slug already gives a direct
                 getDestinationBySlug lookup, the most direct of the four image hooks.
               */}
-              <Text style={styles.dayTripEyebrow}>
-                Day {trip.day} · From {trip.origin}
-              </Text>
+              <Text style={styles.dayTripEyebrow}>{t("dayTripCard.header", { day: trip.day, origin: trip.origin })}</Text>
               <Text style={styles.dayTripTitle}>{trip.destination_name}</Text>
-              <Text style={styles.text}>{trip.drive_time} drive</Text>
+              <Text style={styles.text}>
+                {trip.drive_time} {t("dayTripCard.driveSuffix")}
+              </Text>
               <Text style={styles.text}>{trip.why_go}</Text>
-              <Text style={[styles.text, { fontStyle: "italic" }]}>Local tip: {trip.local_tip}</Text>
+              <Text style={[styles.text, { fontStyle: "italic" }]}>
+                {t("dayTripCard.localTipLabel")} {trip.local_tip}
+              </Text>
             </View>
           ))}
-          <PageFooter />
+          <PageFooter t={t} />
         </Page>
       )}
 
       {/* Food Recommendations */}
       <Page size="A4" style={styles.page}>
-        <Text style={styles.sectionEyebrow}>Food Recommendations</Text>
-        <Text style={styles.sectionTitle}>Eat like a local</Text>
+        <Text style={styles.sectionEyebrow}>{t("sections.foodRecommendations.eyebrow")}</Text>
+        <Text style={styles.sectionTitle}>{t("sections.foodRecommendations.title")}</Text>
         {/*
           Future photography slot: each restaurant_picks string is free text today
           (no FoodFind slug carried through). Once grounding passes through a slug,
@@ -341,31 +369,31 @@ export function ItineraryPdfDocument({ itinerary, input }: { itinerary: Generate
             • {item}
           </Text>
         ))}
-        <PageFooter />
+        <PageFooter t={t} />
       </Page>
 
       {/* Hidden Gems */}
       <Page size="A4" style={styles.page}>
-        <Text style={styles.sectionEyebrow}>Hidden Gems</Text>
-        <Text style={styles.sectionTitle}>Off the main road</Text>
+        <Text style={styles.sectionEyebrow}>{t("sections.hiddenGems.eyebrow")}</Text>
+        <Text style={styles.sectionTitle}>{t("sections.hiddenGems.title")}</Text>
         {itinerary.hidden_gems.map((item, i) => (
           <Text key={i} style={styles.listItem}>
             • {item}
           </Text>
         ))}
-        <PageFooter />
+        <PageFooter t={t} />
       </Page>
 
       {/* Local Notes */}
       <Page size="A4" style={styles.page}>
-        <Text style={styles.sectionEyebrow}>Local Notes</Text>
-        <Text style={styles.sectionTitle}>What locals know</Text>
+        <Text style={styles.sectionEyebrow}>{t("sections.localNotes.eyebrow")}</Text>
+        <Text style={styles.sectionTitle}>{t("sections.localNotes.title")}</Text>
         {itinerary.culture_notes.map((item, i) => (
           <Text key={i} style={styles.listItem}>
             • {item}
           </Text>
         ))}
-        <PageFooter />
+        <PageFooter t={t} />
       </Page>
     </Document>
   );

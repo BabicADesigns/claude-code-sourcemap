@@ -1,10 +1,10 @@
 export const mainNav = [
-  { label: "Hidden Gems", href: "/hidden-gems" },
-  { label: "Food Finds", href: "/food-finds" },
-  { label: "Culture Notes", href: "/culture-notes" },
-  { label: "Secret Swap", href: "/secret-swap" },
-  { label: "Matchmaker", href: "/matchmaker" },
-  { label: "AI Planner", href: "/planner" },
-  { label: "Postcards", href: "/postcards" },
-  { label: "Guides", href: "/guides" },
+  { key: "hiddenGems", href: "/hidden-gems" },
+  { key: "foodFinds", href: "/food-finds" },
+  { key: "cultureNotes", href: "/culture-notes" },
+  { key: "secretSwap", href: "/secret-swap" },
+  { key: "matchmaker", href: "/matchmaker" },
+  { key: "planner", href: "/planner" },
+  { key: "postcards", href: "/postcards" },
+  { key: "guides", href: "/guides" },
 ] as const;

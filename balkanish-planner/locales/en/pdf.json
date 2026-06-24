@@ -1,0 +1,52 @@
+{
+  "cover": {
+    "eyebrowPrefix": "A Balkanish Itinerary",
+    "routeLabel": "The route",
+    "brand": "BabicADesigns",
+    "brandScript": "Created with Love and Vegeta",
+    "paceSuffix": "pace"
+  },
+  "sections": {
+    "tripSummary": { "eyebrow": "Trip Summary" },
+    "whyTheseStops": { "eyebrow": "Why These Stops", "title": "The thinking behind this route" },
+    "dailyItinerary": { "eyebrow": "Daily Itinerary", "title": "Day by day" },
+    "mapOverview": { "eyebrow": "Map Overview", "title": "Your route" },
+    "dayTrips": { "eyebrow": "Day Trips", "title": "Worth the detour" },
+    "foodRecommendations": { "eyebrow": "Food Recommendations", "title": "Eat like a local" },
+    "hiddenGems": { "eyebrow": "Hidden Gems", "title": "Off the main road" },
+    "localNotes": { "eyebrow": "Local Notes", "title": "What locals know" }
+  },
+  "summaryFacts": {
+    "duration": "Duration",
+    "travelMonth": "Travel month",
+    "travelStyle": "Travel style",
+    "tripFocus": "Trip focus",
+    "route": "Route",
+    "pace": "Pace",
+    "stops": "Stops",
+    "dayTrips": "Day trips",
+    "avgDistance": "Avg. distance",
+    "whatToPack": "What to pack"
+  },
+  "day": {
+    "dayLabel": "Day {day}",
+    "morning": "Morning",
+    "afternoon": "Afternoon",
+    "evening": "Evening",
+    "foodHighlight": "Food highlight"
+  },
+  "map": {
+    "baseLabel": "Base: {name} — {dayRange}",
+    "daySingle": "Day {day}",
+    "dayRange": "Days {start}–{end}",
+    "dayTripLabel": "Day trip: {name} — Day {day}, from {from} ({driveTime})"
+  },
+  "dayTripCard": {
+    "header": "Day {day} · From {origin}",
+    "driveSuffix": "drive",
+    "localTipLabel": "Local tip:"
+  },
+  "footer": {
+    "tagline": "BabicADesigns · Created with Love and Vegeta"
+  }
+}

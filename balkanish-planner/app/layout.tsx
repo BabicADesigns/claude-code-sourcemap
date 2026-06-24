@@ -5,6 +5,8 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { PlausibleScript } from "@/components/analytics/plausible-script";
 import { getCurrentUser } from "@/lib/supabase/server";
+import { getServerLocale } from "@/lib/i18n/server";
+import { LocaleProvider } from "@/lib/i18n/locale-provider";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin", "latin-ext"],
@@ -59,22 +61,28 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const user = await getCurrentUser();
+  const locale = await getServerLocale();
 
   return (
-    <html lang="en" className={`${cormorant.variable} ${ebGaramond.variable} ${playfair.variable} ${inter.variable}`}>
+    <html
+      lang={locale}
+      className={`${cormorant.variable} ${ebGaramond.variable} ${playfair.variable} ${inter.variable}`}
+    >
       <body className="flex min-h-screen flex-col bg-background text-foreground antialiased">
-        <PlausibleScript />
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-sm focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
-        >
-          Skip to content
-        </a>
-        <SiteHeader user={user ? { email: user.email ?? "" } : null} />
-        <main id="main-content" className="flex-1">
-          {children}
-        </main>
-        <SiteFooter />
+        <LocaleProvider initialLocale={locale}>
+          <PlausibleScript />
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-sm focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"
+          >
+            Skip to content
+          </a>
+          <SiteHeader user={user ? { email: user.email ?? "" } : null} />
+          <main id="main-content" className="flex-1">
+            {children}
+          </main>
+          <SiteFooter locale={locale} />
+        </LocaleProvider>
       </body>
     </html>
   );

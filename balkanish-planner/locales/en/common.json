@@ -1,0 +1,34 @@
+{
+  "nav": {
+    "hiddenGems": "Hidden Gems",
+    "foodFinds": "Food Finds",
+    "cultureNotes": "Culture Notes",
+    "secretSwap": "Secret Swap",
+    "matchmaker": "Matchmaker",
+    "planner": "AI Planner",
+    "postcards": "Postcards",
+    "guides": "Guides"
+  },
+  "actions": {
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "signingOut": "Signing out…",
+    "myBalkans": "My Balkans",
+    "account": "Account",
+    "planMyTrip": "Plan My Trip"
+  },
+  "footer": {
+    "tagline": "A trusted friend from the Balkans, helping you discover places most tourists miss.",
+    "exploreHeading": "Explore",
+    "moreHeading": "More",
+    "premiumGuides": "Premium Guides",
+    "madeIn": "Made in the Balkans.",
+    "copyright": "© 2026 BabicADesigns. All rights reserved.",
+    "createdWith": "Created with Love and Vegeta."
+  },
+  "language": {
+    "label": "Language"
+  },
+  "destinations": "Destinations",
+  "dayTrips": "Day Trips"
+}
