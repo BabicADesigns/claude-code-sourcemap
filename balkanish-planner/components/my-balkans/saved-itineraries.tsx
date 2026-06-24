@@ -69,6 +69,11 @@ export function SavedItineraries({ itineraries }: { itineraries: SavedItinerary[
                   {TRAVEL_STYLE_LABELS[openItinerary.travel_style]}
                 </DialogDescription>
               </DialogHeader>
+              <div className="mb-4 print:hidden">
+                <Button variant="outline" size="sm" onClick={() => window.print()}>
+                  Print
+                </Button>
+              </div>
               <ItineraryView itinerary={openItinerary.itinerary_json} />
             </>
           )}

@@ -15,6 +15,7 @@ import {
 import { TRAVEL_STYLE_LABELS, type TravelStyle } from "@/lib/types";
 import { slugify } from "@/lib/utils";
 import { saveItinerary } from "@/lib/actions/itineraries";
+import { generateItineraryPdfBlob } from "@/lib/pdf/generate-itinerary-pdf";
 import { ItineraryView } from "@/components/planner/itinerary-view";
 import { track, ANALYTICS_EVENTS } from "@/lib/analytics";
 import { Label } from "@/components/ui/label";
@@ -101,13 +102,7 @@ export function PlannerFlow() {
     if (!itinerary || !submittedInput) return;
     setIsExporting(true);
     try {
-      const [{ pdf }, { ItineraryPdfDocument }] = await Promise.all([
-        import("@react-pdf/renderer"),
-        import("@/components/planner/itinerary-pdf"),
-      ]);
-      const blob = await pdf(
-        <ItineraryPdfDocument itinerary={itinerary} input={submittedInput} />
-      ).toBlob();
+      const blob = await generateItineraryPdfBlob(itinerary, submittedInput);
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
@@ -138,12 +133,15 @@ export function PlannerFlow() {
 
   if (itinerary && submittedInput) {
     return (
-      <div className="max-w-3xl">
+      <div className="max-w-3xl print:max-w-none">
         <ItineraryView itinerary={itinerary} />
 
-        <div className="mt-8 flex flex-wrap gap-3 sm:mt-10">
+        <div className="mt-8 flex flex-wrap gap-3 sm:mt-10 print:hidden">
           <Button onClick={exportPdf} disabled={isExporting}>
             {isExporting ? "Preparing PDF…" : "Export Premium PDF — €14.99"}
+          </Button>
+          <Button variant="outline" onClick={() => window.print()}>
+            Print
           </Button>
           <Button variant="outline" onClick={handleSaveItinerary} disabled={isSavingItinerary}>
             {isSavingItinerary ? "Saving…" : itinerarySaved ? "Saved to My Balkans" : "Save to My Balkans"}
@@ -158,7 +156,7 @@ export function PlannerFlow() {
             Plan another trip
           </Button>
         </div>
-        {saveError && <p className="mt-3 font-sans text-sm text-destructive">{saveError}</p>}
+        {saveError && <p className="mt-3 font-sans text-sm text-destructive print:hidden">{saveError}</p>}
       </div>
     );
   }

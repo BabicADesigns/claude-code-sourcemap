@@ -15,7 +15,7 @@ export function SiteHeader({ user }: { user: { email: string } | null }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/70 bg-background/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-40 border-b border-border/70 bg-background/95 backdrop-blur-sm print:hidden">
       <div className="container flex h-16 items-center justify-between sm:h-20">
         <Link href="/" className="flex items-center gap-2 sm:gap-3" onClick={() => setOpen(false)}>
           <LogoMark size={30} className="sm:hidden" />
