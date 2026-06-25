@@ -8,13 +8,17 @@ import { LogoMark } from "@/components/brand/logo-mark";
 import { mainNav } from "@/lib/nav";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { SignOutButton } from "@/components/auth/sign-out-button";
+import { LanguageSwitcher } from "@/components/layout/language-switcher";
+import { useLocale } from "@/lib/i18n/locale-provider";
 
-export function SiteHeader() {
+export function SiteHeader({ user }: { user: { email: string } | null }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const { t } = useLocale();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border/70 bg-background/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-40 border-b border-border/70 bg-background/95 backdrop-blur-sm print:hidden">
       <div className="container flex h-16 items-center justify-between sm:h-20">
         <Link href="/" className="flex items-center gap-2 sm:gap-3" onClick={() => setOpen(false)}>
           <LogoMark size={30} className="sm:hidden" />
@@ -35,17 +39,44 @@ export function SiteHeader() {
                 pathname?.startsWith(item.href) && "text-primary font-medium"
               )}
             >
-              {item.label}
+              {t("common", `nav.${item.key}`)}
             </Link>
           ))}
         </nav>
 
         <div className="hidden items-center gap-5 lg:flex">
-          <Link href="/sign-in" className="font-sans text-sm text-foreground/80 transition-colors hover:text-primary">
-            Sign In
-          </Link>
+          {user ? (
+            <>
+              <Link
+                href="/my-balkans"
+                className="font-sans text-sm text-foreground/80 transition-colors hover:text-primary"
+              >
+                {t("common", "actions.myBalkans")}
+              </Link>
+              <Link
+                href="/my-trips"
+                className="font-sans text-sm text-foreground/80 transition-colors hover:text-primary"
+              >
+                {t("common", "actions.myTrips")}
+              </Link>
+              <Link href="/account" className="font-sans text-sm text-foreground/80 transition-colors hover:text-primary">
+                {t("common", "actions.account")}
+              </Link>
+              <SignOutButton
+                className="font-sans text-sm text-foreground/80 transition-colors hover:text-primary"
+                signingOutLabel={t("common", "actions.signingOut")}
+              >
+                {t("common", "actions.signOut")}
+              </SignOutButton>
+            </>
+          ) : (
+            <Link href="/sign-in" className="font-sans text-sm text-foreground/80 transition-colors hover:text-primary">
+              {t("common", "actions.signIn")}
+            </Link>
+          )}
+          <LanguageSwitcher />
           <Button asChild size="sm">
-            <Link href="/planner">Plan My Trip</Link>
+            <Link href="/planner">{t("common", "actions.planMyTrip")}</Link>
           </Button>
         </div>
 
@@ -62,6 +93,9 @@ export function SiteHeader() {
       {open && (
         <nav className="border-t border-border bg-background lg:hidden">
           <p className="container pt-3 font-script text-xs italic text-rose">The Balkanish AI Way</p>
+          <div className="container pt-3">
+            <LanguageSwitcher className="h-10 w-[120px] text-sm" />
+          </div>
           <ul className="container flex flex-col gap-1 py-3">
             {mainNav.map((item) => (
               <li key={item.href}>
@@ -70,26 +104,66 @@ export function SiteHeader() {
                   onClick={() => setOpen(false)}
                   className="block min-h-11 rounded-sm px-2 py-3 font-sans text-base text-foreground/85 hover:bg-muted"
                 >
-                  {item.label}
+                  {t("common", `nav.${item.key}`)}
                 </Link>
               </li>
             ))}
-            <li>
-              <Link
-                href="/sign-in"
-                onClick={() => setOpen(false)}
-                className="block min-h-11 rounded-sm px-2 py-3 font-sans text-base text-foreground/85 hover:bg-muted"
-              >
-                Sign In
-              </Link>
-            </li>
+            {user ? (
+              <>
+                <li>
+                  <Link
+                    href="/my-balkans"
+                    onClick={() => setOpen(false)}
+                    className="block min-h-11 rounded-sm px-2 py-3 font-sans text-base text-foreground/85 hover:bg-muted"
+                  >
+                    {t("common", "actions.myBalkans")}
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/my-trips"
+                    onClick={() => setOpen(false)}
+                    className="block min-h-11 rounded-sm px-2 py-3 font-sans text-base text-foreground/85 hover:bg-muted"
+                  >
+                    {t("common", "actions.myTrips")}
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/account"
+                    onClick={() => setOpen(false)}
+                    className="block min-h-11 rounded-sm px-2 py-3 font-sans text-base text-foreground/85 hover:bg-muted"
+                  >
+                    {t("common", "actions.account")}
+                  </Link>
+                </li>
+                <li>
+                  <SignOutButton
+                    className="block min-h-11 w-full rounded-sm px-2 py-3 text-left font-sans text-base text-foreground/85 hover:bg-muted"
+                    signingOutLabel={t("common", "actions.signingOut")}
+                  >
+                    {t("common", "actions.signOut")}
+                  </SignOutButton>
+                </li>
+              </>
+            ) : (
+              <li>
+                <Link
+                  href="/sign-in"
+                  onClick={() => setOpen(false)}
+                  className="block min-h-11 rounded-sm px-2 py-3 font-sans text-base text-foreground/85 hover:bg-muted"
+                >
+                  {t("common", "actions.signIn")}
+                </Link>
+              </li>
+            )}
             <li className="pt-1">
               <Link
                 href="/planner"
                 onClick={() => setOpen(false)}
                 className="block rounded-md bg-primary px-2 py-3 text-center font-sans text-base font-medium text-primary-foreground"
               >
-                Plan My Trip
+                {t("common", "actions.planMyTrip")}
               </Link>
             </li>
           </ul>

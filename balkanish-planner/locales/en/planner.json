@@ -1,0 +1,89 @@
+{
+  "steps": {
+    "destination": "Destination",
+    "tripLength": "Trip length & pace",
+    "style": "Style & budget",
+    "interests": "Interests",
+    "review": "Review"
+  },
+  "stepIndicator": "Step {current} of {total}",
+  "destinationStep": {
+    "heading": "Where in the Balkans?",
+    "description": "Pick a country to focus on, or leave it open and we'll draw from the whole region.",
+    "noPreference": "No preference",
+    "noPreferenceDescription": "Across the Balkans"
+  },
+  "discoveryStep": {
+    "label": "Looking for something specific? (optional)",
+    "description": "Try \"quiet alternatives to Dubrovnik\", \"best wine villages in Istria\", or \"road trip from Zagreb to Kotor\" — our AI discovery layer will look beyond the curated list for you.",
+    "placeholder": "e.g. hidden waterfalls near Mostar"
+  },
+  "tripLengthStep": {
+    "durationLabel": "Trip length (days)",
+    "monthLabel": "Travel month",
+    "monthPlaceholder": "Choose a month",
+    "paceLabel": "Pace",
+    "paceHints": {
+      "relaxed": "Fewer stops, more time to linger",
+      "balanced": "A steady mix of moving and staying",
+      "active": "More ground covered, fuller days"
+    }
+  },
+  "styleStep": {
+    "travelStyleLabel": "Travel style",
+    "budgetLabel": "Budget"
+  },
+  "interestsStep": {
+    "label": "Interests",
+    "description": "Pick a few — these shape the hidden gems and day trips we surface."
+  },
+  "reviewStep": {
+    "heading": "Review your trip",
+    "destinationLabel": "Destination",
+    "noPreferenceLong": "No preference — across the Balkans",
+    "tripLengthLabel": "Trip length",
+    "tripLengthValue": "{days} days in {month}",
+    "paceLabel": "Pace",
+    "travelStyleLabel": "Travel style",
+    "budgetLabel": "Budget",
+    "interestsLabel": "Interests",
+    "discoveryLabel": "Smart search",
+    "variantsNote": "We'll generate three route options — Conservative, Balanced, and Explorer — so you can compare a slower pace against a fuller one."
+  },
+  "months": [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ],
+  "nav": {
+    "back": "Back",
+    "continue": "Continue",
+    "generate": "Generate my itinerary",
+    "generating": "Planning your trip…"
+  },
+  "errors": {
+    "generateFailed": "The planner couldn't put this trip together. Please try again.",
+    "generic": "Something went wrong."
+  },
+  "result": {
+    "exportPdf": "Export Premium PDF — €14.99",
+    "preparingPdf": "Preparing PDF…",
+    "print": "Print",
+    "save": "Save to My Balkans",
+    "saving": "Saving…",
+    "saved": "Saved to My Balkans",
+    "planAnotherTrip": "Plan another trip"
+  },
+  "discovery": {
+    "curatedBadge": "Curated Route",
+    "curatedBadgeHint": "Every stop above comes from our editorially vetted destination database.",
+    "sectionTitle": "AI-suggested possibilities",
+    "sectionDescription": "These places aren't in our curated database yet. Our AI discovery layer proposed them for your request, and each passed a structural plausibility check before being shown here — that's not the same as an editorial fact-check.",
+    "aiSuggestedBadge": "AI Suggested",
+    "confidenceLabel": "Confidence",
+    "verificationStatus": {
+      "unverified": "Unverified",
+      "structurally_checked": "Structurally checked — not an editorial fact-check",
+      "rejected": "Rejected"
+    }
+  }
+}

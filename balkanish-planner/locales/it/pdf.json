@@ -1,0 +1,78 @@
+{
+  "cover": {
+    "eyebrowPrefix": "Un Itinerario Balkanish",
+    "routeLabel": "Il percorso",
+    "brand": "BabicADesigns",
+    "brandScript": "Creato con Amore e Vegeta",
+    "paceSuffix": "ritmo"
+  },
+  "sections": {
+    "tripSummary": { "eyebrow": "Riepilogo del Viaggio" },
+    "whyTheseStops": { "eyebrow": "Perché Queste Tappe", "title": "Il ragionamento dietro questo percorso" },
+    "dailyItinerary": { "eyebrow": "Itinerario Giornaliero", "title": "Giorno per giorno" },
+    "mapOverview": { "eyebrow": "Panoramica della Mappa", "title": "Il tuo percorso" },
+    "dayTrips": { "eyebrow": "Gite di un Giorno", "title": "Vale la deviazione" },
+    "aiSuggested": {
+      "eyebrow": "Possibilità Suggerite dall'AI",
+      "title": "Oltre la lista curata",
+      "description": "Questi luoghi non sono ancora nel nostro database curato. Il nostro livello di scoperta AI li ha proposti per la tua richiesta, e ognuno ha superato un controllo di plausibilità strutturale prima di essere mostrato qui — non è lo stesso di una verifica editoriale dei fatti."
+    },
+    "foodRecommendations": { "eyebrow": "Consigli Gastronomici", "title": "Mangia come un local" },
+    "hiddenGems": { "eyebrow": "Gemme Nascoste", "title": "Fuori dalla strada principale" },
+    "localNotes": { "eyebrow": "Note Locali", "title": "Quello che sanno i locali" }
+  },
+  "summaryFacts": {
+    "duration": "Durata",
+    "travelMonth": "Mese di viaggio",
+    "travelStyle": "Stile di viaggio",
+    "tripFocus": "Focus del viaggio",
+    "route": "Percorso",
+    "pace": "Ritmo",
+    "stops": "Tappe",
+    "dayTrips": "Gite di un giorno",
+    "avgDistance": "Distanza media",
+    "whatToPack": "Cosa portare"
+  },
+  "day": {
+    "dayLabel": "Giorno {day}",
+    "morning": "Mattina",
+    "afternoon": "Pomeriggio",
+    "evening": "Sera",
+    "foodHighlight": "Il piatto del giorno"
+  },
+  "map": {
+    "baseLabel": "Base: {name} — {dayRange}",
+    "daySingle": "Giorno {day}",
+    "dayRange": "Giorni {start}–{end}",
+    "dayTripLabel": "Gita di un giorno: {name} — Giorno {day}, da {from} ({driveTime})"
+  },
+  "dayTripCard": {
+    "header": "Giorno {day} · Da {origin}",
+    "driveSuffix": "di viaggio",
+    "localTipLabel": "Consiglio locale:"
+  },
+  "aiSuggestedCard": {
+    "badge": "Suggerito dall'AI",
+    "confidenceLabel": "Affidabilità",
+    "verificationStatus": {
+      "unverified": "Non verificato",
+      "structurally_checked": "Controllato strutturalmente — non è una verifica editoriale",
+      "rejected": "Respinto"
+    }
+  },
+  "curated": {
+    "badge": "Percorso Curato",
+    "hint": "Ogni tappa sopra proviene dal nostro database di destinazioni curato redazionalmente."
+  },
+  "destinationGuide": {
+    "eyebrowPrefix": "Una Guida Balkanish alla Destinazione",
+    "region": "Regione",
+    "category": "Categoria",
+    "bestSeason": "Stagione migliore",
+    "overview": { "eyebrow": "Panoramica", "title": "Perché visitarla" },
+    "scorecard": { "eyebrow": "Valutazione", "title": "A colpo d'occhio" }
+  },
+  "footer": {
+    "tagline": "BabicADesigns · Creato con Amore e Vegeta"
+  }
+}

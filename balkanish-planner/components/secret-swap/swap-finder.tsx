@@ -1,15 +1,22 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { SecretSwap } from "@/lib/types";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { EditorialImage } from "@/components/brand/editorial";
+import { SaveButton } from "@/components/save/save-button";
+import { track, ANALYTICS_EVENTS } from "@/lib/analytics";
 
-export function SwapFinder({ swaps }: { swaps: SecretSwap[] }) {
+export function SwapFinder({ swaps, savedIds = [] }: { swaps: SecretSwap[]; savedIds?: string[] }) {
   const [selectedId, setSelectedId] = useState<string>(swaps[0]?.id ?? "");
   const selected = swaps.find((s) => s.id === selectedId);
+
+  useEffect(() => {
+    if (selected) track(ANALYTICS_EVENTS.SECRET_SWAP_VIEW, { id: selected.id });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selected?.id]);
 
   return (
     <div>
@@ -33,28 +40,39 @@ export function SwapFinder({ swaps }: { swaps: SecretSwap[] }) {
 
       {selected && (
         <div className="mt-8 grid gap-6 sm:mt-10 sm:gap-8 lg:grid-cols-2">
-          <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
-            <Image src={selected.famous_image_url} alt={selected.famous_name} fill className="object-cover" />
-            <p className="absolute left-3 top-3 rounded-full bg-charcoal/70 px-3 py-1 font-sans text-xs uppercase tracking-widest text-cream sm:left-4 sm:top-4 sm:px-4">
+          <EditorialImage
+            src={selected.famous_image_url}
+            alt={selected.famous_name}
+            vignette
+            className="aspect-[4/3] rounded-xl"
+          >
+            <p className="absolute left-3 top-3 z-20 rounded-full bg-charcoal/70 px-3 py-1 font-sans text-xs uppercase tracking-widest text-cream sm:left-4 sm:top-4 sm:px-4">
               The famous spot
             </p>
-          </div>
-          <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
-            <Image
-              src={selected.alternative.hero_image_url}
-              alt={selected.alternative.name}
-              fill
-              className="object-cover"
-            />
-            <p className="absolute left-3 top-3 rounded-full bg-accent px-3 py-1 font-sans text-xs uppercase tracking-widest text-accent-foreground sm:left-4 sm:top-4 sm:px-4">
+          </EditorialImage>
+          <EditorialImage
+            src={selected.alternative.hero_image_url}
+            alt={selected.alternative.name}
+            vignette
+            className="aspect-[4/3] rounded-xl"
+          >
+            <p className="absolute left-3 top-3 z-20 rounded-full bg-accent px-3 py-1 font-sans text-xs uppercase tracking-widest text-accent-foreground sm:left-4 sm:top-4 sm:px-4">
               Try this instead
             </p>
-          </div>
+          </EditorialImage>
 
-          <div className="lg:col-span-2">
-            <h2 className="font-display text-2xl text-sage-dark sm:text-3xl">
-              Instead of {selected.famous_name}, try {selected.alternative.name}
-            </h2>
+          <div className="min-w-0 lg:col-span-2">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <h2 className="font-display text-2xl text-sage-dark sm:text-3xl">
+                Instead of {selected.famous_name}, try {selected.alternative.name}
+              </h2>
+              <SaveButton
+                entityType="secret_swap"
+                entityId={selected.id}
+                initialSaved={savedIds.includes(selected.id)}
+                variant="pill"
+              />
+            </div>
             <p className="mt-3 max-w-2xl font-serif text-foreground/85">{selected.why_text}</p>
 
             <div className="mt-6 overflow-x-auto rounded-xl border border-border">

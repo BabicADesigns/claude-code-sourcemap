@@ -1,0 +1,18 @@
+{
+  "itinerary": {
+    "subject": "Deine Balkanish-Reiseroute: {tripTitle}",
+    "heading": "Deine Reise ist fertig",
+    "body": "Hier ist das PDF für {tripTitle} — {durationDays} Tage, als Anhang bereit zum Drucken oder Teilen.",
+    "ctaHint": "Öffne das angehängte PDF, um den vollständigen Tagesplan zu sehen."
+  },
+  "resend": {
+    "subject": "Erneuter Versand deiner Balkanish-Reiseroute: {tripTitle}",
+    "heading": "Hier ist sie noch einmal",
+    "body": "Wie gewünscht, hier ist eine weitere Kopie von {tripTitle}.",
+    "ctaHint": "Öffne das angehängte PDF, um den vollständigen Tagesplan zu sehen."
+  },
+  "footer": {
+    "tagline": "BabicADesigns · Mit Liebe und Vegeta erstellt",
+    "signoff": "Pomalo — bis bald auf der Reise."
+  }
+}

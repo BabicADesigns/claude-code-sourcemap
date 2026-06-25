@@ -1,0 +1,18 @@
+{
+  "itinerary": {
+    "subject": "Vaš Balkanish itinerar: {tripTitle}",
+    "heading": "Vaše putovanje je spremno",
+    "body": "Evo PDF-a za {tripTitle} — {durationDays} dana, u privitku i spremno za ispis ili podjelu.",
+    "ctaHint": "Otvorite privitak PDF za potpuni plan dan po dan."
+  },
+  "resend": {
+    "subject": "Ponovno slanje vašeg Balkanish itinerara: {tripTitle}",
+    "heading": "Evo ga ponovno",
+    "body": "Kao što je traženo, evo još jedne kopije {tripTitle}.",
+    "ctaHint": "Otvorite privitak PDF za potpuni plan dan po dan."
+  },
+  "footer": {
+    "tagline": "BabicADesigns · Stvoreno s ljubavlju i Vegetom",
+    "signoff": "Pomalo — vidimo se na putu."
+  }
+}

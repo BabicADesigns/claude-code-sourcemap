@@ -1,0 +1,18 @@
+{
+  "itinerary": {
+    "subject": "Il tuo itinerario Balkanish: {tripTitle}",
+    "heading": "Il tuo viaggio è pronto",
+    "body": "Ecco il PDF per {tripTitle} — {durationDays} giorni, in allegato e pronto da stampare o condividere.",
+    "ctaHint": "Apri il PDF allegato per vedere il piano completo giorno per giorno."
+  },
+  "resend": {
+    "subject": "Nuovo invio del tuo itinerario Balkanish: {tripTitle}",
+    "heading": "Eccolo di nuovo",
+    "body": "Come richiesto, ecco un'altra copia di {tripTitle}.",
+    "ctaHint": "Apri il PDF allegato per vedere il piano completo giorno per giorno."
+  },
+  "footer": {
+    "tagline": "BabicADesigns · Creato con Amore e Vegeta",
+    "signoff": "Pomalo — ci vediamo in viaggio."
+  }
+}

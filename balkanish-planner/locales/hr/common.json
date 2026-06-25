@@ -1,0 +1,35 @@
+{
+  "nav": {
+    "hiddenGems": "Skrivena Blaga",
+    "foodFinds": "Gastro Otkrića",
+    "cultureNotes": "Kulturne Bilješke",
+    "secretSwap": "Tajna Razmjena",
+    "matchmaker": "Spajalica Putovanja",
+    "planner": "AI Planer",
+    "postcards": "Razglednice",
+    "guides": "Vodiči"
+  },
+  "actions": {
+    "signIn": "Prijava",
+    "signOut": "Odjava",
+    "signingOut": "Odjavljivanje…",
+    "myBalkans": "Moj Balkan",
+    "myTrips": "Moja Putovanja",
+    "account": "Račun",
+    "planMyTrip": "Planiraj Putovanje"
+  },
+  "footer": {
+    "tagline": "Pouzdan prijatelj s Balkana koji vam pomaže otkriti mjesta koja većina turista propusti.",
+    "exploreHeading": "Istraži",
+    "moreHeading": "Više",
+    "premiumGuides": "Premium Vodiči",
+    "madeIn": "Napravljeno na Balkanu.",
+    "copyright": "© 2026 BabicADesigns. Sva prava pridržana.",
+    "createdWith": "Stvoreno s ljubavlju i Vegetom."
+  },
+  "language": {
+    "label": "Jezik"
+  },
+  "destinations": "Odredišta",
+  "dayTrips": "Izleti"
+}

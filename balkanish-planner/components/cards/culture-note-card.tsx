@@ -1,8 +1,15 @@
 import Link from "next/link";
 import type { CultureNote } from "@/lib/types";
 import { EditorialImage } from "@/components/brand/editorial";
+import { SaveButton } from "@/components/save/save-button";
 
-export function CultureNoteCard({ note }: { note: CultureNote }) {
+export function CultureNoteCard({
+  note,
+  initialSaved = false,
+}: {
+  note: CultureNote;
+  initialSaved?: boolean;
+}) {
   return (
     <Link
       href={`/culture-notes/${note.slug}`}
@@ -14,7 +21,14 @@ export function CultureNoteCard({ note }: { note: CultureNote }) {
         className="aspect-[4/3]"
         sizes="(min-width: 1024px) 33vw, 100vw"
         imageClassName="transition-transform duration-500 group-hover:scale-105"
-      />
+      >
+        <SaveButton
+          entityType="culture_note"
+          entityId={note.id}
+          initialSaved={initialSaved}
+          className="absolute right-3 top-3 z-20"
+        />
+      </EditorialImage>
       <div className="flex flex-1 flex-col gap-1.5 p-4 sm:p-5">
         {note.region && (
           <p className="font-sans text-xs uppercase tracking-widest text-muted-foreground">{note.region}</p>

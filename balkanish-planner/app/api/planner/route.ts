@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
-import { generateItinerary, plannerInputSchema } from "@/lib/ai/itinerary";
+import { generateItineraryVariants, plannerInputSchema } from "@/lib/ai/itinerary";
 import { createSupabaseAdminClient, isSupabaseAdminConfigured } from "@/lib/supabase/admin";
+import { PLANNER_STYLE_TO_TRAVEL_STYLE } from "@/lib/types";
+import { logError } from "@/lib/monitoring/logger";
 
 export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
@@ -9,25 +11,30 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid planner input.", issues: parsed.error.issues }, { status: 400 });
   }
 
-  let itinerary;
+  let itineraries;
   try {
-    itinerary = await generateItinerary(parsed.data);
+    itineraries = await generateItineraryVariants(parsed.data);
   } catch (error) {
-    console.error("Itinerary generation failed", error);
+    logError("api.planner.generate", error, { durationDays: parsed.data.durationDays });
     return NextResponse.json({ error: "Could not generate an itinerary. Please try again." }, { status: 502 });
   }
 
   if (isSupabaseAdminConfigured()) {
     const supabase = createSupabaseAdminClient();
-    await supabase.from("generated_itineraries").insert({
+    // The balanced variant is stored as the representative itinerary_json — the other two
+    // variants are derived from the same input and can be regenerated on demand.
+    const { error } = await supabase.from("generated_itineraries").insert({
       duration_days: parsed.data.durationDays,
       month: parsed.data.month,
       budget: parsed.data.budget,
-      travel_style: parsed.data.travelStyle,
+      travel_style: PLANNER_STYLE_TO_TRAVEL_STYLE[parsed.data.plannerStyle],
       interests: parsed.data.interests,
-      itinerary_json: itinerary,
+      itinerary_json: itineraries.balanced,
     });
+    // Anonymous itinerary logging is best-effort — a failure here must never block
+    // returning the itineraries the user is waiting on.
+    if (error) logError("api.planner.logGeneratedItinerary", error);
   }
 
-  return NextResponse.json({ itinerary });
+  return NextResponse.json({ itineraries });
 }

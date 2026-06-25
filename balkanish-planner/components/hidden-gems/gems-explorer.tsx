@@ -15,7 +15,13 @@ const categories: (DestinationCategory | "all")[] = [
   "local_favorites",
 ];
 
-export function GemsExplorer({ destinations }: { destinations: Destination[] }) {
+export function GemsExplorer({
+  destinations,
+  savedIds = [],
+}: {
+  destinations: Destination[];
+  savedIds?: string[];
+}) {
   const [active, setActive] = useState<DestinationCategory | "all">("all");
 
   const filtered = useMemo(
@@ -49,7 +55,11 @@ export function GemsExplorer({ destinations }: { destinations: Destination[] }) 
 
       <div className="mt-6 grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
         {filtered.map((destination) => (
-          <DestinationCard key={destination.id} destination={destination} />
+          <DestinationCard
+            key={destination.id}
+            destination={destination}
+            initialSaved={savedIds.includes(destination.id)}
+          />
         ))}
       </div>
     </div>

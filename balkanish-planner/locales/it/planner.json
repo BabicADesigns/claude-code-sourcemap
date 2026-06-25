@@ -1,0 +1,89 @@
+{
+  "steps": {
+    "destination": "Destinazione",
+    "tripLength": "Durata e ritmo",
+    "style": "Stile e budget",
+    "interests": "Interessi",
+    "review": "Riepilogo"
+  },
+  "stepIndicator": "Passo {current} di {total}",
+  "destinationStep": {
+    "heading": "Dove nei Balcani?",
+    "description": "Scegli un paese su cui concentrarti, oppure lascia libero e attingeremo da tutta la regione.",
+    "noPreference": "Nessuna preferenza",
+    "noPreferenceDescription": "In tutti i Balcani"
+  },
+  "discoveryStep": {
+    "label": "Cerchi qualcosa di specifico? (opzionale)",
+    "description": "Prova \"alternative tranquille a Dubrovnik\", \"i migliori villaggi del vino in Istria\" o \"viaggio su strada da Zagabria a Cattaro\" — il nostro livello di scoperta AI cercherà anche oltre la lista curata.",
+    "placeholder": "es. cascate nascoste vicino a Mostar"
+  },
+  "tripLengthStep": {
+    "durationLabel": "Durata del viaggio (giorni)",
+    "monthLabel": "Mese del viaggio",
+    "monthPlaceholder": "Scegli un mese",
+    "paceLabel": "Ritmo",
+    "paceHints": {
+      "relaxed": "Meno tappe, più tempo per goderti il momento",
+      "balanced": "Un equilibrio costante tra spostarsi e fermarsi",
+      "active": "Più strada percorsa, giornate più piene"
+    }
+  },
+  "styleStep": {
+    "travelStyleLabel": "Stile di viaggio",
+    "budgetLabel": "Budget"
+  },
+  "interestsStep": {
+    "label": "Interessi",
+    "description": "Scegline alcuni — definiscono le gemme nascoste e le gite che ti proponiamo."
+  },
+  "reviewStep": {
+    "heading": "Rivedi il tuo viaggio",
+    "destinationLabel": "Destinazione",
+    "noPreferenceLong": "Nessuna preferenza — in tutti i Balcani",
+    "tripLengthLabel": "Durata del viaggio",
+    "tripLengthValue": "{days} giorni a {month}",
+    "paceLabel": "Ritmo",
+    "travelStyleLabel": "Stile di viaggio",
+    "budgetLabel": "Budget",
+    "interestsLabel": "Interessi",
+    "discoveryLabel": "Ricerca intelligente",
+    "variantsNote": "Genereremo tre opzioni di percorso — Conservativo, Equilibrato ed Esploratore — così potrai confrontare un ritmo più lento con uno più intenso."
+  },
+  "months": [
+    "Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno",
+    "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"
+  ],
+  "nav": {
+    "back": "Indietro",
+    "continue": "Continua",
+    "generate": "Genera il mio itinerario",
+    "generating": "Stiamo pianificando il tuo viaggio…"
+  },
+  "errors": {
+    "generateFailed": "Il pianificatore non è riuscito a creare questo viaggio. Riprova.",
+    "generic": "Qualcosa è andato storto."
+  },
+  "result": {
+    "exportPdf": "Esporta PDF Premium — 14,99 €",
+    "preparingPdf": "Preparazione del PDF…",
+    "print": "Stampa",
+    "save": "Salva su I Miei Balcani",
+    "saving": "Salvataggio…",
+    "saved": "Salvato su I Miei Balcani",
+    "planAnotherTrip": "Pianifica un altro viaggio"
+  },
+  "discovery": {
+    "curatedBadge": "Percorso Curato",
+    "curatedBadgeHint": "Ogni tappa sopra proviene dal nostro database di destinazioni curato redazionalmente.",
+    "sectionTitle": "Possibilità suggerite dall'AI",
+    "sectionDescription": "Questi luoghi non sono ancora nel nostro database curato. Il nostro livello di scoperta AI li ha proposti per la tua richiesta, e ognuno ha superato un controllo di plausibilità strutturale prima di essere mostrato qui — non è lo stesso di una verifica editoriale dei fatti.",
+    "aiSuggestedBadge": "Suggerito dall'AI",
+    "confidenceLabel": "Affidabilità",
+    "verificationStatus": {
+      "unverified": "Non verificato",
+      "structurally_checked": "Controllato strutturalmente — non è una verifica editoriale",
+      "rejected": "Respinto"
+    }
+  }
+}

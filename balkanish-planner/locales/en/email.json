@@ -1,0 +1,18 @@
+{
+  "itinerary": {
+    "subject": "Your Balkanish itinerary: {tripTitle}",
+    "heading": "Your trip is ready",
+    "body": "Here's the PDF for {tripTitle} — {durationDays} days, attached and ready to print or share.",
+    "ctaHint": "Open the attached PDF to see the full day-by-day plan."
+  },
+  "resend": {
+    "subject": "Resending your Balkanish itinerary: {tripTitle}",
+    "heading": "Here it is again",
+    "body": "As requested, here's another copy of {tripTitle}.",
+    "ctaHint": "Open the attached PDF to see the full day-by-day plan."
+  },
+  "footer": {
+    "tagline": "BabicADesigns · Created with Love and Vegeta",
+    "signoff": "Pomalo — see you on the road."
+  }
+}

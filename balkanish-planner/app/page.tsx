@@ -4,12 +4,28 @@ import { DestinationCard } from "@/components/cards/destination-card";
 import { FoodFindCard } from "@/components/cards/food-find-card";
 import { CultureNoteCard } from "@/components/cards/culture-note-card";
 import { BalkanishTruth } from "@/components/brand/content-blocks";
-import { EditorialImage, PullQuote, WaveDivider, FeatureLead } from "@/components/brand/editorial";
+import {
+  EditorialImage,
+  PullQuote,
+  WaveDivider,
+  FeatureLead,
+  TravelStamp,
+  LocationTag,
+  GuidebookReference,
+  PhotoCredit,
+} from "@/components/brand/editorial";
+import { NewsletterSignup } from "@/components/newsletter/newsletter-signup";
 import { DESTINATION_CATEGORY_LABELS } from "@/lib/types";
 import { getDestinations } from "@/lib/data/destinations";
 import { getFoodFinds } from "@/lib/data/food-finds";
 import { getCultureNotes } from "@/lib/data/culture-notes";
 import { getSecretSwaps } from "@/lib/data/secret-swaps";
+import {
+  getFeaturedDestination,
+  getSeasonalDestination,
+  getEditorsPicks,
+  getHiddenGemSpotlight,
+} from "@/lib/content/editorial-spotlight";
 
 export default async function HomePage() {
   const [destinations, foodFinds, cultureNotes, secretSwaps] = await Promise.all([
@@ -19,11 +35,21 @@ export default async function HomePage() {
     getSecretSwaps(),
   ]);
 
-  const featuredGems = destinations.filter((d) => d.is_featured).slice(0, 3);
   const featuredFood = foodFinds.filter((f) => f.is_featured).slice(0, 3);
   const featuredCulture = cultureNotes.filter((c) => c.is_featured).slice(0, 3);
   const featuredSwap = secretSwaps[0];
-  const [leadGem, ...restGems] = featuredGems;
+
+  // The four homepage editorial-spotlight slots (Phase 12 req. 5) — each selector excludes
+  // destinations already claimed by an earlier slot so the four picks never collide.
+  const usedSpotlightIds = new Set<string>();
+  const leadGem = getFeaturedDestination(destinations);
+  if (leadGem) usedSpotlightIds.add(leadGem.id);
+  const seasonalDestination = getSeasonalDestination(destinations, usedSpotlightIds);
+  if (seasonalDestination) usedSpotlightIds.add(seasonalDestination.id);
+  const hiddenGemSpotlight = getHiddenGemSpotlight(destinations, usedSpotlightIds);
+  if (hiddenGemSpotlight) usedSpotlightIds.add(hiddenGemSpotlight.id);
+  const restGems = getEditorsPicks(destinations, usedSpotlightIds, 2);
+  const postcardPick = hiddenGemSpotlight ?? destinations[0];
 
   return (
     <div>
@@ -71,23 +97,59 @@ export default async function HomePage() {
       >
         <div className="grid gap-5 sm:gap-6 lg:grid-cols-3">
           {leadGem && (
-            <FeatureLead
-              href={`/hidden-gems/${leadGem.slug}`}
-              src={leadGem.hero_image_url}
-              alt={leadGem.name}
-              eyebrow={DESTINATION_CATEGORY_LABELS[leadGem.category]}
-              title={leadGem.name}
-              description={leadGem.summary}
-              className="lg:col-span-2"
-            />
+            <div className="lg:col-span-2">
+              <p className="mb-2 font-sans text-[11px] font-semibold uppercase tracking-widest text-accent">
+                Featured Destination
+              </p>
+              <FeatureLead
+                href={`/hidden-gems/${leadGem.slug}`}
+                src={leadGem.hero_image.url}
+                alt={leadGem.hero_image.alt}
+                eyebrow={DESTINATION_CATEGORY_LABELS[leadGem.category]}
+                title={leadGem.name}
+                description={leadGem.summary}
+                credit={leadGem.hero_image.credit}
+              />
+            </div>
           )}
           <div className="flex flex-col gap-5 sm:gap-6">
+            <p className="font-sans text-[11px] font-semibold uppercase tracking-widest text-accent">
+              Editor&rsquo;s Picks
+            </p>
             {restGems.map((d) => (
               <DestinationCard key={d.id} destination={d} />
             ))}
           </div>
         </div>
       </SectionShell>
+
+      {/* Seasonal Destination — whichever featured place is actually in season right now */}
+      {seasonalDestination && (
+        <div className="container py-2 sm:py-4">
+          <div className="flex flex-col gap-4 rounded-xl border border-secondary/40 bg-secondary/10 p-5 sm:flex-row sm:items-center sm:gap-6 sm:p-7">
+            <EditorialImage
+              src={seasonalDestination.hero_image.url}
+              alt={seasonalDestination.hero_image.alt}
+              className="h-40 w-full shrink-0 rounded-lg sm:h-28 sm:w-44"
+            />
+            <div>
+              <p className="font-sans text-[11px] font-semibold uppercase tracking-widest text-sage-dark">
+                In Season Now
+              </p>
+              <h3 className="mt-1 font-display text-xl text-sage-dark">{seasonalDestination.name}</h3>
+              <p className="mt-1 font-serif text-sm text-foreground/75">
+                Best visited {seasonalDestination.best_season.toLowerCase()} — and that window is open right now.
+              </p>
+              <Link
+                href={`/hidden-gems/${seasonalDestination.slug}`}
+                className="mt-2 inline-block font-sans text-sm text-primary underline-offset-4 hover:underline"
+              >
+                Plan around {seasonalDestination.name} →
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="container">
         <BalkanishTruth>Some places are destinations. Some places are invitations.</BalkanishTruth>
@@ -136,6 +198,41 @@ export default async function HomePage() {
         </div>
       </SectionShell>
 
+      {/* A tactile interlude — a postcard from the road, not another grid */}
+      {postcardPick && (
+        <section className="overflow-hidden border-y border-border bg-cream/40 py-14 sm:py-20">
+          <div className="container grid items-center gap-10 lg:grid-cols-[1fr_360px] lg:gap-14">
+            <div>
+              <p className="font-sans text-xs uppercase tracking-widest text-accent">Hidden Gem Spotlight</p>
+              <h2 className="mt-1 max-w-md font-display text-2xl text-sage-dark sm:text-4xl">
+                Some places are worth mailing home about
+              </h2>
+              <GuidebookReference source="Balkanish Field Notes" className="mt-5 max-w-md">
+                Every destination on this site doubles as a postcard — pick a mood, write a line worth
+                keeping, and send it the slow way.
+              </GuidebookReference>
+              <Button asChild variant="link" className="mt-4 px-0">
+                <Link href="/postcards">Make your own postcard →</Link>
+              </Button>
+            </div>
+            <div className="relative mx-auto w-full max-w-xs rotate-2 rounded-sm border-[6px] border-cream bg-cream shadow-[0_16px_40px_-12px_rgba(28,25,23,0.4)] transition-transform duration-300 hover:rotate-0">
+              <TravelStamp className="absolute -right-3 -top-3 z-30" />
+              <EditorialImage
+                src={postcardPick.hero_image.url}
+                alt={postcardPick.hero_image.alt}
+                vignette
+                className="aspect-[4/5] rounded-[2px]"
+              >
+                <div className="absolute bottom-3 left-3 z-20 flex flex-col items-start gap-1.5">
+                  <LocationTag label={postcardPick.name} />
+                  <PhotoCredit credit={postcardPick.hero_image.credit} />
+                </div>
+              </EditorialImage>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Featured Secret Swap */}
       {featuredSwap && (
         <SectionShell
@@ -158,14 +255,20 @@ export default async function HomePage() {
               </Button>
             </div>
             <EditorialImage
-              src={featuredSwap.alternative.hero_image_url}
-              alt={featuredSwap.alternative.name}
+              src={featuredSwap.alternative.hero_image.url}
+              alt={featuredSwap.alternative.hero_image.alt}
               vignette
               className="aspect-[4/3] rounded-xl"
-            />
+            >
+              <PhotoCredit credit={featuredSwap.alternative.hero_image.credit} className="absolute bottom-3 left-3 z-20" />
+            </EditorialImage>
           </div>
         </SectionShell>
       )}
+
+      <div className="container py-10 sm:py-14">
+        <NewsletterSignup sourcePage="homepage" className="mx-auto max-w-2xl" />
+      </div>
 
       {/* AI Planner CTA */}
       <section className="border-t border-border bg-sage-dark py-14 text-cream sm:py-20">

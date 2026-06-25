@@ -3,6 +3,21 @@ import Link from "next/link";
 import { MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import { ASPECT_RATIO_CLASSES, type ImageAsset, type ImageCredit } from "@/lib/types";
+import { resolveCaption } from "@/lib/media/caption";
+import type { Locale } from "@/lib/i18n/config";
+
+/**
+ * Shared hero-height tiers (docs/image-direction-v2.md §4 audit flagged Hidden Gems and Food
+ * Finds detail heroes as hand-tuned to two different, undocumented values). Pages pick a tier
+ * instead of hand-tuning their own — `full` for a homepage/landing hero, `detail` for a
+ * destination/food-find/culture-note detail page. Culture Notes deliberately uses neither — its
+ * in-flow essay treatment with no full-bleed hero is intentional, not an oversight.
+ */
+export const HERO_HEIGHT = {
+  full: "h-[62vh] min-h-[460px] sm:h-[72vh]",
+  detail: "h-[38vh] min-h-[280px] sm:h-[50vh] sm:min-h-[360px]",
+} as const;
 
 /** Recurring horizontal motif: a faint Adriatic wave line, used between sections instead of the lace divider when a lighter touch is wanted. */
 export function WaveDivider({ className }: { className?: string }) {
@@ -58,6 +73,7 @@ export function FeatureLead({
   eyebrow,
   title,
   description,
+  credit,
   className,
 }: {
   href: string;
@@ -66,6 +82,7 @@ export function FeatureLead({
   eyebrow?: string;
   title: string;
   description: string;
+  credit?: ImageCredit;
   className?: string;
 }) {
   return (
@@ -86,6 +103,7 @@ export function FeatureLead({
           )}
           <h3 className="mt-3 font-display text-2xl sm:text-4xl">{title}</h3>
           <p className="mt-2 max-w-md font-serif text-sm text-cream/90 sm:text-base">{description}</p>
+          {credit && <PhotoCredit credit={credit} className="mt-3 w-fit" />}
         </div>
       </EditorialImage>
     </Link>
@@ -190,6 +208,24 @@ export function TravelStamp({ label = "BALKANISH", className }: { label?: string
   );
 }
 
+/** A circular postal cancellation mark — pairs with TravelStamp to complete the mailed-postcard illusion. */
+export function Postmark({ label = "BALKANISH POST", className }: { label?: string; className?: string }) {
+  return (
+    <div
+      className={cn(
+        "relative flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-2 border-sage-dark/40 text-sage-dark/80 mix-blend-multiply",
+        className
+      )}
+      aria-hidden="true"
+    >
+      <div className="absolute inset-1 rounded-full border border-dashed border-sage-dark/30" />
+      <span className="-rotate-[12deg] px-1 text-center font-sans text-[6.5px] font-semibold uppercase leading-tight tracking-widest">
+        {label}
+      </span>
+    </div>
+  );
+}
+
 /** Vintage postcard framing — deckled border, faint corner stamp, slight tilt. */
 export function PostcardFrame({
   children,
@@ -207,6 +243,122 @@ export function PostcardFrame({
     >
       <TravelStamp className="absolute -right-3 -top-3 z-10" />
       {children}
+    </div>
+  );
+}
+
+/** A small recurring motif: a location pin + place name, for use over images or near headings. */
+export function LocationTag({ label, className }: { label: string; className?: string }) {
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center gap-1.5 rounded-full border border-cream/40 bg-charcoal/30 px-3 py-1 font-sans text-[11px] uppercase tracking-widest text-cream backdrop-blur-sm",
+        className
+      )}
+    >
+      <MapPin className="h-3 w-3" aria-hidden="true" />
+      {label}
+    </span>
+  );
+}
+
+/** The quiet "Photo: name · source" attribution real travel magazines tuck into a hero's corner — pass the credit off an ImageAsset. `copyright`, when set, surfaces as a hover title rather than cluttering the badge itself. */
+export function PhotoCredit({ credit, className }: { credit: ImageCredit; className?: string }) {
+  return (
+    <span
+      title={credit.copyright}
+      className={cn(
+        "inline-flex items-center gap-1 rounded-full bg-charcoal/30 px-2.5 py-1 font-sans text-[10px] uppercase tracking-wide text-cream/80 backdrop-blur-sm",
+        className
+      )}
+    >
+      Photo: {credit.photographer} · {credit.source}
+    </span>
+  );
+}
+
+/**
+ * Gallery layout for a mixed set of landscape/portrait/square images — CSS multi-column masonry
+ * instead of a fixed grid with a hardcoded aspect ratio, so a portrait or square image doesn't get
+ * force-cropped or leave an empty gap next to a landscape neighbour (requirement: no hardcoded
+ * aspect-ratio assumptions). `locale` resolves any multilingual captions to plain text up front,
+ * keeping this component itself a plain presentational client of lib/media/caption.
+ */
+export function MasonryGallery({
+  images,
+  locale,
+  className,
+}: {
+  images: ImageAsset[];
+  locale: Locale;
+  className?: string;
+}) {
+  if (images.length === 0) return null;
+  return (
+    <div className={cn("columns-1 gap-4 sm:columns-2", className)}>
+      {images.map((image, i) => {
+        const caption = resolveCaption(image.caption, locale);
+        return (
+          <figure key={i} className="mb-4 break-inside-avoid">
+            <div
+              className={cn(
+                "relative overflow-hidden rounded-xl",
+                ASPECT_RATIO_CLASSES[image.aspect_ratio ?? "landscape"]
+              )}
+            >
+              <Image
+                src={image.url}
+                alt={image.alt}
+                fill
+                sizes="(min-width: 768px) 50vw, 100vw"
+                className="object-cover"
+              />
+              {image.location && (
+                <LocationTag label={image.location} className="absolute left-3 top-3 z-10" />
+              )}
+              <PhotoCredit credit={image.credit} className="absolute bottom-3 right-3 z-10" />
+            </div>
+            {caption && (
+              <figcaption className="px-1 pt-2 font-serif text-sm italic text-foreground/70">
+                {caption}
+              </figcaption>
+            )}
+          </figure>
+        );
+      })}
+    </div>
+  );
+}
+
+/** A faint dotted route-line accent — a quiet map detail used sparingly near destination content. */
+export function MapDetailAccent({ label, className }: { label: string; className?: string }) {
+  return (
+    <div className={cn("flex items-center gap-2 text-muted-foreground/70", className)} aria-hidden="true">
+      <svg width="40" height="12" viewBox="0 0 40 12" className="shrink-0" role="presentation">
+        <path d="M0 6 H40" stroke="currentColor" strokeWidth="1" strokeDasharray="2 3" />
+        <circle cx="36" cy="6" r="2.5" fill="currentColor" />
+      </svg>
+      <span className="font-sans text-[10px] uppercase tracking-widest">{label}</span>
+    </div>
+  );
+}
+
+/** A vintage-guidebook-style clipping — a quoted-from-an-old-travel-guide rule, set in serif italic between two faint hairlines. */
+export function GuidebookReference({
+  children,
+  source,
+  className,
+}: {
+  children: React.ReactNode;
+  source?: string;
+  className?: string;
+}) {
+  return (
+    <div className={cn("border-y border-foreground/15 py-3", className)}>
+      <p className="font-serif text-sm italic leading-relaxed text-foreground/70">{children}</p>
+      {source && (
+        <p className="mt-1.5 font-sans text-[10px] uppercase tracking-widest text-muted-foreground">{source}</p>
+      )}
     </div>
   );
 }

@@ -1,0 +1,89 @@
+{
+  "steps": {
+    "destination": "Odredište",
+    "tripLength": "Trajanje i tempo",
+    "style": "Stil i budžet",
+    "interests": "Interesi",
+    "review": "Pregled"
+  },
+  "stepIndicator": "Korak {current} od {total}",
+  "destinationStep": {
+    "heading": "Kamo na Balkanu?",
+    "description": "Odaberite državu na koju ćemo se fokusirati, ili ostavite otvoreno i birat ćemo iz cijele regije.",
+    "noPreference": "Bez preferencije",
+    "noPreferenceDescription": "Po cijelom Balkanu"
+  },
+  "discoveryStep": {
+    "label": "Tražite nešto specifično? (neobavezno)",
+    "description": "Pokušajte \"mirne alternative Dubrovniku\", \"najbolja vinska sela u Istri\" ili \"road trip od Zagreba do Kotora\" — naš AI sloj otkrivanja tražit će i izvan kuriranog popisa.",
+    "placeholder": "npr. skriveni vodopadi blizu Mostara"
+  },
+  "tripLengthStep": {
+    "durationLabel": "Trajanje putovanja (dani)",
+    "monthLabel": "Mjesec putovanja",
+    "monthPlaceholder": "Odaberite mjesec",
+    "paceLabel": "Tempo",
+    "paceHints": {
+      "relaxed": "Manje stanica, više vremena za uživanje",
+      "balanced": "Ujednačena kombinacija kretanja i odmora",
+      "active": "Više prijeđenog puta, ispunjeniji dani"
+    }
+  },
+  "styleStep": {
+    "travelStyleLabel": "Stil putovanja",
+    "budgetLabel": "Budžet"
+  },
+  "interestsStep": {
+    "label": "Interesi",
+    "description": "Odaberite nekoliko — oni oblikuju skrivena blaga i izlete koje vam predlažemo."
+  },
+  "reviewStep": {
+    "heading": "Pregledajte svoje putovanje",
+    "destinationLabel": "Odredište",
+    "noPreferenceLong": "Bez preferencije — po cijelom Balkanu",
+    "tripLengthLabel": "Trajanje putovanja",
+    "tripLengthValue": "{days} dana · {month}",
+    "paceLabel": "Tempo",
+    "travelStyleLabel": "Stil putovanja",
+    "budgetLabel": "Budžet",
+    "interestsLabel": "Interesi",
+    "discoveryLabel": "Pametna pretraga",
+    "variantsNote": "Generirat ćemo tri opcije rute — Konzervativnu, Uravnoteženu i Istraživačku — kako biste mogli usporediti opušteniji tempo s ispunjenijim."
+  },
+  "months": [
+    "Siječanj", "Veljača", "Ožujak", "Travanj", "Svibanj", "Lipanj",
+    "Srpanj", "Kolovoz", "Rujan", "Listopad", "Studeni", "Prosinac"
+  ],
+  "nav": {
+    "back": "Natrag",
+    "continue": "Nastavi",
+    "generate": "Generiraj moj itinerar",
+    "generating": "Planiramo vaše putovanje…"
+  },
+  "errors": {
+    "generateFailed": "Planer nije mogao složiti ovo putovanje. Pokušajte ponovno.",
+    "generic": "Nešto je pošlo po zlu."
+  },
+  "result": {
+    "exportPdf": "Izvezi Premium PDF — 14,99 €",
+    "preparingPdf": "Priprema PDF-a…",
+    "print": "Ispiši",
+    "save": "Spremi u Moj Balkan",
+    "saving": "Spremanje…",
+    "saved": "Spremljeno u Moj Balkan",
+    "planAnotherTrip": "Planiraj još jedno putovanje"
+  },
+  "discovery": {
+    "curatedBadge": "Kurirana ruta",
+    "curatedBadgeHint": "Svaka stanica gore dolazi iz naše uredničko provjerene baze odredišta.",
+    "sectionTitle": "Mogućnosti koje predlaže AI",
+    "sectionDescription": "Ova mjesta još nisu u našoj kuriranoj bazi. Naš AI sloj otkrivanja predložio ih je za vaš upit, a svako je prošlo provjeru strukturne uvjerljivosti prije nego što je prikazano ovdje — to nije isto što i urednička provjera činjenica.",
+    "aiSuggestedBadge": "AI prijedlog",
+    "confidenceLabel": "Pouzdanost",
+    "verificationStatus": {
+      "unverified": "Nije provjereno",
+      "structurally_checked": "Strukturno provjereno — nije urednička provjera činjenica",
+      "rejected": "Odbijeno"
+    }
+  }
+}

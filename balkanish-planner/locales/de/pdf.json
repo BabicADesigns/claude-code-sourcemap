@@ -1,0 +1,78 @@
+{
+  "cover": {
+    "eyebrowPrefix": "Eine Balkanish-Reiseroute",
+    "routeLabel": "Die Route",
+    "brand": "BabicADesigns",
+    "brandScript": "Mit Liebe und Vegeta erstellt",
+    "paceSuffix": "Tempo"
+  },
+  "sections": {
+    "tripSummary": { "eyebrow": "Reiseübersicht" },
+    "whyTheseStops": { "eyebrow": "Warum diese Stopps", "title": "Die Überlegung hinter dieser Route" },
+    "dailyItinerary": { "eyebrow": "Tagesplan", "title": "Tag für Tag" },
+    "mapOverview": { "eyebrow": "Kartenübersicht", "title": "Deine Route" },
+    "dayTrips": { "eyebrow": "Tagesausflüge", "title": "Den Abstecher wert" },
+    "aiSuggested": {
+      "eyebrow": "KI-vorgeschlagene Möglichkeiten",
+      "title": "Jenseits der kuratierten Liste",
+      "description": "Diese Orte sind noch nicht in unserer kuratierten Datenbank. Unsere KI-Entdeckungsebene hat sie für deine Anfrage vorgeschlagen, und jeder wurde auf strukturelle Plausibilität geprüft, bevor er hier angezeigt wird — das ist keine redaktionelle Faktenprüfung."
+    },
+    "foodRecommendations": { "eyebrow": "Essensempfehlungen", "title": "Essen wie ein Local" },
+    "hiddenGems": { "eyebrow": "Versteckte Schätze", "title": "Abseits der Hauptstraße" },
+    "localNotes": { "eyebrow": "Insider-Tipps", "title": "Was Locals wissen" }
+  },
+  "summaryFacts": {
+    "duration": "Dauer",
+    "travelMonth": "Reisemonat",
+    "travelStyle": "Reisestil",
+    "tripFocus": "Reiseschwerpunkt",
+    "route": "Route",
+    "pace": "Tempo",
+    "stops": "Stopps",
+    "dayTrips": "Tagesausflüge",
+    "avgDistance": "Ø Distanz",
+    "whatToPack": "Packliste"
+  },
+  "day": {
+    "dayLabel": "Tag {day}",
+    "morning": "Morgen",
+    "afternoon": "Nachmittag",
+    "evening": "Abend",
+    "foodHighlight": "Kulinarisches Highlight"
+  },
+  "map": {
+    "baseLabel": "Standort: {name} — {dayRange}",
+    "daySingle": "Tag {day}",
+    "dayRange": "Tag {start}–{end}",
+    "dayTripLabel": "Tagesausflug: {name} — Tag {day}, von {from} ({driveTime})"
+  },
+  "dayTripCard": {
+    "header": "Tag {day} · Ab {origin}",
+    "driveSuffix": "Fahrzeit",
+    "localTipLabel": "Insider-Tipp:"
+  },
+  "aiSuggestedCard": {
+    "badge": "KI-Vorschlag",
+    "confidenceLabel": "Konfidenz",
+    "verificationStatus": {
+      "unverified": "Nicht geprüft",
+      "structurally_checked": "Strukturell geprüft — keine redaktionelle Faktenprüfung",
+      "rejected": "Abgelehnt"
+    }
+  },
+  "curated": {
+    "badge": "Kuratierte Route",
+    "hint": "Jeder Stopp oben stammt aus unserer redaktionell geprüften Reisezieldatenbank."
+  },
+  "destinationGuide": {
+    "eyebrowPrefix": "Ein Balkanish-Reiseführer",
+    "region": "Region",
+    "category": "Kategorie",
+    "bestSeason": "Beste Reisezeit",
+    "overview": { "eyebrow": "Überblick", "title": "Warum hierher reisen" },
+    "scorecard": { "eyebrow": "Bewertung", "title": "Auf einen Blick" }
+  },
+  "footer": {
+    "tagline": "BabicADesigns · Mit Liebe und Vegeta erstellt"
+  }
+}

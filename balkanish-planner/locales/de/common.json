@@ -1,0 +1,35 @@
+{
+  "nav": {
+    "hiddenGems": "Versteckte Schätze",
+    "foodFinds": "Kulinarische Entdeckungen",
+    "cultureNotes": "Kulturnotizen",
+    "secretSwap": "Geheimtipp-Tausch",
+    "matchmaker": "Reise-Matchmaker",
+    "planner": "KI-Planer",
+    "postcards": "Postkarten",
+    "guides": "Reiseführer"
+  },
+  "actions": {
+    "signIn": "Anmelden",
+    "signOut": "Abmelden",
+    "signingOut": "Wird abgemeldet…",
+    "myBalkans": "Mein Balkan",
+    "myTrips": "Meine Reisen",
+    "account": "Konto",
+    "planMyTrip": "Reise planen"
+  },
+  "footer": {
+    "tagline": "Ein vertrauter Freund vom Balkan, der dir hilft, Orte zu entdecken, die die meisten Touristen verpassen.",
+    "exploreHeading": "Entdecken",
+    "moreHeading": "Mehr",
+    "premiumGuides": "Premium-Reiseführer",
+    "madeIn": "Gemacht auf dem Balkan.",
+    "copyright": "© 2026 BabicADesigns. Alle Rechte vorbehalten.",
+    "createdWith": "Mit Liebe und Vegeta erstellt."
+  },
+  "language": {
+    "label": "Sprache"
+  },
+  "destinations": "Reiseziele",
+  "dayTrips": "Tagesausflüge"
+}

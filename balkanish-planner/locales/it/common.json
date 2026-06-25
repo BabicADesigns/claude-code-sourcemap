@@ -1,0 +1,35 @@
+{
+  "nav": {
+    "hiddenGems": "Gemme Nascoste",
+    "foodFinds": "Scoperte Culinarie",
+    "cultureNotes": "Note di Cultura",
+    "secretSwap": "Scambio di Segreti",
+    "matchmaker": "Matchmaker di Viaggio",
+    "planner": "Pianificatore IA",
+    "postcards": "Cartoline",
+    "guides": "Guide"
+  },
+  "actions": {
+    "signIn": "Accedi",
+    "signOut": "Esci",
+    "signingOut": "Uscita in corso…",
+    "myBalkans": "I Miei Balcani",
+    "myTrips": "I Miei Viaggi",
+    "account": "Account",
+    "planMyTrip": "Pianifica il Viaggio"
+  },
+  "footer": {
+    "tagline": "Un amico fidato dai Balcani, che ti aiuta a scoprire luoghi che la maggior parte dei turisti non vede.",
+    "exploreHeading": "Esplora",
+    "moreHeading": "Altro",
+    "premiumGuides": "Guide Premium",
+    "madeIn": "Fatto nei Balcani.",
+    "copyright": "© 2026 BabicADesigns. Tutti i diritti riservati.",
+    "createdWith": "Creato con Amore e Vegeta."
+  },
+  "language": {
+    "label": "Lingua"
+  },
+  "destinations": "Destinazioni",
+  "dayTrips": "Gite di un Giorno"
+}

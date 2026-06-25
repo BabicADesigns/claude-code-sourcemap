@@ -3,7 +3,10 @@ import { PageHeader } from "@/components/layout/page-header";
 import { CultureNoteCard } from "@/components/cards/culture-note-card";
 import { AuntieAdvice } from "@/components/brand/content-blocks";
 import { FeatureLead } from "@/components/brand/editorial";
+import { NewsletterSignup } from "@/components/newsletter/newsletter-signup";
 import { getCultureNotes } from "@/lib/data/culture-notes";
+import { getCurrentUser } from "@/lib/supabase/server";
+import { getSavedEntityIds } from "@/lib/data/favorites";
 
 export const metadata: Metadata = {
   title: "Culture Notes",
@@ -11,7 +14,8 @@ export const metadata: Metadata = {
 };
 
 export default async function CultureNotesPage() {
-  const notes = await getCultureNotes();
+  const [notes, user] = await Promise.all([getCultureNotes(), getCurrentUser()]);
+  const savedIds = user ? await getSavedEntityIds(user.id, "culture_note") : new Set<string>();
   const [leadNote, ...restNotes] = notes;
 
   return (
@@ -38,9 +42,10 @@ export default async function CultureNotesPage() {
             />
           )}
           {restNotes.map((note) => (
-            <CultureNoteCard key={note.id} note={note} />
+            <CultureNoteCard key={note.id} note={note} initialSaved={savedIds.has(note.id)} />
           ))}
         </div>
+        <NewsletterSignup sourcePage="culture-notes" className="mt-10 sm:mt-14" />
       </div>
     </div>
   );

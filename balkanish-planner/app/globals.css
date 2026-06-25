@@ -99,3 +99,11 @@
       linear-gradient(165deg, rgba(196, 160, 150, 0.25) 0%, rgba(28, 25, 23, 0) 45%, rgba(56, 80, 72, 0.3) 100%);
   }
 }
+
+@media print {
+  html,
+  body {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}

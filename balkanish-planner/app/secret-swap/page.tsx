@@ -3,6 +3,8 @@ import { PageHeader } from "@/components/layout/page-header";
 import { SwapFinder } from "@/components/secret-swap/swap-finder";
 import { RakijaDiplomacy } from "@/components/brand/content-blocks";
 import { getSecretSwaps } from "@/lib/data/secret-swaps";
+import { getCurrentUser } from "@/lib/supabase/server";
+import { getSavedEntityIds } from "@/lib/data/favorites";
 
 export const metadata: Metadata = {
   title: "Secret Swap",
@@ -10,7 +12,8 @@ export const metadata: Metadata = {
 };
 
 export default async function SecretSwapPage() {
-  const swaps = await getSecretSwaps();
+  const [swaps, user] = await Promise.all([getSecretSwaps(), getCurrentUser()]);
+  const savedIds = user ? Array.from(await getSavedEntityIds(user.id, "secret_swap")) : [];
 
   return (
     <div>
@@ -24,7 +27,7 @@ export default async function SecretSwapPage() {
           Tell a local their favorite town is overrated and they&rsquo;ll argue for an hour, pour you a glass, and quietly agree.
         </RakijaDiplomacy>
         <div className="mt-8 sm:mt-10">
-          <SwapFinder swaps={swaps} />
+          <SwapFinder swaps={swaps} savedIds={savedIds} />
         </div>
       </div>
     </div>
