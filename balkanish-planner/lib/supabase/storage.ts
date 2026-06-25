@@ -46,7 +46,7 @@ export async function uploadOwnerAsset(
   bucket: OwnerScopedBucket,
   userId: string,
   fileName: string,
-  file: Blob | File | ArrayBuffer,
+  file: Blob | File | ArrayBuffer | Buffer,
   options?: { contentType?: string; upsert?: boolean }
 ): Promise<{ path: string } | { error: string }> {
   const path = ownerObjectPath(userId, fileName);

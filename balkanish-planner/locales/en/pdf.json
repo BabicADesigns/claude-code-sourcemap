@@ -64,6 +64,14 @@
     "badge": "Curated Route",
     "hint": "Every stop above comes from our editorially vetted destination database."
   },
+  "destinationGuide": {
+    "eyebrowPrefix": "A Balkanish Destination Guide",
+    "region": "Region",
+    "category": "Category",
+    "bestSeason": "Best season",
+    "overview": { "eyebrow": "Overview", "title": "Why visit" },
+    "scorecard": { "eyebrow": "Scorecard", "title": "At a glance" }
+  },
   "footer": {
     "tagline": "BabicADesigns · Created with Love and Vegeta"
   }

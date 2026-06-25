@@ -7,21 +7,29 @@ import { Pencil } from "lucide-react";
 import type { SavedItinerary } from "@/lib/types";
 import { TRAVEL_STYLE_LABELS } from "@/lib/types";
 import { deleteItinerary, renameItinerary } from "@/lib/actions/itineraries";
+import { downloadItineraryPdf, emailItineraryPdf, regenerateItineraryPdf } from "@/lib/actions/pdf-delivery";
 import { ItineraryView } from "@/components/planner/itinerary-view";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { useLocale } from "@/lib/i18n/locale-provider";
+import { track, ANALYTICS_EVENTS } from "@/lib/analytics";
 
 function tripName(saved: SavedItinerary) {
   return saved.title ?? saved.itinerary_json.trip_title;
 }
 
+type PdfAction = "download" | "email" | "regenerate";
+
 export function SavedItineraries({ itineraries }: { itineraries: SavedItinerary[] }) {
   const router = useRouter();
+  const { locale } = useLocale();
   const [openId, setOpenId] = useState<string | null>(null);
   const [pendingId, setPendingId] = useState<string | null>(null);
   const [renamingId, setRenamingId] = useState<string | null>(null);
   const [renameValue, setRenameValue] = useState("");
+  const [pdfPending, setPdfPending] = useState<{ id: string; action: PdfAction } | null>(null);
+  const [pdfFeedback, setPdfFeedback] = useState<Record<string, { isError: boolean; text: string }>>({});
 
   const openItinerary = itineraries.find((i) => i.id === openId) ?? null;
 
@@ -42,6 +50,47 @@ export function SavedItineraries({ itineraries }: { itineraries: SavedItinerary[
     await renameItinerary(id, renameValue);
     setPendingId(null);
     setRenamingId(null);
+    router.refresh();
+  }
+
+  async function handleDownloadPdf(saved: SavedItinerary) {
+    setPdfPending({ id: saved.id, action: "download" });
+    const result = await downloadItineraryPdf(saved.id, locale);
+    setPdfPending(null);
+    if (result.error || !result.url) {
+      setPdfFeedback((prev) => ({ ...prev, [saved.id]: { isError: true, text: result.error ?? "Something went wrong." } }));
+      return;
+    }
+    setPdfFeedback((prev) => ({ ...prev, [saved.id]: { isError: false, text: "Download ready." } }));
+    track(ANALYTICS_EVENTS.PDF_DOWNLOADED, { itinerary_id: saved.id });
+    window.open(result.url, "_blank");
+    router.refresh();
+  }
+
+  async function handleEmailPdf(saved: SavedItinerary) {
+    setPdfPending({ id: saved.id, action: "email" });
+    const result = await emailItineraryPdf(saved.id, locale);
+    setPdfPending(null);
+    if (result.error) {
+      setPdfFeedback((prev) => ({ ...prev, [saved.id]: { isError: true, text: result.error! } }));
+      return;
+    }
+    setPdfFeedback((prev) => ({ ...prev, [saved.id]: { isError: false, text: "Emailed to your inbox." } }));
+    track(ANALYTICS_EVENTS.PDF_EMAILED, { itinerary_id: saved.id });
+    router.refresh();
+  }
+
+  async function handleRegeneratePdf(saved: SavedItinerary) {
+    setPdfPending({ id: saved.id, action: "regenerate" });
+    const result = await regenerateItineraryPdf(saved.id, locale);
+    setPdfPending(null);
+    if (result.error || !result.url) {
+      setPdfFeedback((prev) => ({ ...prev, [saved.id]: { isError: true, text: result.error ?? "Something went wrong." } }));
+      return;
+    }
+    setPdfFeedback((prev) => ({ ...prev, [saved.id]: { isError: false, text: "Regenerated — download ready." } }));
+    track(ANALYTICS_EVENTS.PDF_GENERATED, { itinerary_id: saved.id });
+    window.open(result.url, "_blank");
     router.refresh();
   }
 
@@ -87,21 +136,58 @@ export function SavedItineraries({ itineraries }: { itineraries: SavedItinerary[
                 </button>
               )}
             </div>
-            <div className="flex flex-wrap gap-2">
-              <Button variant="outline" size="sm" onClick={() => setOpenId(saved.id)}>
-                View
-              </Button>
-              <Button asChild variant="ghost" size="sm">
-                <Link href="/planner">Regenerate</Link>
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                disabled={pendingId === saved.id}
-                onClick={() => handleDelete(saved.id)}
-              >
-                {pendingId === saved.id ? "Removing…" : "Delete"}
-              </Button>
+            <div className="flex w-full flex-col gap-2">
+              <div className="flex flex-wrap gap-2">
+                <Button variant="outline" size="sm" onClick={() => setOpenId(saved.id)}>
+                  View
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={pdfPending?.id === saved.id}
+                  onClick={() => handleDownloadPdf(saved)}
+                >
+                  {pdfPending?.id === saved.id && pdfPending.action === "download" ? "Preparing…" : "Download PDF"}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={pdfPending?.id === saved.id}
+                  onClick={() => handleEmailPdf(saved)}
+                >
+                  {pdfPending?.id === saved.id && pdfPending.action === "email" ? "Sending…" : "Email PDF"}
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  disabled={pdfPending?.id === saved.id}
+                  onClick={() => handleRegeneratePdf(saved)}
+                >
+                  {pdfPending?.id === saved.id && pdfPending.action === "regenerate" ? "Regenerating…" : "Regenerate PDF"}
+                </Button>
+                <Button asChild variant="ghost" size="sm">
+                  <Link href="/planner">Edit in Planner</Link>
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  disabled={pendingId === saved.id}
+                  onClick={() => handleDelete(saved.id)}
+                >
+                  {pendingId === saved.id ? "Removing…" : "Delete"}
+                </Button>
+              </div>
+              {pdfFeedback[saved.id] && (
+                <p
+                  className={
+                    pdfFeedback[saved.id].isError
+                      ? "font-sans text-sm text-destructive"
+                      : "font-sans text-sm text-sage-dark"
+                  }
+                >
+                  {pdfFeedback[saved.id].text}
+                </p>
+              )}
             </div>
           </div>
         ))}

@@ -29,6 +29,7 @@ import {
 import { BestSlowMoment, WorthWakingUpFor, SkipThisDoThis } from "@/components/brand/content-blocks";
 import { Button } from "@/components/ui/button";
 import { SaveButton } from "@/components/save/save-button";
+import { DestinationGuidePdfButton } from "@/components/planner/destination-guide-pdf-button";
 import { NewsletterSignup } from "@/components/newsletter/newsletter-signup";
 import { TrackView } from "@/components/analytics/track-view";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
@@ -264,6 +265,7 @@ export default async function DestinationDetailPage({
           <Button asChild className="w-full">
             <Link href="/planner">Build an itinerary around {destination.name}</Link>
           </Button>
+          <DestinationGuidePdfButton destination={destination} locale={locale} />
           <NewsletterSignup sourcePage={`destination:${destination.slug}`} />
         </aside>
       </div>

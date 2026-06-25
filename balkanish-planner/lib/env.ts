@@ -18,6 +18,7 @@ export interface EnvironmentReport {
   supabase: SupabaseEnvReport;
   openai: { configured: boolean };
   plausible: { configured: boolean };
+  email: { configured: boolean };
   siteUrl: { configured: boolean; value: string };
 }
 
@@ -61,6 +62,9 @@ export function getEnvironmentReport(): EnvironmentReport {
     // imported so this module stays a leaf with zero non-env-var dependencies.
     openai: { configured: Boolean(process.env.OPENAI_API_KEY) },
     plausible: { configured: Boolean(process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN) },
+    // Mirrors lib/email/send.ts's isEmailConfigured() — duplicated rather than imported
+    // for the same leaf-module reason as the openai/plausible checks above.
+    email: { configured: Boolean(process.env.RESEND_API_KEY && process.env.EMAIL_FROM_ADDRESS) },
     siteUrl: {
       configured: Boolean(process.env.NEXT_PUBLIC_SITE_URL),
       value: process.env.NEXT_PUBLIC_SITE_URL ?? "https://balkanish.babicadesigns.blog",

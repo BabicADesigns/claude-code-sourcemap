@@ -64,6 +64,14 @@
     "badge": "Kurirana ruta",
     "hint": "Svaka stanica gore dolazi iz naše uredničko provjerene baze odredišta."
   },
+  "destinationGuide": {
+    "eyebrowPrefix": "Balkanish Vodič za Odredište",
+    "region": "Regija",
+    "category": "Kategorija",
+    "bestSeason": "Najbolje doba godine",
+    "overview": { "eyebrow": "Pregled", "title": "Zašto posjetiti" },
+    "scorecard": { "eyebrow": "Ocjene", "title": "Na prvi pogled" }
+  },
   "footer": {
     "tagline": "BabicADesigns · Stvoreno s ljubavlju i Vegetom"
   }

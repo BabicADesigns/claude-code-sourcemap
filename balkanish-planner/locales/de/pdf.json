@@ -64,6 +64,14 @@
     "badge": "Kuratierte Route",
     "hint": "Jeder Stopp oben stammt aus unserer redaktionell geprüften Reisezieldatenbank."
   },
+  "destinationGuide": {
+    "eyebrowPrefix": "Ein Balkanish-Reiseführer",
+    "region": "Region",
+    "category": "Kategorie",
+    "bestSeason": "Beste Reisezeit",
+    "overview": { "eyebrow": "Überblick", "title": "Warum hierher reisen" },
+    "scorecard": { "eyebrow": "Bewertung", "title": "Auf einen Blick" }
+  },
   "footer": {
     "tagline": "BabicADesigns · Mit Liebe und Vegeta erstellt"
   }

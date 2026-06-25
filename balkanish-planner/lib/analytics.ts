@@ -7,6 +7,9 @@ export const ANALYTICS_EVENTS = {
   ITINERARY_GENERATED: "Itinerary Generated",
   SAVE_ACTION: "Save Action",
   NEWSLETTER_SIGNUP: "Newsletter Signup",
+  PDF_GENERATED: "PDF Generated",
+  PDF_DOWNLOADED: "PDF Downloaded",
+  PDF_EMAILED: "PDF Emailed",
 } as const;
 
 export type AnalyticsEventName = (typeof ANALYTICS_EVENTS)[keyof typeof ANALYTICS_EVENTS];

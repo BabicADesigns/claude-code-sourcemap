@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { PageHeader } from "@/components/layout/page-header";
 import { DashboardSection } from "@/components/my-balkans/dashboard-section";
 import { SavedItineraries } from "@/components/my-balkans/saved-itineraries";
+import { DeliveryHistory } from "@/components/my-balkans/delivery-history";
 import { DestinationCard } from "@/components/cards/destination-card";
 import { FoodFindCard } from "@/components/cards/food-find-card";
 import { getCurrentUser, isSupabaseConfigured } from "@/lib/supabase/server";
@@ -10,6 +11,7 @@ import { getDestinations } from "@/lib/data/destinations";
 import { getFoodFinds } from "@/lib/data/food-finds";
 import { getSavedEntityIds } from "@/lib/data/favorites";
 import { getSavedItineraries } from "@/lib/data/itineraries";
+import { getDeliveryHistoryForUser } from "@/lib/data/pdf-delivery";
 
 export const metadata: Metadata = { title: "My Trips" };
 
@@ -29,12 +31,13 @@ export default async function MyTripsPage() {
   const user = await getCurrentUser();
   if (!user) redirect("/sign-in");
 
-  const [destinations, foodFinds, savedDestinationIds, savedFoodFindIds, itineraries] = await Promise.all([
+  const [destinations, foodFinds, savedDestinationIds, savedFoodFindIds, itineraries, deliveries] = await Promise.all([
     getDestinations(),
     getFoodFinds(),
     getSavedEntityIds(user.id, "destination"),
     getSavedEntityIds(user.id, "food_find"),
     getSavedItineraries(user.id),
+    getDeliveryHistoryForUser(user.id),
   ]);
 
   const savedDestinations = destinations.filter((d) => savedDestinationIds.has(d.id));
@@ -99,6 +102,17 @@ export default async function MyTripsPage() {
               <FoodFindCard key={foodFind.id} foodFind={foodFind} initialSaved />
             ))}
           </div>
+        </DashboardSection>
+
+        <DashboardSection
+          eyebrow="History"
+          title="Delivery History"
+          isEmpty={deliveries.length === 0}
+          emptyMessage="No downloads or emails yet. Download or email a trip PDF above and it'll show up here."
+          emptyHref="/planner"
+          emptyCta="Plan a Trip"
+        >
+          <DeliveryHistory deliveries={deliveries} />
         </DashboardSection>
       </div>
     </div>

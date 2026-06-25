@@ -398,6 +398,21 @@ export const PLANNER_STYLE_TO_TRAVEL_STYLE: Record<PlannerStyle, TravelStyle> = 
   mixed: "slow_and_soulful",
 };
 
+/**
+ * Best-effort reverse of PLANNER_STYLE_TO_TRAVEL_STYLE, used only when regenerating a PDF for an
+ * itinerary saved before the PDF was needed: the original 8-value PlannerStyle was never persisted,
+ * only the lossy 6-value TravelStyle column, so this picks one canonical PlannerStyle per TravelStyle
+ * for display purposes (e.g. a regenerated PDF's "Travel style" fact). Never used for itinerary logic.
+ */
+export const TRAVEL_STYLE_TO_PLANNER_STYLE: Record<TravelStyle, PlannerStyle> = {
+  slow_and_soulful: "slow_travel",
+  food_and_wine: "food_and_wine",
+  active_outdoors: "road_trip",
+  culture_and_history: "culture",
+  romantic_getaway: "romantic_escape",
+  family_friendly: "family",
+};
+
 export interface Profile {
   id: string;
   display_name: string | null;
@@ -443,4 +458,58 @@ export interface SavedItinerary {
   interests: string[];
   itinerary_json: import("@/lib/ai/itinerary").GeneratedItinerary;
   created_at: string;
+}
+
+/**
+ * What a generated PDF is *of*. `source_id` on PdfDocument points at a row in a
+ * different table depending on this value — generated_itineraries for "itinerary",
+ * destinations for "destination_guide", premium_guides for "premium_guide" (reserved;
+ * no premium-guide content or generation flow exists yet, see docs/pdf-delivery-architecture.md).
+ */
+export type PdfDocumentType = "itinerary" | "destination_guide" | "premium_guide";
+
+export const PDF_DOCUMENT_TYPE_LABELS: Record<PdfDocumentType, string> = {
+  itinerary: "Itinerary",
+  destination_guide: "Destination Guide",
+  premium_guide: "Premium Guide",
+};
+
+export type DeliveryChannel = "download" | "email";
+export type DeliveryStatus = "pending" | "sent" | "failed";
+
+export const DELIVERY_STATUS_LABELS: Record<DeliveryStatus, string> = {
+  pending: "Pending",
+  sent: "Sent",
+  failed: "Failed",
+};
+
+/** A PDF actually rendered and stored for a signed-in user. See migration 0011_phase14_pdf_delivery.sql. */
+export interface PdfDocument {
+  id: string;
+  user_id: string;
+  document_type: PdfDocumentType;
+  source_id: string;
+  locale: Locale;
+  storage_path: string | null;
+  file_size_bytes: number | null;
+  generated_at: string;
+  expires_at: string | null;
+  created_at: string;
+}
+
+/** One download or email send of a PdfDocument — an append-only history, never updated in place. */
+export interface PdfDelivery {
+  id: string;
+  pdf_document_id: string;
+  user_id: string;
+  channel: DeliveryChannel;
+  status: DeliveryStatus;
+  recipient_email: string | null;
+  error_message: string | null;
+  created_at: string;
+}
+
+/** A PdfDelivery joined with the PdfDocument it belongs to, for rendering delivery history in one pass. */
+export interface PdfDeliveryWithDocument extends PdfDelivery {
+  document: PdfDocument;
 }

@@ -34,6 +34,13 @@ export async function register() {
       "OPENAI_API_KEY is not set — the AI planner will use deterministic fallback itineraries."
     );
   }
+
+  if (!report.email.configured) {
+    logWarning(
+      "instrumentation.startup",
+      "RESEND_API_KEY / EMAIL_FROM_ADDRESS are not set — PDF email delivery is disabled; downloads still work."
+    );
+  }
 }
 
 async function verifySupabaseReachable(): Promise<void> {

@@ -3,15 +3,19 @@ import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
 import enCommon from "@/locales/en/common.json";
 import enPlanner from "@/locales/en/planner.json";
 import enPdf from "@/locales/en/pdf.json";
+import enEmail from "@/locales/en/email.json";
 import deCommon from "@/locales/de/common.json";
 import dePlanner from "@/locales/de/planner.json";
 import dePdf from "@/locales/de/pdf.json";
+import deEmail from "@/locales/de/email.json";
 import itCommon from "@/locales/it/common.json";
 import itPlanner from "@/locales/it/planner.json";
 import itPdf from "@/locales/it/pdf.json";
+import itEmail from "@/locales/it/email.json";
 import hrCommon from "@/locales/hr/common.json";
 import hrPlanner from "@/locales/hr/planner.json";
 import hrPdf from "@/locales/hr/pdf.json";
+import hrEmail from "@/locales/hr/email.json";
 
 export type TranslationDictionary = Record<string, unknown>;
 
@@ -19,13 +23,14 @@ export interface Dictionary {
   common: TranslationDictionary;
   planner: TranslationDictionary;
   pdf: TranslationDictionary;
+  email: TranslationDictionary;
 }
 
 const DICTIONARIES: Record<Locale, Dictionary> = {
-  en: { common: enCommon, planner: enPlanner, pdf: enPdf },
-  de: { common: deCommon, planner: dePlanner, pdf: dePdf },
-  it: { common: itCommon, planner: itPlanner, pdf: itPdf },
-  hr: { common: hrCommon, planner: hrPlanner, pdf: hrPdf },
+  en: { common: enCommon, planner: enPlanner, pdf: enPdf, email: enEmail },
+  de: { common: deCommon, planner: dePlanner, pdf: dePdf, email: deEmail },
+  it: { common: itCommon, planner: itPlanner, pdf: itPdf, email: itEmail },
+  hr: { common: hrCommon, planner: hrPlanner, pdf: hrPdf, email: hrEmail },
 };
 
 export function getDictionary(locale: Locale): Dictionary {

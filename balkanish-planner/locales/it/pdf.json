@@ -64,6 +64,14 @@
     "badge": "Percorso Curato",
     "hint": "Ogni tappa sopra proviene dal nostro database di destinazioni curato redazionalmente."
   },
+  "destinationGuide": {
+    "eyebrowPrefix": "Una Guida Balkanish alla Destinazione",
+    "region": "Regione",
+    "category": "Categoria",
+    "bestSeason": "Stagione migliore",
+    "overview": { "eyebrow": "Panoramica", "title": "Perché visitarla" },
+    "scorecard": { "eyebrow": "Valutazione", "title": "A colpo d'occhio" }
+  },
   "footer": {
     "tagline": "BabicADesigns · Creato con Amore e Vegeta"
   }
