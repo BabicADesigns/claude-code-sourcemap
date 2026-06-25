@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import type { FavoriteEntityType } from "@/lib/types";
 import { createSupabaseServerClient, getCurrentUser, isSupabaseConfigured } from "@/lib/supabase/server";
+import { logError } from "@/lib/monitoring/logger";
 
 export async function toggleFavorite(
   entityType: FavoriteEntityType,
@@ -24,7 +25,10 @@ export async function toggleFavorite(
 
   if (existing) {
     const { error } = await supabase.from("favorites").delete().eq("id", existing.id);
-    if (error) return { saved: true, error: "Couldn't remove that. Please try again." };
+    if (error) {
+      logError("actions.favorites.toggleFavorite.delete", error, { userId: user.id, entityType, entityId });
+      return { saved: true, error: "Couldn't remove that. Please try again." };
+    }
     revalidatePath("/my-balkans");
     return { saved: false };
   }
@@ -32,7 +36,10 @@ export async function toggleFavorite(
   const { error } = await supabase
     .from("favorites")
     .insert({ user_id: user.id, entity_type: entityType, entity_id: entityId });
-  if (error) return { saved: false, error: "Couldn't save that. Please try again." };
+  if (error) {
+    logError("actions.favorites.toggleFavorite.insert", error, { userId: user.id, entityType, entityId });
+    return { saved: false, error: "Couldn't save that. Please try again." };
+  }
 
   revalidatePath("/my-balkans");
   return { saved: true };

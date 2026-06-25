@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import type { GeneratedItinerary, PlannerInput } from "@/lib/ai/itinerary";
 import { PLANNER_STYLE_TO_TRAVEL_STYLE } from "@/lib/types";
 import { createSupabaseServerClient, getCurrentUser, isSupabaseConfigured } from "@/lib/supabase/server";
+import { logError } from "@/lib/monitoring/logger";
 
 export async function saveItinerary(
   itinerary: GeneratedItinerary,
@@ -26,7 +27,10 @@ export async function saveItinerary(
     interests: input.interests,
     itinerary_json: itinerary,
   });
-  if (error) return { error: "Couldn't save that itinerary. Please try again." };
+  if (error) {
+    logError("actions.itineraries.saveItinerary", error, { userId: user.id });
+    return { error: "Couldn't save that itinerary. Please try again." };
+  }
 
   revalidatePath("/my-balkans");
   revalidatePath("/my-trips");
@@ -41,7 +45,10 @@ export async function deleteItinerary(id: string): Promise<{ error?: string }> {
 
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase.from("generated_itineraries").delete().eq("id", id).eq("user_id", user.id);
-  if (error) return { error: "Couldn't delete that itinerary." };
+  if (error) {
+    logError("actions.itineraries.deleteItinerary", error, { userId: user.id, itineraryId: id });
+    return { error: "Couldn't delete that itinerary." };
+  }
 
   revalidatePath("/my-balkans");
   revalidatePath("/my-trips");
@@ -61,7 +68,10 @@ export async function renameItinerary(id: string, title: string): Promise<{ erro
     .update({ title: trimmed || null })
     .eq("id", id)
     .eq("user_id", user.id);
-  if (error) return { error: "Couldn't rename that trip." };
+  if (error) {
+    logError("actions.itineraries.renameItinerary", error, { userId: user.id, itineraryId: id });
+    return { error: "Couldn't rename that trip." };
+  }
 
   revalidatePath("/my-balkans");
   revalidatePath("/my-trips");

@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { createSupabaseServerClient, getCurrentUser, isSupabaseConfigured } from "@/lib/supabase/server";
+import { logError } from "@/lib/monitoring/logger";
 
 export async function savePostcard(input: {
   destination_name: string;
@@ -20,7 +21,10 @@ export async function savePostcard(input: {
     mood: input.mood,
     quote: input.quote,
   });
-  if (error) return { error: "Couldn't save that postcard. Please try again." };
+  if (error) {
+    logError("actions.postcards.savePostcard", error, { userId: user.id });
+    return { error: "Couldn't save that postcard. Please try again." };
+  }
 
   revalidatePath("/my-balkans");
   return {};
@@ -34,7 +38,10 @@ export async function deletePostcard(id: string): Promise<{ error?: string }> {
 
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase.from("postcards").delete().eq("id", id).eq("user_id", user.id);
-  if (error) return { error: "Couldn't delete that postcard." };
+  if (error) {
+    logError("actions.postcards.deletePostcard", error, { userId: user.id, postcardId: id });
+    return { error: "Couldn't delete that postcard." };
+  }
 
   revalidatePath("/my-balkans");
   return {};

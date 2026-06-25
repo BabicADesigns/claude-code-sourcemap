@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import type { TravelStyle } from "@/lib/types";
 import { isLocale } from "@/lib/i18n/config";
 import { createSupabaseServerClient, getCurrentUser, isSupabaseConfigured } from "@/lib/supabase/server";
+import { logError } from "@/lib/monitoring/logger";
 
 export async function updateProfile(formData: FormData): Promise<{ error?: string }> {
   if (!isSupabaseConfigured()) return { error: "Accounts aren't connected yet." };
@@ -29,7 +30,10 @@ export async function updateProfile(formData: FormData): Promise<{ error?: strin
     })
     .eq("id", user.id);
 
-  if (error) return { error: "Couldn't save your profile. Please try again." };
+  if (error) {
+    logError("actions.profile.updateProfile", error, { userId: user.id });
+    return { error: "Couldn't save your profile. Please try again." };
+  }
 
   revalidatePath("/account");
   return {};

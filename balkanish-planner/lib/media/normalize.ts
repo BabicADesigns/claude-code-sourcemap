@@ -82,21 +82,59 @@ export function normalizeCultureHeroImage(
   });
 }
 
+/**
+ * Synthesizes a minimal placeholder `ImageAsset` from a legacy flat URL column
+ * (`hero_image_url` / one entry of `gallery_image_urls`) for rows that predate
+ * the Phase 13 `hero_image`/`gallery_images` jsonb columns (migration 0009) —
+ * e.g. a real Supabase row written before those columns existed, or seeded
+ * without them. Returns undefined when there's no URL to synthesize from,
+ * so callers can fall back further rather than fabricate one.
+ */
+function synthesizeImageAsset(url: string | null | undefined, label: string): ImageAsset | undefined {
+  if (!url) return undefined;
+  return {
+    url,
+    alt: `Editorial placeholder image for ${label} — to be replaced with real on-location photography.`,
+    credit: { photographer: "Unassigned", source: "Legacy import" },
+  };
+}
+
 /** Applies the destination hero/gallery backfill to a full `Destination`, for use at the data-layer boundary. */
 export function normalizeDestination(destination: Destination): Destination {
+  const label = `${destination.name}, ${destination.region}`;
+  const heroImageSource =
+    destination.hero_image ??
+    synthesizeImageAsset(destination.hero_image_url, label) ??
+    synthesizeImageAsset(`https://picsum.photos/seed/${destination.slug}/1200/800`, label);
+  const galleryImageSources =
+    destination.gallery_images && destination.gallery_images.length > 0
+      ? destination.gallery_images
+      : (destination.gallery_image_urls ?? [])
+          .map((url) => synthesizeImageAsset(url, `${destination.name} — gallery`))
+          .filter((image): image is ImageAsset => Boolean(image));
+
   return {
     ...destination,
-    hero_image: normalizeDestinationHeroImage(destination.hero_image, destination),
-    gallery_images: normalizeDestinationGalleryImages(destination.gallery_images, destination),
+    hero_image: normalizeDestinationHeroImage(heroImageSource, destination),
+    gallery_images: normalizeDestinationGalleryImages(galleryImageSources, destination),
   };
 }
 
 /** Applies the food-find hero backfill to a full `FoodFind`, for use at the data-layer boundary. */
 export function normalizeFoodFind(food: FoodFind): FoodFind {
-  return { ...food, hero_image: normalizeFoodHeroImage(food.hero_image, food) };
+  const label = `${food.name}, ${food.region}`;
+  const heroImageSource =
+    food.hero_image ??
+    synthesizeImageAsset(food.hero_image_url, label) ??
+    synthesizeImageAsset(`https://picsum.photos/seed/${food.slug}/1200/800`, label);
+  return { ...food, hero_image: normalizeFoodHeroImage(heroImageSource, food) };
 }
 
 /** Applies the culture-note hero backfill to a full `CultureNote`, for use at the data-layer boundary. */
 export function normalizeCultureNote(note: CultureNote): CultureNote {
-  return { ...note, hero_image: normalizeCultureHeroImage(note.hero_image, note) };
+  const heroImageSource =
+    note.hero_image ??
+    synthesizeImageAsset(note.hero_image_url, note.title) ??
+    synthesizeImageAsset(`https://picsum.photos/seed/${note.slug}/1200/800`, note.title);
+  return { ...note, hero_image: normalizeCultureHeroImage(heroImageSource, note) };
 }
