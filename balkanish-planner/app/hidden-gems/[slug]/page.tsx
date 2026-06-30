@@ -7,6 +7,9 @@ import { getDestinationBySlug, getDestinations } from "@/lib/data/destinations";
 import { getFoodFinds } from "@/lib/data/food-finds";
 import { getCultureNotes } from "@/lib/data/culture-notes";
 import { getSecretSwaps } from "@/lib/data/secret-swaps";
+import { getFoundersPicksForDestination } from "@/lib/data/founders";
+import { getLocalHeroesForDestination } from "@/lib/data/local-heroes";
+import { getApprovedNotesForDestination } from "@/lib/data/community-notes";
 import { pickTruth } from "@/lib/content/balkanish-truths";
 import { Badge } from "@/components/ui/badge";
 import { FoodFindCard } from "@/components/cards/food-find-card";
@@ -24,9 +27,13 @@ import {
   GuidebookReference,
   PhotoCredit,
   MasonryGallery,
+  FoundersPickCard,
+  LocalHeroCard,
   HERO_HEIGHT,
 } from "@/components/brand/editorial";
 import { BestSlowMoment, WorthWakingUpFor, SkipThisDoThis } from "@/components/brand/content-blocks";
+import { CommunityNoteCard } from "@/components/community/community-note-card";
+import { CommunityNoteForm } from "@/components/community/community-note-form";
 import { Button } from "@/components/ui/button";
 import { SaveButton } from "@/components/save/save-button";
 import { DestinationGuidePdfButton } from "@/components/planner/destination-guide-pdf-button";
@@ -98,11 +105,14 @@ export default async function DestinationDetailPage({
   const destination = await getDestinationBySlug(slug);
   if (!destination) notFound();
 
-  const [allDestinations, foodFinds, cultureNotes, secretSwaps, user, locale] = await Promise.all([
+  const [allDestinations, foodFinds, cultureNotes, secretSwaps, foundersPicks, localHeroes, communityNotes, user, locale] = await Promise.all([
     getDestinations(),
     getFoodFinds(),
     getCultureNotes(),
     getSecretSwaps(),
+    getFoundersPicksForDestination(slug),
+    getLocalHeroesForDestination(slug),
+    getApprovedNotesForDestination(slug),
     getCurrentUser(),
     getServerLocale(),
   ]);
@@ -239,6 +249,49 @@ export default async function DestinationDetailPage({
               </div>
             </section>
           )}
+
+          {foundersPicks.length > 0 && (
+            <section>
+              <SectionEyebrow>Founder&apos;s Pick</SectionEyebrow>
+              <h2 className="mt-1 font-display text-2xl text-sage-dark">A Personal Note</h2>
+              <div className="mt-4 space-y-4">
+                {foundersPicks.map((pick) => (
+                  <FoundersPickCard key={pick.id} pick={pick} />
+                ))}
+              </div>
+            </section>
+          )}
+
+          {localHeroes.length > 0 && (
+            <section>
+              <SectionEyebrow>Local Heroes</SectionEyebrow>
+              <h2 className="mt-1 font-display text-2xl text-sage-dark">People Who Make This Place</h2>
+              <div className="mt-4 space-y-4">
+                {localHeroes.map((hero) => (
+                  <LocalHeroCard key={hero.id} hero={hero} />
+                ))}
+              </div>
+            </section>
+          )}
+
+          <section>
+            <SectionEyebrow>Community Tips</SectionEyebrow>
+            <h2 className="mt-1 font-display text-2xl text-sage-dark">What Travellers Say</h2>
+            {communityNotes.length > 0 ? (
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                {communityNotes.map((note) => (
+                  <CommunityNoteCard key={note.id} note={note} />
+                ))}
+              </div>
+            ) : (
+              <p className="mt-3 font-serif text-sm text-foreground/70">
+                No community tips yet — be the first to share one.
+              </p>
+            )}
+            <div className="mt-6">
+              <CommunityNoteForm destinationSlug={destination.slug} locale={locale} />
+            </div>
+          </section>
 
           {swapForThis && (
             <section className="rounded-xl border border-accent bg-accent/10 p-6">

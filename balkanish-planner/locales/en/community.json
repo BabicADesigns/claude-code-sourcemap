@@ -1,0 +1,47 @@
+{
+  "founders_pick": {
+    "eyebrow": "Founder's Pick",
+    "by": "by"
+  },
+  "local_heroes": {
+    "eyebrow": "Local Heroes",
+    "heading": "People Who Make This Place"
+  },
+  "stories": {
+    "eyebrow": "Balkanish Stories",
+    "heading": "Stories from the Region"
+  },
+  "community_notes": {
+    "eyebrow": "Community Tips",
+    "heading": "What Travellers Say",
+    "empty": "No community tips yet — be the first to share one.",
+    "anonymous": "Anonymous traveller"
+  },
+  "note_form": {
+    "heading": "Share a Tip",
+    "content_label": "Your tip",
+    "content_placeholder": "Something you discovered that others would love to know…",
+    "category_label": "Category",
+    "author_label": "Your name (optional)",
+    "author_placeholder": "Leave blank to stay anonymous",
+    "submit": "Share tip",
+    "submitting": "Sharing…",
+    "success": "Thank you — your tip is pending editorial review.",
+    "error": "Something went wrong. Please try again."
+  },
+  "categories": {
+    "sunset_spot": "Sunset Spot",
+    "parking": "Parking",
+    "coffee": "Coffee",
+    "local_etiquette": "Local Etiquette",
+    "seasonal": "Seasonal",
+    "food_tip": "Food Tip",
+    "transport": "Transport",
+    "other": "Tip"
+  },
+  "gem_badge": {
+    "verified": "Verified Hidden Gem",
+    "community_verified": "Community Hidden Gem",
+    "ai_suggested": "AI Suggested Hidden Gem"
+  }
+}

@@ -10,6 +10,12 @@ export const ANALYTICS_EVENTS = {
   PDF_GENERATED: "PDF Generated",
   PDF_DOWNLOADED: "PDF Downloaded",
   PDF_EMAILED: "PDF Emailed",
+  // Phase 16 — Community Intelligence & Founder's Picks
+  COMMUNITY_NOTE_SUBMITTED: "Community Note Submitted",
+  GEM_CONFIRMED: "Gem Confirmed",
+  STORY_VIEWED: "Story Viewed",
+  LOCAL_HERO_VIEWED: "Local Hero Viewed",
+  FOUNDERS_PICK_VIEWED: "Founders Pick Viewed",
 } as const;
 
 export type AnalyticsEventName = (typeof ANALYTICS_EVENTS)[keyof typeof ANALYTICS_EVENTS];

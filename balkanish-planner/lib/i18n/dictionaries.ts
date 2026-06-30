@@ -4,18 +4,22 @@ import enCommon from "@/locales/en/common.json";
 import enPlanner from "@/locales/en/planner.json";
 import enPdf from "@/locales/en/pdf.json";
 import enEmail from "@/locales/en/email.json";
+import enCommunity from "@/locales/en/community.json";
 import deCommon from "@/locales/de/common.json";
 import dePlanner from "@/locales/de/planner.json";
 import dePdf from "@/locales/de/pdf.json";
 import deEmail from "@/locales/de/email.json";
+import deCommunity from "@/locales/de/community.json";
 import itCommon from "@/locales/it/common.json";
 import itPlanner from "@/locales/it/planner.json";
 import itPdf from "@/locales/it/pdf.json";
 import itEmail from "@/locales/it/email.json";
+import itCommunity from "@/locales/it/community.json";
 import hrCommon from "@/locales/hr/common.json";
 import hrPlanner from "@/locales/hr/planner.json";
 import hrPdf from "@/locales/hr/pdf.json";
 import hrEmail from "@/locales/hr/email.json";
+import hrCommunity from "@/locales/hr/community.json";
 
 export type TranslationDictionary = Record<string, unknown>;
 
@@ -24,13 +28,14 @@ export interface Dictionary {
   planner: TranslationDictionary;
   pdf: TranslationDictionary;
   email: TranslationDictionary;
+  community: TranslationDictionary;
 }
 
 const DICTIONARIES: Record<Locale, Dictionary> = {
-  en: { common: enCommon, planner: enPlanner, pdf: enPdf, email: enEmail },
-  de: { common: deCommon, planner: dePlanner, pdf: dePdf, email: deEmail },
-  it: { common: itCommon, planner: itPlanner, pdf: itPdf, email: itEmail },
-  hr: { common: hrCommon, planner: hrPlanner, pdf: hrPdf, email: hrEmail },
+  en: { common: enCommon, planner: enPlanner, pdf: enPdf, email: enEmail, community: enCommunity },
+  de: { common: deCommon, planner: dePlanner, pdf: dePdf, email: deEmail, community: deCommunity },
+  it: { common: itCommon, planner: itPlanner, pdf: itPdf, email: itEmail, community: itCommunity },
+  hr: { common: hrCommon, planner: hrPlanner, pdf: hrPdf, email: hrEmail, community: hrCommunity },
 };
 
 export function getDictionary(locale: Locale): Dictionary {

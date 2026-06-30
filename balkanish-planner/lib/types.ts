@@ -564,3 +564,149 @@ export interface PdfDelivery {
 export interface PdfDeliveryWithDocument extends PdfDelivery {
   document: PdfDocument;
 }
+
+// ---------------------------------------------------------------------------
+// Phase 16 — Community Intelligence & Founder's Picks
+// ---------------------------------------------------------------------------
+
+/** Editorial identity for a Balkanish founder — name, photo, bio, signature, links. */
+export interface Founder {
+  id: string;
+  name: string;
+  slug: string;
+  bio: string;
+  /** Handwritten-style text string rendered via font-script, e.g. "Ivana" */
+  signature?: string;
+  photo?: ImageAsset;
+  social_links?: { instagram?: string; website?: string };
+  created_at: string;
+}
+
+/**
+ * A founder's personal editorial recommendation for a destination — an authentic voice note
+ * distinct from the destination's own editorial copy. Never auto-generated; always authored.
+ */
+export interface FoundersPick {
+  id: string;
+  destination_slug: string;
+  founder_id: string;
+  founder?: Founder;
+  title: string;
+  body: string;
+  portrait?: ImageAsset;
+  /** Overrides founder.signature for this specific pick if the founder wants a different sign-off. */
+  signature_override?: string;
+  /** e.g. "Written from Vis, August" — short, evocative place-and-time context */
+  location?: string;
+  created_at: string;
+}
+
+/** The kind of tip a community note contains — drives category badge and sort order. */
+export type CommunityNoteCategory =
+  | "sunset_spot"
+  | "parking"
+  | "coffee"
+  | "local_etiquette"
+  | "seasonal"
+  | "food_tip"
+  | "transport"
+  | "other";
+
+export const COMMUNITY_NOTE_CATEGORY_LABELS: Record<CommunityNoteCategory, string> = {
+  sunset_spot: "Sunset Spot",
+  parking: "Parking",
+  coffee: "Coffee",
+  local_etiquette: "Local Etiquette",
+  seasonal: "Seasonal",
+  food_tip: "Food Tip",
+  transport: "Transport",
+  other: "Tip",
+};
+
+/**
+ * A user-submitted travel tip linked to a specific destination. Pending moderation by default;
+ * only `approved` notes are surfaced publicly. Author name is optional — anonymous notes are valid.
+ */
+export interface CommunityNote {
+  id: string;
+  destination_slug: string;
+  content: string;
+  category: CommunityNoteCategory;
+  author_name?: string;
+  language: Locale;
+  moderation_status: ModerationStatus;
+  submitted_at: string;
+  created_at: string;
+}
+
+/**
+ * A real local who lives and works in a destination — editorial only, never an advertisement.
+ * The "local hero" concept is a human-authored character study, not a business listing.
+ */
+export interface LocalHero {
+  id: string;
+  name: string;
+  profession: string;
+  story: string;
+  photo?: ImageAsset;
+  destination_slug: string;
+  website?: string;
+  social_links?: { instagram?: string; facebook?: string };
+  created_at: string;
+}
+
+/** The broad theme a Balkanish story belongs to — drives the story index filter. */
+export type StoryCategory =
+  | "coffee_culture"
+  | "traditions"
+  | "island_life"
+  | "local_customs"
+  | "food_rituals"
+  | "festivals";
+
+export const STORY_CATEGORY_LABELS: Record<StoryCategory, string> = {
+  coffee_culture: "Coffee Culture",
+  traditions: "Traditions",
+  island_life: "Island Life",
+  local_customs: "Local Customs",
+  food_rituals: "Food Rituals",
+  festivals: "Festivals",
+};
+
+/**
+ * An editorial cultural narrative — multilingual, human-authored. The body and title are
+ * LocalizedText so each locale can carry a properly written version, not a machine translation.
+ */
+export interface BalkanishStory {
+  id: string;
+  slug: string;
+  title: LocalizedText;
+  body: LocalizedText;
+  excerpt?: LocalizedText;
+  category: StoryCategory;
+  hero_image?: ImageAsset;
+  published_at: string;
+  created_at: string;
+}
+
+/**
+ * What kind of engagement signal is being recorded. Collected for future ranking signals
+ * (Phase 16 requirement #7) — never exposed as a public score or ranking today.
+ */
+export type EngagementSignalType = "view" | "like" | "bookmark" | "planner_usage" | "community_confirmation";
+
+/** What kind of entity the engagement signal is attached to. Extends FavoriteEntityType with Phase 16 content types. */
+export type EngagementEntityType = FavoriteEntityType | "story" | "local_hero" | "founders_pick";
+
+/**
+ * A single engagement event stored for future ranking use. `user_id` is optional — anonymous
+ * views are valid signals. Never read back to end users; only aggregated internally.
+ */
+export interface EngagementSignal {
+  id: string;
+  entity_type: EngagementEntityType;
+  entity_id: string;
+  signal_type: EngagementSignalType;
+  user_id?: string;
+  created_at: string;
+}

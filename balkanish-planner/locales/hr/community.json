@@ -1,0 +1,47 @@
+{
+  "founders_pick": {
+    "eyebrow": "Osnivačev Odabir",
+    "by": "od"
+  },
+  "local_heroes": {
+    "eyebrow": "Lokalni Heroji",
+    "heading": "Ljudi koji čine ovo mjesto posebnim"
+  },
+  "stories": {
+    "eyebrow": "Balkanish Priče",
+    "heading": "Priče iz regije"
+  },
+  "community_notes": {
+    "eyebrow": "Savjeti zajednice",
+    "heading": "Što kažu putnici",
+    "empty": "Još nema savjeta zajednice — podijeli prvi.",
+    "anonymous": "Anonimni putnik"
+  },
+  "note_form": {
+    "heading": "Podijeli savjet",
+    "content_label": "Tvoj savjet",
+    "content_placeholder": "Nešto što si otkrio/la i što bi drugi voljeli znati…",
+    "category_label": "Kategorija",
+    "author_label": "Tvoje ime (nije obavezno)",
+    "author_placeholder": "Ostavi prazno za anonimnost",
+    "submit": "Podijeli savjet",
+    "submitting": "Dijeljenje…",
+    "success": "Hvala — tvoj savjet čeka urednički pregled.",
+    "error": "Nešto je pošlo po krivu. Pokušaj ponovo."
+  },
+  "categories": {
+    "sunset_spot": "Mjesto za zalazak sunca",
+    "parking": "Parkiranje",
+    "coffee": "Kava",
+    "local_etiquette": "Lokalni bonton",
+    "seasonal": "Sezonski",
+    "food_tip": "Savjet o hrani",
+    "transport": "Prijevoz",
+    "other": "Savjet"
+  },
+  "gem_badge": {
+    "verified": "Verificirani skriveni dragulj",
+    "community_verified": "Skriveni dragulj zajednice",
+    "ai_suggested": "AI-predloženi skriveni dragulj"
+  }
+}
