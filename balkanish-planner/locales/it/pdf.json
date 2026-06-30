@@ -52,7 +52,11 @@
     "localTipLabel": "Consiglio locale:"
   },
   "aiSuggestedCard": {
-    "badge": "Suggerito dall'AI",
+    "trustTier": {
+      "verified": "Verificato",
+      "community_verified": "Verificato dalla community",
+      "ai_suggested": "Suggerito dall'AI"
+    },
     "confidenceLabel": "Affidabilità",
     "verificationStatus": {
       "unverified": "Non verificato",

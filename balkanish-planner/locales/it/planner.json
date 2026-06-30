@@ -78,7 +78,11 @@
     "curatedBadgeHint": "Ogni tappa sopra proviene dal nostro database di destinazioni curato redazionalmente.",
     "sectionTitle": "Possibilità suggerite dall'AI",
     "sectionDescription": "Questi luoghi non sono ancora nel nostro database curato. Il nostro livello di scoperta AI li ha proposti per la tua richiesta, e ognuno ha superato un controllo di plausibilità strutturale prima di essere mostrato qui — non è lo stesso di una verifica editoriale dei fatti.",
-    "aiSuggestedBadge": "Suggerito dall'AI",
+    "trustTier": {
+      "verified": "Verificato",
+      "community_verified": "Verificato dalla community",
+      "ai_suggested": "Suggerito dall'AI"
+    },
     "confidenceLabel": "Affidabilità",
     "verificationStatus": {
       "unverified": "Non verificato",

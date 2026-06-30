@@ -52,7 +52,11 @@
     "localTipLabel": "Lokalni savjet:"
   },
   "aiSuggestedCard": {
-    "badge": "AI prijedlog",
+    "trustTier": {
+      "verified": "Provjereno",
+      "community_verified": "Provjereno od zajednice",
+      "ai_suggested": "AI prijedlog"
+    },
     "confidenceLabel": "Pouzdanost",
     "verificationStatus": {
       "unverified": "Nije provjereno",

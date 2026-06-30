@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import type { GeneratedItinerary, PlannerInput } from "@/lib/ai/itinerary";
 import { PLANNER_STYLE_TO_TRAVEL_STYLE } from "@/lib/types";
 import { createSupabaseServerClient, getCurrentUser, isSupabaseConfigured } from "@/lib/supabase/server";
+import { incrementDiscoveredDestinationSaves } from "@/lib/data/discovered-destinations";
 import { logError } from "@/lib/monitoring/logger";
 
 export async function saveItinerary(
@@ -31,6 +32,10 @@ export async function saveItinerary(
     logError("actions.itineraries.saveItinerary", error, { userId: user.id });
     return { error: "Couldn't save that itinerary. Please try again." };
   }
+
+  // Future Learning Layer (requirement #8) — a saved trip is a strong usage signal for any AI-suggested
+  // destinations it contains. Best-effort: incrementDiscoveredDestinationSaves never throws.
+  await incrementDiscoveredDestinationSaves(itinerary.discovered_candidates ?? []);
 
   revalidatePath("/my-balkans");
   revalidatePath("/my-trips");

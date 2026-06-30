@@ -1,8 +1,17 @@
 "use client";
 
 import type { GeneratedItinerary } from "@/lib/ai/itinerary";
+import type { TrustTier } from "@/lib/types";
 import { ItineraryMap } from "@/components/planner/itinerary-map";
 import { useLocale } from "@/lib/i18n/locale-provider";
+import { deriveTrustTier } from "@/lib/ai/trust";
+
+/** Pill styling per trust tier — mirrors the STATUS_CLASS pattern in components/admin/discoveries-panel.tsx. */
+const TRUST_TIER_BADGE_CLASS: Record<TrustTier, string> = {
+  verified: "bg-sage-dark/10 text-sage-dark",
+  community_verified: "bg-sage/20 text-sage-dark",
+  ai_suggested: "bg-muted text-muted-foreground",
+};
 
 /** Renders a generated itinerary's full day-by-day plan — shared by the live planner result and the My Balkans "reopen" view. */
 export function ItineraryView({ itinerary }: { itinerary: GeneratedItinerary }) {
@@ -92,15 +101,19 @@ export function ItineraryView({ itinerary }: { itinerary: GeneratedItinerary }) 
           <h4 className="font-display text-xl text-sage-dark">{t("planner", "discovery.sectionTitle")}</h4>
           <p className="mt-1 font-serif text-sm text-foreground/70">{t("planner", "discovery.sectionDescription")}</p>
           <div className="mt-3 flex flex-col gap-4">
-            {discoveredCandidates.map((candidate) => (
+            {discoveredCandidates.map((candidate) => {
+              const trustTier = deriveTrustTier(candidate);
+              return (
               <div
                 key={candidate.name}
                 className="break-inside-avoid-page rounded-xl border border-dashed border-sage/60 bg-sage/5 p-4 sm:p-5"
               >
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <p className="font-sans text-xs uppercase tracking-widest text-sage-dark">
-                    {t("planner", "discovery.aiSuggestedBadge")}
-                  </p>
+                  <span
+                    className={`inline-flex items-center rounded-full px-2.5 py-0.5 font-sans text-xs uppercase tracking-widest ${TRUST_TIER_BADGE_CLASS[trustTier]}`}
+                  >
+                    {t("planner", `discovery.trustTier.${trustTier}`)}
+                  </span>
                   <p className="font-sans text-xs text-muted-foreground">
                     {t("planner", "discovery.confidenceLabel")}: {Math.round(candidate.confidence_score * 100)}%
                   </p>
@@ -113,7 +126,8 @@ export function ItineraryView({ itinerary }: { itinerary: GeneratedItinerary }) 
                   {t("planner", `discovery.verificationStatus.${candidate.verification_status}`)}
                 </p>
               </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )}

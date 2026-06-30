@@ -3,6 +3,7 @@ import type { GeneratedItinerary, PlannerInput } from "@/lib/ai/itinerary";
 import { PLANNER_STYLE_LABELS, ITINERARY_FOCUS_LABELS, TRIP_PACE_LABELS, ROUTE_VARIANT_LABELS } from "@/lib/types";
 import { ItineraryMapPdf } from "@/components/planner/itinerary-map-pdf";
 import { buildMapModel } from "@/lib/maps/itinerary-map-model";
+import { deriveTrustTier } from "@/lib/ai/trust";
 import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
 import { getDictionary, translate } from "@/lib/i18n/dictionaries";
 
@@ -372,7 +373,7 @@ export function ItineraryPdfDocument({
           {(itinerary.discovered_candidates ?? []).map((candidate) => (
             <View key={candidate.name} style={styles.aiCandidateCard} wrap={false}>
               <Text style={styles.aiCandidateEyebrow}>
-                {t("aiSuggestedCard.badge")} · {t("aiSuggestedCard.confidenceLabel")}:{" "}
+                {t(`aiSuggestedCard.trustTier.${deriveTrustTier(candidate)}`)} · {t("aiSuggestedCard.confidenceLabel")}:{" "}
                 {Math.round(candidate.confidence_score * 100)}%
               </Text>
               <Text style={styles.aiCandidateTitle}>

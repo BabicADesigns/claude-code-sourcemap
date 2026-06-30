@@ -52,7 +52,11 @@
     "localTipLabel": "Insider-Tipp:"
   },
   "aiSuggestedCard": {
-    "badge": "KI-Vorschlag",
+    "trustTier": {
+      "verified": "Verifiziert",
+      "community_verified": "Community-geprüft",
+      "ai_suggested": "KI-Vorschlag"
+    },
     "confidenceLabel": "Konfidenz",
     "verificationStatus": {
       "unverified": "Nicht geprüft",

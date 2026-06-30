@@ -78,7 +78,11 @@
     "curatedBadgeHint": "Svaka stanica gore dolazi iz naše uredničko provjerene baze odredišta.",
     "sectionTitle": "Mogućnosti koje predlaže AI",
     "sectionDescription": "Ova mjesta još nisu u našoj kuriranoj bazi. Naš AI sloj otkrivanja predložio ih je za vaš upit, a svako je prošlo provjeru strukturne uvjerljivosti prije nego što je prikazano ovdje — to nije isto što i urednička provjera činjenica.",
-    "aiSuggestedBadge": "AI prijedlog",
+    "trustTier": {
+      "verified": "Provjereno",
+      "community_verified": "Provjereno od zajednice",
+      "ai_suggested": "AI prijedlog"
+    },
     "confidenceLabel": "Pouzdanost",
     "verificationStatus": {
       "unverified": "Nije provjereno",

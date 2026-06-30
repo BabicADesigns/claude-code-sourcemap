@@ -78,7 +78,11 @@
     "curatedBadgeHint": "Jeder Stopp oben stammt aus unserer redaktionell geprüften Reisezieldatenbank.",
     "sectionTitle": "KI-vorgeschlagene Möglichkeiten",
     "sectionDescription": "Diese Orte sind noch nicht in unserer kuratierten Datenbank. Unsere KI-Entdeckungsebene hat sie für deine Anfrage vorgeschlagen, und jeder wurde auf strukturelle Plausibilität geprüft, bevor er hier angezeigt wird — das ist keine redaktionelle Faktenprüfung.",
-    "aiSuggestedBadge": "KI-Vorschlag",
+    "trustTier": {
+      "verified": "Verifiziert",
+      "community_verified": "Community-geprüft",
+      "ai_suggested": "KI-Vorschlag"
+    },
     "confidenceLabel": "Konfidenz",
     "verificationStatus": {
       "unverified": "Nicht geprüft",

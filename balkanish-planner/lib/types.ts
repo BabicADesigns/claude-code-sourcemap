@@ -263,6 +263,57 @@ export interface DestinationCandidate {
   /** One sentence, AI-authored, explaining why this place fits the request — narrative, not a verified fact. */
   rationale: string;
   matched_focus: ItineraryFocus[];
+  /**
+   * Human moderation state of this candidate's row in the shared `discovered_destinations`
+   * registry (docs/ai-expansion-engine-architecture.md). Distinct from `verification_status`:
+   * that's an automated structural check run once at generation time, this is an editor's
+   * persistent, cross-session decision. Defaults to "pending" — see registerDiscoveredDestination.
+   */
+  moderation_status: ModerationStatus;
+}
+
+/**
+ * Editorial review state of a `discovered_destinations` registry row — human-driven and
+ * persistent across itinerary generations, unlike the automated `VerificationStatus`. See
+ * docs/ai-expansion-engine-architecture.md "Moderation workflow".
+ */
+export type ModerationStatus = "pending" | "approved" | "rejected";
+
+/**
+ * The badge tier shown to end users — derived, never stored. "verified" = a real curated
+ * `Destination`. "community_verified" = an `ai_suggested` candidate an editor has approved
+ * (or that usage has reinforced) but not yet promoted into the curated dataset.
+ * "ai_suggested" = still pending review. See deriveTrustTier in lib/ai/trust.ts.
+ */
+export type TrustTier = "verified" | "community_verified" | "ai_suggested";
+
+/**
+ * A shared, deduplicated registry row for a place Layer B has proposed — persists across
+ * itinerary generations and users so an editor can review it once, not once per request.
+ * Maps 1:1 to `public.discovered_destinations` (migration 0012). Deliberately separate from
+ * `DestinationCandidate` (which is embedded per-itinerary, read-only, and has no stable id)
+ * — this is the mutable, server-side record that candidate is checked against.
+ */
+export interface DiscoveredDestination {
+  id: string;
+  normalized_key: string;
+  name: string;
+  region: string;
+  country: Country;
+  latitude: number;
+  longitude: number;
+  source: DestinationSourceType;
+  confidence_score: number;
+  verification_status: VerificationStatus;
+  rationale: string;
+  matched_focus: ItineraryFocus[];
+  moderation_status: ModerationStatus;
+  times_suggested: number;
+  times_saved: number;
+  /** Set once an editor promotes this row into `public.destinations` — see promoteDiscoveredDestination. */
+  promoted_destination_id: string | null;
+  created_at: string;
+  updated_at: string;
 }
 
 /** What kind of smart-discovery request a free-text query expresses — see lib/ai/discovery-query.ts. */
@@ -426,7 +477,7 @@ export interface Profile {
   updated_at: string;
 }
 
-export type FavoriteEntityType = "destination" | "food_find" | "culture_note" | "secret_swap";
+export type FavoriteEntityType = "destination" | "food_find" | "culture_note" | "secret_swap" | "discovered_destination";
 
 export interface Favorite {
   id: string;

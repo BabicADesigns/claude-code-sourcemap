@@ -52,7 +52,11 @@
     "localTipLabel": "Local tip:"
   },
   "aiSuggestedCard": {
-    "badge": "AI Suggested",
+    "trustTier": {
+      "verified": "Verified",
+      "community_verified": "Community Verified",
+      "ai_suggested": "AI Suggested"
+    },
     "confidenceLabel": "Confidence",
     "verificationStatus": {
       "unverified": "Unverified",

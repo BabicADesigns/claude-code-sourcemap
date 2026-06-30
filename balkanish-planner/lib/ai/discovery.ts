@@ -11,6 +11,7 @@ import {
   type DiscoveryQuery,
 } from "@/lib/types";
 import { verifyDestinationCandidate, resolveAnchorCoordinates } from "@/lib/ai/verification";
+import { registerDiscoveredDestination } from "@/lib/data/discovered-destinations";
 import type { LatLng } from "@/lib/geo";
 
 /**
@@ -119,11 +120,11 @@ export async function discoverDestinationCandidates(context: DiscoveryContext): 
     const parsed = discoverySuggestionSchema.parse(JSON.parse(raw));
     const anchor = resolveDiscoveryAnchor(context.query);
 
-    const candidates: DestinationCandidate[] = [];
+    const verified: DestinationCandidate[] = [];
     for (const suggestion of parsed.destinations) {
       const result = verifyDestinationCandidate(suggestion, anchor);
       if (result.status === "rejected") continue;
-      candidates.push({
+      verified.push({
         name: suggestion.name,
         region: suggestion.region,
         country: suggestion.country,
@@ -134,8 +135,19 @@ export async function discoverDestinationCandidates(context: DiscoveryContext): 
         verification_status: result.status,
         rationale: suggestion.rationale,
         matched_focus: suggestion.matched_focus.length > 0 ? suggestion.matched_focus : [context.focus],
+        moderation_status: "pending",
       });
     }
+
+    // Each verified suggestion is also upserted into the shared registry (migration 0012) so an
+    // editor can review it once, not once per request — see docs/ai-expansion-engine-architecture.md.
+    // Registration runs after verification (never for a rejected suggestion) and never throws.
+    const candidates = await Promise.all(
+      verified.map(async (candidate) => ({
+        ...candidate,
+        moderation_status: await registerDiscoveredDestination(candidate),
+      }))
+    );
     return candidates;
   } catch (error) {
     console.error("AI discovery layer failed; returning no AI-suggested destinations.", error);

@@ -14,6 +14,7 @@ import {
   type RouteVariant,
   type VerificationStatus,
   type DestinationSourceType,
+  type ModerationStatus,
 } from "@/lib/types";
 import {
   deriveItineraryFocus,
@@ -134,6 +135,8 @@ const destinationCandidateSchema = z.object({
   ]),
   rationale: z.string(),
   matched_focus: z.array(z.enum(Object.keys(ITINERARY_FOCUS_LABELS) as [ItineraryFocus, ...ItineraryFocus[]])),
+  /** Persistent editorial review state from the shared discovered_destinations registry (migration 0012) — see lib/data/discovered-destinations.ts. */
+  moderation_status: z.enum(["pending", "approved", "rejected"] as [ModerationStatus, ...ModerationStatus[]]),
 });
 
 export const generatedItinerarySchema = z.object({
