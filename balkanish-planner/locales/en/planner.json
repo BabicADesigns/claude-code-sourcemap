@@ -4,6 +4,7 @@
     "tripLength": "Trip length & pace",
     "style": "Style & budget",
     "interests": "Interests",
+    "vibe": "Mood & food",
     "review": "Review"
   },
   "stepIndicator": "Step {current} of {total}",
@@ -37,6 +38,33 @@
     "label": "Interests",
     "description": "Pick a few — these shape the hidden gems and day trips we surface."
   },
+  "vibeStep": {
+    "moodLabel": "Travel mood (optional)",
+    "moodDescription": "Sets the tone and emotional register of your itinerary prose.",
+    "noMood": "No preference",
+    "cuisineLabel": "Food & drink preferences (optional)",
+    "cuisineDescription": "Shapes the food culture highlights and dining suggestions in your itinerary.",
+    "moods": {
+      "slow_living": "Slow Living",
+      "romantic": "Romantic",
+      "adventure": "Adventure",
+      "family_time": "Family Time",
+      "digital_detox": "Digital Detox",
+      "road_trip": "Road Trip",
+      "luxury_escape": "Luxury Escape",
+      "weekend_escape": "Weekend Escape"
+    },
+    "cuisine": {
+      "vegetarian": "Vegetarian",
+      "seafood": "Seafood",
+      "traditional_balkan": "Traditional Balkan",
+      "street_food": "Street food",
+      "fine_dining": "Fine dining",
+      "wine_lovers": "Wine lovers",
+      "coffee_lovers": "Coffee lovers",
+      "desserts": "Desserts & pastries"
+    }
+  },
   "reviewStep": {
     "heading": "Review your trip",
     "destinationLabel": "Destination",
@@ -47,6 +75,10 @@
     "travelStyleLabel": "Travel style",
     "budgetLabel": "Budget",
     "interestsLabel": "Interests",
+    "moodLabel": "Travel mood",
+    "noMood": "No preference",
+    "cuisineLabel": "Food preferences",
+    "noCuisine": "No preference",
     "discoveryLabel": "Smart search",
     "variantsNote": "We'll generate three route options — Conservative, Balanced, and Explorer — so you can compare a slower pace against a fuller one."
   },

@@ -17,10 +17,15 @@ import {
   COUNTRIES,
   PLANNER_STYLE_LABELS,
   ROUTE_VARIANT_LABELS,
+  TRAVEL_MOOD_LABELS,
+  CUISINE_PREFERENCE_LABELS,
   TRIP_PACE_LABELS,
   type PlannerStyle,
   type RouteVariant,
   type TripPace,
+  type TravelMood,
+  type CuisinePreference,
+  type Profile,
 } from "@/lib/types";
 import { cn, slugify } from "@/lib/utils";
 import { saveItinerary } from "@/lib/actions/itineraries";
@@ -45,26 +50,34 @@ const plannerStyleEntries = Object.entries(PLANNER_STYLE_LABELS) as [PlannerStyl
 const paceEntries = Object.entries(TRIP_PACE_LABELS) as [TripPace, string][];
 const routeVariantEntries = Object.entries(ROUTE_VARIANT_LABELS) as [RouteVariant, string][];
 
-const defaultValues: PlannerInput = {
-  durationDays: 7,
-  month: "June",
-  budget: "mid_range",
-  country: null,
-  pace: "balanced",
-  plannerStyle: "slow_travel",
-  interests: [INTEREST_OPTIONS[0]],
-  discoveryQuery: "",
-};
+function buildDefaultValues(profile?: Profile | null): PlannerInput {
+  return {
+    durationDays: 7,
+    month: "June",
+    budget: profile?.budget_preference ?? "mid_range",
+    country: null,
+    pace: profile?.travel_pace ?? "balanced",
+    plannerStyle: "slow_travel",
+    interests: [INTEREST_OPTIONS[0]],
+    discoveryQuery: "",
+    travel_mood: undefined,
+    cuisine_preferences: (profile?.cuisine_preferences as CuisinePreference[] | undefined) ?? [],
+  };
+}
 
-const STEP_KEYS = ["destination", "tripLength", "style", "interests", "review"] as const;
+const STEP_KEYS = ["destination", "tripLength", "style", "interests", "vibe", "review"] as const;
 
 const STEP_FIELDS: (keyof PlannerInput)[][] = [
   ["country"],
   ["durationDays", "month", "pace"],
   ["plannerStyle", "budget"],
   ["interests"],
+  [], // travel_mood and cuisine_preferences are optional — no required validation
   [],
 ];
+
+const travelMoodEntries = Object.entries(TRAVEL_MOOD_LABELS) as [TravelMood, string][];
+const cuisinePreferenceEntries = Object.entries(CUISINE_PREFERENCE_LABELS) as [CuisinePreference, string][];
 
 function OptionCard({
   selected,
@@ -92,7 +105,7 @@ function OptionCard({
   );
 }
 
-export function PlannerFlow() {
+export function PlannerFlow({ profile }: { profile?: Profile | null } = {}) {
   const router = useRouter();
   const { t, tList, locale } = useLocale();
   const [step, setStep] = useState(0);
@@ -116,10 +129,11 @@ export function PlannerFlow() {
     formState: { errors },
   } = useForm<PlannerInput>({
     resolver: zodResolver(plannerInputSchema),
-    defaultValues,
+    defaultValues: buildDefaultValues(profile),
   });
 
   const selectedInterests = watch("interests");
+  const selectedCuisine = watch("cuisine_preferences") ?? [];
   const values = watch();
 
   const monthLabels = tList("planner", "months");
@@ -136,6 +150,14 @@ export function PlannerFlow() {
       ? selectedInterests.filter((i) => i !== interest)
       : [...selectedInterests, interest];
     setValue("interests", next, { shouldValidate: true });
+  }
+
+  function toggleCuisine(pref: CuisinePreference) {
+    const current = selectedCuisine as CuisinePreference[];
+    const next = current.includes(pref)
+      ? current.filter((c) => c !== pref)
+      : [...current, pref];
+    setValue("cuisine_preferences", next);
   }
 
   async function goNext() {
@@ -450,6 +472,54 @@ export function PlannerFlow() {
         )}
 
         {step === 4 && (
+          <div className="space-y-8">
+            <div>
+              <Label>{t("planner", "vibeStep.moodLabel")}</Label>
+              <p className="mt-1 font-serif text-sm text-foreground/70">{t("planner", "vibeStep.moodDescription")}</p>
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                <Controller
+                  control={control}
+                  name="travel_mood"
+                  render={({ field }) => (
+                    <>
+                      <OptionCard
+                        label={t("planner", "vibeStep.noMood")}
+                        selected={field.value === undefined || field.value === null}
+                        onClick={() => field.onChange(undefined)}
+                      />
+                      {travelMoodEntries.map(([value, label]) => (
+                        <OptionCard
+                          key={value}
+                          label={label}
+                          selected={field.value === value}
+                          onClick={() => field.onChange(value)}
+                        />
+                      ))}
+                    </>
+                  )}
+                />
+              </div>
+            </div>
+
+            <div>
+              <Label>{t("planner", "vibeStep.cuisineLabel")}</Label>
+              <p className="mt-1 font-serif text-sm text-foreground/70">{t("planner", "vibeStep.cuisineDescription")}</p>
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                {cuisinePreferenceEntries.map(([value, label]) => (
+                  <label key={value} className="flex items-center gap-3 font-serif text-sm text-foreground/90">
+                    <Checkbox
+                      checked={(selectedCuisine as CuisinePreference[]).includes(value)}
+                      onCheckedChange={() => toggleCuisine(value)}
+                    />
+                    {label}
+                  </label>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {step === 5 && (
           <div>
             <Label>{t("planner", "reviewStep.heading")}</Label>
             <dl className="mt-4 grid gap-4 rounded-xl border border-border p-4 sm:grid-cols-2 sm:p-5">
@@ -471,6 +541,18 @@ export function PlannerFlow() {
               />
               <ReviewRow label={t("planner", "reviewStep.budgetLabel")} value={BUDGET_TIER_LABELS[values.budget]} />
               <ReviewRow label={t("planner", "reviewStep.interestsLabel")} value={values.interests.join(", ")} />
+              {values.travel_mood && (
+                <ReviewRow
+                  label={t("planner", "reviewStep.moodLabel")}
+                  value={TRAVEL_MOOD_LABELS[values.travel_mood]}
+                />
+              )}
+              {(values.cuisine_preferences as CuisinePreference[] | undefined)?.length ? (
+                <ReviewRow
+                  label={t("planner", "reviewStep.cuisineLabel")}
+                  value={(values.cuisine_preferences as CuisinePreference[]).map((c) => CUISINE_PREFERENCE_LABELS[c]).join(", ")}
+                />
+              ) : null}
               {values.discoveryQuery?.trim() && (
                 <ReviewRow label={t("planner", "reviewStep.discoveryLabel")} value={values.discoveryQuery} />
               )}

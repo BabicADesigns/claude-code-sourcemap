@@ -4,6 +4,7 @@
     "tripLength": "Durata e ritmo",
     "style": "Stile e budget",
     "interests": "Interessi",
+    "vibe": "Umore & cibo",
     "review": "Riepilogo"
   },
   "stepIndicator": "Passo {current} di {total}",
@@ -37,6 +38,33 @@
     "label": "Interessi",
     "description": "Scegline alcuni — definiscono le gemme nascoste e le gite che ti proponiamo."
   },
+  "vibeStep": {
+    "moodLabel": "Umore del viaggio (opzionale)",
+    "moodDescription": "Imposta il tono e il registro emotivo della narrativa del tuo itinerario.",
+    "noMood": "Nessuna preferenza",
+    "cuisineLabel": "Preferenze culinarie (opzionale)",
+    "cuisineDescription": "Orienta i consigli gastronomici e i momenti culinari nel tuo itinerario.",
+    "moods": {
+      "slow_living": "Vita lenta",
+      "romantic": "Romantico",
+      "adventure": "Avventura",
+      "family_time": "Tempo in famiglia",
+      "digital_detox": "Digital Detox",
+      "road_trip": "Road Trip",
+      "luxury_escape": "Fuga di lusso",
+      "weekend_escape": "Fuga nel weekend"
+    },
+    "cuisine": {
+      "vegetarian": "Vegetariano",
+      "seafood": "Frutti di mare",
+      "traditional_balkan": "Tradizione balcanica",
+      "street_food": "Street food",
+      "fine_dining": "Alta cucina",
+      "wine_lovers": "Amanti del vino",
+      "coffee_lovers": "Amanti del caffè",
+      "desserts": "Dolci & pasticceria"
+    }
+  },
   "reviewStep": {
     "heading": "Rivedi il tuo viaggio",
     "destinationLabel": "Destinazione",
@@ -47,6 +75,10 @@
     "travelStyleLabel": "Stile di viaggio",
     "budgetLabel": "Budget",
     "interestsLabel": "Interessi",
+    "moodLabel": "Umore del viaggio",
+    "noMood": "Nessuna preferenza",
+    "cuisineLabel": "Preferenze culinarie",
+    "noCuisine": "Nessuna preferenza",
     "discoveryLabel": "Ricerca intelligente",
     "variantsNote": "Genereremo tre opzioni di percorso — Conservativo, Equilibrato ed Esploratore — così potrai confrontare un ritmo più lento con uno più intenso."
   },

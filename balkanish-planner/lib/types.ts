@@ -187,6 +187,9 @@ export interface Destination {
   is_featured: boolean;
   latitude: number;
   longitude: number;
+  // Phase 17 seasonal intelligence and crowd awareness (nullable — curated editorially)
+  seasonal_data?: SeasonalData | null;
+  crowd_level?: CrowdLevel | null;
 }
 
 export interface DayTrip {
@@ -464,6 +467,127 @@ export const TRAVEL_STYLE_TO_PLANNER_STYLE: Record<TravelStyle, PlannerStyle> = 
   family_friendly: "family",
 };
 
+// ---------------------------------------------------------------------------
+// Phase 17 — Smart Personalization Engine
+// ---------------------------------------------------------------------------
+
+export type TravelerInterest =
+  | "food"
+  | "history"
+  | "beaches"
+  | "photography"
+  | "hiking"
+  | "islands"
+  | "nightlife"
+  | "architecture"
+  | "hidden_gems"
+  | "wine"
+  | "family"
+  | "wellness"
+  | "adventure";
+
+export const TRAVELER_INTEREST_LABELS: Record<TravelerInterest, string> = {
+  food: "Food & dining",
+  history: "History & old towns",
+  beaches: "Beaches & coastline",
+  photography: "Photography",
+  hiking: "Hiking & nature",
+  islands: "Island hopping",
+  nightlife: "Nightlife",
+  architecture: "Architecture",
+  hidden_gems: "Hidden gems",
+  wine: "Wine & gastronomy",
+  family: "Family activities",
+  wellness: "Wellness & relaxation",
+  adventure: "Adventure sports",
+};
+
+export type MobilityOption =
+  | "car"
+  | "camper"
+  | "motorcycle"
+  | "bicycle"
+  | "ferry"
+  | "public_transport"
+  | "walking";
+
+export const MOBILITY_OPTION_LABELS: Record<MobilityOption, string> = {
+  car: "Car",
+  camper: "Camper / motorhome",
+  motorcycle: "Motorcycle",
+  bicycle: "Bicycle",
+  ferry: "Ferry",
+  public_transport: "Public transport",
+  walking: "Walking / on foot",
+};
+
+export type CuisinePreference =
+  | "vegetarian"
+  | "seafood"
+  | "traditional_balkan"
+  | "street_food"
+  | "fine_dining"
+  | "wine_lovers"
+  | "coffee_lovers"
+  | "desserts";
+
+export const CUISINE_PREFERENCE_LABELS: Record<CuisinePreference, string> = {
+  vegetarian: "Vegetarian",
+  seafood: "Seafood",
+  traditional_balkan: "Traditional Balkan",
+  street_food: "Street food",
+  fine_dining: "Fine dining",
+  wine_lovers: "Wine lovers",
+  coffee_lovers: "Coffee lovers",
+  desserts: "Desserts & pastries",
+};
+
+export type TravelMood =
+  | "slow_living"
+  | "romantic"
+  | "adventure"
+  | "family_time"
+  | "digital_detox"
+  | "road_trip"
+  | "luxury_escape"
+  | "weekend_escape";
+
+export const TRAVEL_MOOD_LABELS: Record<TravelMood, string> = {
+  slow_living: "Slow Living",
+  romantic: "Romantic",
+  adventure: "Adventure",
+  family_time: "Family Time",
+  digital_detox: "Digital Detox",
+  road_trip: "Road Trip",
+  luxury_escape: "Luxury Escape",
+  weekend_escape: "Weekend Escape",
+};
+
+/** Per-season narrative context for a destination — authored editorially, never AI-generated. */
+export interface SeasonalData {
+  /** 1-indexed month numbers (1 = January) when this destination is at its best. */
+  best_months: number[];
+  /** Months where visiting is not recommended (e.g. off-season ferry shutdowns, extreme heat). */
+  avoid_months?: number[];
+  avoid_reason?: string;
+  seasonal_highlights: {
+    spring?: string;
+    summer?: string;
+    autumn?: string;
+    winter?: string;
+  };
+  rainy_day_ideas?: string[];
+}
+
+/** Crowd density tier for a destination in its peak season. Architecture-only in Phase 17 — no live API data. */
+export type CrowdLevel = "busy" | "moderate" | "quiet";
+
+export const CROWD_LEVEL_LABELS: Record<CrowdLevel, string> = {
+  busy: "Very busy in peak season",
+  moderate: "Manageable crowds",
+  quiet: "Rarely crowded",
+};
+
 export interface Profile {
   id: string;
   display_name: string | null;
@@ -475,6 +599,12 @@ export interface Profile {
   preferred_language: Locale;
   created_at: string;
   updated_at: string;
+  // Phase 17 personalization preferences (all optional — filled via account settings)
+  travel_pace?: TripPace | null;
+  interests?: TravelerInterest[] | null;
+  mobility?: MobilityOption[] | null;
+  budget_preference?: "budget" | "mid_range" | "premium" | "luxury" | null;
+  cuisine_preferences?: CuisinePreference[] | null;
 }
 
 export type FavoriteEntityType = "destination" | "food_find" | "culture_note" | "secret_swap" | "discovered_destination";

@@ -4,6 +4,7 @@
     "tripLength": "Reisedauer & Tempo",
     "style": "Stil & Budget",
     "interests": "Interessen",
+    "vibe": "Stimmung & Essen",
     "review": "Überblick"
   },
   "stepIndicator": "Schritt {current} von {total}",
@@ -37,6 +38,33 @@
     "label": "Interessen",
     "description": "Wähle ein paar aus — sie bestimmen die versteckten Schätze und Tagesausflüge, die wir vorschlagen."
   },
+  "vibeStep": {
+    "moodLabel": "Reisestimmung (optional)",
+    "moodDescription": "Bestimmt den Ton und die emotionale Ausrichtung deines Reiseplans.",
+    "noMood": "Keine Präferenz",
+    "cuisineLabel": "Essen & Trinken (optional)",
+    "cuisineDescription": "Beeinflusst die Esskultur-Highlights und Dining-Vorschläge in deinem Reiseplan.",
+    "moods": {
+      "slow_living": "Langsames Leben",
+      "romantic": "Romantisch",
+      "adventure": "Abenteuer",
+      "family_time": "Familienzeit",
+      "digital_detox": "Digital Detox",
+      "road_trip": "Roadtrip",
+      "luxury_escape": "Luxusurlaub",
+      "weekend_escape": "Wochenendausflug"
+    },
+    "cuisine": {
+      "vegetarian": "Vegetarisch",
+      "seafood": "Meeresfrüchte",
+      "traditional_balkan": "Traditionell balkanisch",
+      "street_food": "Streetfood",
+      "fine_dining": "Fine Dining",
+      "wine_lovers": "Weinliebhaber",
+      "coffee_lovers": "Kaffeeliebhaber",
+      "desserts": "Desserts & Gebäck"
+    }
+  },
   "reviewStep": {
     "heading": "Überblick über deine Reise",
     "destinationLabel": "Reiseziel",
@@ -47,6 +75,10 @@
     "travelStyleLabel": "Reisestil",
     "budgetLabel": "Budget",
     "interestsLabel": "Interessen",
+    "moodLabel": "Reisestimmung",
+    "noMood": "Keine Präferenz",
+    "cuisineLabel": "Essenspräferenzen",
+    "noCuisine": "Keine Präferenz",
     "discoveryLabel": "Intelligente Suche",
     "variantsNote": "Wir erstellen drei Routenoptionen — Konservativ, Ausgewogen und Entdecker —, damit du ein ruhigeres Tempo mit einem volleren vergleichen kannst."
   },
