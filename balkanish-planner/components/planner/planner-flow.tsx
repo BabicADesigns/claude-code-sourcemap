@@ -32,9 +32,13 @@ import {
   type PartnerMatchResult,
   type TravelSegment,
   type LogisticsConnection,
+  type CulturalInsight,
+  type FounderNote,
+  type CulturalMatchResult,
 } from "@/lib/types";
 import { matchPartnersToContext } from "@/lib/ai/partner-match";
 import { buildTravelSegmentsForItinerary } from "@/lib/ai/route-practicality";
+import { resolveInsightsForDestination, resolveFounderNote } from "@/lib/ai/cultural-resolver";
 import { haversineKm } from "@/lib/geo";
 import { cn, slugify } from "@/lib/utils";
 import { saveItinerary } from "@/lib/actions/itineraries";
@@ -120,10 +124,14 @@ export function PlannerFlow({
   profile,
   initialPartners,
   initialConnections,
+  initialCulturalInsights,
+  initialFounderNotes,
 }: {
   profile?: Profile | null;
   initialPartners?: LocalPartner[];
   initialConnections?: LogisticsConnection[];
+  initialCulturalInsights?: CulturalInsight[];
+  initialFounderNotes?: FounderNote[];
 } = {}) {
   const router = useRouter();
   const { t, tList, locale } = useLocale();
@@ -133,6 +141,7 @@ export function PlannerFlow({
   const [submittedInput, setSubmittedInput] = useState<PlannerInput | null>(null);
   const [matchedPartners, setMatchedPartners] = useState<PartnerMatchResult[]>([]);
   const [travelSegments, setTravelSegments] = useState<TravelSegment[]>([]);
+  const [culturalMatch, setCulturalMatch] = useState<CulturalMatchResult | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   const [isSavingItinerary, setIsSavingItinerary] = useState(false);
@@ -255,6 +264,38 @@ export function PlannerFlow({
             submitted.transport_preferences as TransportPreference[] | undefined
           );
           setTravelSegments(segments);
+
+          if (initialCulturalInsights && initialCulturalInsights.length > 0) {
+            const countryCode = balancedItinerary.country ?? null;
+            const allInsights: CulturalInsight[] = [];
+            let pickedFounderNote: FounderNote | null = null;
+            for (const stop of uniqueStops) {
+              const stopInsights = resolveInsightsForDestination(
+                initialCulturalInsights,
+                stop.destination.slug,
+                null,
+                countryCode,
+                3
+              );
+              allInsights.push(...stopInsights);
+              if (!pickedFounderNote && initialFounderNotes) {
+                pickedFounderNote = resolveFounderNote(
+                  initialFounderNotes,
+                  stop.destination.slug,
+                  null,
+                  countryCode
+                );
+              }
+            }
+            if (allInsights.length > 0 || pickedFounderNote) {
+              setCulturalMatch({
+                insights: allInsights.slice(0, 8),
+                phrases: [],
+                founderNote: pickedFounderNote,
+                personalStories: [],
+              });
+            }
+          }
         }
       }
       track(ANALYTICS_EVENTS.ITINERARY_GENERATED, {
@@ -325,7 +366,12 @@ export function PlannerFlow({
         </Tabs>
 
         <div className="mt-6 print:mt-0">
-          <ItineraryView itinerary={activeItinerary} matchedPartners={matchedPartners} travelSegments={travelSegments} />
+          <ItineraryView
+            itinerary={activeItinerary}
+            matchedPartners={matchedPartners}
+            travelSegments={travelSegments}
+            culturalMatch={culturalMatch ?? undefined}
+          />
         </div>
 
         <div className="mt-8 flex flex-wrap gap-3 sm:mt-10 print:hidden">

@@ -1,6 +1,6 @@
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 import type { GeneratedItinerary, PlannerInput } from "@/lib/ai/itinerary";
-import { PLANNER_STYLE_LABELS, ITINERARY_FOCUS_LABELS, TRIP_PACE_LABELS, ROUTE_VARIANT_LABELS, type PartnerMatchResult, type TravelSegment } from "@/lib/types";
+import { PLANNER_STYLE_LABELS, ITINERARY_FOCUS_LABELS, TRIP_PACE_LABELS, ROUTE_VARIANT_LABELS, CULTURAL_INSIGHT_CATEGORY_LABELS, type PartnerMatchResult, type TravelSegment, type CulturalInsight, type FounderNote } from "@/lib/types";
 import { ItineraryMapPdf } from "@/components/planner/itinerary-map-pdf";
 import { buildMapModel } from "@/lib/maps/itinerary-map-model";
 import { deriveTrustTier } from "@/lib/ai/trust";
@@ -144,6 +144,22 @@ const styles = StyleSheet.create({
   logisticsNoticeText: { fontSize: 9.5, lineHeight: 1.4, color: COLOR.rose, fontStyle: "italic", marginTop: 3 },
   logisticsBorderText: { fontSize: 9.5, lineHeight: 1.4, color: COLOR.muted, marginTop: 3 },
   logisticsEstimateLabel: { fontSize: 9, color: COLOR.muted, marginTop: 2 },
+
+  culturalInsightCard: { marginBottom: 14, paddingBottom: 12, borderBottomWidth: 1, borderBottomColor: COLOR.hairline },
+  culturalInsightCategory: { fontSize: 8.5, letterSpacing: 1, color: COLOR.sage, textTransform: "uppercase", marginBottom: 2 },
+  culturalInsightHeadline: { fontSize: 13, color: COLOR.sageDark, marginBottom: 4 },
+  culturalInsightNuance: { fontSize: 10, lineHeight: 1.4, color: COLOR.muted, fontStyle: "italic", marginTop: 3 },
+  founderNoteCard: {
+    marginBottom: 18,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    borderLeftWidth: 3,
+    borderLeftColor: COLOR.sage,
+    backgroundColor: COLOR.cream,
+  },
+  founderNoteLabel: { fontSize: 8.5, letterSpacing: 1.5, color: COLOR.sage, textTransform: "uppercase", marginBottom: 4 },
+  founderNoteHeadline: { fontSize: 13, color: COLOR.sageDark, marginBottom: 4 },
+  founderNoteAttribution: { fontSize: 9, color: COLOR.muted, fontStyle: "italic", marginTop: 3 },
 });
 
 function PageFooter({ t }: { t: Translate }) {
@@ -161,18 +177,23 @@ export function ItineraryPdfDocument({
   locale = DEFAULT_LOCALE,
   matchedPartners,
   travelSegments,
+  culturalInsights,
+  culturalFounderNote,
 }: {
   itinerary: GeneratedItinerary;
   input: PlannerInput;
   locale?: Locale;
   matchedPartners?: PartnerMatchResult[];
   travelSegments?: TravelSegment[];
+  culturalInsights?: CulturalInsight[];
+  culturalFounderNote?: FounderNote | null;
 }) {
   const mapModel = buildMapModel(itinerary);
   const dictionary = getDictionary(locale);
   const t: Translate = (key, vars) => translate(dictionary, "pdf", key, vars);
   const tp: Translate = (key, vars) => translate(dictionary, "partners", key, vars);
   const tl: Translate = (key, vars) => translate(dictionary, "logistics", key, vars);
+  const tc: Translate = (key, vars) => translate(dictionary, "cultureIntel", key, vars);
 
   return (
     <Document title={itinerary.trip_title}>
@@ -498,6 +519,40 @@ export function ItineraryPdfDocument({
               ) : null}
               {segment.is_estimated ? (
                 <Text style={styles.logisticsEstimateLabel}>{tl("confidence.EDITORIAL_ESTIMATE")}</Text>
+              ) : null}
+            </View>
+          ))}
+          <PageFooter t={t} />
+        </Page>
+      )}
+
+      {/* Living Like a Local (optional — only present when cultural insights exist) */}
+      {culturalInsights && culturalInsights.length > 0 && (
+        <Page size="A4" style={styles.page}>
+          <Text style={styles.sectionEyebrow}>{tc("pdf.sectionEyebrow")}</Text>
+          <Text style={styles.sectionTitle}>{tc("pdf.sectionTitle")}</Text>
+          <Text style={[styles.text, { fontStyle: "italic", marginBottom: 12 }]}>
+            {tc("pdf.editorialDisclaimer")}
+          </Text>
+          {culturalFounderNote && (
+            <View style={styles.founderNoteCard} wrap={false}>
+              <Text style={styles.founderNoteLabel}>{tc("pdf.founderNoteLabel")}</Text>
+              <Text style={styles.founderNoteHeadline}>{culturalFounderNote.headline}</Text>
+              <Text style={styles.text}>{culturalFounderNote.body}</Text>
+              {culturalFounderNote.attribution ? (
+                <Text style={styles.founderNoteAttribution}>— {culturalFounderNote.attribution}</Text>
+              ) : null}
+            </View>
+          )}
+          {culturalInsights.map((insight) => (
+            <View key={insight.id} style={styles.culturalInsightCard} wrap={false}>
+              <Text style={styles.culturalInsightCategory}>
+                {CULTURAL_INSIGHT_CATEGORY_LABELS[insight.category]}
+              </Text>
+              <Text style={styles.culturalInsightHeadline}>{insight.headline}</Text>
+              <Text style={styles.text}>{insight.body}</Text>
+              {insight.nuance ? (
+                <Text style={styles.culturalInsightNuance}>{insight.nuance}</Text>
               ) : null}
             </View>
           ))}

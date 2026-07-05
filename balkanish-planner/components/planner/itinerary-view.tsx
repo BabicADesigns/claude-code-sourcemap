@@ -1,12 +1,13 @@
 "use client";
 
 import type { GeneratedItinerary } from "@/lib/ai/itinerary";
-import type { TrustTier, PartnerMatchResult, TravelSegment } from "@/lib/types";
+import type { TrustTier, PartnerMatchResult, TravelSegment, CulturalMatchResult } from "@/lib/types";
 import { ItineraryMap } from "@/components/planner/itinerary-map";
 import { useLocale } from "@/lib/i18n/locale-provider";
 import { deriveTrustTier } from "@/lib/ai/trust";
 import { PartnerCard } from "@/components/partners/partner-card";
 import { TravelSegmentsSection } from "@/components/logistics/travel-segment";
+import { CulturalSection } from "@/components/culture/cultural-section";
 
 /** Pill styling per trust tier — mirrors the STATUS_CLASS pattern in components/admin/discoveries-panel.tsx. */
 const TRUST_TIER_BADGE_CLASS: Record<TrustTier, string> = {
@@ -20,10 +21,12 @@ export function ItineraryView({
   itinerary,
   matchedPartners,
   travelSegments,
+  culturalMatch,
 }: {
   itinerary: GeneratedItinerary;
   matchedPartners?: PartnerMatchResult[];
   travelSegments?: TravelSegment[];
+  culturalMatch?: CulturalMatchResult;
 }) {
   const { t } = useLocale();
   // Saved itineraries from before Phase 11 won't have this field at all.
@@ -145,6 +148,8 @@ export function ItineraryView({
       {travelSegments && travelSegments.length > 0 && (
         <TravelSegmentsSection segments={travelSegments} />
       )}
+
+      {culturalMatch && <CulturalSection match={culturalMatch} />}
 
       {matchedPartners && matchedPartners.length > 0 && (
         <div className="mt-8 sm:mt-10">

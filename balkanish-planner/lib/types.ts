@@ -1174,3 +1174,207 @@ export interface TravelSegment {
   /** True when built from haversine + heuristics rather than an editorial connection. */
   is_estimated: boolean;
 }
+
+// ─── Phase 20: Cultural Intelligence ─────────────────────────────────────────
+
+export type CulturalInsightScope = "DESTINATION" | "REGION" | "COUNTRY";
+export const CULTURAL_INSIGHT_SCOPE_LABELS: Record<CulturalInsightScope, string> = {
+  DESTINATION: "Destination-specific",
+  REGION: "Regional",
+  COUNTRY: "Country-wide",
+};
+
+export type CulturalInsightCategory =
+  | "LOCAL_RHYTHM"
+  | "SOCIAL_CUSTOM"
+  | "FOOD_CULTURE"
+  | "COFFEE_CULTURE"
+  | "MARKET_CULTURE"
+  | "RELIGIOUS_OBSERVANCE"
+  | "DRESS_CODE"
+  | "TIPPING_ETIQUETTE"
+  | "BARGAINING_NORMS"
+  | "NOISE_AND_PACE"
+  | "HOSPITALITY_CUSTOMS"
+  | "FAMILY_AND_COMMUNITY"
+  | "SEASONAL_RHYTHM"
+  | "FESTIVAL_AND_CELEBRATION"
+  | "LANGUAGE_TIPS"
+  | "GETTING_AROUND_LOCALLY"
+  | "SAFETY_AWARENESS"
+  | "DIGITAL_AND_CONNECTIVITY"
+  | "MONEY_AND_PAYMENT"
+  | "PHOTOGRAPHY_ETIQUETTE"
+  | "ENVIRONMENTAL_NORMS"
+  | "LGBTQ_CONTEXT"
+  | "ACCESSIBILITY_CONTEXT";
+
+export const CULTURAL_INSIGHT_CATEGORY_LABELS: Record<CulturalInsightCategory, string> = {
+  LOCAL_RHYTHM: "Local Rhythm",
+  SOCIAL_CUSTOM: "Social Customs",
+  FOOD_CULTURE: "Food Culture",
+  COFFEE_CULTURE: "Coffee Culture",
+  MARKET_CULTURE: "Market Culture",
+  RELIGIOUS_OBSERVANCE: "Religious Observance",
+  DRESS_CODE: "Dress Code",
+  TIPPING_ETIQUETTE: "Tipping Etiquette",
+  BARGAINING_NORMS: "Bargaining Norms",
+  NOISE_AND_PACE: "Noise & Pace",
+  HOSPITALITY_CUSTOMS: "Hospitality Customs",
+  FAMILY_AND_COMMUNITY: "Family & Community",
+  SEASONAL_RHYTHM: "Seasonal Rhythm",
+  FESTIVAL_AND_CELEBRATION: "Festivals & Celebrations",
+  LANGUAGE_TIPS: "Language Tips",
+  GETTING_AROUND_LOCALLY: "Getting Around Locally",
+  SAFETY_AWARENESS: "Safety Awareness",
+  DIGITAL_AND_CONNECTIVITY: "Digital & Connectivity",
+  MONEY_AND_PAYMENT: "Money & Payment",
+  PHOTOGRAPHY_ETIQUETTE: "Photography Etiquette",
+  ENVIRONMENTAL_NORMS: "Environmental Norms",
+  LGBTQ_CONTEXT: "LGBTQ+ Context",
+  ACCESSIBILITY_CONTEXT: "Accessibility",
+};
+
+export type CulturalConfidence =
+  | "EDITORIAL_VERIFIED"
+  | "LOCAL_CONTEXT"
+  | "GENERAL_GUIDANCE"
+  | "VERIFY_CURRENT_CONTEXT";
+
+export const CULTURAL_CONFIDENCE_LABELS: Record<CulturalConfidence, string> = {
+  EDITORIAL_VERIFIED: "Editorial verified",
+  LOCAL_CONTEXT: "Local context",
+  GENERAL_GUIDANCE: "General guidance",
+  VERIFY_CURRENT_CONTEXT: "Verify current context",
+};
+
+export type CulturalSensitivity =
+  | "NONE"
+  | "NEEDS_REVIEW"
+  | "HISTORICALLY_SENSITIVE"
+  | "POLITICALLY_SENSITIVE";
+
+export const CULTURAL_SENSITIVITY_LABELS: Record<CulturalSensitivity, string> = {
+  NONE: "None",
+  NEEDS_REVIEW: "Needs review",
+  HISTORICALLY_SENSITIVE: "Historically sensitive",
+  POLITICALLY_SENSITIVE: "Politically sensitive",
+};
+
+export interface CulturalInsight {
+  id: string;
+  scope: CulturalInsightScope;
+  /** Matches a destination slug when scope === "DESTINATION", region slug when "REGION", country code when "COUNTRY". */
+  scope_slug: string;
+  category: CulturalInsightCategory;
+  headline: string;
+  body: string;
+  /** Optional second paragraph providing additional nuance. */
+  nuance?: string | null;
+  confidence: CulturalConfidence;
+  sensitivity: CulturalSensitivity;
+  /** Optional tag for seasonal applicability, e.g. "summer", "ramadan". */
+  seasonal_tag?: string | null;
+  active: boolean;
+  demo_only: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export type LocalPhraseCategory =
+  | "GREETING"
+  | "THANKS"
+  | "FOOD_ORDER"
+  | "DIRECTIONS"
+  | "SHOPPING"
+  | "EMERGENCY"
+  | "COURTESY"
+  | "NUMBERS";
+
+export const LOCAL_PHRASE_CATEGORY_LABELS: Record<LocalPhraseCategory, string> = {
+  GREETING: "Greetings",
+  THANKS: "Thanks",
+  FOOD_ORDER: "Ordering Food",
+  DIRECTIONS: "Directions",
+  SHOPPING: "Shopping",
+  EMERGENCY: "Emergency",
+  COURTESY: "Courtesy",
+  NUMBERS: "Numbers",
+};
+
+export interface LocalPhrase {
+  id: string;
+  /** ISO 639-1 or BCP-47 language code, e.g. "hr", "bs", "sr", "mk", "sq". */
+  language_code: string;
+  language_name: string;
+  category: LocalPhraseCategory;
+  phrase: string;
+  transliteration?: string | null;
+  translation: string;
+  pronunciation_tip?: string | null;
+  /** Countries or regions where this phrase is applicable. */
+  applicable_country_codes: string[];
+  active: boolean;
+  demo_only: boolean;
+}
+
+export type FounderNoteScope = "DESTINATION" | "REGION" | "COUNTRY" | "GENERAL";
+export const FOUNDER_NOTE_SCOPE_LABELS: Record<FounderNoteScope, string> = {
+  DESTINATION: "Destination",
+  REGION: "Regional",
+  COUNTRY: "Country",
+  GENERAL: "General",
+};
+
+export interface FounderNote {
+  id: string;
+  scope: FounderNoteScope;
+  /** Matches destination/region/country slug when scope is not GENERAL. */
+  scope_slug?: string | null;
+  headline: string;
+  body: string;
+  /** Optional attribution label shown alongside the note, e.g. "— Anita, founder". */
+  attribution?: string | null;
+  /** Optional URL-safe image key for founder photo. */
+  image_key?: string | null;
+  active: boolean;
+  demo_only: boolean;
+  created_at: string;
+}
+
+export type PersonalConnectionStatus = "SUBMITTED" | "UNDER_REVIEW" | "APPROVED" | "REJECTED";
+
+export interface PersonalConnectionStory {
+  id: string;
+  destination_slug: string;
+  author_display_name: string;
+  story: string;
+  connection_type?: string | null;
+  status: PersonalConnectionStatus;
+  created_at: string;
+}
+
+export type CulturalContributionStatus = "SUBMITTED" | "UNDER_REVIEW" | "APPROVED" | "REJECTED";
+
+export interface CulturalContribution {
+  id: string;
+  destination_slug?: string | null;
+  region_slug?: string | null;
+  country_code?: string | null;
+  category: CulturalInsightCategory;
+  suggested_headline: string;
+  suggested_body: string;
+  contributor_display_name?: string | null;
+  contributor_user_id?: string | null;
+  status: CulturalContributionStatus;
+  reviewer_note?: string | null;
+  created_at: string;
+}
+
+export interface CulturalMatchResult {
+  insights: CulturalInsight[];
+  phrases: LocalPhrase[];
+  /** Surfaced founder note, if one matches the scope. AI may surface; AI may NEVER invent. */
+  founderNote: FounderNote | null;
+  personalStories: PersonalConnectionStory[];
+}

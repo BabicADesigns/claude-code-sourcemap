@@ -21,7 +21,14 @@ import {
   type TravelMood,
   type CuisinePreference,
   type TransportPreference,
+  type CulturalInsight,
+  type FounderNote,
 } from "@/lib/types";
+import {
+  resolveInsightsForDestination,
+  resolveFounderNote,
+  buildCulturalContextForBrief,
+} from "@/lib/ai/cultural-resolver";
 import {
   deriveItineraryFocus,
   buildGroundedItinerary,
@@ -342,8 +349,14 @@ You will receive a JSON trip brief containing the ONLY real facts you may use: r
 If the brief includes a "personalization" block, let it shape the prose tone and emphasis:
 - travel_mood sets the emotional register (e.g. "Slow Living" → lingering, contemplative pacing; "Adventure" → active, energetic; "Romantic" → intimate, sensory details).
 - food_preferences guide which meals and food culture details you foreground.
-- budget shapes the accommodation and dining language (budget → konobas and shared ferries; luxury → private transfers and tasting menus).
+- budget shapes the accommodation and dining language (budget → konobas and shared ferries; luxury ��� private transfers and tasting menus).
 Personalization influences tone only — it never changes the factual stops.
+
+If the brief includes a "cultural_context" block, use these editorial notes to write more grounded, culturally aware prose. Let them shape the atmosphere and social texture of the narrative. Cultural context notes must be treated as background colour, not direct quotes — weave them into the writing naturally. Do NOT invent cultural facts not present in the brief.
+
+CRITICAL — Founder Notes: If the brief includes a founder_note headline, you may mention that such a note exists ("our founder has a note about this destination") but you must NEVER reproduce, paraphrase, or invent the note's content. Surface only the headline, never the body.
+
+CULTURAL SENSITIVITY: The Balkans has a complex history. Never make sweeping generalisations about ethnic, religious, or national groups. Describe customs and atmosphere, not character. Write with the warmth of a knowledgeable friend, not the certainty of an anthropologist.
 
 Your job is only to write the narrative prose around these fixed facts: a trip title, a short overview, and for each day a summary, morning, afternoon, and evening paragraph. If a day has a day_trip in the brief, that day's afternoon or evening text must mention it using the exact name and drive time given.
 
@@ -369,7 +382,13 @@ const proseSchema = z.object({
   ),
 });
 
-function buildGroundingBrief(input: PlannerInput, pace: TripPace, grounded: GroundedItinerary): string {
+function buildGroundingBrief(
+  input: PlannerInput,
+  pace: TripPace,
+  grounded: GroundedItinerary,
+  allCulturalInsights?: CulturalInsight[],
+  allFounderNotes?: FounderNote[]
+): string {
   const stops = grounded.stops.map((stop, idx) => {
     const dayTrip = grounded.dayTrips.find((dt) => dt.fromDestinationSlug === stop.destination.slug);
     return {
@@ -407,6 +426,32 @@ function buildGroundingBrief(input: PlannerInput, pace: TripPace, grounded: Grou
 
   const logisticsContext = buildLogisticsContextForBrief(grounded.stops, grounded.legDistancesKm);
 
+  let culturalContext: string | undefined;
+  if (allCulturalInsights && allCulturalInsights.length > 0) {
+    const tripInsights: CulturalInsight[] = [];
+    let tripFounderNote: FounderNote | null = null;
+    for (const stop of grounded.stops) {
+      const stopInsights = resolveInsightsForDestination(
+        allCulturalInsights,
+        stop.destination.slug,
+        stop.destination.region ?? null,
+        stop.destination.country ?? null,
+        3
+      );
+      tripInsights.push(...stopInsights);
+      if (!tripFounderNote && allFounderNotes) {
+        tripFounderNote = resolveFounderNote(
+          allFounderNotes,
+          stop.destination.slug,
+          stop.destination.region ?? null,
+          stop.destination.country ?? null
+        );
+      }
+    }
+    const built = buildCulturalContextForBrief(tripInsights.slice(0, 8), tripFounderNote);
+    if (built) culturalContext = built;
+  }
+
   return JSON.stringify(
     {
       duration_days: input.durationDays,
@@ -416,6 +461,7 @@ function buildGroundingBrief(input: PlannerInput, pace: TripPace, grounded: Grou
       focus: ITINERARY_FOCUS_LABELS[grounded.focus],
       personalization,
       logistics_context: logisticsContext || undefined,
+      cultural_context: culturalContext || undefined,
       stops,
     },
     null,
@@ -456,12 +502,21 @@ function applyProse(skeleton: GeneratedItinerary, prose: z.infer<typeof proseSch
   });
 }
 
+interface CulturalContext {
+  insights: CulturalInsight[];
+  founderNotes: FounderNote[];
+}
+
 /**
  * Generates one itinerary. `variant` locks the pace used for selection/pacing (see VARIANT_PACE) —
  * input.pace is not read here; it's UI metadata generateItineraryVariants' caller uses to pick
  * which of the three variants to show by default, not a second, conflicting pace signal.
  */
-export async function generateItinerary(input: PlannerInput, variant: RouteVariant = "balanced"): Promise<GeneratedItinerary> {
+export async function generateItinerary(
+  input: PlannerInput,
+  variant: RouteVariant = "balanced",
+  culturalContext?: CulturalContext
+): Promise<GeneratedItinerary> {
   const pace = VARIANT_PACE[variant];
   const focus = deriveItineraryFocus(input.plannerStyle, input.interests);
   const grounded = buildGroundedItinerary(input.plannerStyle, focus, input.country, input.durationDays, pace);
@@ -474,7 +529,10 @@ export async function generateItinerary(input: PlannerInput, variant: RouteVaria
 
   const [prose, discoveredCandidates] = await Promise.all([
     isOpenAIConfigured()
-      ? fetchProse(buildGroundingBrief(input, pace, grounded), skeleton.days.length).catch((error) => {
+      ? fetchProse(
+          buildGroundingBrief(input, pace, grounded, culturalContext?.insights, culturalContext?.founderNotes),
+          skeleton.days.length
+        ).catch((error) => {
           console.error("AI prose layer failed; falling back to deterministic itinerary text.", error);
           return null;
         })
@@ -498,9 +556,10 @@ export async function generateItinerary(input: PlannerInput, variant: RouteVaria
 
 /** Requirement #6 — Conservative/Balanced/Explorer, generated from the same input, pace fixed per variant. */
 export async function generateItineraryVariants(
-  input: PlannerInput
+  input: PlannerInput,
+  culturalContext?: CulturalContext
 ): Promise<Record<RouteVariant, GeneratedItinerary>> {
-  const results = await Promise.all(ROUTE_VARIANTS.map((variant) => generateItinerary(input, variant)));
+  const results = await Promise.all(ROUTE_VARIANTS.map((variant) => generateItinerary(input, variant, culturalContext)));
   return {
     conservative: results[0],
     balanced: results[1],

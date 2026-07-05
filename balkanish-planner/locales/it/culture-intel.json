@@ -1,0 +1,56 @@
+{
+  "sectionTitle": "Vivere come un locale",
+  "sectionSubtitle": "Intelligenza culturale per il tuo viaggio",
+  "insightsHeading": "Conoscenza locale",
+  "phrasesHeading": "Frasi utili",
+  "founderNoteLabel": "Una nota dalla nostra fondatrice",
+  "storiesHeading": "Connessioni personali",
+  "contributionsHeading": "Condividi conoscenza locale",
+  "estimateDisclaimer": "Il contesto culturale è una guida editoriale. Le usanze locali variano — osserva e adattati durante il viaggio.",
+  "sensitivityNote": "Questo spunto tocca un argomento sensibile. Lo condividiamo per aiutarti a viaggiare con rispetto.",
+  "verifyCurrentContext": "Questo potrebbe essere cambiato. Verifica il contesto attuale in loco.",
+  "categories": {
+    "LOCAL_RHYTHM": "Ritmo locale",
+    "SOCIAL_CUSTOM": "Usi sociali",
+    "FOOD_CULTURE": "Cultura del cibo",
+    "COFFEE_CULTURE": "Cultura del caffè",
+    "MARKET_CULTURE": "Cultura del mercato",
+    "RELIGIOUS_OBSERVANCE": "Pratiche religiose",
+    "DRESS_CODE": "Codice di abbigliamento",
+    "TIPPING_ETIQUETTE": "Mance",
+    "BARGAINING_NORMS": "Contrattazione",
+    "NOISE_AND_PACE": "Rumore e ritmo",
+    "HOSPITALITY_CUSTOMS": "Ospitalità",
+    "FAMILY_AND_COMMUNITY": "Famiglia e comunità",
+    "SEASONAL_RHYTHM": "Ritmo stagionale",
+    "FESTIVAL_AND_CELEBRATION": "Feste e celebrazioni",
+    "LANGUAGE_TIPS": "Consigli linguistici",
+    "GETTING_AROUND_LOCALLY": "Spostarsi in loco",
+    "SAFETY_AWARENESS": "Sicurezza",
+    "DIGITAL_AND_CONNECTIVITY": "Connettività",
+    "MONEY_AND_PAYMENT": "Soldi e pagamento",
+    "PHOTOGRAPHY_ETIQUETTE": "Fotografia",
+    "ENVIRONMENTAL_NORMS": "Norme ambientali",
+    "LGBTQ_CONTEXT": "Contesto LGBTQ+",
+    "ACCESSIBILITY_CONTEXT": "Accessibilità"
+  },
+  "confidence": {
+    "EDITORIAL_VERIFIED": "Verificato editorialmente",
+    "LOCAL_CONTEXT": "Contesto locale",
+    "GENERAL_GUIDANCE": "Orientamento generale",
+    "VERIFY_CURRENT_CONTEXT": "Verifica in loco"
+  },
+  "phrase": {
+    "transliterationLabel": "Si pronuncia",
+    "pronunciationLabel": "Consiglio",
+    "translationLabel": "Significa"
+  },
+  "pdf": {
+    "sectionEyebrow": "Vivere come un locale",
+    "sectionTitle": "Intelligenza culturale per il tuo viaggio",
+    "insightsHeading": "Conoscenza locale",
+    "phrasesHeading": "Frasi utili",
+    "founderNoteLabel": "Una nota dalla nostra fondatrice",
+    "editorialDisclaimer": "Gli spunti culturali sono solo orientamento editoriale. Le usanze locali variano — osserva e adattati durante il viaggio."
+  }
+}

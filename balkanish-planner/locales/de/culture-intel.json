@@ -1,0 +1,56 @@
+{
+  "sectionTitle": "Leben wie ein Einheimischer",
+  "sectionSubtitle": "Kulturelle Intelligenz für Ihre Reise",
+  "insightsHeading": "Lokales Wissen",
+  "phrasesHeading": "Nützliche Phrasen",
+  "founderNoteLabel": "Eine Notiz von unserer Gründerin",
+  "storiesHeading": "Persönliche Verbindungen",
+  "contributionsHeading": "Lokales Wissen teilen",
+  "estimateDisclaimer": "Kulturelle Hinweise sind redaktionelle Orientierung. Lokale Gepflogenheiten variieren — beobachten und anpassen Sie sich unterwegs.",
+  "sensitivityNote": "Dieser Hinweis berührt ein sensibles Thema. Wir teilen ihn, um Ihnen respektvolles Reisen zu ermöglichen.",
+  "verifyCurrentContext": "Dies könnte sich geändert haben. Aktuelle Informationen vor Ort prüfen.",
+  "categories": {
+    "LOCAL_RHYTHM": "Lokaler Rhythmus",
+    "SOCIAL_CUSTOM": "Soziale Gepflogenheiten",
+    "FOOD_CULTURE": "Esskultur",
+    "COFFEE_CULTURE": "Kaffeekultur",
+    "MARKET_CULTURE": "Marktkultur",
+    "RELIGIOUS_OBSERVANCE": "Religiöse Bräuche",
+    "DRESS_CODE": "Kleidungsvorschriften",
+    "TIPPING_ETIQUETTE": "Trinkgeld",
+    "BARGAINING_NORMS": "Verhandeln",
+    "NOISE_AND_PACE": "Lärm & Tempo",
+    "HOSPITALITY_CUSTOMS": "Gastfreundschaft",
+    "FAMILY_AND_COMMUNITY": "Familie & Gemeinschaft",
+    "SEASONAL_RHYTHM": "Saisonaler Rhythmus",
+    "FESTIVAL_AND_CELEBRATION": "Feste & Feiern",
+    "LANGUAGE_TIPS": "Sprachtipps",
+    "GETTING_AROUND_LOCALLY": "Lokale Fortbewegung",
+    "SAFETY_AWARENESS": "Sicherheit",
+    "DIGITAL_AND_CONNECTIVITY": "Konnektivität",
+    "MONEY_AND_PAYMENT": "Geld & Zahlung",
+    "PHOTOGRAPHY_ETIQUETTE": "Fotografie",
+    "ENVIRONMENTAL_NORMS": "Umwelt",
+    "LGBTQ_CONTEXT": "LGBTQ+-Kontext",
+    "ACCESSIBILITY_CONTEXT": "Barrierefreiheit"
+  },
+  "confidence": {
+    "EDITORIAL_VERIFIED": "Redaktionell geprüft",
+    "LOCAL_CONTEXT": "Lokaler Kontext",
+    "GENERAL_GUIDANCE": "Allgemeine Orientierung",
+    "VERIFY_CURRENT_CONTEXT": "Vor Ort prüfen"
+  },
+  "phrase": {
+    "transliterationLabel": "Klingt wie",
+    "pronunciationLabel": "Tipp",
+    "translationLabel": "Bedeutet"
+  },
+  "pdf": {
+    "sectionEyebrow": "Leben wie ein Einheimischer",
+    "sectionTitle": "Kulturelle Intelligenz für Ihre Reise",
+    "insightsHeading": "Lokales Wissen",
+    "phrasesHeading": "Nützliche Phrasen",
+    "founderNoteLabel": "Eine Notiz von unserer Gründerin",
+    "editorialDisclaimer": "Kulturelle Hinweise sind nur redaktionelle Orientierung. Lokale Gepflogenheiten variieren — beobachten und anpassen Sie sich beim Reisen."
+  }
+}
