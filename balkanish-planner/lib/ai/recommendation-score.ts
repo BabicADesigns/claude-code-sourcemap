@@ -63,7 +63,7 @@ function seasonFitScore(destination: Destination, month: number): number {
   return 0.55;
 }
 
-const QUIET_MOODS: TravelMood[] = ["slow_living", "digital_detox", "romantic", "wellness" as TravelMood];
+const QUIET_MOODS: TravelMood[] = ["slow_living", "digital_detox", "romantic"];
 
 function crowdFitScore(destination: Destination, mood?: TravelMood | null): number {
   const prefersQuiet = mood ? QUIET_MOODS.includes(mood) : false;

@@ -19,7 +19,8 @@
     },
     "foodRecommendations": { "eyebrow": "Food Recommendations", "title": "Eat like a local" },
     "hiddenGems": { "eyebrow": "Hidden Gems", "title": "Off the main road" },
-    "localNotes": { "eyebrow": "Local Notes", "title": "What locals know" }
+    "localNotes": { "eyebrow": "Local Notes", "title": "What locals know" },
+    "localRecommendations": { "eyebrow": "Local Recommendations", "title": "Places we personally recommend" }
   },
   "summaryFacts": {
     "duration": "Duration",
@@ -75,6 +76,13 @@
     "bestSeason": "Best season",
     "overview": { "eyebrow": "Overview", "title": "Why visit" },
     "scorecard": { "eyebrow": "Scorecard", "title": "At a glance" }
+  },
+  "partnerCard": {
+    "disclosureLabel": "Disclosure:",
+    "visitWebsite": "Visit website",
+    "viewBooking": "View booking",
+    "followInstagram": "Follow on Instagram",
+    "viewInApp": "View in app"
   },
   "footer": {
     "tagline": "BabicADesigns · Created with Love and Vegeta"

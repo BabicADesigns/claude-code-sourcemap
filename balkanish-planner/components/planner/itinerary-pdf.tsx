@@ -1,6 +1,6 @@
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 import type { GeneratedItinerary, PlannerInput } from "@/lib/ai/itinerary";
-import { PLANNER_STYLE_LABELS, ITINERARY_FOCUS_LABELS, TRIP_PACE_LABELS, ROUTE_VARIANT_LABELS } from "@/lib/types";
+import { PLANNER_STYLE_LABELS, ITINERARY_FOCUS_LABELS, TRIP_PACE_LABELS, ROUTE_VARIANT_LABELS, type PartnerMatchResult } from "@/lib/types";
 import { ItineraryMapPdf } from "@/components/planner/itinerary-map-pdf";
 import { buildMapModel } from "@/lib/maps/itinerary-map-model";
 import { deriveTrustTier } from "@/lib/ai/trust";
@@ -119,6 +119,14 @@ const styles = StyleSheet.create({
   },
   footerText: { fontSize: 8, color: COLOR.muted },
 
+  partnerCard: { marginBottom: 16, paddingBottom: 14, borderBottomWidth: 1, borderBottomColor: COLOR.hairline },
+  partnerCategory: { fontSize: 8.5, letterSpacing: 1, color: COLOR.muted, textTransform: "uppercase", marginBottom: 2 },
+  partnerName: { fontSize: 14, color: COLOR.sageDark, marginBottom: 4 },
+  partnerTrustBadge: { fontSize: 9, letterSpacing: 1, color: COLOR.rose, textTransform: "uppercase", marginBottom: 6 },
+  partnerDescription: { fontSize: 10.5, lineHeight: 1.5, color: COLOR.charcoal, marginBottom: 4 },
+  partnerNote: { fontSize: 10, lineHeight: 1.5, color: COLOR.muted, fontStyle: "italic", marginBottom: 4 },
+  partnerDisclosure: { fontSize: 8.5, lineHeight: 1.4, color: COLOR.muted, marginTop: 4 },
+
   // --- Reserved photography slots (unused today — see the file-level comment above) ---
   /** Would sit as a full-bleed background layer behind the cover's text block, e.g. the trip's first stop's hero_image. */
   coverImageSlot: { position: "absolute", top: 0, left: 0, right: 0, bottom: 0 },
@@ -143,14 +151,17 @@ export function ItineraryPdfDocument({
   itinerary,
   input,
   locale = DEFAULT_LOCALE,
+  matchedPartners,
 }: {
   itinerary: GeneratedItinerary;
   input: PlannerInput;
   locale?: Locale;
+  matchedPartners?: PartnerMatchResult[];
 }) {
   const mapModel = buildMapModel(itinerary);
   const dictionary = getDictionary(locale);
   const t: Translate = (key, vars) => translate(dictionary, "pdf", key, vars);
+  const tp: Translate = (key, vars) => translate(dictionary, "partners", key, vars);
 
   return (
     <Document title={itinerary.trip_title}>
@@ -433,6 +444,34 @@ export function ItineraryPdfDocument({
         ))}
         <PageFooter t={t} />
       </Page>
+
+      {/* Local Recommendations (optional — only present when matched partners exist) */}
+      {matchedPartners && matchedPartners.length > 0 && (
+        <Page size="A4" style={styles.page}>
+          <Text style={styles.sectionEyebrow}>{t("sections.localRecommendations.eyebrow")}</Text>
+          <Text style={styles.sectionTitle}>{t("sections.localRecommendations.title")}</Text>
+          {matchedPartners.map(({ partner }) => (
+            <View key={partner.id} style={styles.partnerCard} wrap={false}>
+              <Text style={styles.partnerCategory}>{tp(`categories.${partner.category}`)}</Text>
+              <Text style={styles.partnerName}>{partner.name}</Text>
+              <Text style={styles.partnerTrustBadge}>{tp(`trust_levels.${partner.trust_level}`)}</Text>
+              <Text style={styles.partnerDescription}>{partner.short_description}</Text>
+              {partner.editorial_note ? (
+                <Text style={styles.partnerNote}>{partner.editorial_note}</Text>
+              ) : null}
+              {partner.founder_note && partner.trust_level === "founder_pick" ? (
+                <Text style={styles.partnerNote}>&ldquo;{partner.founder_note}&rdquo;</Text>
+              ) : null}
+              {partner.commercial_relationship !== "none" ? (
+                <Text style={styles.partnerDisclosure}>
+                  {t("partnerCard.disclosureLabel")} {partner.disclosure_text ?? tp(`disclosure.${partner.commercial_relationship}`)}
+                </Text>
+              ) : null}
+            </View>
+          ))}
+          <PageFooter t={t} />
+        </Page>
+      )}
     </Document>
   );
 }

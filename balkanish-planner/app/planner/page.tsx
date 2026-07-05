@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { PageHeader } from "@/components/layout/page-header";
 import { PlannerFlow } from "@/components/planner/planner-flow";
 import { createSupabaseServerClient, getCurrentUser, isSupabaseConfigured } from "@/lib/supabase/server";
-import type { Profile } from "@/lib/types";
+import type { Profile, LocalPartner } from "@/lib/types";
+import { getPartners } from "@/lib/data/partners";
 
 export const metadata: Metadata = {
   title: "AI Planner",
@@ -11,6 +12,12 @@ export const metadata: Metadata = {
 
 export default async function PlannerPage() {
   let profile: Profile | null = null;
+  let partners: LocalPartner[] = [];
+
+  const [partnersResult] = await Promise.allSettled([getPartners()]);
+  if (partnersResult.status === "fulfilled") {
+    partners = partnersResult.value;
+  }
 
   if (isSupabaseConfigured()) {
     const user = await getCurrentUser();
@@ -29,7 +36,7 @@ export default async function PlannerPage() {
         description="Duration, season, budget, and style — tell us what matters, and we'll build a day-by-day plan with hidden gems, food, and culture worked in."
       />
       <div className="container py-8 sm:py-12">
-        <PlannerFlow profile={profile} />
+        <PlannerFlow profile={profile} initialPartners={partners} />
       </div>
     </div>
   );

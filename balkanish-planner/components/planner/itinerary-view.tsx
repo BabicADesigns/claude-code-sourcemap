@@ -2,9 +2,11 @@
 
 import type { GeneratedItinerary } from "@/lib/ai/itinerary";
 import type { TrustTier } from "@/lib/types";
+import type { PartnerMatchResult } from "@/lib/types";
 import { ItineraryMap } from "@/components/planner/itinerary-map";
 import { useLocale } from "@/lib/i18n/locale-provider";
 import { deriveTrustTier } from "@/lib/ai/trust";
+import { PartnerCard } from "@/components/partners/partner-card";
 
 /** Pill styling per trust tier — mirrors the STATUS_CLASS pattern in components/admin/discoveries-panel.tsx. */
 const TRUST_TIER_BADGE_CLASS: Record<TrustTier, string> = {
@@ -14,7 +16,13 @@ const TRUST_TIER_BADGE_CLASS: Record<TrustTier, string> = {
 };
 
 /** Renders a generated itinerary's full day-by-day plan — shared by the live planner result and the My Balkans "reopen" view. */
-export function ItineraryView({ itinerary }: { itinerary: GeneratedItinerary }) {
+export function ItineraryView({
+  itinerary,
+  matchedPartners,
+}: {
+  itinerary: GeneratedItinerary;
+  matchedPartners?: PartnerMatchResult[];
+}) {
   const { t } = useLocale();
   // Saved itineraries from before Phase 11 won't have this field at all.
   const discoveredCandidates = itinerary.discovered_candidates ?? [];
@@ -128,6 +136,22 @@ export function ItineraryView({ itinerary }: { itinerary: GeneratedItinerary }) 
               </div>
               );
             })}
+          </div>
+        </div>
+      )}
+
+      {matchedPartners && matchedPartners.length > 0 && (
+        <div className="mt-8 sm:mt-10">
+          <p className="font-sans text-xs uppercase tracking-widest text-accent">
+            {t("partners", "section_heading")}
+          </p>
+          <p className="mt-1 font-serif text-sm text-foreground/70">
+            {t("partners", "section_description")}
+          </p>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            {matchedPartners.map(({ partner }) => (
+              <PartnerCard key={partner.id} partner={partner} />
+            ))}
           </div>
         </div>
       )}

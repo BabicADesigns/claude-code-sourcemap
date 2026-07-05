@@ -19,7 +19,8 @@
     },
     "foodRecommendations": { "eyebrow": "Essensempfehlungen", "title": "Essen wie ein Local" },
     "hiddenGems": { "eyebrow": "Versteckte Schätze", "title": "Abseits der Hauptstraße" },
-    "localNotes": { "eyebrow": "Insider-Tipps", "title": "Was Locals wissen" }
+    "localNotes": { "eyebrow": "Insider-Tipps", "title": "Was Locals wissen" },
+    "localRecommendations": { "eyebrow": "Lokale Empfehlungen", "title": "Orte, die wir persönlich empfehlen" }
   },
   "summaryFacts": {
     "duration": "Dauer",
@@ -75,6 +76,13 @@
     "bestSeason": "Beste Reisezeit",
     "overview": { "eyebrow": "Überblick", "title": "Warum hierher reisen" },
     "scorecard": { "eyebrow": "Bewertung", "title": "Auf einen Blick" }
+  },
+  "partnerCard": {
+    "disclosureLabel": "Hinweis:",
+    "visitWebsite": "Website besuchen",
+    "viewBooking": "Buchungsoptionen ansehen",
+    "followInstagram": "Auf Instagram folgen",
+    "viewInApp": "In der App anzeigen"
   },
   "footer": {
     "tagline": "BabicADesigns · Mit Liebe und Vegeta erstellt"

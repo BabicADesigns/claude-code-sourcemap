@@ -26,7 +26,10 @@ import {
   type TravelMood,
   type CuisinePreference,
   type Profile,
+  type LocalPartner,
+  type PartnerMatchResult,
 } from "@/lib/types";
+import { matchPartnersToContext } from "@/lib/ai/partner-match";
 import { cn, slugify } from "@/lib/utils";
 import { saveItinerary } from "@/lib/actions/itineraries";
 import { generateItineraryPdfBlob } from "@/lib/pdf/generate-itinerary-pdf";
@@ -105,13 +108,20 @@ function OptionCard({
   );
 }
 
-export function PlannerFlow({ profile }: { profile?: Profile | null } = {}) {
+export function PlannerFlow({
+  profile,
+  initialPartners,
+}: {
+  profile?: Profile | null;
+  initialPartners?: LocalPartner[];
+} = {}) {
   const router = useRouter();
   const { t, tList, locale } = useLocale();
   const [step, setStep] = useState(0);
   const [itineraries, setItineraries] = useState<Record<RouteVariant, GeneratedItinerary> | null>(null);
   const [selectedVariant, setSelectedVariant] = useState<RouteVariant>("balanced");
   const [submittedInput, setSubmittedInput] = useState<PlannerInput | null>(null);
+  const [matchedPartners, setMatchedPartners] = useState<PartnerMatchResult[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   const [isSavingItinerary, setIsSavingItinerary] = useState(false);
@@ -188,6 +198,18 @@ export function PlannerFlow({ profile }: { profile?: Profile | null } = {}) {
       setSelectedVariant(defaultVariantForPace(submitted.pace));
       setSubmittedInput(submitted);
       setItinerarySaved(false);
+
+      if (initialPartners && initialPartners.length > 0) {
+        const monthIndex = MONTHS_EN.indexOf(submitted.month as (typeof MONTHS_EN)[number]);
+        const partners = matchPartnersToContext(initialPartners, {
+          country: submitted.country,
+          travel_mood: submitted.travel_mood ?? null,
+          cuisine_preferences: submitted.cuisine_preferences as CuisinePreference[] ?? [],
+          month: monthIndex >= 0 ? monthIndex + 1 : null,
+          family_friendly: submitted.plannerStyle === "family",
+        });
+        setMatchedPartners(partners);
+      }
       track(ANALYTICS_EVENTS.ITINERARY_GENERATED, {
         durationDays: submitted.durationDays,
         month: submitted.month,
@@ -209,7 +231,7 @@ export function PlannerFlow({ profile }: { profile?: Profile | null } = {}) {
     if (!activeItinerary || !submittedInput) return;
     setIsExporting(true);
     try {
-      const blob = await generateItineraryPdfBlob(activeItinerary, submittedInput, locale);
+      const blob = await generateItineraryPdfBlob(activeItinerary, submittedInput, locale, matchedPartners);
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
@@ -256,7 +278,7 @@ export function PlannerFlow({ profile }: { profile?: Profile | null } = {}) {
         </Tabs>
 
         <div className="mt-6 print:mt-0">
-          <ItineraryView itinerary={activeItinerary} />
+          <ItineraryView itinerary={activeItinerary} matchedPartners={matchedPartners} />
         </div>
 
         <div className="mt-8 flex flex-wrap gap-3 sm:mt-10 print:hidden">

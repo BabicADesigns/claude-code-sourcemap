@@ -840,3 +840,138 @@ export interface EngagementSignal {
   user_id?: string;
   created_at: string;
 }
+
+// ---------------------------------------------------------------------------
+// Phase 18 — Local Trust & Partner Recommendation System
+// ---------------------------------------------------------------------------
+
+/**
+ * Editorial trust tier for a local partner or recommendation.
+ * Trust level reflects editorial judgment, NOT commercial relationship.
+ * A partner with a commercial connection can still earn a Founder's Pick —
+ * the connection is disclosed separately via CommercialRelationship.
+ */
+export type PartnerTrustLevel = "founder_pick" | "verified_local" | "community_favourite";
+
+export const PARTNER_TRUST_LEVEL_LABELS: Record<PartnerTrustLevel, string> = {
+  founder_pick: "Founder's Pick",
+  verified_local: "Verified Local",
+  community_favourite: "Community Favourite",
+};
+
+/**
+ * Whether and how a commercial relationship exists between Balkanish and a partner.
+ * Stored explicitly and disclosed to users — never used to influence recommendation ranking.
+ * Editorial relevance always comes first; commercial relationships are a transparency record only.
+ */
+export type CommercialRelationship =
+  | "none"
+  | "affiliate"
+  | "paid_partnership"
+  | "founder_connection"
+  | "owned_or_affiliated_project";
+
+export const COMMERCIAL_RELATIONSHIP_LABELS: Record<CommercialRelationship, string> = {
+  none: "No commercial relationship",
+  affiliate: "Affiliate",
+  paid_partnership: "Paid partnership",
+  founder_connection: "Founder connection",
+  owned_or_affiliated_project: "Founder's project",
+};
+
+/** The kind of local experience or service a partner provides. A partner may have a primary category plus additional tags. */
+export type PartnerCategory =
+  | "food_drink"
+  | "outdoor_adventure"
+  | "accommodation"
+  | "transport"
+  | "culture_arts"
+  | "wellness"
+  | "shopping"
+  | "family"
+  | "workspace"
+  | "experience";
+
+export const PARTNER_CATEGORY_LABELS: Record<PartnerCategory, string> = {
+  food_drink: "Food & Drink",
+  outdoor_adventure: "Outdoor Adventure",
+  accommodation: "Accommodation",
+  transport: "Transport",
+  culture_arts: "Culture & Arts",
+  wellness: "Wellness",
+  shopping: "Shopping",
+  family: "Family",
+  workspace: "Workspace & Coworking",
+  experience: "Experience",
+};
+
+/**
+ * A local business, guide, experience, or project the Balkanish editorial team recommends.
+ * Distinct from `FoundersPick` (a destination voice note) — this is a partner entity with
+ * external links, commercial disclosure, and contextual matching signals.
+ *
+ * Commercial relationships are stored and disclosed to users.
+ * They never inflate recommendation ranking — see docs/local-trust-recommendation-system.md.
+ */
+export interface LocalPartner {
+  id: string;
+  name: string;
+  slug: string;
+  trust_level: PartnerTrustLevel;
+  commercial_relationship: CommercialRelationship;
+  /** Explicit disclosure text. Falls back to auto-generated text from commercial_relationship when null. */
+  disclosure_text?: string | null;
+  category: PartnerCategory;
+  /** Additional category tags for multi-signal matching. */
+  categories?: PartnerCategory[];
+  country?: Country | null;
+  /** Sub-national region, e.g. "Kvarner", "Istria", "Dalmatia". */
+  region?: string | null;
+  /** Slugs of specific destinations this partner is relevant to. */
+  destination_slugs?: string[];
+  /** 1–2 sentence editorial description. */
+  short_description: string;
+  /** Internal editorial note (not shown to users). */
+  editorial_note?: string | null;
+  /** Personal founder note — shown to users for Founder's Pick partners. */
+  founder_note?: string | null;
+  // External links — all nullable; partners may not have all channels
+  website_url?: string | null;
+  instagram_url?: string | null;
+  booking_url?: string | null;
+  app_url?: string | null;
+  /** Only when intentionally published by the partner. Never scraped. */
+  contact_email?: string | null;
+  contact_phone?: string | null;
+  // Contextual matching signals — used by partner-match.ts, never visible in UI
+  traveler_interests?: TravelerInterest[];
+  mobility_options?: MobilityOption[];
+  travel_moods?: TravelMood[];
+  cuisine_types?: CuisinePreference[];
+  trip_paces?: TripPace[];
+  family_suitable?: boolean;
+  accessibility_notes?: string | null;
+  /** 1-indexed best months (1 = January). */
+  best_months?: number[];
+  hero_image?: ImageAsset | null;
+  /** Editorial priority weight 0–100. Higher = more likely to surface. Never influenced by commercial relationship. */
+  priority: number;
+  /** Only active partners appear in itinerary recommendations. Inactive partners are visible in admin only. */
+  active: boolean;
+  /** Marks development/demo fixtures that must never surface in production itineraries. */
+  demo_only?: boolean;
+  verified_at?: string | null;
+  /** Email or identifier of the editorial team member who verified this partner. */
+  verified_by?: string | null;
+  created_at?: string;
+  updated_at?: string;
+}
+
+/** A partner paired with its contextual relevance score and internal match reasons. */
+export interface PartnerMatchResult {
+  partner: LocalPartner;
+  /** 0–1 composite relevance score. Never exposed to users — used only for ranking and density filtering. */
+  relevance_score: number;
+  /** Internal audit trail — not shown in UI. */
+  match_reasons: string[];
+}

@@ -19,7 +19,8 @@
     },
     "foodRecommendations": { "eyebrow": "Preporuke za Hranu", "title": "Jedite kao mještanin" },
     "hiddenGems": { "eyebrow": "Skrivena Blaga", "title": "Izvan glavne ceste" },
-    "localNotes": { "eyebrow": "Lokalne Bilješke", "title": "Što mještani znaju" }
+    "localNotes": { "eyebrow": "Lokalne Bilješke", "title": "Što mještani znaju" },
+    "localRecommendations": { "eyebrow": "Lokalne Preporuke", "title": "Mjesta koja osobno preporučujemo" }
   },
   "summaryFacts": {
     "duration": "Trajanje",
@@ -75,6 +76,13 @@
     "bestSeason": "Najbolje doba godine",
     "overview": { "eyebrow": "Pregled", "title": "Zašto posjetiti" },
     "scorecard": { "eyebrow": "Ocjene", "title": "Na prvi pogled" }
+  },
+  "partnerCard": {
+    "disclosureLabel": "Napomena:",
+    "visitWebsite": "Posjetite stranicu",
+    "viewBooking": "Pregledajte opcije rezervacije",
+    "followInstagram": "Pratite na Instagramu",
+    "viewInApp": "Prikaži u aplikaciji"
   },
   "footer": {
     "tagline": "BabicADesigns · Stvoreno s ljubavlju i Vegetom"
