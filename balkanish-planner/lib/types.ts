@@ -1378,3 +1378,189 @@ export interface CulturalMatchResult {
   founderNote: FounderNote | null;
   personalStories: PersonalConnectionStory[];
 }
+
+// ---------------------------------------------------------------------------
+// Phase 21 — Travel Memory & Adaptive Traveller Intelligence
+// ---------------------------------------------------------------------------
+
+/** Where a memory signal came from. Determines base weight and decay protection. */
+export type MemorySignalSource =
+  | "PROFILE_CONFIRMATION"      // Explicitly set in account settings (weight: 1.0, never decays)
+  | "WIZARD_SELECTION"          // Chosen in the planner wizard (weight: 0.8)
+  | "ITINERARY_KEEP"            // Kept an itinerary without regenerating (weight: 0.6)
+  | "ITINERARY_REGENERATE"      // Regenerated — signals what was NOT wanted (weight: 0.4)
+  | "PARTNER_SAVE"              // Saved a partner listing (weight: 0.4)
+  | "DIRECT_MEMORY_CONFIRMATION"// Confirmed a signal from the memory UI (weight: 1.0, never decays)
+  | "TRIP_COMPLETION_FEEDBACK"; // Explicit post-trip feedback (weight: 0.7)
+
+export const MEMORY_SIGNAL_SOURCE_WEIGHTS: Record<MemorySignalSource, number> = {
+  PROFILE_CONFIRMATION: 1.0,
+  WIZARD_SELECTION: 0.8,
+  ITINERARY_KEEP: 0.6,
+  ITINERARY_REGENERATE: 0.4,
+  PARTNER_SAVE: 0.4,
+  DIRECT_MEMORY_CONFIRMATION: 1.0,
+  TRIP_COMPLETION_FEEDBACK: 0.7,
+};
+
+/** Sources where signals are treated as authoritative and never decay over time. */
+export const PROTECTED_MEMORY_SOURCES = new Set<MemorySignalSource>([
+  "PROFILE_CONFIRMATION",
+  "DIRECT_MEMORY_CONFIRMATION",
+]);
+
+/** Sources whose signals are considered weak on first observation (require repetition to strengthen). */
+export const WEAK_SIGNAL_SOURCES = new Set<MemorySignalSource>([
+  "ITINERARY_REGENERATE",
+  "PARTNER_SAVE",
+]);
+
+/** The complete allowlist of sources accepted at ingestion — anything outside this set is rejected. */
+export const ALLOWED_MEMORY_SIGNAL_SOURCES = new Set<MemorySignalSource>([
+  "PROFILE_CONFIRMATION",
+  "WIZARD_SELECTION",
+  "ITINERARY_KEEP",
+  "ITINERARY_REGENERATE",
+  "PARTNER_SAVE",
+  "DIRECT_MEMORY_CONFIRMATION",
+  "TRIP_COMPLETION_FEEDBACK",
+]);
+
+/** Preference domains the memory engine may track. */
+export type MemoryPreferenceDomain =
+  | "PACE"               // Relaxed vs active travel cadence
+  | "BUDGET"             // Spending comfort level
+  | "ACCOMMODATION"      // Stay type preference
+  | "TRANSPORT"          // Preferred transit modes
+  | "FOOD_CULTURE"       // Dining style and food interests
+  | "NATURE"             // Outdoor and landscape preference
+  | "HISTORY"            // Historical and cultural interest
+  | "ART"                // Art and museums
+  | "NIGHTLIFE"          // Evening and nightlife preference
+  | "PHOTOGRAPHY"        // Photography interest
+  | "ADVENTURE"          // Adventure activities
+  | "WELLNESS"           // Wellness and spa preference
+  | "FAMILY"             // Family-oriented features
+  | "ROMANCE"            // Romantic travel preference
+  | "SOLO"               // Solo travel preference
+  | "GROUP"              // Group travel preference
+  | "BEACHES"            // Beach and coastal preference
+  | "MOUNTAINS"          // Mountain and highlands preference
+  | "CITIES"             // Urban exploration preference
+  | "RURAL"              // Rural and off-the-beaten-path preference
+  | "SUSTAINABILITY"     // Eco-conscious travel preference
+  | "LANGUAGE"           // Language learning interest
+  | "COFFEE_CULTURE"     // Coffee culture and café preference
+  | "WINE"               // Wine and vineyard preference
+  | "LOCAL_EVENTS"       // Local festivals and events
+  | "HIDDEN_GEMS"        // Off-the-beaten-path preference
+  | "GUIDED_TOURS"       // Guided vs self-guided preference
+  | "ISLAND_HOPPING"     // Island and coastal route preference
+  | "ROAD_TRIPS"         // Road trip preference
+  | "SLOW_TRAVEL";       // Extended stay in fewer places
+
+export const MEMORY_PREFERENCE_DOMAIN_LABELS: Record<MemoryPreferenceDomain, string> = {
+  PACE: "Travel pace",
+  BUDGET: "Budget comfort",
+  ACCOMMODATION: "Accommodation style",
+  TRANSPORT: "Transport preference",
+  FOOD_CULTURE: "Food & dining",
+  NATURE: "Nature & outdoors",
+  HISTORY: "History & heritage",
+  ART: "Art & museums",
+  NIGHTLIFE: "Nightlife",
+  PHOTOGRAPHY: "Photography",
+  ADVENTURE: "Adventure activities",
+  WELLNESS: "Wellness & spa",
+  FAMILY: "Family travel",
+  ROMANCE: "Romantic travel",
+  SOLO: "Solo travel",
+  GROUP: "Group travel",
+  BEACHES: "Beaches & coast",
+  MOUNTAINS: "Mountains & highlands",
+  CITIES: "Urban exploration",
+  RURAL: "Rural & countryside",
+  SUSTAINABILITY: "Eco-conscious travel",
+  LANGUAGE: "Language learning",
+  COFFEE_CULTURE: "Coffee culture",
+  WINE: "Wine & vineyards",
+  LOCAL_EVENTS: "Local events & festivals",
+  HIDDEN_GEMS: "Hidden gems",
+  GUIDED_TOURS: "Guided experiences",
+  ISLAND_HOPPING: "Island hopping",
+  ROAD_TRIPS: "Road trips",
+  SLOW_TRAVEL: "Slow travel",
+};
+
+/**
+ * Domains that must NEVER be inferred from travel behaviour.
+ * Signals targeting these domains are rejected at ingestion regardless of source.
+ * This is a hard privacy guardrail — not configurable.
+ */
+export const BLOCKED_MEMORY_DOMAINS = new Set<string>([
+  "RELIGION",
+  "ETHNICITY",
+  "RACE",
+  "SEXUAL_ORIENTATION",
+  "POLITICAL_AFFILIATION",
+  "HEALTH",
+  "DISABILITY",
+  "INCOME",
+  "IMMIGRATION_STATUS",
+  "CRIMINAL_HISTORY",
+]);
+
+/** Which direction a preference signal points. */
+export type MemorySignalDirection = "POSITIVE" | "NEGATIVE" | "NEUTRAL";
+
+/** Traveller's review state for a specific memory signal. */
+export type MemoryConfirmationStatus = "UNCONFIRMED" | "CONFIRMED" | "REJECTED";
+
+/** Trip group context at time of signal observation. */
+export type MemoryTripContext =
+  | "SOLO"
+  | "COUPLE"
+  | "FAMILY"
+  | "FRIENDS"
+  | "WORKATION"
+  | "ROAD_TRIP";
+
+/** One observed travel preference signal. Rows deduplicate on (user_id, domain, subject, direction). */
+export interface TravelMemorySignal {
+  id: string;
+  user_id: string;
+  source: MemorySignalSource;
+  domain: MemoryPreferenceDomain;
+  /** Human-readable description, e.g. "slow mornings and cafés" */
+  subject: string;
+  /** Optional specific value, e.g. "Dubrovnik", "Croatian wine" */
+  value?: string | null;
+  direction: MemorySignalDirection;
+  /** Computed 0–1 strength (source weight + repetition bonus, capped at 1.0) */
+  strength: number;
+  /** Computed 0–1 confidence (source weight + repetition + confirmation status) */
+  confidence: number;
+  source_trip_id?: string | null;
+  /** How many times this signal has been observed (incremented on repeat) */
+  occurrence_count: number;
+  first_observed_at: string;
+  last_observed_at: string;
+  trip_context?: MemoryTripContext | null;
+  confirmation_status: MemoryConfirmationStatus;
+  /** For REJECTED signals: ISO timestamp when the 90-day cooldown expires */
+  rejected_until?: string | null;
+  active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export type MemoryStrengthLabel = "strong_pattern" | "noticed" | "still_learning";
+
+/** Aggregated summary of a traveller's memory signals, for UI display. */
+export interface TravelMemorySummary {
+  confirmed: TravelMemorySignal[];
+  strong: TravelMemorySignal[];
+  noticed: TravelMemorySignal[];
+  learning: TravelMemorySignal[];
+  total: number;
+}

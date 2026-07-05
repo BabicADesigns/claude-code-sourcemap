@@ -1,0 +1,40 @@
+{
+  "sectionTitle": "Tvoje putno pamćenje",
+  "sectionSubtitle": "Ono što smo primijetili o tome kako voliš putovati. Ti uvijek imaš kontrolu — potvrdi što je točno, odbaci što nije.",
+  "noMemoryYet": "Još nismo primijetili nikakve preferencije putovanja. Kako budeš koristio/la planer, počet ćemo učiti što ti se sviđa.",
+  "confirmedTitle": "Potvrđene preferencije",
+  "noticedTitle": "Primijetili smo",
+  "noticedHint": "Na temelju načina na koji koristiš planer. Potvrdi one koje ti se čine točnima.",
+  "stillLearningTitle": "Još učimo",
+  "strengthLabels": {
+    "strong_pattern": "Jasan obrazac",
+    "noticed": "Primijeće no",
+    "still_learning": "Učenje"
+  },
+  "directions": {
+    "POSITIVE": "Voli",
+    "NEGATIVE": "Radije izbjegava",
+    "NEUTRAL": "Zanima ga/je"
+  },
+  "actions": {
+    "confirm": "Potvrdi",
+    "reject": "Nije za mene",
+    "remove": "Ukloni",
+    "confirmLabel": "Potvrdi ovu preferenciju",
+    "rejectLabel": "Odbaci ovu preferenciju"
+  },
+  "resetTitle": "Resetiraj naučene preferencije",
+  "resetDescription": "Ovo će ukloniti sve preferencije koje smo naučili iz tvog ponašanja. Tvoje potvrđene preferencije i postavke računa neće biti pogođene.",
+  "resetButton": "Resetiraj naučene preferencije",
+  "resetConfirm": "Jesi li siguran/na? Ovo se ne može poništiti.",
+  "privacyNote": "Tvoje putno pamćenje je privatno — koristi se samo za personalizaciju tvojih vlastitih itinerera. Nikada ga ne dijelimo, nikada ga ne koristimo za oglašavanje i nikada ne zaključujemo osjetljive osobne atribute iz mjesta gdje putuješ.",
+  "sources": {
+    "PROFILE_CONFIRMATION": "Postavljeno u profilu",
+    "WIZARD_SELECTION": "Odabrano u planeru",
+    "ITINERARY_KEEP": "Sačuvan itinerer",
+    "ITINERARY_REGENERATE": "Regeneriran itinerer",
+    "PARTNER_SAVE": "Sačuvan partner",
+    "DIRECT_MEMORY_CONFIRMATION": "Potvrđeno od tebe",
+    "TRIP_COMPLETION_FEEDBACK": "Povratne informacije nakon putovanja"
+  }
+}

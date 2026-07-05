@@ -29,6 +29,8 @@ import {
   resolveFounderNote,
   buildCulturalContextForBrief,
 } from "@/lib/ai/cultural-resolver";
+import { buildMemoryBriefBlock } from "@/lib/ai/travel-memory";
+import type { TravelMemorySignal } from "@/lib/types";
 import {
   deriveItineraryFocus,
   buildGroundedItinerary,
@@ -354,6 +356,8 @@ Personalization influences tone only — it never changes the factual stops.
 
 If the brief includes a "cultural_context" block, use these editorial notes to write more grounded, culturally aware prose. Let them shape the atmosphere and social texture of the narrative. Cultural context notes must be treated as background colour, not direct quotes — weave them into the writing naturally. Do NOT invent cultural facts not present in the brief.
 
+If the brief includes a "trip_memory" block, let it silently shape the prose emphasis — which activities to foreground, what tone to take for meals and accommodation, what to linger on. Do NOT mention that memory was used. Never write "we remembered you like...", "based on your past trips...", or any phrase that reveals the memory mechanism exists. Never infer sensitive personal attributes (religion, ethnicity, sexual orientation, health, political views, etc.) from destination choices or memory signals.
+
 CRITICAL — Founder Notes: If the brief includes a founder_note headline, you may mention that such a note exists ("our founder has a note about this destination") but you must NEVER reproduce, paraphrase, or invent the note's content. Surface only the headline, never the body.
 
 CULTURAL SENSITIVITY: The Balkans has a complex history. Never make sweeping generalisations about ethnic, religious, or national groups. Describe customs and atmosphere, not character. Write with the warmth of a knowledgeable friend, not the certainty of an anthropologist.
@@ -387,7 +391,8 @@ function buildGroundingBrief(
   pace: TripPace,
   grounded: GroundedItinerary,
   allCulturalInsights?: CulturalInsight[],
-  allFounderNotes?: FounderNote[]
+  allFounderNotes?: FounderNote[],
+  memorySignals?: TravelMemorySignal[]
 ): string {
   const stops = grounded.stops.map((stop, idx) => {
     const dayTrip = grounded.dayTrips.find((dt) => dt.fromDestinationSlug === stop.destination.slug);
@@ -452,6 +457,8 @@ function buildGroundingBrief(
     if (built) culturalContext = built;
   }
 
+  const tripMemory = memorySignals ? buildMemoryBriefBlock(memorySignals) : null;
+
   return JSON.stringify(
     {
       duration_days: input.durationDays,
@@ -462,6 +469,7 @@ function buildGroundingBrief(
       personalization,
       logistics_context: logisticsContext || undefined,
       cultural_context: culturalContext || undefined,
+      trip_memory: tripMemory || undefined,
       stops,
     },
     null,
@@ -507,6 +515,10 @@ interface CulturalContext {
   founderNotes: FounderNote[];
 }
 
+export interface TravelMemoryContext {
+  signals: TravelMemorySignal[];
+}
+
 /**
  * Generates one itinerary. `variant` locks the pace used for selection/pacing (see VARIANT_PACE) —
  * input.pace is not read here; it's UI metadata generateItineraryVariants' caller uses to pick
@@ -515,7 +527,8 @@ interface CulturalContext {
 export async function generateItinerary(
   input: PlannerInput,
   variant: RouteVariant = "balanced",
-  culturalContext?: CulturalContext
+  culturalContext?: CulturalContext,
+  memoryContext?: TravelMemoryContext
 ): Promise<GeneratedItinerary> {
   const pace = VARIANT_PACE[variant];
   const focus = deriveItineraryFocus(input.plannerStyle, input.interests);
@@ -530,7 +543,7 @@ export async function generateItinerary(
   const [prose, discoveredCandidates] = await Promise.all([
     isOpenAIConfigured()
       ? fetchProse(
-          buildGroundingBrief(input, pace, grounded, culturalContext?.insights, culturalContext?.founderNotes),
+          buildGroundingBrief(input, pace, grounded, culturalContext?.insights, culturalContext?.founderNotes, memoryContext?.signals),
           skeleton.days.length
         ).catch((error) => {
           console.error("AI prose layer failed; falling back to deterministic itinerary text.", error);
@@ -557,9 +570,10 @@ export async function generateItinerary(
 /** Requirement #6 — Conservative/Balanced/Explorer, generated from the same input, pace fixed per variant. */
 export async function generateItineraryVariants(
   input: PlannerInput,
-  culturalContext?: CulturalContext
+  culturalContext?: CulturalContext,
+  memoryContext?: TravelMemoryContext
 ): Promise<Record<RouteVariant, GeneratedItinerary>> {
-  const results = await Promise.all(ROUTE_VARIANTS.map((variant) => generateItinerary(input, variant, culturalContext)));
+  const results = await Promise.all(ROUTE_VARIANTS.map((variant) => generateItinerary(input, variant, culturalContext, memoryContext)));
   return {
     conservative: results[0],
     balanced: results[1],
