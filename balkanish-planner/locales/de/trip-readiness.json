@@ -1,0 +1,88 @@
+{
+  "pageTitle": "Reisebegleiter",
+  "pageSubtitle": "Was Sie wirklich tun müssen, bevor diese Reise beginnt.",
+  "setDepartureDatePrompt": "Geben Sie Ihr Abreisedatum an, um zu sehen, was jetzt wichtig ist.",
+  "setDepartureDateLabel": "Abreisedatum",
+  "setDepartureDateSave": "Datum speichern",
+  "setDepartureDateClear": "Datum löschen",
+  "noDepartureDate": "Kein Abreisedatum festgelegt",
+  "countdown": {
+    "future": "Sie reisen in {days} Tagen ab",
+    "tomorrow": "Sie reisen morgen ab",
+    "today": "Abreisetag — gute Reise",
+    "started": "Reise läuft",
+    "completed": "Reise abgeschlossen"
+  },
+  "whatMattersNow": "Was jetzt wichtig ist",
+  "allChecked": "Alles erledigt — Sie sind bereit.",
+  "progress": "{done} von {total} erledigt",
+  "sections": {
+    "DO_NOW": "Sofort erledigen",
+    "NOW_URGENT": "Dringend — noch {days} Tage",
+    "THIS_WEEK": "Diese Woche",
+    "THIS_MONTH": "Diesen Monat",
+    "BEFORE_YOU_GO": "Vor der Abreise",
+    "PLANNING_PHASE": "In der Planungsphase",
+    "IN_DESTINATION": "Vor Ort",
+    "POST_TRIP": "Nach der Rückkehr"
+  },
+  "categories": {
+    "DOCUMENTS": "Dokumente",
+    "VISA": "Visum",
+    "HEALTH": "Gesundheit",
+    "INSURANCE": "Versicherung",
+    "ACCOMMODATION": "Unterkunft",
+    "TRANSPORT": "Transport",
+    "FERRY": "Fähre",
+    "BORDER_CROSSING": "Grenzübergang",
+    "MONEY": "Geld & Karten",
+    "CONNECTIVITY": "Konnektivität",
+    "PACKING": "Packen",
+    "WEATHER": "Wetter",
+    "LOCAL_CUSTOMS": "Lokale Bräuche",
+    "EMERGENCY": "Notfall",
+    "LANGUAGE": "Sprache",
+    "ACTIVITIES": "Aktivitäten",
+    "FOOD": "Essen & Trinken"
+  },
+  "priority": {
+    "CRITICAL": "Kritisch",
+    "HIGH": "Wichtig",
+    "MEDIUM": "Empfohlen",
+    "LOW": "Optional"
+  },
+  "status": {
+    "PENDING": "Ausstehend",
+    "DONE": "Erledigt",
+    "SKIPPED": "Übersprungen",
+    "NA": "Nicht zutreffend"
+  },
+  "bookingState": {
+    "NOT_STARTED": "Nicht gebucht",
+    "PLANNED": "Geplant",
+    "USER_MARKED_BOOKED": "Gebucht"
+  },
+  "actions": {
+    "markDone": "Als erledigt markieren",
+    "markPending": "Rückgängig",
+    "markSkipped": "Überspringen",
+    "markBooked": "Als gebucht markieren",
+    "addNote": "Notiz hinzufügen",
+    "saveNote": "Speichern",
+    "cancelNote": "Abbrechen"
+  },
+  "reservationSensitivity": {
+    "CRITICAL": "Sofort buchen",
+    "HIGH": "Frühzeitig buchen",
+    "MEDIUM": "Im Voraus buchen",
+    "LOW": ""
+  },
+  "pdf": {
+    "sectionEyebrow": "Vor der Abreise",
+    "sectionTitle": "Reise-Checkliste",
+    "intro": "Eine praktische Checkliste für Ihre Reise. Kritische und wichtige Punkte sollten nicht auf die letzte Minute verschoben werden.",
+    "critical": "Kritisch",
+    "important": "Wichtig",
+    "recommended": "Empfohlen"
+  }
+}

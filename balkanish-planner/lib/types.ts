@@ -640,6 +640,7 @@ export interface SavedItinerary {
   travel_style: TravelStyle;
   interests: string[];
   itinerary_json: import("@/lib/ai/itinerary").GeneratedItinerary;
+  departure_date?: string | null;
   created_at: string;
 }
 
@@ -1564,3 +1565,119 @@ export interface TravelMemorySummary {
   learning: TravelMemorySignal[];
   total: number;
 }
+
+// ---------------------------------------------------------------------------
+// Phase 22 — Trip Companion & Pre-Trip Readiness Engine
+// ---------------------------------------------------------------------------
+
+export type ReadinessCategory =
+  | "DOCUMENTS"
+  | "VISA"
+  | "HEALTH"
+  | "INSURANCE"
+  | "ACCOMMODATION"
+  | "TRANSPORT"
+  | "FERRY"
+  | "BORDER_CROSSING"
+  | "MONEY"
+  | "CONNECTIVITY"
+  | "PACKING"
+  | "WEATHER"
+  | "LOCAL_CUSTOMS"
+  | "EMERGENCY"
+  | "LANGUAGE"
+  | "ACTIVITIES"
+  | "FOOD";
+
+/**
+ * When this readiness item becomes relevant relative to departure.
+ * DO_NOW is a system override for items that are immediately actionable regardless of countdown.
+ */
+export type ReadinessTimingWindow =
+  | "DO_NOW"          // Immediate regardless of timeline
+  | "NOW_URGENT"      // ≤3 days to departure
+  | "THIS_WEEK"       // 4–14 days
+  | "THIS_MONTH"      // 15–30 days
+  | "BEFORE_YOU_GO"   // 31–90 days
+  | "PLANNING_PHASE"  // >90 days, or no departure date set
+  | "IN_DESTINATION"  // Relevant once travelling, not before
+  | "POST_TRIP";      // After return
+
+export type ReadinessStatus = "PENDING" | "DONE" | "SKIPPED" | "NA";
+export type ReadinessPriority = "CRITICAL" | "HIGH" | "MEDIUM" | "LOW";
+export type ReservationSensitivity = "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
+
+/** "Planning is not booking" — explicit three-state booking model. */
+export type BookingState = "NOT_STARTED" | "PLANNED" | "USER_MARKED_BOOKED";
+
+export type TripCountdownState = "FUTURE" | "TODAY" | "STARTED" | "COMPLETED";
+
+export interface TripReadinessItem {
+  id: string;
+  user_id: string;
+  trip_id: string;
+  rule_key: string;
+  category: ReadinessCategory;
+  timing_window: ReadinessTimingWindow;
+  status: ReadinessStatus;
+  priority: ReadinessPriority;
+  title: string;
+  description: string;
+  notes?: string | null;
+  booking_state: BookingState;
+  reservation_sensitivity: ReservationSensitivity;
+  is_auto_generated: boolean;
+  context_metadata?: Record<string, unknown> | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface TripReadinessSummary {
+  countdownState: TripCountdownState;
+  daysUntilDeparture: number | null;
+  total: number;
+  done: number;
+  critical: TripReadinessItem[];
+  urgent: TripReadinessItem[];
+  thisWeek: TripReadinessItem[];
+  thisMonth: TripReadinessItem[];
+  planningPhase: TripReadinessItem[];
+}
+
+export interface WhatMattersNow {
+  state: TripCountdownState;
+  daysUntilDeparture: number | null;
+  items: TripReadinessItem[];
+}
+
+export const READINESS_CATEGORY_LABELS: Record<ReadinessCategory, string> = {
+  DOCUMENTS: "Documents",
+  VISA: "Visa",
+  HEALTH: "Health",
+  INSURANCE: "Insurance",
+  ACCOMMODATION: "Accommodation",
+  TRANSPORT: "Transport",
+  FERRY: "Ferry",
+  BORDER_CROSSING: "Border Crossing",
+  MONEY: "Money & Cards",
+  CONNECTIVITY: "Connectivity",
+  PACKING: "Packing",
+  WEATHER: "Weather",
+  LOCAL_CUSTOMS: "Local Customs",
+  EMERGENCY: "Emergency",
+  LANGUAGE: "Language",
+  ACTIVITIES: "Activities",
+  FOOD: "Food & Dining",
+};
+
+/** Ordering used when displaying timing windows in the UI, most urgent first. */
+export const READINESS_TIMING_WINDOW_ORDER: Record<ReadinessTimingWindow, number> = {
+  DO_NOW: 0,
+  NOW_URGENT: 1,
+  THIS_WEEK: 2,
+  THIS_MONTH: 3,
+  BEFORE_YOU_GO: 4,
+  PLANNING_PHASE: 5,
+  IN_DESTINATION: 6,
+  POST_TRIP: 7,
+};

@@ -165,6 +165,9 @@ export function SavedItineraries({ itineraries }: { itineraries: SavedItinerary[
                 >
                   {pdfPending?.id === saved.id && pdfPending.action === "regenerate" ? "Regenerating…" : "Regenerate PDF"}
                 </Button>
+                <Button asChild variant="outline" size="sm">
+                  <Link href={`/trips/${saved.id}/companion`}>Trip Companion</Link>
+                </Button>
                 <Button asChild variant="ghost" size="sm">
                   <Link href="/planner">Edit in Planner</Link>
                 </Button>

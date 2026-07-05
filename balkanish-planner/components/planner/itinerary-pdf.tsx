@@ -1,6 +1,7 @@
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 import type { GeneratedItinerary, PlannerInput } from "@/lib/ai/itinerary";
-import { PLANNER_STYLE_LABELS, ITINERARY_FOCUS_LABELS, TRIP_PACE_LABELS, ROUTE_VARIANT_LABELS, CULTURAL_INSIGHT_CATEGORY_LABELS, type PartnerMatchResult, type TravelSegment, type CulturalInsight, type FounderNote } from "@/lib/types";
+import { PLANNER_STYLE_LABELS, ITINERARY_FOCUS_LABELS, TRIP_PACE_LABELS, ROUTE_VARIANT_LABELS, CULTURAL_INSIGHT_CATEGORY_LABELS, READINESS_CATEGORY_LABELS, type PartnerMatchResult, type TravelSegment, type CulturalInsight, type FounderNote } from "@/lib/types";
+import { buildTripReadiness } from "@/lib/ai/trip-readiness";
 import { ItineraryMapPdf } from "@/components/planner/itinerary-map-pdf";
 import { buildMapModel } from "@/lib/maps/itinerary-map-model";
 import { deriveTrustTier } from "@/lib/ai/trust";
@@ -160,6 +161,14 @@ const styles = StyleSheet.create({
   founderNoteLabel: { fontSize: 8.5, letterSpacing: 1.5, color: COLOR.sage, textTransform: "uppercase", marginBottom: 4 },
   founderNoteHeadline: { fontSize: 13, color: COLOR.sageDark, marginBottom: 4 },
   founderNoteAttribution: { fontSize: 9, color: COLOR.muted, fontStyle: "italic", marginTop: 3 },
+
+  readinessItem: { marginBottom: 10, paddingBottom: 10, borderBottomWidth: 1, borderBottomColor: COLOR.hairline },
+  readinessMeta: { flexDirection: "row", flexWrap: "wrap", marginBottom: 2 },
+  readinessCategory: { fontSize: 8.5, letterSpacing: 0.5, color: COLOR.muted, textTransform: "uppercase", marginRight: 8 },
+  readinessPriorityCritical: { fontSize: 8.5, color: COLOR.rose, fontWeight: 700 },
+  readinessPriorityHigh: { fontSize: 8.5, color: COLOR.sageDark, fontWeight: 700 },
+  readinessTitle: { fontSize: 12, color: COLOR.sageDark, marginBottom: 3 },
+  readinessDescription: { fontSize: 9.5, lineHeight: 1.4, color: COLOR.charcoal },
 });
 
 function PageFooter({ t }: { t: Translate }) {
@@ -476,6 +485,74 @@ export function ItineraryPdfDocument({
         ))}
         <PageFooter t={t} />
       </Page>
+
+      {/* Before You Go — deterministic readiness checklist */}
+      {(() => {
+        const tr: Translate = (key, vars) => translate(dictionary, "tripReadiness", key, vars);
+        const readinessTemplates = buildTripReadiness({
+          itinerary,
+          input,
+          travelSegments,
+          departureDate: null,
+        });
+        const preTrip = readinessTemplates.filter((item) =>
+          ["DO_NOW", "NOW_URGENT", "THIS_WEEK", "THIS_MONTH", "BEFORE_YOU_GO", "PLANNING_PHASE"].includes(item.timing_window)
+        );
+        if (preTrip.length === 0) return null;
+        const critical = preTrip.filter((i) => i.priority === "CRITICAL");
+        const high = preTrip.filter((i) => i.priority === "HIGH");
+        const rest = preTrip.filter((i) => i.priority !== "CRITICAL" && i.priority !== "HIGH");
+        return (
+          <Page size="A4" style={styles.page}>
+            <Text style={styles.sectionEyebrow}>{tr("pdf.sectionEyebrow")}</Text>
+            <Text style={styles.sectionTitle}>{tr("pdf.sectionTitle")}</Text>
+            <Text style={[styles.text, { fontStyle: "italic", marginBottom: 14 }]}>{tr("pdf.intro")}</Text>
+            {critical.length > 0 && (
+              <>
+                <Text style={[styles.label, { color: COLOR.rose, marginBottom: 6 }]}>{tr("pdf.critical")}</Text>
+                {critical.map((item) => (
+                  <View key={item.rule_key} style={styles.readinessItem} wrap={false}>
+                    <View style={styles.readinessMeta}>
+                      <Text style={styles.readinessCategory}>{READINESS_CATEGORY_LABELS[item.category]}</Text>
+                    </View>
+                    <Text style={styles.readinessTitle}>{item.title}</Text>
+                    <Text style={styles.readinessDescription}>{item.description}</Text>
+                  </View>
+                ))}
+              </>
+            )}
+            {high.length > 0 && (
+              <>
+                <Text style={[styles.label, { marginBottom: 6 }]}>{tr("pdf.important")}</Text>
+                {high.map((item) => (
+                  <View key={item.rule_key} style={styles.readinessItem} wrap={false}>
+                    <View style={styles.readinessMeta}>
+                      <Text style={styles.readinessCategory}>{READINESS_CATEGORY_LABELS[item.category]}</Text>
+                    </View>
+                    <Text style={styles.readinessTitle}>{item.title}</Text>
+                    <Text style={styles.readinessDescription}>{item.description}</Text>
+                  </View>
+                ))}
+              </>
+            )}
+            {rest.length > 0 && (
+              <>
+                <Text style={[styles.label, { marginBottom: 6 }]}>{tr("pdf.recommended")}</Text>
+                {rest.map((item) => (
+                  <View key={item.rule_key} style={styles.readinessItem} wrap={false}>
+                    <View style={styles.readinessMeta}>
+                      <Text style={styles.readinessCategory}>{READINESS_CATEGORY_LABELS[item.category]}</Text>
+                    </View>
+                    <Text style={styles.readinessTitle}>{item.title}</Text>
+                    <Text style={styles.readinessDescription}>{item.description}</Text>
+                  </View>
+                ))}
+              </>
+            )}
+            <PageFooter t={t} />
+          </Page>
+        );
+      })()}
 
       {/* Getting Around (optional — only present when travel segments exist) */}
       {travelSegments && travelSegments.length > 0 && (
