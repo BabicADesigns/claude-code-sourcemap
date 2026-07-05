@@ -605,6 +605,8 @@ export interface Profile {
   mobility?: MobilityOption[] | null;
   budget_preference?: "budget" | "mid_range" | "premium" | "luxury" | null;
   cuisine_preferences?: CuisinePreference[] | null;
+  // Phase 19 logistics preferences
+  transport_preferences?: TransportPreference[] | null;
 }
 
 export type FavoriteEntityType = "destination" | "food_find" | "culture_note" | "secret_swap" | "discovered_destination";
@@ -974,4 +976,201 @@ export interface PartnerMatchResult {
   relevance_score: number;
   /** Internal audit trail — not shown in UI. */
   match_reasons: string[];
+}
+
+// ─── Phase 19: Trip Logistics & Getting Around Engine ─────────────────────────
+
+export type TransportMode =
+  | "car"
+  | "rental_car"
+  | "motorcycle"
+  | "camper"
+  | "bus"
+  | "train"
+  | "ferry"
+  | "passenger_ferry"
+  | "taxi_transfer"
+  | "bike"
+  | "e_bike"
+  | "walk"
+  | "flight"
+  | "mixed";
+
+export const TRANSPORT_MODE_LABELS: Record<TransportMode, string> = {
+  car: "Own car",
+  rental_car: "Rental car",
+  motorcycle: "Motorcycle",
+  camper: "Camper / motorhome",
+  bus: "Bus",
+  train: "Train",
+  ferry: "Ferry",
+  passenger_ferry: "Passenger ferry",
+  taxi_transfer: "Taxi / transfer",
+  bike: "Bicycle",
+  e_bike: "E-bike",
+  walk: "Walking",
+  flight: "Flight",
+  mixed: "Mixed transport",
+};
+
+/** How feasible / comfortable a particular leg or route segment is. */
+export type RouteComplexity = "EASY" | "MANAGEABLE" | "LONG_DAY" | "COMPLEX" | "NOT_RECOMMENDED";
+
+export const ROUTE_COMPLEXITY_LABELS: Record<RouteComplexity, string> = {
+  EASY: "Easy",
+  MANAGEABLE: "Manageable",
+  LONG_DAY: "Long day",
+  COMPLEX: "Complex",
+  NOT_RECOMMENDED: "Not recommended",
+};
+
+/** How reliable / current the logistics information is. LIVE_PROVIDER must never be assigned without a real live integration. */
+export type LogisticsConfidence =
+  | "EDITORIAL_STABLE"
+  | "EDITORIAL_ESTIMATE"
+  | "VERIFY_BEFORE_TRAVEL"
+  | "LIVE_PROVIDER";
+
+export const LOGISTICS_CONFIDENCE_LABELS: Record<LogisticsConfidence, string> = {
+  EDITORIAL_STABLE: "Editorially verified",
+  EDITORIAL_ESTIMATE: "Planning estimate",
+  VERIFY_BEFORE_TRAVEL: "Verify before travel",
+  LIVE_PROVIDER: "Live data",
+};
+
+/** Whether a day is primarily about being somewhere, moving, or recovering. */
+export type DayType = "EXPERIENCE_DAY" | "TRANSFER_DAY" | "MIXED_DAY" | "REST_DAY";
+
+/** How practicable a route segment is, with human-readable reasoning. */
+export interface RoutePracticality {
+  rating: RouteComplexity;
+  /** One or two sentences explaining the rating — shown to users. */
+  reason: string;
+  confidence: LogisticsConfidence;
+}
+
+/** Traveler's preferred transport style — used to personalise logistics guidance. */
+export type TransportPreference =
+  | "own_car"
+  | "rental_car"
+  | "public_transport_preferred"
+  | "avoid_driving"
+  | "camper_motorhome"
+  | "motorcycle"
+  | "cycling_focused"
+  | "ferry_friendly"
+  | "avoid_ferries";
+
+export const TRANSPORT_PREFERENCE_LABELS: Record<TransportPreference, string> = {
+  own_car: "Travelling in my own car",
+  rental_car: "Planning to rent a car",
+  public_transport_preferred: "Prefer buses & trains",
+  avoid_driving: "Not driving — transfers & ferries only",
+  camper_motorhome: "Camper or motorhome",
+  motorcycle: "Motorcycle",
+  cycling_focused: "Cycling-focused trip",
+  ferry_friendly: "Ferry travel is a highlight for me",
+  avoid_ferries: "I'd rather skip ferries",
+};
+
+/** Where the transport information originates — determines how it should be cited. */
+export type TransportSourceType =
+  | "editorial_knowledge"
+  | "operator_website"
+  | "community_report"
+  | "ai_estimate";
+
+export interface TransportSource {
+  type: TransportSourceType;
+  name: string;
+  url?: string;
+  /** YYYY-MM or YYYY */
+  verified_at?: string;
+}
+
+/** Structured ferry metadata — always verified before display; never fabricated schedules. */
+export interface FerryInfo {
+  operator_name?: string;
+  operator_url?: string;
+  /** Season or year when this was last verified, e.g. "Summer 2025". */
+  last_verified_season?: string;
+  /** True if the ferry accepts vehicles (cars, campervans). */
+  vehicle_capable?: boolean;
+  frequency_hint?: string;
+  advance_booking_required?: boolean;
+  booking_tip?: string;
+}
+
+/** Border crossing notes — inherently changeable; never presented as definitive. */
+export interface BorderInfo {
+  crossing_point?: string;
+  typical_wait_hint?: string;
+  document_requirements?: string;
+  /** Never presented as current; always accompanied by a "verify before travel" disclaimer. */
+  last_verified?: string;
+}
+
+/** Road quality and suitability notes for campers and large vehicles. */
+export interface CamperRoadInfo {
+  road_quality?: "excellent" | "good" | "mixed" | "rough" | "not_recommended_for_large_vehicles";
+  narrow_road_warning?: boolean;
+  max_vehicle_length_hint?: string;
+  parking_hint?: string;
+  scenic_drive_highlight?: string;
+}
+
+/**
+ * An editorial logistics connection between two destinations.
+ * Stable-knowledge fields are safe to display; live-schedule fields must never be fabricated.
+ */
+export interface LogisticsConnection {
+  id: string;
+  from_destination_slug: string;
+  to_destination_slug: string;
+  /** Most natural transport mode for this leg. */
+  primary_mode: TransportMode;
+  /** Alternative modes the traveller can reasonably consider. */
+  alternative_modes?: TransportMode[];
+  /** Estimated driving distance in km — may be null if crossing requires ferry. */
+  road_distance_km?: number | null;
+  /** Estimated drive time as a human-readable string, e.g. "2h 30min". EDITORIAL_ESTIMATE only. */
+  drive_time_estimate?: string | null;
+  /** Estimated public transport journey time. */
+  transit_time_estimate?: string | null;
+  practicality: RoutePracticality;
+  /** Optional editorial note — tips, scenic route callouts, etc. */
+  editorial_note?: string | null;
+  ferry_info?: FerryInfo | null;
+  border_info?: BorderInfo | null;
+  camper_info?: CamperRoadInfo | null;
+  sources?: TransportSource[];
+  /** Only active connections appear in itinerary guidance. */
+  active: boolean;
+  /** Development/demo fixtures must never surface in production. */
+  demo_only?: boolean;
+  created_at?: string;
+  updated_at?: string;
+}
+
+/**
+ * A computed travel segment for a specific itinerary leg — built client-side from
+ * LogisticsConnection data (or haversine fallback) after the AI itinerary is generated.
+ */
+export interface TravelSegment {
+  from_destination_name: string;
+  from_destination_slug: string;
+  to_destination_name: string;
+  to_destination_slug: string;
+  primary_mode: TransportMode;
+  /** km between the two stops — haversine if no connection record exists. */
+  distance_km: number;
+  drive_time_estimate?: string | null;
+  transit_time_estimate?: string | null;
+  practicality: RoutePracticality;
+  editorial_note?: string | null;
+  ferry_info?: FerryInfo | null;
+  border_info?: BorderInfo | null;
+  camper_info?: CamperRoadInfo | null;
+  /** True when built from haversine + heuristics rather than an editorial connection. */
+  is_estimated: boolean;
 }

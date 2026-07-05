@@ -1,12 +1,12 @@
 "use client";
 
 import type { GeneratedItinerary } from "@/lib/ai/itinerary";
-import type { TrustTier } from "@/lib/types";
-import type { PartnerMatchResult } from "@/lib/types";
+import type { TrustTier, PartnerMatchResult, TravelSegment } from "@/lib/types";
 import { ItineraryMap } from "@/components/planner/itinerary-map";
 import { useLocale } from "@/lib/i18n/locale-provider";
 import { deriveTrustTier } from "@/lib/ai/trust";
 import { PartnerCard } from "@/components/partners/partner-card";
+import { TravelSegmentsSection } from "@/components/logistics/travel-segment";
 
 /** Pill styling per trust tier — mirrors the STATUS_CLASS pattern in components/admin/discoveries-panel.tsx. */
 const TRUST_TIER_BADGE_CLASS: Record<TrustTier, string> = {
@@ -19,9 +19,11 @@ const TRUST_TIER_BADGE_CLASS: Record<TrustTier, string> = {
 export function ItineraryView({
   itinerary,
   matchedPartners,
+  travelSegments,
 }: {
   itinerary: GeneratedItinerary;
   matchedPartners?: PartnerMatchResult[];
+  travelSegments?: TravelSegment[];
 }) {
   const { t } = useLocale();
   // Saved itineraries from before Phase 11 won't have this field at all.
@@ -138,6 +140,10 @@ export function ItineraryView({
             })}
           </div>
         </div>
+      )}
+
+      {travelSegments && travelSegments.length > 0 && (
+        <TravelSegmentsSection segments={travelSegments} />
       )}
 
       {matchedPartners && matchedPartners.length > 0 && (

@@ -8,6 +8,7 @@ import {
   TRIP_PACE_LABELS,
   TRAVEL_MOOD_LABELS,
   CUISINE_PREFERENCE_LABELS,
+  TRANSPORT_PREFERENCE_LABELS,
   type Country,
   type ItineraryFocus,
   type DestinationCategory,
@@ -19,6 +20,7 @@ import {
   type ModerationStatus,
   type TravelMood,
   type CuisinePreference,
+  type TransportPreference,
 } from "@/lib/types";
 import {
   deriveItineraryFocus,
@@ -27,6 +29,7 @@ import {
   type GroundedItinerary,
   type GroundedDayTrip,
 } from "@/lib/ai/grounding";
+import { buildLogisticsContextForBrief } from "@/lib/ai/route-practicality";
 import { parseDiscoveryQuery } from "@/lib/ai/discovery-query";
 import { discoverDestinationCandidates, DISCOVERY_COVERAGE_THRESHOLD } from "@/lib/ai/discovery";
 
@@ -75,6 +78,8 @@ export const CUISINE_PREFERENCE_OPTIONS = [
   "fine_dining", "wine_lovers", "coffee_lovers", "desserts",
 ] as const;
 
+export const TRANSPORT_PREFERENCES = Object.keys(TRANSPORT_PREFERENCE_LABELS) as TransportPreference[];
+
 export const plannerInputSchema = z.object({
   durationDays: z.number().int().min(2).max(21),
   month: z.string().min(1),
@@ -91,6 +96,9 @@ export const plannerInputSchema = z.object({
   travel_mood: z.enum(TRAVEL_MOODS as unknown as [TravelMood, ...TravelMood[]]).optional(),
   /** Optional food preferences — used to bias food_finds and enrich the AI brief. */
   cuisine_preferences: z.array(z.enum(CUISINE_PREFERENCE_OPTIONS as unknown as [CuisinePreference, ...CuisinePreference[]])).optional(),
+  // Phase 19 logistics preferences
+  /** Optional transport preferences — used to personalise logistics guidance, does not change destinations. */
+  transport_preferences: z.array(z.enum(TRANSPORT_PREFERENCES as [TransportPreference, ...TransportPreference[]])).optional(),
 });
 export type PlannerInput = z.infer<typeof plannerInputSchema>;
 
@@ -391,6 +399,13 @@ function buildGroundingBrief(input: PlannerInput, pace: TripPace, grounded: Grou
       .join(", ");
   }
   personalization.budget = BUDGET_TIER_LABELS[input.budget];
+  if (input.transport_preferences?.length) {
+    personalization.transport_style = input.transport_preferences
+      .map((tp) => TRANSPORT_PREFERENCE_LABELS[tp])
+      .join(", ");
+  }
+
+  const logisticsContext = buildLogisticsContextForBrief(grounded.stops, grounded.legDistancesKm);
 
   return JSON.stringify(
     {
@@ -400,6 +415,7 @@ function buildGroundingBrief(input: PlannerInput, pace: TripPace, grounded: Grou
       pace: TRIP_PACE_LABELS[pace],
       focus: ITINERARY_FOCUS_LABELS[grounded.focus],
       personalization,
+      logistics_context: logisticsContext || undefined,
       stops,
     },
     null,

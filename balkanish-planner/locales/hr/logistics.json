@@ -1,0 +1,76 @@
+{
+  "travelSegments": {
+    "sectionLabel": "Kako se kretati",
+    "sectionDescription": "Samo procjene planiranja — provjerite vozne redove i rezervirajte trajekte prije putovanja.",
+    "estimatedLabel": "Procjena planiranja",
+    "editorialLabel": "Uredničke smjernice",
+    "distanceLabel": "Udaljenost",
+    "driveTimeLabel": "Vrijeme vožnje",
+    "transitTimeLabel": "Javnim prijevozom",
+    "byLabel": "s",
+    "approxKm": "~{km} km",
+    "ferryNote": "Potreban trajekt",
+    "borderNote": "Granični prijelaz",
+    "verifyDisclaimer": "Informacije o granicama podložne su promjenama — uvijek provjerite trenutne uvjete prije putovanja."
+  },
+  "complexity": {
+    "EASY": "Jednostavno",
+    "MANAGEABLE": "Izvedivo",
+    "LONG_DAY": "Dug dan",
+    "COMPLEX": "Zahtjevno",
+    "NOT_RECOMMENDED": "Ne preporučuje se"
+  },
+  "confidence": {
+    "EDITORIAL_STABLE": "Urednički provjereno",
+    "EDITORIAL_ESTIMATE": "Procjena planiranja",
+    "VERIFY_BEFORE_TRAVEL": "Provjerite prije putovanja",
+    "LIVE_PROVIDER": "Živući podaci"
+  },
+  "transportMode": {
+    "car": "Vlastiti auto",
+    "rental_car": "Rent-a-car",
+    "motorcycle": "Motor",
+    "camper": "Kamper",
+    "bus": "Autobus",
+    "train": "Vlak",
+    "ferry": "Trajekt",
+    "passenger_ferry": "Putnički brod",
+    "taxi_transfer": "Taksi / transfer",
+    "bike": "Bicikl",
+    "e_bike": "E-bicikl",
+    "walk": "Pješice",
+    "flight": "Let",
+    "mixed": "Kombinirano"
+  },
+  "ferryNotice": {
+    "heading": "Rezervacija trajekta",
+    "vehicleCapable": "Prihvaća vozila",
+    "advanceBooking": "Preporuča se rana rezervacija",
+    "lastVerified": "Zadnja provjera: {season}",
+    "disclaimer": "Vozni redovi trajekta mijenjaju se sezonski. Provjerite trenutne rasporede na stranici prijevoznika i rezervirajte rano za ljetna putovanja."
+  },
+  "borderNotice": {
+    "heading": "Granični prijelaz",
+    "typicalWait": "Tipično čekanje: {hint}",
+    "documentRequirements": "Potrebni dokumenti",
+    "disclaimer": "Granična pravila se mijenjaju. Uvijek provjerite trenutne uvjete na službenim izvorima prije putovanja.",
+    "lastVerified": "Informacije iz {date} — provjerite prije putovanja."
+  },
+  "camperNote": {
+    "narrowRoadWarning": "Uska cesta — oprez s velikim vozilima",
+    "scenicHighlight": "Malerska vožnja",
+    "parkingHint": "Napomena o parkiranju"
+  },
+  "preferences": {
+    "label": "Kako putujete?",
+    "description": "Neobavezno — pomaže nam prilagoditi logističke savjete vašem stilu putovanja.",
+    "noPreference": "Bez preferencije"
+  },
+  "pdf": {
+    "sectionEyebrow": "Kako se kretati",
+    "sectionTitle": "Kako doći između postaja",
+    "estimateDisclaimer": "Sva prikazana vremena putovanja su samo procjene planiranja. Provjerite vozne redove, rezervacije trajekta i granične uvjete prije putovanja.",
+    "ferryVerifyNote": "Vozne redove trajekta potrebno je provjeriti izravno kod prijevoznika prije rezervacije.",
+    "borderVerifyNote": "Informacije o granicama podložne su promjenama. Konzultirajte službene izvore prije putovanja."
+  }
+}

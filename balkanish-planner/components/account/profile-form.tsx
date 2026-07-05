@@ -13,12 +13,14 @@ import {
   TRAVELER_INTEREST_LABELS,
   MOBILITY_OPTION_LABELS,
   CUISINE_PREFERENCE_LABELS,
+  TRANSPORT_PREFERENCE_LABELS,
   type Profile,
   type TravelStyle,
   type TripPace,
   type TravelerInterest,
   type MobilityOption,
   type CuisinePreference,
+  type TransportPreference,
 } from "@/lib/types";
 import { LOCALES, LOCALE_LABELS, DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
 
@@ -47,6 +49,9 @@ export function ProfileForm({ email, profile }: { email: string; profile: Profil
   const [cuisinePreferences, setCuisinePreferences] = useState<CuisinePreference[]>(
     (profile?.cuisine_preferences as CuisinePreference[] | undefined) ?? []
   );
+  const [transportPreferences, setTransportPreferences] = useState<TransportPreference[]>(
+    (profile?.transport_preferences as TransportPreference[] | undefined) ?? []
+  );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
@@ -59,6 +64,9 @@ export function ProfileForm({ email, profile }: { email: string; profile: Profil
   }
   function toggleCuisine(v: CuisinePreference) {
     setCuisinePreferences((prev) => (prev.includes(v) ? prev.filter((c) => c !== v) : [...prev, v]));
+  }
+  function toggleTransport(v: TransportPreference) {
+    setTransportPreferences((prev) => (prev.includes(v) ? prev.filter((t) => t !== v) : [...prev, v]));
   }
 
   async function onSubmit(e: FormEvent) {
@@ -79,6 +87,7 @@ export function ProfileForm({ email, profile }: { email: string; profile: Profil
     formData.set("interests", JSON.stringify(interests));
     formData.set("mobility", JSON.stringify(mobility));
     formData.set("cuisine_preferences", JSON.stringify(cuisinePreferences));
+    formData.set("transport_preferences", JSON.stringify(transportPreferences));
 
     const result = await updateProfile(formData);
     setIsSubmitting(false);
@@ -217,6 +226,19 @@ export function ProfileForm({ email, profile }: { email: string; profile: Profil
             {(Object.entries(CUISINE_PREFERENCE_LABELS) as [CuisinePreference, string][]).map(([v, label]) => (
               <label key={v} className="flex items-center gap-2 font-sans text-sm text-foreground/80">
                 <Checkbox checked={cuisinePreferences.includes(v)} onCheckedChange={() => toggleCuisine(v)} />
+                {label}
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <Label>Getting around</Label>
+          <p className="mt-1 font-serif text-xs text-foreground/60">How do you prefer to travel between destinations?</p>
+          <div className="mt-2 grid grid-cols-2 gap-2">
+            {(Object.entries(TRANSPORT_PREFERENCE_LABELS) as [TransportPreference, string][]).map(([v, label]) => (
+              <label key={v} className="flex items-center gap-2 font-sans text-sm text-foreground/80">
+                <Checkbox checked={transportPreferences.includes(v)} onCheckedChange={() => toggleTransport(v)} />
                 {label}
               </label>
             ))}

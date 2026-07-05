@@ -1,0 +1,167 @@
+import type { LogisticsConnection } from "@/lib/types";
+
+/**
+ * Demo logistics connections — editorial planning data only.
+ * ALL entries are active: false, demo_only: true and must never surface in production.
+ * The route-practicality engine uses haversine fallback when no active connection exists,
+ * so these fixtures exist only to validate the schema and admin preview flows.
+ */
+export const mockLogisticsConnections: LogisticsConnection[] = [
+  {
+    id: "dubrovnik-to-kotor",
+    from_destination_slug: "dubrovnik",
+    to_destination_slug: "kotor",
+    primary_mode: "car",
+    alternative_modes: ["bus", "taxi_transfer"],
+    road_distance_km: 90,
+    drive_time_estimate: "2h – 2h 30min",
+    transit_time_estimate: "3h – 4h (1 change, Herceg Novi)",
+    practicality: {
+      rating: "EASY",
+      reason: "Coastal road via Herceg Novi with beautiful Adriatic views. Light border formalities at Debeli Brijeg. Straightforward for all drivers.",
+      confidence: "EDITORIAL_STABLE",
+    },
+    editorial_note: "The drive is genuinely scenic. Arrive at Debeli Brijeg border crossing early (before 10:00) in summer to avoid queues.",
+    border_info: {
+      crossing_point: "Debeli Brijeg / Karasovići",
+      typical_wait_hint: "5–30 min outside peak season; up to 1h in July–August",
+      document_requirements: "EU/UK passport or national ID. Vehicle registration + insurance (Green Card or local policy).",
+      last_verified: "2024",
+    },
+    camper_info: {
+      road_quality: "good",
+      narrow_road_warning: false,
+      parking_hint: "Kotor old town parking is extremely limited; campervans should use the Nafta petrol station layby or pitch at a site in Dobrota.",
+    },
+    sources: [
+      { type: "editorial_knowledge", name: "Balkanish editorial", verified_at: "2024" },
+    ],
+    active: false,
+    demo_only: true,
+  },
+  {
+    id: "split-to-hvar",
+    from_destination_slug: "split",
+    to_destination_slug: "hvar",
+    primary_mode: "ferry",
+    alternative_modes: ["passenger_ferry", "taxi_transfer"],
+    road_distance_km: null,
+    drive_time_estimate: null,
+    transit_time_estimate: "2h (car ferry via Stari Grad) or 1h (fast catamaran to Hvar Town)",
+    practicality: {
+      rating: "EASY",
+      reason: "Well-serviced ferry route. Car ferry runs to Stari Grad; fast catamaran serves Hvar Town directly. Book the car ferry in advance in July–August.",
+      confidence: "EDITORIAL_STABLE",
+    },
+    editorial_note: "If you don't need a car on Hvar, the fast catamaran to Hvar Town is more convenient and runs more frequently.",
+    ferry_info: {
+      operator_name: "Jadrolinija",
+      operator_url: "https://www.jadrolinija.hr",
+      last_verified_season: "Summer 2024",
+      vehicle_capable: true,
+      frequency_hint: "Multiple departures daily in summer; reduced in winter",
+      advance_booking_required: true,
+      booking_tip: "Book the car ferry at least 2–3 weeks ahead for July–August travel. Walk-on passengers rarely need a reservation.",
+    },
+    sources: [
+      { type: "operator_website", name: "Jadrolinija", url: "https://www.jadrolinija.hr", verified_at: "2024-06" },
+    ],
+    active: false,
+    demo_only: true,
+  },
+  {
+    id: "zagreb-to-plitvice",
+    from_destination_slug: "zagreb",
+    to_destination_slug: "plitvice-lakes",
+    primary_mode: "car",
+    alternative_modes: ["bus"],
+    road_distance_km: 130,
+    drive_time_estimate: "1h 45min – 2h",
+    transit_time_estimate: "2h – 2h 30min (direct bus from Zagreb Bus Station)",
+    practicality: {
+      rating: "EASY",
+      reason: "Motorway A1 most of the way, then a short regional road to the park entrance. Very manageable day trip or comfortable first stop.",
+      confidence: "EDITORIAL_STABLE",
+    },
+    editorial_note: "Park tickets must be pre-booked online in summer. Arrive before 9:00 for the best morning light and thinner crowds.",
+    camper_info: {
+      road_quality: "excellent",
+      narrow_road_warning: false,
+      parking_hint: "Park has dedicated coach/camper parking at Entrance 1. Campervans must use designated areas only.",
+    },
+    sources: [
+      { type: "editorial_knowledge", name: "Balkanish editorial", verified_at: "2024" },
+    ],
+    active: false,
+    demo_only: true,
+  },
+  {
+    id: "sarajevo-to-mostar",
+    from_destination_slug: "sarajevo",
+    to_destination_slug: "mostar",
+    primary_mode: "car",
+    alternative_modes: ["bus", "train"],
+    road_distance_km: 130,
+    drive_time_estimate: "2h – 2h 30min",
+    transit_time_estimate: "2h 30min – 3h (frequent bus; train is slower but scenic)",
+    practicality: {
+      rating: "MANAGEABLE",
+      reason: "Mountain road through Jablanica; some winding sections but perfectly passable in a standard car. The train is spectacular but very slow.",
+      confidence: "EDITORIAL_STABLE",
+    },
+    editorial_note: "The drive along the Neretva river valley is one of the most dramatic in the Balkans. Stop at Jablanica for fried lamb.",
+    camper_info: {
+      road_quality: "mixed",
+      narrow_road_warning: true,
+      max_vehicle_length_hint: "8m recommended maximum on mountain sections",
+      scenic_drive_highlight: "Neretva canyon between Jablanica and Mostar",
+    },
+    sources: [
+      { type: "editorial_knowledge", name: "Balkanish editorial", verified_at: "2024" },
+    ],
+    active: false,
+    demo_only: true,
+  },
+  {
+    id: "kotor-to-budva",
+    from_destination_slug: "kotor",
+    to_destination_slug: "budva",
+    primary_mode: "car",
+    alternative_modes: ["bus", "taxi_transfer"],
+    road_distance_km: 22,
+    drive_time_estimate: "30min – 45min",
+    transit_time_estimate: "45min – 1h (frequent minibuses)",
+    practicality: {
+      rating: "EASY",
+      reason: "Short coastal hop. The road hugs the bay then climbs briefly over the Vrmac ridge. No challenges for any driver.",
+      confidence: "EDITORIAL_STABLE",
+    },
+    editorial_note: "Consider the scenic mountain road via Lovćen National Park rather than the coastal bypass for the views.",
+    sources: [
+      { type: "editorial_knowledge", name: "Balkanish editorial", verified_at: "2024" },
+    ],
+    active: false,
+    demo_only: true,
+  },
+  {
+    id: "belgrade-to-novi-sad",
+    from_destination_slug: "belgrade",
+    to_destination_slug: "novi-sad",
+    primary_mode: "train",
+    alternative_modes: ["bus", "car"],
+    road_distance_km: 90,
+    drive_time_estimate: "1h – 1h 15min",
+    transit_time_estimate: "40min (express train on renovated high-speed line)",
+    practicality: {
+      rating: "EASY",
+      reason: "One of the most pleasant short-haul rail journeys in the region since the track upgrade. Trains are frequent, punctual, and comfortable.",
+      confidence: "EDITORIAL_STABLE",
+    },
+    editorial_note: "The express train is genuinely the easiest option. Buy tickets at the station or on the Serbian Railways app.",
+    sources: [
+      { type: "editorial_knowledge", name: "Balkanish editorial", verified_at: "2024" },
+    ],
+    active: false,
+    demo_only: true,
+  },
+];

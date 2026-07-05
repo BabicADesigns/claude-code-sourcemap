@@ -1,0 +1,76 @@
+{
+  "travelSegments": {
+    "sectionLabel": "Come spostarsi",
+    "sectionDescription": "Solo stime di pianificazione — verificare gli orari e prenotare i traghetti prima di partire.",
+    "estimatedLabel": "Stima di pianificazione",
+    "editorialLabel": "Guida editoriale",
+    "distanceLabel": "Distanza",
+    "driveTimeLabel": "Tempo di guida",
+    "transitTimeLabel": "Con i mezzi pubblici",
+    "byLabel": "con",
+    "approxKm": "~{km} km",
+    "ferryNote": "Traghetto necessario",
+    "borderNote": "Attraversamento di confine",
+    "verifyDisclaimer": "Le informazioni sui confini sono soggette a modifiche — verificare sempre i requisiti attuali prima di partire."
+  },
+  "complexity": {
+    "EASY": "Facile",
+    "MANAGEABLE": "Gestibile",
+    "LONG_DAY": "Giornata lunga",
+    "COMPLEX": "Complesso",
+    "NOT_RECOMMENDED": "Non consigliato"
+  },
+  "confidence": {
+    "EDITORIAL_STABLE": "Verificato editorialmente",
+    "EDITORIAL_ESTIMATE": "Stima di pianificazione",
+    "VERIFY_BEFORE_TRAVEL": "Verificare prima di partire",
+    "LIVE_PROVIDER": "Dati in tempo reale"
+  },
+  "transportMode": {
+    "car": "Auto propria",
+    "rental_car": "Auto a noleggio",
+    "motorcycle": "Moto",
+    "camper": "Camper",
+    "bus": "Autobus",
+    "train": "Treno",
+    "ferry": "Traghetto",
+    "passenger_ferry": "Traghetto passeggeri",
+    "taxi_transfer": "Taxi / transfer",
+    "bike": "Bicicletta",
+    "e_bike": "E-bike",
+    "walk": "A piedi",
+    "flight": "Volo",
+    "mixed": "Misto"
+  },
+  "ferryNotice": {
+    "heading": "Prenotazione traghetto",
+    "vehicleCapable": "Trasporto veicoli",
+    "advanceBooking": "Prenotazione anticipata consigliata",
+    "lastVerified": "Ultima verifica: {season}",
+    "disclaimer": "Gli orari dei traghetti cambiano stagionalmente. Controllare il sito dell'operatore per gli orari attuali e prenotare in anticipo in estate."
+  },
+  "borderNotice": {
+    "heading": "Attraversamento di confine",
+    "typicalWait": "Attesa tipica: {hint}",
+    "documentRequirements": "Documenti necessari",
+    "disclaimer": "Le regole di frontiera cambiano. Verificare sempre i requisiti aggiornati prima di partire.",
+    "lastVerified": "Informazioni da {date} — verificare prima di partire."
+  },
+  "camperNote": {
+    "narrowRoadWarning": "Strada stretta — attenzione con veicoli grandi",
+    "scenicHighlight": "Percorso panoramico",
+    "parkingHint": "Note parcheggio"
+  },
+  "preferences": {
+    "label": "Come ti sposti?",
+    "description": "Opzionale — ci aiuta a personalizzare la guida logistica al tuo stile di viaggio.",
+    "noPreference": "Nessuna preferenza"
+  },
+  "pdf": {
+    "sectionEyebrow": "Come Spostarsi",
+    "sectionTitle": "Come raggiungere ogni tappa",
+    "estimateDisclaimer": "Tutti i tempi di percorrenza sono solo stime di pianificazione. Verificare orari, prenotazioni traghetti e requisiti di frontiera prima di partire.",
+    "ferryVerifyNote": "Gli orari dei traghetti devono essere verificati direttamente con l'operatore prima della prenotazione.",
+    "borderVerifyNote": "Le informazioni sui confini sono soggette a modifiche. Consultare le fonti ufficiali prima di partire."
+  }
+}

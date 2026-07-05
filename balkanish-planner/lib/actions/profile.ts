@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import type { TravelStyle, TripPace, TravelerInterest, MobilityOption, CuisinePreference } from "@/lib/types";
+import type { TravelStyle, TripPace, TravelerInterest, MobilityOption, CuisinePreference, TransportPreference } from "@/lib/types";
 import { isLocale } from "@/lib/i18n/config";
 import { createSupabaseServerClient, getCurrentUser, isSupabaseConfigured } from "@/lib/supabase/server";
 import { logError } from "@/lib/monitoring/logger";
@@ -38,6 +38,7 @@ export async function updateProfile(formData: FormData): Promise<{ error?: strin
   const interests = parseJsonArray<TravelerInterest>(String(formData.get("interests") ?? "[]"));
   const mobility = parseJsonArray<MobilityOption>(String(formData.get("mobility") ?? "[]"));
   const cuisinePreferences = parseJsonArray<CuisinePreference>(String(formData.get("cuisine_preferences") ?? "[]"));
+  const transportPreferences = parseJsonArray<TransportPreference>(String(formData.get("transport_preferences") ?? "[]"));
 
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase
@@ -54,6 +55,8 @@ export async function updateProfile(formData: FormData): Promise<{ error?: strin
       interests,
       mobility,
       cuisine_preferences: cuisinePreferences,
+      // Phase 19
+      transport_preferences: transportPreferences,
     })
     .eq("id", user.id);
 

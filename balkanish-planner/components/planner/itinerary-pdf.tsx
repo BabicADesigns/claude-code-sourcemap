@@ -1,6 +1,6 @@
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 import type { GeneratedItinerary, PlannerInput } from "@/lib/ai/itinerary";
-import { PLANNER_STYLE_LABELS, ITINERARY_FOCUS_LABELS, TRIP_PACE_LABELS, ROUTE_VARIANT_LABELS, type PartnerMatchResult } from "@/lib/types";
+import { PLANNER_STYLE_LABELS, ITINERARY_FOCUS_LABELS, TRIP_PACE_LABELS, ROUTE_VARIANT_LABELS, type PartnerMatchResult, type TravelSegment } from "@/lib/types";
 import { ItineraryMapPdf } from "@/components/planner/itinerary-map-pdf";
 import { buildMapModel } from "@/lib/maps/itinerary-map-model";
 import { deriveTrustTier } from "@/lib/ai/trust";
@@ -136,6 +136,14 @@ const styles = StyleSheet.create({
   mapStopThumb: { width: 16, height: 16, borderRadius: 8 },
   /** A small square photo beside a Food Recommendations list item, once restaurant picks carry an ImageAsset. */
   foodItemThumb: { width: 40, height: 40, borderRadius: 4, marginRight: 8 },
+
+  logisticsSegmentCard: { marginBottom: 14, paddingBottom: 12, borderBottomWidth: 1, borderBottomColor: COLOR.hairline },
+  logisticsSegmentRow: { flexDirection: "row", justifyContent: "space-between", flexWrap: "wrap", marginBottom: 2 },
+  logisticsSegmentMeta: { fontSize: 9.5, color: COLOR.muted, marginBottom: 4 },
+  logisticsComplexityBadge: { fontSize: 9, letterSpacing: 0.5, color: COLOR.sageDark, textTransform: "uppercase" },
+  logisticsNoticeText: { fontSize: 9.5, lineHeight: 1.4, color: COLOR.rose, fontStyle: "italic", marginTop: 3 },
+  logisticsBorderText: { fontSize: 9.5, lineHeight: 1.4, color: COLOR.muted, marginTop: 3 },
+  logisticsEstimateLabel: { fontSize: 9, color: COLOR.muted, marginTop: 2 },
 });
 
 function PageFooter({ t }: { t: Translate }) {
@@ -152,16 +160,19 @@ export function ItineraryPdfDocument({
   input,
   locale = DEFAULT_LOCALE,
   matchedPartners,
+  travelSegments,
 }: {
   itinerary: GeneratedItinerary;
   input: PlannerInput;
   locale?: Locale;
   matchedPartners?: PartnerMatchResult[];
+  travelSegments?: TravelSegment[];
 }) {
   const mapModel = buildMapModel(itinerary);
   const dictionary = getDictionary(locale);
   const t: Translate = (key, vars) => translate(dictionary, "pdf", key, vars);
   const tp: Translate = (key, vars) => translate(dictionary, "partners", key, vars);
+  const tl: Translate = (key, vars) => translate(dictionary, "logistics", key, vars);
 
   return (
     <Document title={itinerary.trip_title}>
@@ -444,6 +455,55 @@ export function ItineraryPdfDocument({
         ))}
         <PageFooter t={t} />
       </Page>
+
+      {/* Getting Around (optional — only present when travel segments exist) */}
+      {travelSegments && travelSegments.length > 0 && (
+        <Page size="A4" style={styles.page}>
+          <Text style={styles.sectionEyebrow}>{tl("pdf.sectionEyebrow")}</Text>
+          <Text style={styles.sectionTitle}>{tl("pdf.sectionTitle")}</Text>
+          <Text style={[styles.text, { fontStyle: "italic", marginBottom: 12 }]}>
+            {tl("pdf.estimateDisclaimer")}
+          </Text>
+          {travelSegments.map((segment) => (
+            <View
+              key={`${segment.from_destination_slug}-${segment.to_destination_slug}`}
+              style={styles.logisticsSegmentCard}
+              wrap={false}
+            >
+              <View style={styles.logisticsSegmentRow}>
+                <Text style={styles.dayTripEyebrow}>
+                  {segment.from_destination_name} → {segment.to_destination_name}
+                </Text>
+                <Text style={styles.logisticsComplexityBadge}>
+                  {tl(`complexity.${segment.practicality.rating}`)}
+                </Text>
+              </View>
+              <Text style={styles.logisticsSegmentMeta}>
+                {tl(`transportMode.${segment.primary_mode}`)} · ~{segment.distance_km} km
+                {segment.drive_time_estimate ? ` · ${segment.drive_time_estimate}` : ""}
+              </Text>
+              <Text style={styles.text}>{segment.practicality.reason}</Text>
+              {segment.editorial_note ? (
+                <Text style={[styles.text, { fontStyle: "italic" }]}>{segment.editorial_note}</Text>
+              ) : null}
+              {segment.ferry_info ? (
+                <Text style={styles.logisticsNoticeText}>
+                  {tl("ferryNotice.heading")} — {tl("pdf.ferryVerifyNote")}
+                </Text>
+              ) : null}
+              {segment.border_info ? (
+                <Text style={styles.logisticsBorderText}>
+                  {tl("borderNotice.heading")} — {tl("pdf.borderVerifyNote")}
+                </Text>
+              ) : null}
+              {segment.is_estimated ? (
+                <Text style={styles.logisticsEstimateLabel}>{tl("confidence.EDITORIAL_ESTIMATE")}</Text>
+              ) : null}
+            </View>
+          ))}
+          <PageFooter t={t} />
+        </Page>
+      )}
 
       {/* Local Recommendations (optional — only present when matched partners exist) */}
       {matchedPartners && matchedPartners.length > 0 && (

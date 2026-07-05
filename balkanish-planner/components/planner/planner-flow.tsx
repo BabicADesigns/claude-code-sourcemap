@@ -19,17 +19,23 @@ import {
   ROUTE_VARIANT_LABELS,
   TRAVEL_MOOD_LABELS,
   CUISINE_PREFERENCE_LABELS,
+  TRANSPORT_PREFERENCE_LABELS,
   TRIP_PACE_LABELS,
   type PlannerStyle,
   type RouteVariant,
   type TripPace,
   type TravelMood,
   type CuisinePreference,
+  type TransportPreference,
   type Profile,
   type LocalPartner,
   type PartnerMatchResult,
+  type TravelSegment,
+  type LogisticsConnection,
 } from "@/lib/types";
 import { matchPartnersToContext } from "@/lib/ai/partner-match";
+import { buildTravelSegmentsForItinerary } from "@/lib/ai/route-practicality";
+import { haversineKm } from "@/lib/geo";
 import { cn, slugify } from "@/lib/utils";
 import { saveItinerary } from "@/lib/actions/itineraries";
 import { generateItineraryPdfBlob } from "@/lib/pdf/generate-itinerary-pdf";
@@ -65,6 +71,7 @@ function buildDefaultValues(profile?: Profile | null): PlannerInput {
     discoveryQuery: "",
     travel_mood: undefined,
     cuisine_preferences: (profile?.cuisine_preferences as CuisinePreference[] | undefined) ?? [],
+    transport_preferences: (profile?.transport_preferences as TransportPreference[] | undefined) ?? [],
   };
 }
 
@@ -81,6 +88,7 @@ const STEP_FIELDS: (keyof PlannerInput)[][] = [
 
 const travelMoodEntries = Object.entries(TRAVEL_MOOD_LABELS) as [TravelMood, string][];
 const cuisinePreferenceEntries = Object.entries(CUISINE_PREFERENCE_LABELS) as [CuisinePreference, string][];
+const transportPreferenceEntries = Object.entries(TRANSPORT_PREFERENCE_LABELS) as [TransportPreference, string][];
 
 function OptionCard({
   selected,
@@ -111,9 +119,11 @@ function OptionCard({
 export function PlannerFlow({
   profile,
   initialPartners,
+  initialConnections,
 }: {
   profile?: Profile | null;
   initialPartners?: LocalPartner[];
+  initialConnections?: LogisticsConnection[];
 } = {}) {
   const router = useRouter();
   const { t, tList, locale } = useLocale();
@@ -122,6 +132,7 @@ export function PlannerFlow({
   const [selectedVariant, setSelectedVariant] = useState<RouteVariant>("balanced");
   const [submittedInput, setSubmittedInput] = useState<PlannerInput | null>(null);
   const [matchedPartners, setMatchedPartners] = useState<PartnerMatchResult[]>([]);
+  const [travelSegments, setTravelSegments] = useState<TravelSegment[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   const [isSavingItinerary, setIsSavingItinerary] = useState(false);
@@ -170,6 +181,16 @@ export function PlannerFlow({
     setValue("cuisine_preferences", next);
   }
 
+  const selectedTransport = watch("transport_preferences") ?? [];
+
+  function toggleTransport(pref: TransportPreference) {
+    const current = selectedTransport as TransportPreference[];
+    const next = current.includes(pref)
+      ? current.filter((c) => c !== pref)
+      : [...current, pref];
+    setValue("transport_preferences", next);
+  }
+
   async function goNext() {
     const fields = STEP_FIELDS[step];
     if (fields.length > 0) {
@@ -209,6 +230,32 @@ export function PlannerFlow({
           family_friendly: submitted.plannerStyle === "family",
         });
         setMatchedPartners(partners);
+      }
+
+      // Compute travel segments from the balanced variant's map_points (deduped, non-day-trip stops)
+      const balancedItinerary = data.itineraries?.["balanced"] as GeneratedItinerary | undefined;
+      if (balancedItinerary?.map_points) {
+        type MapPt = (typeof balancedItinerary.map_points)[number];
+        const uniqueStops: Array<{ destination: { name: string; slug: string; latitude: number; longitude: number }; dayStart: number; dayEnd: number }> = [];
+        for (const p of balancedItinerary.map_points.filter((pt: MapPt) => !pt.is_day_trip)) {
+          const existing = uniqueStops.find((s) => s.destination.slug === p.slug);
+          if (existing) {
+            existing.dayEnd = Math.max(existing.dayEnd, p.day);
+          } else {
+            uniqueStops.push({ destination: { name: p.destination, slug: p.slug, latitude: p.latitude, longitude: p.longitude }, dayStart: p.day, dayEnd: p.day });
+          }
+        }
+        if (uniqueStops.length > 1) {
+          const legDistancesKm = uniqueStops.slice(1).map((_, idx) =>
+            Math.round(haversineKm(uniqueStops[idx].destination, uniqueStops[idx + 1].destination))
+          );
+          const segments = buildTravelSegmentsForItinerary(
+            { stops: uniqueStops, legDistancesKm },
+            initialConnections ?? [],
+            submitted.transport_preferences as TransportPreference[] | undefined
+          );
+          setTravelSegments(segments);
+        }
       }
       track(ANALYTICS_EVENTS.ITINERARY_GENERATED, {
         durationDays: submitted.durationDays,
@@ -278,7 +325,7 @@ export function PlannerFlow({
         </Tabs>
 
         <div className="mt-6 print:mt-0">
-          <ItineraryView itinerary={activeItinerary} matchedPartners={matchedPartners} />
+          <ItineraryView itinerary={activeItinerary} matchedPartners={matchedPartners} travelSegments={travelSegments} />
         </div>
 
         <div className="mt-8 flex flex-wrap gap-3 sm:mt-10 print:hidden">
@@ -300,6 +347,7 @@ export function PlannerFlow({
             onClick={() => {
               setItineraries(null);
               setSubmittedInput(null);
+              setTravelSegments([]);
               setStep(0);
             }}
           >
@@ -532,6 +580,22 @@ export function PlannerFlow({
                     <Checkbox
                       checked={(selectedCuisine as CuisinePreference[]).includes(value)}
                       onCheckedChange={() => toggleCuisine(value)}
+                    />
+                    {label}
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <Label>{t("logistics", "preferences.label")}</Label>
+              <p className="mt-1 font-serif text-sm text-foreground/70">{t("logistics", "preferences.description")}</p>
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                {transportPreferenceEntries.map(([value, label]) => (
+                  <label key={value} className="flex items-center gap-3 font-serif text-sm text-foreground/90">
+                    <Checkbox
+                      checked={(selectedTransport as TransportPreference[]).includes(value)}
+                      onCheckedChange={() => toggleTransport(value)}
                     />
                     {label}
                   </label>
