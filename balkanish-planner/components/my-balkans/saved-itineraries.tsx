@@ -15,6 +15,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { useLocale } from "@/lib/i18n/locale-provider";
 import { track, ANALYTICS_EVENTS } from "@/lib/analytics";
 import { computeLifecycle, getTodayDateString } from "@/lib/ai/live-trip";
+import { ShareModal } from "@/components/share/share-modal";
+import { buildTripShareSnapshot } from "@/lib/share/sanitizer";
 
 function tripName(saved: SavedItinerary) {
   return saved.title ?? saved.itinerary_json.trip_title;
@@ -32,6 +34,7 @@ export function SavedItineraries({ itineraries }: { itineraries: SavedItinerary[
   const [pdfPending, setPdfPending] = useState<{ id: string; action: PdfAction } | null>(null);
   const [pdfFeedback, setPdfFeedback] = useState<Record<string, { isError: boolean; text: string }>>({});
   const [todayDateString, setTodayDateString] = useState<string | null>(null);
+  const [shareItinerary, setShareItinerary] = useState<SavedItinerary | null>(null);
 
   useEffect(() => {
     setTodayDateString(getTodayDateString());
@@ -174,6 +177,16 @@ export function SavedItineraries({ itineraries }: { itineraries: SavedItinerary[
                 <Button asChild variant="outline" size="sm">
                   <Link href={`/trips/${saved.id}/companion`}>Trip Companion</Link>
                 </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    track(ANALYTICS_EVENTS.SHARE_ASSET_CREATED, { itinerary_id: saved.id });
+                    setShareItinerary(saved);
+                  }}
+                >
+                  Share
+                </Button>
                 {todayDateString && (() => {
                   const lifecycle = computeLifecycle(saved.departure_date, saved.duration_days, todayDateString);
                   if (lifecycle === "DEPARTURE_DAY" || lifecycle === "IN_TRIP" || lifecycle === "PRE_TRIP") {
@@ -219,6 +232,14 @@ export function SavedItineraries({ itineraries }: { itineraries: SavedItinerary[
           </div>
         ))}
       </div>
+
+      {shareItinerary && (
+        <ShareModal
+          snapshot={buildTripShareSnapshot(shareItinerary)}
+          open={shareItinerary !== null}
+          onClose={() => setShareItinerary(null)}
+        />
+      )}
 
       <Dialog open={openId !== null} onOpenChange={(open) => !open && setOpenId(null)}>
         <DialogContent className="max-h-[85vh] max-w-2xl overflow-y-auto">

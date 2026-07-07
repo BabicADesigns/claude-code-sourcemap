@@ -39,6 +39,11 @@ export const ANALYTICS_EVENTS = {
   FIND_CORRECTED: "Find Corrected",
   FIND_DISMISSED: "Find Dismissed",
   FIND_DELETED: "Find Deleted",
+  // Phase 27 — Shareability (no trip content, no note text, no user PII)
+  SHARE_ASSET_CREATED: "Share Asset Created",
+  SHARE_FORMAT_SELECTED: "Share Format Selected",
+  SHARE_NATIVE_OPENED: "Share Native Opened",
+  SHARE_DOWNLOADED: "Share Downloaded",
 } as const;
 
 export type AnalyticsEventName = (typeof ANALYTICS_EVENTS)[keyof typeof ANALYTICS_EVENTS];

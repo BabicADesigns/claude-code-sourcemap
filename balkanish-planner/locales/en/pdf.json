@@ -2,7 +2,7 @@
   "cover": {
     "eyebrowPrefix": "A Balkanish Itinerary",
     "routeLabel": "The route",
-    "brand": "BabicADesigns",
+    "brand": "Balkanish Travel Planner",
     "brandScript": "Created with Love and Vegeta",
     "paceSuffix": "pace"
   },
@@ -85,6 +85,6 @@
     "viewInApp": "View in app"
   },
   "footer": {
-    "tagline": "BabicADesigns · Created with Love and Vegeta"
+    "tagline": "Balkanish Travel Planner · Created with Love and Vegeta"
   }
 }

@@ -2,7 +2,7 @@
   "cover": {
     "eyebrowPrefix": "Balkanish Itinerar",
     "routeLabel": "Ruta",
-    "brand": "BabicADesigns",
+    "brand": "Balkanish Travel Planner",
     "brandScript": "Stvoreno s ljubavlju i Vegetom",
     "paceSuffix": "tempo"
   },
@@ -85,6 +85,6 @@
     "viewInApp": "Prikaži u aplikaciji"
   },
   "footer": {
-    "tagline": "BabicADesigns · Stvoreno s ljubavlju i Vegetom"
+    "tagline": "Balkanish Travel Planner · Stvoreno s ljubavlju i Vegetom"
   }
 }
