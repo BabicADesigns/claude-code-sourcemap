@@ -15,7 +15,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid planner input.", issues: parsed.error.issues }, { status: 400 });
   }
 
+  // When Supabase is configured (any real deployment), require an authenticated user before
+  // calling OpenAI. Unauthenticated callers could otherwise trigger unlimited paid AI calls.
+  // When Supabase is not configured (local dev / demo mode), user remains null and the planner
+  // still works — but OpenAI is typically also absent in that environment.
   const user = isSupabaseConfigured() ? await getCurrentUser() : null;
+  if (isSupabaseConfigured() && !user) {
+    return NextResponse.json({ error: "Sign in to generate an itinerary." }, { status: 401 });
+  }
 
   const [culturalInsights, founderNotes, memorySignals] = await Promise.all([
     getCulturalInsights(),
