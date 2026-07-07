@@ -1,0 +1,78 @@
+{
+  "meta": {
+    "title": "Le mie scoperte balcaniche",
+    "description": "Luoghi trovati online, consigliati da amici o ricordati da un viaggio da sogno."
+  },
+  "page": {
+    "eyebrow": "Le mie scoperte",
+    "title": "Le mie scoperte balcaniche",
+    "description": "La fonte può scomparire — la tua scoperta no."
+  },
+  "capture": {
+    "eyebrow": "Cattura",
+    "title": "Salva una nuova scoperta",
+    "subtitle": "Incolla un link, scrivi un nome di luogo o carica uno screenshot.",
+    "tabs": {
+      "url": "URL / Link",
+      "text": "Nome del luogo",
+      "screenshot": "Screenshot"
+    },
+    "placeholders": {
+      "url": "https://instagram.com/reel/… o qualsiasi link web",
+      "text": "es. Laghi di Plitvice, Croazia — cascate che valgono il viaggio",
+      "note": "La tua nota (opzionale) — perché l'hai salvato, chi te l'ha consigliato"
+    },
+    "screenshot_notice": "Lo screenshot viene analizzato brevemente e subito eliminato. Non viene mai memorizzato.",
+    "submit": "Salva scoperta",
+    "submitting": "Salvataggio…",
+    "errors": {
+      "empty_url": "Incolla un URL per iniziare.",
+      "empty_text": "Inserisci un nome di luogo o una raccomandazione.",
+      "empty_screenshot": "Scegli uno screenshot da caricare.",
+      "image_read_error": "Impossibile leggere l'immagine. Prova JPEG o PNG.",
+      "not_signed_in": "Accedi per salvare le tue scoperte.",
+      "service_unavailable": "Servizio non disponibile."
+    }
+  },
+  "sections": {
+    "pending": "In attesa",
+    "resolved": "Scoperte salvate",
+    "unresolved": "Manca una nota",
+    "unresolved_hint": "Il sistema non ha identificato il luogo. Aggiungi una nota per ricordare perché l'hai salvato."
+  },
+  "empty": {
+    "title": "Nessuna scoperta ancora",
+    "description": "Incolla un link, scrivi un nome o carica uno screenshot — la tua lista balcanica inizia qui."
+  },
+  "card": {
+    "unnamed": "Scoperta senza nome",
+    "view_source": "Vedi fonte",
+    "dismiss": "Ignora",
+    "delete": "Elimina",
+    "delete_confirm": "Eliminare questa scoperta definitivamente?"
+  },
+  "resolution": {
+    "confirm_question": "È questo il posto giusto?",
+    "yes": "Sì, è corretto",
+    "not_quite": "Non esattamente",
+    "correct_title": "Correggi il nome del luogo",
+    "place_placeholder": "Nome del luogo",
+    "country_placeholder": "Codice paese (es. HR, ME, SI)",
+    "save_correction": "Salva correzione",
+    "back": "Indietro",
+    "errors": {
+      "empty_place": "Inserisci un nome di luogo.",
+      "confirm_failed": "Impossibile confermare la scoperta.",
+      "correct_failed": "Impossibile salvare la correzione."
+    }
+  },
+  "status": {
+    "RESOLVED_HIGH_CONFIDENCE": "Risolto",
+    "NEEDS_CONFIRMATION": "Conferma luogo?",
+    "AMBIGUOUS": "Ambiguo",
+    "UNRESOLVED": "Non risolto",
+    "USER_CONFIRMED": "Confermato",
+    "USER_CORRECTED": "Corretto",
+    "DISMISSED": "Ignorato"
+  }
+}

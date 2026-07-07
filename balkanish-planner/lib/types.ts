@@ -2050,3 +2050,218 @@ export const RETURN_INTENT_LABELS: Record<ReturnIntent, string> = {
   NO: "Probably not",
   PREFER_NOT_TO_SAY: "Prefer not to say",
 };
+
+// ---------------------------------------------------------------------------
+// Phase 26 — Inspiration Capture & Travel Intent Layer
+// ---------------------------------------------------------------------------
+
+/**
+ * How the user originally discovered the place.
+ * Source-agnostic: the domain never hardcodes a specific social platform
+ * as the core abstraction — provider is tracked separately in InspirationCapture.
+ */
+export type InspirationCaptureSource =
+  | "URL"           // Any web URL
+  | "SOCIAL_URL"    // URL detected as a social media platform URL
+  | "SCREENSHOT"    // Image/screenshot uploaded by the user
+  | "MANUAL_TEXT"   // User typed a place name or recommendation
+  | "SHARED_LINK";  // A link shared from another user or app (future use)
+
+/**
+ * The inferred social/web provider when source_type is URL or SOCIAL_URL.
+ * This is provenance metadata only — the capture pipeline never imports
+ * provider-specific API logic into the core domain layer.
+ * New providers can be detected and added here without changing the pipeline.
+ */
+export type InspirationSourceProvider =
+  | "INSTAGRAM"
+  | "YOUTUBE"
+  | "TIKTOK"
+  | "PINTEREST"
+  | "TWITTER"
+  | "FACEBOOK"
+  | "GENERIC_WEB"
+  | "UNKNOWN";
+
+/**
+ * How confidently the system resolved the inspiration to a named place.
+ * USER_CONFIRMED and USER_CORRECTED always take precedence over system resolution.
+ * The system never silently asserts a guessed destination as fact.
+ */
+export type CaptureResolutionStatus =
+  | "RESOLVED_HIGH_CONFIDENCE"  // System confidence ≥0.8; auto-resolved
+  | "NEEDS_CONFIRMATION"        // System has a suggestion (0.4–0.79); ask user
+  | "AMBIGUOUS"                 // Multiple plausible matches; ask user
+  | "UNRESOLVED"               // System could not extract useful place information
+  | "USER_CONFIRMED"           // User explicitly confirmed the system's suggestion
+  | "USER_CORRECTED"           // User corrected the system with their own place data
+  | "DISMISSED";               // User dismissed this find; retained for audit trail
+
+/** The broad category of a travel find's place. */
+export type InspirationPlaceType =
+  | "NATURAL_FEATURE"    // Canyon, waterfall, cave, beach
+  | "CITY_OR_TOWN"       // Urban destination
+  | "VILLAGE"            // Small settlement, off-track
+  | "NATIONAL_PARK"      // Protected natural area
+  | "COASTAL_AREA"       // Coast, bay, island, peninsula
+  | "MOUNTAIN"           // Peak, ridge, highland
+  | "RIVER_OR_LAKE"      // Inland water feature
+  | "HISTORICAL_SITE"    // Heritage, ruin, monument, old town
+  | "FOOD_OR_DRINK"      // Restaurant, konoba, winery, market
+  | "ACTIVITY"           // Hiking trail, kayaking spot, viewpoint
+  | "REGION"             // Broad geographic area
+  | "UNKNOWN";
+
+/**
+ * Provenance metadata stored alongside each capture.
+ * Records how and when extraction happened, which adapter processed it,
+ * and whether a user correction was applied — without storing raw image data.
+ */
+export interface InspirationCaptureProvenance {
+  adapter: string;
+  adapter_version: string;
+  extracted_at: string;
+  resolution_method: string;
+  raw_metadata: Record<string, string | null>;
+  user_correction_applied: boolean;
+  screenshot_analyzed: boolean;
+  screenshot_retained: boolean;  // Always false in Phase 26; screenshots are discarded after analysis
+}
+
+/**
+ * One persisted inspiration capture / travel find.
+ * The source may disappear; the destination memory remains.
+ * Row in public.inspiration_captures; user_id-scoped RLS.
+ */
+export interface InspirationCapture {
+  id: string;
+  user_id: string;
+  source_type: InspirationCaptureSource;
+  source_url: string | null;
+  source_provider: InspirationSourceProvider | null;
+  source_creator: string | null;
+  /** Provider-level post/reel/pin ID retained for audit provenance, never for re-fetching private content. */
+  original_source_reference: string | null;
+  place_name: string | null;
+  country_code: string | null;
+  region: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  place_type: InspirationPlaceType | null;
+  user_note: string | null;
+  /** Observable context from the source — what the caption/title described, not inferred user intent. */
+  capture_context: string | null;
+  /** Deterministic reminder of why this was saved. Never claims user emotion unless explicitly stated. */
+  memory_spark: string | null;
+  resolution_confidence: number;
+  resolution_status: CaptureResolutionStatus;
+  provenance: InspirationCaptureProvenance | null;
+  captured_at: string;
+  confirmed_at: string | null;
+  dismissed_at: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+/**
+ * Normalized output from any capture adapter.
+ * The pipeline passes this to the place resolver — adapters never resolve places directly.
+ */
+export interface CaptureAdapterResult {
+  source_type: InspirationCaptureSource;
+  source_provider: InspirationSourceProvider | null;
+  source_creator: string | null;
+  original_source_reference: string | null;
+  raw_title: string | null;
+  raw_description: string | null;
+  raw_location_hint: string | null;
+  capture_context: string | null;
+  confidence: number;
+  provenance_metadata: Record<string, string | null>;
+  extraction_available: boolean;
+  extraction_note: string | null;
+}
+
+/** Place resolution output from the place resolver. */
+export interface PlaceResolutionResult {
+  place_name: string | null;
+  country_code: string | null;
+  region: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  place_type: InspirationPlaceType | null;
+  resolution_status: CaptureResolutionStatus;
+  resolution_confidence: number;
+  resolution_method: string;
+}
+
+/** Result of screenshot/image evidence analysis. Never contains the original image data. */
+export interface ImageEvidenceResult {
+  available: boolean;
+  extraction_note: string;
+  raw_text_extracted: string | null;
+  location_hints: string[];
+  confidence: number;
+}
+
+/** Input for initiating a capture from a URL, text, or screenshot. */
+export interface InspirationCaptureInput {
+  source_url?: string | null;
+  manual_text?: string | null;
+  image_data_base64?: string | null;  // Temporary — not persisted; discarded after pipeline
+  user_note?: string | null;
+}
+
+/** Patch applied when a user confirms or corrects a find's place information. */
+export interface InspirationCapturePatch {
+  place_name?: string | null;
+  country_code?: string | null;
+  region?: string | null;
+  place_type?: InspirationPlaceType | null;
+  user_note?: string | null;
+  resolution_status?: CaptureResolutionStatus;
+}
+
+export const INSPIRATION_CAPTURE_SOURCE_LABELS: Record<InspirationCaptureSource, string> = {
+  URL: "Web link",
+  SOCIAL_URL: "Social media",
+  SCREENSHOT: "Screenshot",
+  MANUAL_TEXT: "Personal tip",
+  SHARED_LINK: "Shared link",
+};
+
+export const INSPIRATION_SOURCE_PROVIDER_LABELS: Record<InspirationSourceProvider, string> = {
+  INSTAGRAM: "Instagram",
+  YOUTUBE: "YouTube",
+  TIKTOK: "TikTok",
+  PINTEREST: "Pinterest",
+  TWITTER: "Twitter / X",
+  FACEBOOK: "Facebook",
+  GENERIC_WEB: "Web",
+  UNKNOWN: "Unknown source",
+};
+
+export const CAPTURE_RESOLUTION_STATUS_LABELS: Record<CaptureResolutionStatus, string> = {
+  RESOLVED_HIGH_CONFIDENCE: "Resolved",
+  NEEDS_CONFIRMATION: "Needs confirmation",
+  AMBIGUOUS: "Ambiguous",
+  UNRESOLVED: "Unresolved",
+  USER_CONFIRMED: "Confirmed",
+  USER_CORRECTED: "Corrected",
+  DISMISSED: "Dismissed",
+};
+
+export const INSPIRATION_PLACE_TYPE_LABELS: Record<InspirationPlaceType, string> = {
+  NATURAL_FEATURE: "Natural feature",
+  CITY_OR_TOWN: "City or town",
+  VILLAGE: "Village",
+  NATIONAL_PARK: "National park",
+  COASTAL_AREA: "Coastal area",
+  MOUNTAIN: "Mountain",
+  RIVER_OR_LAKE: "River or lake",
+  HISTORICAL_SITE: "Historical site",
+  FOOD_OR_DRINK: "Food or drink",
+  ACTIVITY: "Activity or experience",
+  REGION: "Region",
+  UNKNOWN: "Unknown",
+};

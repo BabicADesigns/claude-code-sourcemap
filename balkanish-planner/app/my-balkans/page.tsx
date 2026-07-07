@@ -16,6 +16,7 @@ import { getSecretSwaps } from "@/lib/data/secret-swaps";
 import { getSavedEntityIds } from "@/lib/data/favorites";
 import { getSavedPostcards } from "@/lib/data/postcards";
 import { getSavedItineraries } from "@/lib/data/itineraries";
+import { getInspirationCaptures } from "@/lib/data/inspiration-captures";
 
 export const metadata: Metadata = { title: "My Balkans" };
 
@@ -46,6 +47,7 @@ export default async function MyBalkansPage() {
     savedSecretSwapIds,
     postcards,
     itineraries,
+    inspirationCaptures,
   ] = await Promise.all([
     getDestinations(),
     getFoodFinds(),
@@ -57,6 +59,7 @@ export default async function MyBalkansPage() {
     getSavedEntityIds(user.id, "secret_swap"),
     getSavedPostcards(user.id),
     getSavedItineraries(user.id),
+    getInspirationCaptures(user.id),
   ]);
 
   const savedDestinations = destinations.filter((d) => savedDestinationIds.has(d.id));
@@ -141,6 +144,27 @@ export default async function MyBalkansPage() {
           emptyCta="Make a Postcard"
         >
           <SavedPostcards postcards={postcards} />
+        </DashboardSection>
+
+        <DashboardSection
+          eyebrow="Inspiration"
+          title="My Balkan Finds"
+          isEmpty={inspirationCaptures.length === 0}
+          emptyMessage="Nothing captured yet. Paste a link, type a place name, or upload a screenshot to start your bucket list."
+          emptyHref="/my-balkans/finds"
+          emptyCta="Open My Finds"
+        >
+          <div className="flex items-center justify-between">
+            <p className="font-serif text-foreground/70">
+              {inspirationCaptures.length} find{inspirationCaptures.length !== 1 ? "s" : ""} saved
+            </p>
+            <a
+              href="/my-balkans/finds"
+              className="text-sm font-medium text-accent hover:underline"
+            >
+              View all finds →
+            </a>
+          </div>
         </DashboardSection>
 
         <DashboardSection

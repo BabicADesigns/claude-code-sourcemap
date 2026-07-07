@@ -33,6 +33,12 @@ export const ANALYTICS_EVENTS = {
   LEARNING_CANDIDATE_REJECTED: "Learning Candidate Rejected",
   LEARNING_CANDIDATE_DEFERRED: "Learning Candidate Deferred",
   REFLECTION_MEMORY_PROMOTED: "Reflection Memory Promoted",
+  // Phase 26 — Inspiration Capture (no source content, no URL text, no note text)
+  FIND_CAPTURED: "Find Captured",
+  FIND_CONFIRMED: "Find Confirmed",
+  FIND_CORRECTED: "Find Corrected",
+  FIND_DISMISSED: "Find Dismissed",
+  FIND_DELETED: "Find Deleted",
 } as const;
 
 export type AnalyticsEventName = (typeof ANALYTICS_EVENTS)[keyof typeof ANALYTICS_EVENTS];
