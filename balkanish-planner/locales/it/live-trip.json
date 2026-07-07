@@ -1,0 +1,109 @@
+{
+  "page": {
+    "title": "Oggi",
+    "subtitle": "Il tuo viaggio, giorno per giorno"
+  },
+  "lifecycle": {
+    "planning": {
+      "title": "Viaggio non ancora iniziato",
+      "body": "Imposta una data di partenza nel tuo Compagno di Viaggio per sbloccare la vista Oggi.",
+      "cta": "Apri Compagno di Viaggio"
+    },
+    "pre_trip": {
+      "title": "Domani parti",
+      "body": "Il tuo viaggio inizia domani. Ecco cosa c'è in programma per il primo giorno.",
+      "badge": "Partenza domani"
+    },
+    "departure_day": {
+      "title": "Giorno 1 — si parte",
+      "badge": "Oggi · Giorno 1"
+    },
+    "in_trip": {
+      "badge": "Giorno {day} di {total}"
+    },
+    "completed": {
+      "title": "Viaggio completato",
+      "body": "Il tuo viaggio è finito. Speriamo sia stato tutto ciò che avevi pianificato — e qualcosa in più.",
+      "cta_memory": "Visualizza Memoria di Viaggio"
+    }
+  },
+  "now_next": {
+    "now": "Adesso",
+    "next": "Dopo",
+    "later": "Più tardi oggi",
+    "done_today": "Fatto oggi"
+  },
+  "slots": {
+    "morning": "Mattina",
+    "afternoon": "Pomeriggio",
+    "evening": "Sera",
+    "food": "Consiglio gastronomico",
+    "day_overview": "Panoramica"
+  },
+  "load": {
+    "light": "Giorno leggero",
+    "moderate": "Giorno moderato",
+    "full": "Giorno pieno"
+  },
+  "flexibility": {
+    "easy_to_move": "Facile da riorganizzare",
+    "some_flexibility": "Un po' di flessibilità",
+    "tightly_packed": "Programma fitto"
+  },
+  "item": {
+    "mark_done": "Segna come fatto",
+    "mark_planned": "Segna come pianificato",
+    "skip": "Salta",
+    "save_for_later": "Salva per dopo",
+    "done_label": "Fatto",
+    "skipped_label": "Saltato",
+    "saved_label": "Salvato per dopo",
+    "planned_label": "Pianificato"
+  },
+  "lighter_day": {
+    "propose_cta": "Suggerisci una giornata più leggera",
+    "sheet_title": "Una giornata più leggera",
+    "sheet_body": "In base al tuo piano, ecco un suggerimento per una giornata meno intensa.",
+    "keep_label": "Mantieni",
+    "skip_label": "Metti da parte",
+    "accept_cta": "Applica giornata leggera",
+    "dismiss_cta": "Mantieni il piano",
+    "disclaimer": "Questo è solo un suggerimento. Decidi tu."
+  },
+  "practical": {
+    "ferry_day": "Giorno in traghetto",
+    "border_crossing": "Attraversamento confine",
+    "logistics_move": "Giorno di trasferimento",
+    "reservation_due": "Azione richiesta",
+    "offline_reminder": "Connettività limitata",
+    "packing_check": "Controllo bagaglio",
+    "capability_static": "Informazione stabile",
+    "capability_derived": "Dal tuo itinerario",
+    "capability_confirmed": "Confermato da te",
+    "verify_before_travel": "Verifica prima di viaggiare"
+  },
+  "day_nav": {
+    "previous": "Giorno precedente",
+    "next": "Giorno successivo",
+    "today": "Torna a oggi"
+  },
+  "tomorrow": {
+    "title": "Domani",
+    "body": "Anteprima del giorno {day}."
+  },
+  "cultural": {
+    "section_title": "Buono a sapersi oggi"
+  },
+  "phrases": {
+    "section_title": "Utile oggi"
+  },
+  "offline": {
+    "banner": "Sei offline. Alcuni contenuti potrebbero essere obsoleti.",
+    "snapshot_saved": "Salvato per la visualizzazione offline",
+    "snapshot_age": "Salvato {time} fa",
+    "save_cta": "Salva offline",
+    "mutation_blocked": "Sei offline. Le modifiche al viaggio richiedono una connessione."
+  },
+  "companion_link": "Lista del viaggio",
+  "open_today_cta": "Apri Oggi"
+}

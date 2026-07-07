@@ -1681,3 +1681,143 @@ export const READINESS_TIMING_WINDOW_ORDER: Record<ReadinessTimingWindow, number
   IN_DESTINATION: 6,
   POST_TRIP: 7,
 };
+
+// ---------------------------------------------------------------------------
+// Phase 23 — Live Trip Mode & On-the-Road Companion
+// ---------------------------------------------------------------------------
+
+/**
+ * Where the trip is in its lifecycle, computed deterministically from
+ * departure_date and trip duration. No live data, no server clock —
+ * computed client-side in the user's local timezone.
+ */
+export type TripLifecycleState =
+  | "PLANNING"       // No departure date set, or departure date is >1 day away
+  | "PRE_TRIP"       // 1 day before departure (eve of travel)
+  | "DEPARTURE_DAY"  // The departure date itself (day 1)
+  | "IN_TRIP"        // Days 2–N of the trip
+  | "COMPLETED";     // All trip days have passed
+
+/**
+ * What a traveller can mark a day slot as.
+ * PLANNED is the default (no explicit action taken).
+ */
+export type LiveItemStatus = "PLANNED" | "DONE" | "SKIPPED" | "SAVED_FOR_LATER";
+
+/** The prose slot within an ItineraryDay that this item maps to. */
+export type DaySlot = "morning" | "afternoon" | "evening" | "food" | "day_overview";
+
+/**
+ * How firmly a slot is anchored to a time.
+ * FIXED_TIME is never assignable from prose-only ItineraryDay content —
+ * only SUGGESTED_TIME and UNTIMED are valid for Phase 23.
+ */
+export type ItemTimeSemantic = "FIXED_TIME" | "SUGGESTED_TIME" | "TIME_WINDOW" | "UNTIMED";
+
+/**
+ * How full a day appears based on prose slot density.
+ * LIGHT: 0–1 non-empty prose slots
+ * MODERATE: 2 slots
+ * FULL: 3+ slots
+ * Note: these are editorial estimates, not provable facts about traveller time.
+ */
+export type DayLoadLevel = "LIGHT" | "MODERATE" | "FULL";
+
+/** How easy it is to reorganise a day slot — derived from day load. */
+export type PlanFlexibility = "EASY_TO_MOVE" | "SOME_FLEXIBILITY" | "TIGHTLY_PACKED";
+
+/**
+ * What kind of data capability backs a displayed piece of information.
+ * Only LIVE_PROVIDER authorises a "live" claim; none exist in Phase 23.
+ * All Phase 23 information is STATIC_CURATED or TRIP_DERIVED.
+ */
+export type LiveDataCapability =
+  | "STATIC_CURATED"   // Editorially authored, stable knowledge
+  | "TRIP_DERIVED"     // Computed from saved itinerary content, no external data
+  | "USER_CONFIRMED"   // Traveller explicitly confirmed (e.g. booking state)
+  | "LIVE_PROVIDER";   // Would require a real live integration — NEVER assigned in Phase 23
+
+/** Groups items into the Now/Next/Later model for the Today view. */
+export type NowNextGroup = "NOW" | "NEXT" | "LATER" | "DONE_TODAY";
+
+/** The kind of practical context card to surface for this day. */
+export type PracticalContextCardType =
+  | "FERRY_DAY"        // A ferry segment is planned for this day
+  | "BORDER_CROSSING"  // A border crossing is on this day's route
+  | "LOGISTICS_MOVE"   // A multi-hour transfer on a travel day
+  | "RESERVATION_DUE"  // A readiness item with HIGH/CRITICAL sensitivity is pending
+  | "OFFLINE_REMINDER" // Connectivity may be limited (curated region note)
+  | "PACKING_CHECK";   // A packing-related readiness item is still PENDING
+
+/** A traveller's persisted state for one day slot. Rows in live_trip_item_states. */
+export interface LiveTripItemState {
+  id: string;
+  user_id: string;
+  trip_id: string;
+  item_key: string;
+  status: LiveItemStatus;
+  note?: string | null;
+  changed_on_date?: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+/** A single actionable item in the Today view, combining itinerary prose + persisted state. */
+export interface LiveTripDayItem {
+  /** Stable key: "day{N}:{slot}" */
+  item_key: string;
+  day_number: number;
+  slot: DaySlot;
+  time_semantic: ItemTimeSemantic;
+  /** The prose text from the ItineraryDay for this slot. */
+  prose: string;
+  status: LiveItemStatus;
+  now_next_group: NowNextGroup;
+  flexibility: PlanFlexibility;
+  note?: string | null;
+}
+
+/** A contextual card surfaced in the Today view for practical on-the-road information. */
+export interface PracticalContextCard {
+  type: PracticalContextCardType;
+  headline: string;
+  body: string;
+  capability: LiveDataCapability;
+  /** Optional link or booking reference the traveller confirmed. */
+  action_url?: string | null;
+}
+
+/**
+ * The computed state of the traveller's trip at the current moment.
+ * Computed deterministically from departure_date, duration_days, and local client date.
+ * No live data, no GPS, no external APIs.
+ */
+export interface CurrentTripMoment {
+  lifecycle: TripLifecycleState;
+  /** 1-indexed current trip day (1 = departure day), null if not yet started or completed. */
+  current_day_number: number | null;
+  /** ISO date string of today in the user's local timezone. */
+  today_date_string: string;
+  /** Days until departure (negative = in past). Null if no departure date set. */
+  days_from_departure: number | null;
+}
+
+/** Full context for one trip day in the Today view. */
+export interface TripDayContext {
+  day_number: number;
+  date_string: string;
+  title: string;
+  load: DayLoadLevel;
+  flexibility: PlanFlexibility;
+  items: LiveTripDayItem[];
+  practical_cards: PracticalContextCard[];
+}
+
+/** A proposed lighter-day alternative, built from skipping lower-priority slots. */
+export interface LighterDayProposal {
+  original_day_number: number;
+  suggested_items_to_keep: string[];  // item_keys
+  suggested_items_to_skip: string[];  // item_keys
+  reasoning: string;
+  load_after: DayLoadLevel;
+}

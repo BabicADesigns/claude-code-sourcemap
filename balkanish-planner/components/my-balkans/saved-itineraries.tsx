@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Pencil } from "lucide-react";
@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useLocale } from "@/lib/i18n/locale-provider";
 import { track, ANALYTICS_EVENTS } from "@/lib/analytics";
+import { computeLifecycle, getTodayDateString } from "@/lib/ai/live-trip";
 
 function tripName(saved: SavedItinerary) {
   return saved.title ?? saved.itinerary_json.trip_title;
@@ -30,6 +31,11 @@ export function SavedItineraries({ itineraries }: { itineraries: SavedItinerary[
   const [renameValue, setRenameValue] = useState("");
   const [pdfPending, setPdfPending] = useState<{ id: string; action: PdfAction } | null>(null);
   const [pdfFeedback, setPdfFeedback] = useState<Record<string, { isError: boolean; text: string }>>({});
+  const [todayDateString, setTodayDateString] = useState<string | null>(null);
+
+  useEffect(() => {
+    setTodayDateString(getTodayDateString());
+  }, []);
 
   const openItinerary = itineraries.find((i) => i.id === openId) ?? null;
 
@@ -168,6 +174,17 @@ export function SavedItineraries({ itineraries }: { itineraries: SavedItinerary[
                 <Button asChild variant="outline" size="sm">
                   <Link href={`/trips/${saved.id}/companion`}>Trip Companion</Link>
                 </Button>
+                {todayDateString && (() => {
+                  const lifecycle = computeLifecycle(saved.departure_date, saved.duration_days, todayDateString);
+                  if (lifecycle === "DEPARTURE_DAY" || lifecycle === "IN_TRIP" || lifecycle === "PRE_TRIP") {
+                    return (
+                      <Button asChild variant="default" size="sm">
+                        <Link href={`/trips/${saved.id}/today`}>Today</Link>
+                      </Button>
+                    );
+                  }
+                  return null;
+                })()}
                 <Button asChild variant="ghost" size="sm">
                   <Link href="/planner">Edit in Planner</Link>
                 </Button>

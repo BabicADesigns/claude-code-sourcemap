@@ -1,0 +1,109 @@
+{
+  "page": {
+    "title": "Today",
+    "subtitle": "Your trip, day by day"
+  },
+  "lifecycle": {
+    "planning": {
+      "title": "Trip not started yet",
+      "body": "Set a departure date in your Trip Companion to unlock Today view.",
+      "cta": "Open Trip Companion"
+    },
+    "pre_trip": {
+      "title": "Tomorrow you leave",
+      "body": "Your trip starts tomorrow. Here's what's on for day one.",
+      "badge": "Leaving tomorrow"
+    },
+    "departure_day": {
+      "title": "Day 1 — you're off",
+      "badge": "Today · Day 1"
+    },
+    "in_trip": {
+      "badge": "Day {day} of {total}"
+    },
+    "completed": {
+      "title": "Trip complete",
+      "body": "Your trip is over. We hope it was everything you planned — and a few things you didn't.",
+      "cta_memory": "View Travel Memory"
+    }
+  },
+  "now_next": {
+    "now": "Now",
+    "next": "Next",
+    "later": "Later today",
+    "done_today": "Done today"
+  },
+  "slots": {
+    "morning": "Morning",
+    "afternoon": "Afternoon",
+    "evening": "Evening",
+    "food": "Food highlight",
+    "day_overview": "Overview"
+  },
+  "load": {
+    "light": "Light day",
+    "moderate": "Moderate day",
+    "full": "Full day"
+  },
+  "flexibility": {
+    "easy_to_move": "Easy to rearrange",
+    "some_flexibility": "Some flexibility",
+    "tightly_packed": "Tightly packed"
+  },
+  "item": {
+    "mark_done": "Mark done",
+    "mark_planned": "Mark as planned",
+    "skip": "Skip",
+    "save_for_later": "Save for later",
+    "done_label": "Done",
+    "skipped_label": "Skipped",
+    "saved_label": "Saved for later",
+    "planned_label": "Planned"
+  },
+  "lighter_day": {
+    "propose_cta": "Suggest a lighter day",
+    "sheet_title": "A lighter day",
+    "sheet_body": "Based on your plan, here's a suggestion for an easier day.",
+    "keep_label": "Keep",
+    "skip_label": "Set aside",
+    "accept_cta": "Apply lighter day",
+    "dismiss_cta": "Keep my plan",
+    "disclaimer": "This is a suggestion only. You decide what to do."
+  },
+  "practical": {
+    "ferry_day": "Ferry day",
+    "border_crossing": "Border crossing",
+    "logistics_move": "Travel day",
+    "reservation_due": "Action needed",
+    "offline_reminder": "Limited connectivity",
+    "packing_check": "Packing check",
+    "capability_static": "Stable information",
+    "capability_derived": "From your itinerary",
+    "capability_confirmed": "You confirmed this",
+    "verify_before_travel": "Verify before travel"
+  },
+  "day_nav": {
+    "previous": "Previous day",
+    "next": "Next day",
+    "today": "Back to today"
+  },
+  "tomorrow": {
+    "title": "Tomorrow",
+    "body": "A preview of day {day}."
+  },
+  "cultural": {
+    "section_title": "Good to know today"
+  },
+  "phrases": {
+    "section_title": "Useful today"
+  },
+  "offline": {
+    "banner": "You're offline. Some content may be out of date.",
+    "snapshot_saved": "Saved for offline viewing",
+    "snapshot_age": "Last saved {time} ago",
+    "save_cta": "Save for offline",
+    "mutation_blocked": "You're offline. Trip changes need a connection."
+  },
+  "companion_link": "Trip Checklist",
+  "open_today_cta": "Open Today"
+}
