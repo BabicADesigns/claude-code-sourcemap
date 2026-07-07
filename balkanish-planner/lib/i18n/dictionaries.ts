@@ -11,6 +11,7 @@ import enCultureIntel from "@/locales/en/culture-intel.json";
 import enTravelMemory from "@/locales/en/travel-memory.json";
 import enTripReadiness from "@/locales/en/trip-readiness.json";
 import enLiveTrip from "@/locales/en/live-trip.json";
+import enReflection from "@/locales/en/reflection.json";
 import deCommon from "@/locales/de/common.json";
 import dePlanner from "@/locales/de/planner.json";
 import dePdf from "@/locales/de/pdf.json";
@@ -22,6 +23,7 @@ import deCultureIntel from "@/locales/de/culture-intel.json";
 import deTravelMemory from "@/locales/de/travel-memory.json";
 import deTripReadiness from "@/locales/de/trip-readiness.json";
 import deLiveTrip from "@/locales/de/live-trip.json";
+import deReflection from "@/locales/de/reflection.json";
 import itCommon from "@/locales/it/common.json";
 import itPlanner from "@/locales/it/planner.json";
 import itPdf from "@/locales/it/pdf.json";
@@ -33,6 +35,7 @@ import itCultureIntel from "@/locales/it/culture-intel.json";
 import itTravelMemory from "@/locales/it/travel-memory.json";
 import itTripReadiness from "@/locales/it/trip-readiness.json";
 import itLiveTrip from "@/locales/it/live-trip.json";
+import itReflection from "@/locales/it/reflection.json";
 import hrCommon from "@/locales/hr/common.json";
 import hrPlanner from "@/locales/hr/planner.json";
 import hrPdf from "@/locales/hr/pdf.json";
@@ -44,6 +47,7 @@ import hrCultureIntel from "@/locales/hr/culture-intel.json";
 import hrTravelMemory from "@/locales/hr/travel-memory.json";
 import hrTripReadiness from "@/locales/hr/trip-readiness.json";
 import hrLiveTrip from "@/locales/hr/live-trip.json";
+import hrReflection from "@/locales/hr/reflection.json";
 
 export type TranslationDictionary = Record<string, unknown>;
 
@@ -59,13 +63,14 @@ export interface Dictionary {
   travelMemory: TranslationDictionary;
   tripReadiness: TranslationDictionary;
   liveTrip: TranslationDictionary;
+  reflection: TranslationDictionary;
 }
 
 const DICTIONARIES: Record<Locale, Dictionary> = {
-  en: { common: enCommon, planner: enPlanner, pdf: enPdf, email: enEmail, community: enCommunity, partners: enPartners, logistics: enLogistics, cultureIntel: enCultureIntel, travelMemory: enTravelMemory, tripReadiness: enTripReadiness, liveTrip: enLiveTrip },
-  de: { common: deCommon, planner: dePlanner, pdf: dePdf, email: deEmail, community: deCommunity, partners: dePartners, logistics: deLogistics, cultureIntel: deCultureIntel, travelMemory: deTravelMemory, tripReadiness: deTripReadiness, liveTrip: deLiveTrip },
-  it: { common: itCommon, planner: itPlanner, pdf: itPdf, email: itEmail, community: itCommunity, partners: itPartners, logistics: itLogistics, cultureIntel: itCultureIntel, travelMemory: itTravelMemory, tripReadiness: itTripReadiness, liveTrip: itLiveTrip },
-  hr: { common: hrCommon, planner: hrPlanner, pdf: hrPdf, email: hrEmail, community: hrCommunity, partners: hrPartners, logistics: hrLogistics, cultureIntel: hrCultureIntel, travelMemory: hrTravelMemory, tripReadiness: hrTripReadiness, liveTrip: hrLiveTrip },
+  en: { common: enCommon, planner: enPlanner, pdf: enPdf, email: enEmail, community: enCommunity, partners: enPartners, logistics: enLogistics, cultureIntel: enCultureIntel, travelMemory: enTravelMemory, tripReadiness: enTripReadiness, liveTrip: enLiveTrip, reflection: enReflection },
+  de: { common: deCommon, planner: dePlanner, pdf: dePdf, email: deEmail, community: deCommunity, partners: dePartners, logistics: deLogistics, cultureIntel: deCultureIntel, travelMemory: deTravelMemory, tripReadiness: deTripReadiness, liveTrip: deLiveTrip, reflection: deReflection },
+  it: { common: itCommon, planner: itPlanner, pdf: itPdf, email: itEmail, community: itCommunity, partners: itPartners, logistics: itLogistics, cultureIntel: itCultureIntel, travelMemory: itTravelMemory, tripReadiness: itTripReadiness, liveTrip: itLiveTrip, reflection: itReflection },
+  hr: { common: hrCommon, planner: hrPlanner, pdf: hrPdf, email: hrEmail, community: hrCommunity, partners: hrPartners, logistics: hrLogistics, cultureIntel: hrCultureIntel, travelMemory: hrTravelMemory, tripReadiness: hrTripReadiness, liveTrip: hrLiveTrip, reflection: hrReflection },
 };
 
 export function getDictionary(locale: Locale): Dictionary {

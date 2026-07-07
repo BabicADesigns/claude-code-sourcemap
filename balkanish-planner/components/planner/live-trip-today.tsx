@@ -151,7 +151,13 @@ export function LiveTripToday({
         <h2 className="text-xl font-serif font-semibold mb-3">
           {t("liveTrip", "lifecycle.completed.title")}
         </h2>
-        <p className="text-foreground/70 mb-6">{t("liveTrip", "lifecycle.completed.body")}</p>
+        <p className="text-foreground/70 mb-4">{t("liveTrip", "lifecycle.completed.body")}</p>
+        <a
+          href={`/trips/${trip.id}/reflection`}
+          className="inline-block rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground hover:bg-muted/40 transition-colors"
+        >
+          {t("liveTrip", "lifecycle.completed.cta_memory")}
+        </a>
       </div>
     );
   }

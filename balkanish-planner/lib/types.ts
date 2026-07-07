@@ -1392,7 +1392,8 @@ export type MemorySignalSource =
   | "ITINERARY_REGENERATE"      // Regenerated — signals what was NOT wanted (weight: 0.4)
   | "PARTNER_SAVE"              // Saved a partner listing (weight: 0.4)
   | "DIRECT_MEMORY_CONFIRMATION"// Confirmed a signal from the memory UI (weight: 1.0, never decays)
-  | "TRIP_COMPLETION_FEEDBACK"; // Explicit post-trip feedback (weight: 0.7)
+  | "TRIP_COMPLETION_FEEDBACK"  // Explicit post-trip feedback (weight: 0.7)
+  | "POST_TRIP_REFLECTION";     // Phase 24: structured reflection with candidate confirmation (weight: 0.85)
 
 export const MEMORY_SIGNAL_SOURCE_WEIGHTS: Record<MemorySignalSource, number> = {
   PROFILE_CONFIRMATION: 1.0,
@@ -1402,6 +1403,7 @@ export const MEMORY_SIGNAL_SOURCE_WEIGHTS: Record<MemorySignalSource, number> = 
   PARTNER_SAVE: 0.4,
   DIRECT_MEMORY_CONFIRMATION: 1.0,
   TRIP_COMPLETION_FEEDBACK: 0.7,
+  POST_TRIP_REFLECTION: 0.85,
 };
 
 /** Sources where signals are treated as authoritative and never decay over time. */
@@ -1425,6 +1427,7 @@ export const ALLOWED_MEMORY_SIGNAL_SOURCES = new Set<MemorySignalSource>([
   "PARTNER_SAVE",
   "DIRECT_MEMORY_CONFIRMATION",
   "TRIP_COMPLETION_FEEDBACK",
+  "POST_TRIP_REFLECTION",
 ]);
 
 /** Preference domains the memory engine may track. */
@@ -1457,8 +1460,12 @@ export type MemoryPreferenceDomain =
   | "HIDDEN_GEMS"        // Off-the-beaten-path preference
   | "GUIDED_TOURS"       // Guided vs self-guided preference
   | "ISLAND_HOPPING"     // Island and coastal route preference
-  | "ROAD_TRIPS"         // Road trip preference
-  | "SLOW_TRAVEL";       // Extended stay in fewer places
+  | "ROAD_TRIPS"                    // Road trip preference
+  | "SLOW_TRAVEL"                   // Extended stay in fewer places
+  // Phase 24 — Post-Trip Reflection domains
+  | "ITINERARY_PACE"                // Preferred day-fullness based on pace reflection
+  | "PLANNING_STRUCTURE"            // Preferred structure level: more vs. less planned
+  | "ACTIVITY_CATEGORY_PREFERENCE"; // Category-level affinity inferred from item reflection
 
 export const MEMORY_PREFERENCE_DOMAIN_LABELS: Record<MemoryPreferenceDomain, string> = {
   PACE: "Travel pace",
@@ -1491,6 +1498,9 @@ export const MEMORY_PREFERENCE_DOMAIN_LABELS: Record<MemoryPreferenceDomain, str
   ISLAND_HOPPING: "Island hopping",
   ROAD_TRIPS: "Road trips",
   SLOW_TRAVEL: "Slow travel",
+  ITINERARY_PACE: "Itinerary pace",
+  PLANNING_STRUCTURE: "Planning structure",
+  ACTIVITY_CATEGORY_PREFERENCE: "Activity category preference",
 };
 
 /**
@@ -1821,3 +1831,222 @@ export interface LighterDayProposal {
   reasoning: string;
   load_after: DayLoadLevel;
 }
+
+// ---------------------------------------------------------------------------
+// Phase 24 — Post-Trip Reflection & Memory Loop
+// ---------------------------------------------------------------------------
+
+/**
+ * Where the traveller is in the reflection lifecycle for a given trip.
+ * NOT_STARTED is the default — no row exists until the traveller opens reflection.
+ * DISMISSED is manually reopenable; it must not delete any trip data.
+ */
+export type TripReflectionStatus =
+  | "NOT_STARTED"  // No reflection row exists yet
+  | "IN_PROGRESS"  // Started but not finished
+  | "COMPLETED"    // Traveller has finished and confirmed
+  | "DISMISSED";   // Explicitly dismissed — can be reopened
+
+/**
+ * Which post-trip timing window the reflection falls into.
+ * Determines wording ("While it's still fresh…" vs "Looking back…").
+ * Eligibility never expires — these affect UI copy only.
+ */
+export type ReflectionTimingWindow =
+  | "JUST_RETURNED"  // 0–3 days after trip completion
+  | "RECENT"         // 4–30 days after
+  | "PAST_TRIP";     // 31+ days after
+
+/**
+ * The traveller's overall feeling about the trip.
+ * Must NOT be treated as a universal preference signal for a destination.
+ * LOVED_IT on a trip to Croatia ≠ "user loves Croatia".
+ */
+export type OverallFeeling =
+  | "LOVED_IT"
+  | "GOOD_TRIP"
+  | "MIXED"
+  | "NOT_MY_TRIP"
+  | "PREFER_NOT_TO_SAY";
+
+/**
+ * How the traveller felt about the pace of the trip.
+ * This is the primary input to ITINERARY_PACE learning candidates.
+ * Important: one trip's pace signal alone does not create a permanent preference —
+ * TripLearningCandidates mediate promotion to Travel Memory.
+ */
+export type PaceReflection =
+  | "TOO_SLOW"
+  | "JUST_RIGHT"
+  | "A_LITTLE_FULL"
+  | "TOO_FULL"
+  | "UNKNOWN";
+
+/**
+ * How the traveller felt about the planning structure of the trip.
+ * Influences future PLANNING_STRUCTURE memory candidates.
+ */
+export type PlanningComfort =
+  | "MORE_STRUCTURE"
+  | "CURRENT_LEVEL"
+  | "MORE_FLEXIBILITY"
+  | "UNKNOWN";
+
+/**
+ * Per-item reflection value for a single itinerary slot.
+ * Unanswered items remain unanswered — no coercion to NEUTRAL.
+ * NOT_EXPERIENCED is the default for SKIPPED items unless explicitly overridden.
+ * DONE ≠ LOVED; SKIPPED ≠ WOULD_SKIP — these require explicit selection.
+ */
+export type ItemReflection =
+  | "LOVED"
+  | "LIKED"
+  | "NEUTRAL"
+  | "WOULD_SKIP"
+  | "NOT_EXPERIENCED";
+
+/**
+ * Whether the traveller would return to a specific destination.
+ * Must be scoped to a clear destination — not "the Balkans" in general.
+ * NO ≠ "user dislikes destination"; it is a narrower return intent.
+ */
+export type ReturnIntent =
+  | "YES"
+  | "MAYBE"
+  | "NO"
+  | "PREFER_NOT_TO_SAY";
+
+/**
+ * The traveller's decision on a proposed TripLearningCandidate.
+ * DEFERRED allows the candidate to be re-proposed in future reflections.
+ * REJECTED avoids creating a negative memory signal (it only suppresses the candidate).
+ */
+export type CandidateDecision =
+  | "CONFIRMED"   // Traveller accepted → memory promotion triggered
+  | "REJECTED"    // Traveller declined → no memory signal created
+  | "DEFERRED";   // Traveller wants to decide later
+
+/**
+ * How confidently the candidate was derived from explicit reflection evidence.
+ * HIGH: direct pace/planning/item statement
+ * MEDIUM: inferred from multiple consistent explicit signals
+ * LOW: derived from single explicit signal with limited corroboration
+ */
+export type CandidateConfidenceBasis =
+  | "HIGH"    // Direct explicit statement (e.g. "too full" → pace candidate)
+  | "MEDIUM"  // Multiple consistent explicit signals
+  | "LOW";    // Single explicit signal, limited corroboration
+
+/**
+ * A proposed memory update derived deterministically from reflection data.
+ * Every candidate has an explicit evidence basis — no behavioural ambiguity assumptions.
+ * Candidates are proposed to the traveller before any memory promotion happens.
+ * The traveller confirms, rejects, or defers. Confirmed → Travel Memory via server action.
+ */
+export interface TripLearningCandidate {
+  /** Stable deterministic key: "{tripId}:{domain}:{subject_slug}" */
+  candidate_key: string;
+  domain: MemoryPreferenceDomain;
+  subject: string;
+  value?: string | null;
+  direction: MemorySignalDirection;
+  /** Human-readable description of the evidence, e.g. "You said this trip felt too full." */
+  evidence_summary: string;
+  confidence_basis: CandidateConfidenceBasis;
+  /** Which reflection field(s) generated this candidate. */
+  evidence_sources: Array<"pace_reflection" | "planning_comfort" | "item_reflection" | "overall_feeling">;
+  /** The MemorySignalSource to use when promoting this candidate. */
+  memory_signal_source: MemorySignalSource;
+  /** Whether this candidate conflicts with an existing confirmed memory signal. */
+  conflicts_with_existing: boolean;
+  /** The ID of the conflicting memory signal, if any. */
+  conflicting_signal_id?: string | null;
+  /** Whether this domain is safe to promote (blocked domains filtered before this point). */
+  is_promotable: boolean;
+}
+
+/** A persisted row in trip_reflections. One per (user_id, trip_id). */
+export interface TripReflection {
+  id: string;
+  user_id: string;
+  trip_id: string;
+  status: TripReflectionStatus;
+  overall_feeling?: OverallFeeling | null;
+  pace_reflection?: PaceReflection | null;
+  planning_comfort?: PlanningComfort | null;
+  return_intent?: ReturnIntent | null;
+  return_intent_destination?: string | null;
+  /** Private free-text note. Never sent to analytics, AI, or public surfaces. */
+  private_note?: string | null;
+  completed_at?: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+/** One item-level reflection row in trip_reflection_items. */
+export interface TripReflectionItem {
+  id: string;
+  user_id: string;
+  trip_id: string;
+  /** Stable item key: "day{N}:{slot}" — same format as Phase 23 live_trip_item_states. */
+  item_key: string;
+  value: ItemReflection;
+  created_at: string;
+  updated_at: string;
+}
+
+/** A persisted candidate decision row in trip_learning_candidates. */
+export interface TripLearningCandidateDecision {
+  id: string;
+  user_id: string;
+  trip_id: string;
+  candidate_key: string;
+  decision: CandidateDecision;
+  decided_at: string;
+  created_at: string;
+}
+
+/**
+ * Itinerary pace preference derived from confirmed Travel Memory.
+ * Used as an input to future itinerary grounding.
+ * UNSPECIFIED = no confirmed preference; let the itinerary engine use defaults.
+ */
+export type ItineraryPacePreference = "LIGHT" | "BALANCED" | "FULL" | "UNSPECIFIED";
+
+export const OVERALL_FEELING_LABELS: Record<OverallFeeling, string> = {
+  LOVED_IT: "Loved it",
+  GOOD_TRIP: "A good trip",
+  MIXED: "A bit mixed",
+  NOT_MY_TRIP: "Not really my trip",
+  PREFER_NOT_TO_SAY: "Prefer not to say",
+};
+
+export const PACE_REFLECTION_LABELS: Record<PaceReflection, string> = {
+  TOO_SLOW: "Too slow",
+  JUST_RIGHT: "Just right",
+  A_LITTLE_FULL: "A little full",
+  TOO_FULL: "Too full",
+  UNKNOWN: "Hard to say",
+};
+
+export const PLANNING_COMFORT_LABELS: Record<PlanningComfort, string> = {
+  MORE_STRUCTURE: "More structure",
+  CURRENT_LEVEL: "About the same",
+  MORE_FLEXIBILITY: "More breathing room",
+  UNKNOWN: "Not sure",
+};
+
+export const ITEM_REFLECTION_LABELS: Record<ItemReflection, string> = {
+  LOVED: "Loved this",
+  LIKED: "Liked it",
+  NEUTRAL: "It was fine",
+  WOULD_SKIP: "Would skip next time",
+  NOT_EXPERIENCED: "Didn't do this",
+};
+
+export const RETURN_INTENT_LABELS: Record<ReturnIntent, string> = {
+  YES: "Yes, definitely",
+  MAYBE: "Maybe",
+  NO: "Probably not",
+  PREFER_NOT_TO_SAY: "Prefer not to say",
+};

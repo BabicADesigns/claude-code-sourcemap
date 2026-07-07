@@ -1,0 +1,114 @@
+{
+  "page": {
+    "title": "Osvrt na putovanje",
+    "subtitle": "Uzmi trenutak za svoje putovanje.",
+    "not_eligible": "Osvrt je dostupan za završena putovanja.",
+    "cta_start": "Osvrni se na ovo putovanje",
+    "cta_continue": "Nastavi osvrt",
+    "cta_view": "Pogledaj svoj osvrt"
+  },
+  "timing": {
+    "just_returned": "Dobrodošao natrag",
+    "just_returned_body": "Upravo si se vratio. Bez žurbe — osvrni se kad budeš spreman.",
+    "recent": "Još svježe",
+    "recent_body": "Ovo putovanje je nedavno. Dobar je trenutak za pogled unatrag.",
+    "past_trip": "Pogled unatrag",
+    "past_trip_body": "Prošlo je nešto vremena. Tvoja sjećanja su i dalje vrijedna."
+  },
+  "steps": {
+    "overall": "Općenito",
+    "pace": "Tempo i planiranje",
+    "items": "Istaknuti trenuci",
+    "memory": "Što zapamtiti",
+    "done": "Spremljeno"
+  },
+  "overall": {
+    "title": "Kako je bilo putovanje općenito?",
+    "subtitle": "Tvoj iskren odgovor pomaže personalizirati buduće planove.",
+    "loved_it": "Obožavao sam",
+    "good_trip": "Dobro putovanje",
+    "mixed": "Mješoviti osjećaji",
+    "not_my_trip": "Nije moj tip putovanja",
+    "prefer_not_to_say": "Radije ne bih rekao"
+  },
+  "pace": {
+    "title": "Kako je bio tempo?",
+    "too_slow": "Previše sporo — imao sam previše slobodnog vremena",
+    "just_right": "Savršeno",
+    "a_little_full": "Malo pretrpano",
+    "too_full": "Previše — trebao sam više odmora",
+    "unknown": "Nisam siguran",
+    "planning_title": "Kako se osjećala struktura?",
+    "more_structure": "Volio bih više strukture",
+    "current_level": "Struktura je bila dobra",
+    "more_flexibility": "Volio bih više fleksibilnosti",
+    "planning_unknown": "Nisam siguran"
+  },
+  "items": {
+    "title": "Istaknuti trenuci ili stvari koje bi preskočio?",
+    "subtitle": "Ocijeni samo ono što si zaista doživio. Preskoči ostalo.",
+    "loved": "Obožavao sam",
+    "liked": "Svidjelo mi se",
+    "neutral": "Bilo je u redu",
+    "would_skip": "Preskočio bih sljedeći put",
+    "not_experienced": "Nisam to napravio",
+    "slot_morning": "Jutro",
+    "slot_afternoon": "Poslijepodne",
+    "slot_evening": "Večer",
+    "slot_food": "Gastronomski vrhunac"
+  },
+  "return": {
+    "title": "Bi li se vratio?",
+    "yes": "Da — vratio bih se",
+    "maybe": "Možda",
+    "no": "Vjerojatno ne",
+    "prefer_not_to_say": "Radije ne bih rekao",
+    "destination_prompt": "Neko posebno mjesto?",
+    "destination_placeholder": "Neobavezno — npr. Split, obala…"
+  },
+  "note": {
+    "title": "Ima li još nešto na umu?",
+    "subtitle": "Ova bilješka je privatna. Samo za tebe — naši sustavi je nikad ne čitaju.",
+    "placeholder": "Tvoja privatna bilješka…",
+    "privacy_label": "Privatno — samo ti to možeš vidjeti"
+  },
+  "memory": {
+    "title": "Što bismo trebali zapamtiti?",
+    "subtitle": "Ovi prijedlozi dolaze iz tvog osvrta. Ti odlučuješ što čuvamo.",
+    "empty": "Nema ništa za predložiti na temelju ovog osvrta.",
+    "confirm_all": "Zapamti sve",
+    "skip_all": "Preskoči sve",
+    "confirm_cta": "Zapamti",
+    "reject_cta": "Ne pamti",
+    "defer_cta": "Odluči kasnije",
+    "candidate_high": "Siguran prijedlog",
+    "candidate_medium": "Na temelju tvog osvrta",
+    "candidate_low": "Moguća preferencija",
+    "conflict_warning": "Ovo je u suprotnosti s nečim što već znamo o tebi.",
+    "conflict_resolve": "Što je ispravno?",
+    "source_pace": "Osvrt o tempu",
+    "source_planning": "Preferencija planiranja",
+    "source_item": "Ocjena aktivnosti",
+    "source_overall": "Opći dojam"
+  },
+  "complete": {
+    "title": "Osvrt spremljen",
+    "body": "Tvoja putna sjećanja su pohranjena. Tiho će oblikovati buduće preporuke.",
+    "cta_planner": "Planiraj još jedno putovanje",
+    "cta_trips": "Moja putovanja"
+  },
+  "dismiss": {
+    "cta": "Preskoči osvrt",
+    "confirm_title": "Preskočiti ovaj osvrt?",
+    "confirm_body": "Možeš se vratiti bilo kada iz svog putovanja.",
+    "confirm_cta": "Da, preskoči za sada",
+    "cancel_cta": "Nastavi"
+  },
+  "privacy": {
+    "note": "Tvoj osvrt je privatan. Balkanish ga ne koristi za marketing, ne dijeli ga s partnerima niti ga javno prikazuje."
+  },
+  "errors": {
+    "load_failed": "Osvrt nije moguće učitati. Pokušaj ponovo.",
+    "save_failed": "Spremanje nije uspjelo. Provjeri vezu i pokušaj ponovo."
+  }
+}

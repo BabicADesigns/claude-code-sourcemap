@@ -183,6 +183,13 @@ export function SavedItineraries({ itineraries }: { itineraries: SavedItinerary[
                       </Button>
                     );
                   }
+                  if (lifecycle === "COMPLETED") {
+                    return (
+                      <Button asChild variant="outline" size="sm">
+                        <Link href={`/trips/${saved.id}/reflection`}>Remember this trip</Link>
+                      </Button>
+                    );
+                  }
                   return null;
                 })()}
                 <Button asChild variant="ghost" size="sm">

@@ -24,6 +24,15 @@ export const ANALYTICS_EVENTS = {
   LIGHTER_DAY_ACCEPTED: "Lighter Day Accepted",
   OFFLINE_SNAPSHOT_SAVED: "Offline Snapshot Saved",
   TOMORROW_PREVIEW_OPENED: "Tomorrow Preview Opened",
+  // Phase 24 — Post-Trip Reflection (no item text, no private note content, no destination PII)
+  REFLECTION_STARTED: "Reflection Started",
+  REFLECTION_STEP_COMPLETED: "Reflection Step Completed",
+  REFLECTION_DISMISSED: "Reflection Dismissed",
+  REFLECTION_COMPLETED: "Reflection Completed",
+  LEARNING_CANDIDATE_CONFIRMED: "Learning Candidate Confirmed",
+  LEARNING_CANDIDATE_REJECTED: "Learning Candidate Rejected",
+  LEARNING_CANDIDATE_DEFERRED: "Learning Candidate Deferred",
+  REFLECTION_MEMORY_PROMOTED: "Reflection Memory Promoted",
 } as const;
 
 export type AnalyticsEventName = (typeof ANALYTICS_EVENTS)[keyof typeof ANALYTICS_EVENTS];

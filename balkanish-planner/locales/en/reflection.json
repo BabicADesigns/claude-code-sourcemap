@@ -1,0 +1,114 @@
+{
+  "page": {
+    "title": "Trip reflection",
+    "subtitle": "Take a moment with your trip.",
+    "not_eligible": "Reflection is available for completed trips.",
+    "cta_start": "Reflect on this trip",
+    "cta_continue": "Continue reflection",
+    "cta_view": "View your reflection"
+  },
+  "timing": {
+    "just_returned": "Welcome back",
+    "just_returned_body": "You just got home. No rush — reflect whenever you're ready.",
+    "recent": "Still fresh",
+    "recent_body": "This trip was recent. A good time to look back.",
+    "past_trip": "Looking back",
+    "past_trip_body": "A little time has passed. Your memories are still valid."
+  },
+  "steps": {
+    "overall": "Overall",
+    "pace": "Pace & planning",
+    "items": "Highlights",
+    "memory": "What to remember",
+    "done": "Saved"
+  },
+  "overall": {
+    "title": "How was the trip overall?",
+    "subtitle": "Your honest answer helps personalise future plans.",
+    "loved_it": "Loved it",
+    "good_trip": "Good trip",
+    "mixed": "Mixed feelings",
+    "not_my_trip": "Not my kind of trip",
+    "prefer_not_to_say": "Prefer not to say"
+  },
+  "pace": {
+    "title": "How was the pace?",
+    "too_slow": "Too slow — I had time to spare",
+    "just_right": "Just right",
+    "a_little_full": "A little full",
+    "too_full": "Too full — I needed more rest",
+    "unknown": "Not sure",
+    "planning_title": "How did the structure feel?",
+    "more_structure": "I'd have liked more structure",
+    "current_level": "The structure was right",
+    "more_flexibility": "I'd have liked more flexibility",
+    "planning_unknown": "Not sure"
+  },
+  "items": {
+    "title": "Any highlights or things you'd skip?",
+    "subtitle": "Only rate what you actually experienced. Skip what you didn't do.",
+    "loved": "Loved it",
+    "liked": "Liked it",
+    "neutral": "It was fine",
+    "would_skip": "Would skip next time",
+    "not_experienced": "Didn't do this",
+    "slot_morning": "Morning",
+    "slot_afternoon": "Afternoon",
+    "slot_evening": "Evening",
+    "slot_food": "Food highlight"
+  },
+  "return": {
+    "title": "Would you return?",
+    "yes": "Yes — I'd go back",
+    "maybe": "Maybe",
+    "no": "Probably not",
+    "prefer_not_to_say": "Prefer not to say",
+    "destination_prompt": "Any particular place?",
+    "destination_placeholder": "Optional — e.g. Split, the coast…"
+  },
+  "note": {
+    "title": "Anything else on your mind?",
+    "subtitle": "This note is private. It's only for you — never read by our systems.",
+    "placeholder": "Your private note…",
+    "privacy_label": "Private — only you can see this"
+  },
+  "memory": {
+    "title": "What should we remember?",
+    "subtitle": "These suggestions come from your reflection. You decide what we keep.",
+    "empty": "Nothing to suggest based on this reflection.",
+    "confirm_all": "Remember all",
+    "skip_all": "Skip all",
+    "confirm_cta": "Remember",
+    "reject_cta": "Don't remember",
+    "defer_cta": "Decide later",
+    "candidate_high": "Confident suggestion",
+    "candidate_medium": "Based on your reflection",
+    "candidate_low": "Possible preference",
+    "conflict_warning": "This conflicts with something we already know about you.",
+    "conflict_resolve": "Which is correct?",
+    "source_pace": "Pace reflection",
+    "source_planning": "Planning preference",
+    "source_item": "Activity rating",
+    "source_overall": "Overall feeling"
+  },
+  "complete": {
+    "title": "Reflection saved",
+    "body": "Your trip memories are stored. They'll quietly shape future recommendations.",
+    "cta_planner": "Plan another trip",
+    "cta_trips": "My trips"
+  },
+  "dismiss": {
+    "cta": "Skip reflection",
+    "confirm_title": "Skip this reflection?",
+    "confirm_body": "You can come back to it any time from your trip.",
+    "confirm_cta": "Yes, skip for now",
+    "cancel_cta": "Keep going"
+  },
+  "privacy": {
+    "note": "Your reflection is private. Balkanish does not use it for marketing, share it with partners, or show it publicly."
+  },
+  "errors": {
+    "load_failed": "Couldn't load your reflection. Try again.",
+    "save_failed": "Couldn't save. Check your connection and try again."
+  }
+}
