@@ -39,14 +39,14 @@ A traveller planning or living a trip to the Balkans who:
 ### Stage 3: ACTIVE TRIP (PRE_TRIP → IN_TRIP)
 **Where**: `/trips/[id]/today` (Live Trip)
 **What they do**: Check today's agenda, mark activities, receive cultural intelligence, see resurfaced finds.
-**Lifecycle gates**: "Live Trip" button appears on trip card for PRE_TRIP / DEPARTURE_DAY / IN_TRIP.
-**Current gap**: Button labeled "Today" — not descriptive enough.
+**Lifecycle gates**: "Live Trip" button appears on trip card for PRE_TRIP / DEPARTURE_DAY / IN_TRIP. Centralized in `lib/ai/lifecycle-navigation.ts`.
+**Navigation**: `TripNavLiveTrip` component provides i18n'd links to My Trips and Trip Checklist.
 
 ### Stage 4: POST TRIP (COMPLETED)
 **Where**: `/trips/[id]/reflection`
 **What they do**: Rate days, review highlights, generate travel memory, record learnings.
 **Lifecycle gate**: "Reflect on this trip" button on trip card for COMPLETED lifecycle.
-**Current gap**: Button labeled "Remember this trip" — inconsistent with page label "Trip Reflection".
+**Forward handoff (Phase 30)**: "Plan your next trip →" link to `/planner` appears on reflection page for COMPLETED lifecycle.
 
 ### Stage 5: RETURNING TRAVELLER
 **Where**: `/my-balkans`, `/my-balkans/finds`, `/planner`
@@ -75,11 +75,21 @@ A traveller planning or living a trip to the Balkans who:
 | Postcards (`/postcards`) | Create digital postcard | Create |
 
 ### Personal Layer (auth required)
+
+**Workspace ownership model (Phase 30):**
+
+| Workspace | One-sentence promise | Canonical content |
+|---|---|---|
+| My Balkans (`/my-balkans`) | Where I keep my saved Balkan places and travel inspiration. | Hidden Gems, Food Finds, Culture Notes, Secret Swaps, Postcards, My Finds |
+| My Trips (`/my-trips`) | Where I plan, manage, and reflect on my actual Balkan trips. | AI Itineraries (Recent + All), Delivery History |
+
+Each workspace cross-references the other via a styled footer link. A saved artifact may be surfaced in multiple contexts but may only be managed from one canonical workspace.
+
 | Surface | Purpose | Primary CTA |
 |---|---|---|
-| My Balkans (`/my-balkans`) | All saves in one view | Browse sections |
-| My Finds (`/my-balkans/finds`) | Capture and manage inspiration | Add Find |
-| My Trips (`/my-trips`) | Trip management hub | Live Trip / Reflect |
+| My Balkans (`/my-balkans`) | Saved content workspace | Browse sections |
+| My Finds (`/my-balkans/finds`) | Capture and manage travel inspiration | Add Find |
+| My Trips (`/my-trips`) | Trip planning and lifecycle workspace | Live Trip / Reflect |
 
 ### Per-Trip Layer (auth + trip required)
 | Surface | Purpose | Lifecycle |
@@ -149,4 +159,5 @@ Events instrumented as of Phase 28:
 | No real-time GPS | Privacy model forbids continuous location tracking |
 | In-product resurfacing only | Sufficient for Phase 28; cron + push reserved for future phase |
 | Max 2 resurfaced finds shown | Fatigue control is the trust signal |
-| Max 9 CTA buttons per trip card | **Unresolved debt** — P0 fix in Phase 29 |
+| Max 9 CTA buttons per trip card | Fixed in Phase 29 — reorganized to primary + secondary rows |
+| My Balkans / My Trips content overlap | Fixed in Phase 30 — canonical workspace split enforced |

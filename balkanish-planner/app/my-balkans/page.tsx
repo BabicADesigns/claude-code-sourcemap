@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { PageHeader } from "@/components/layout/page-header";
 import { DashboardSection } from "@/components/my-balkans/dashboard-section";
 import { SavedSecretSwapCard } from "@/components/my-balkans/saved-secret-swap-card";
 import { SavedPostcards } from "@/components/my-balkans/saved-postcards";
-import { SavedItineraries } from "@/components/my-balkans/saved-itineraries";
 import { DestinationCard } from "@/components/cards/destination-card";
 import { FoodFindCard } from "@/components/cards/food-find-card";
 import { CultureNoteCard } from "@/components/cards/culture-note-card";
@@ -15,7 +15,6 @@ import { getCultureNotes } from "@/lib/data/culture-notes";
 import { getSecretSwaps } from "@/lib/data/secret-swaps";
 import { getSavedEntityIds } from "@/lib/data/favorites";
 import { getSavedPostcards } from "@/lib/data/postcards";
-import { getSavedItineraries } from "@/lib/data/itineraries";
 import { getInspirationCaptures } from "@/lib/data/inspiration-captures";
 
 export const metadata: Metadata = { title: "My Balkans" };
@@ -46,7 +45,6 @@ export default async function MyBalkansPage() {
     savedCultureNoteIds,
     savedSecretSwapIds,
     postcards,
-    itineraries,
     inspirationCaptures,
   ] = await Promise.all([
     getDestinations(),
@@ -58,7 +56,6 @@ export default async function MyBalkansPage() {
     getSavedEntityIds(user.id, "culture_note"),
     getSavedEntityIds(user.id, "secret_swap"),
     getSavedPostcards(user.id),
-    getSavedItineraries(user.id),
     getInspirationCaptures(user.id),
   ]);
 
@@ -71,8 +68,8 @@ export default async function MyBalkansPage() {
     <div>
       <PageHeader
         eyebrow="My Balkans"
-        title="Everything you've saved"
-        description="Your hidden gems, food finds, culture notes, swaps, postcards, and itineraries — all in one place."
+        title="Your saved Balkans"
+        description="The places, dishes, and finds you've collected — your personal corner of the Balkans."
       />
       <div className="container flex flex-col gap-12 py-8 sm:gap-16 sm:py-12">
         <DashboardSection
@@ -147,8 +144,8 @@ export default async function MyBalkansPage() {
         </DashboardSection>
 
         <DashboardSection
-          eyebrow="Inspiration"
-          title="My Balkan Finds"
+          eyebrow="My Finds"
+          title="My Finds"
           isEmpty={inspirationCaptures.length === 0}
           emptyMessage="Nothing captured yet. Paste a link, type a place name, or upload a screenshot to start your bucket list."
           emptyHref="/my-balkans/finds"
@@ -167,16 +164,15 @@ export default async function MyBalkansPage() {
           </div>
         </DashboardSection>
 
-        <DashboardSection
-          eyebrow="Saved"
-          title="AI Itineraries"
-          isEmpty={itineraries.length === 0}
-          emptyMessage="No trips planned yet. Tell us your dates and we'll build the day-by-day."
-          emptyHref="/planner"
-          emptyCta="Plan a Trip"
-        >
-          <SavedItineraries itineraries={itineraries} />
-        </DashboardSection>
+        {/* Cross-reference to My Trips */}
+        <div className="border-t border-border pt-6">
+          <p className="font-serif text-sm text-foreground/60">
+            Planning a trip?{" "}
+            <Link href="/my-trips" className="font-medium text-accent hover:underline">
+              Your AI itineraries and trip tools are in My Trips →
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

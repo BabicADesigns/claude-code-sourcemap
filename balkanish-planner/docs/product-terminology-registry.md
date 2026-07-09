@@ -111,7 +111,7 @@ Source of truth for UI copy, i18n keys, and docs.
 | IT | I Miei Balcani | `actions.myBalkans` |
 | HR | Moj Balkan | `actions.myBalkans` |
 
-**Canonical use**: Personal content dashboard (saved destinations, food finds, culture notes, swaps, postcards, itineraries, travel finds).
+**Canonical use**: Saved content workspace. Sections: Hidden Gems (saved), Food Finds (saved), Culture Notes (saved), Secret Swaps (saved), Postcards (saved), My Finds. Does **not** contain AI Itineraries (canonical home: My Trips).
 
 ---
 
@@ -123,7 +123,7 @@ Source of truth for UI copy, i18n keys, and docs.
 | IT | I Miei Viaggi | `actions.myTrips` |
 | HR | Moja Putovanja | `actions.myTrips` |
 
-**Canonical use**: Trip management dashboard (itineraries, per-trip tools, delivery history, trip-adjacent favorites).
+**Canonical use**: Trip planning and lifecycle workspace. Sections: Recent Trip, All Trips, Delivery History. Does **not** contain saved content (canonical home: My Balkans).
 
 ---
 
@@ -132,51 +132,59 @@ Source of truth for UI copy, i18n keys, and docs.
 ### Live Trip (Today View)
 | Locale | Canonical Label | Notes |
 |---|---|---|
-| EN | Live Trip | Button currently labeled "Today" — too ambiguous |
-| DE | Live-Reise | Not yet in common.json — future need |
-| IT | Viaggio in Corso | Not yet in common.json — future need |
-| HR | Aktivno Putovanje | Not yet in common.json — future need |
+| EN | Live Trip | `navigation.liveTrip` |
+| DE | Live-Reise | `navigation.liveTrip` |
+| IT | Viaggio in Corso | `navigation.liveTrip` |
+| HR | Aktivno Putovanje | `navigation.liveTrip` |
 
-**Issue (P0)**: The "Today" button label in `saved-itineraries.tsx` doesn't communicate what it does. Canonical label is "Live Trip".
-**i18n key to add**: `navigation.liveTrip`
+**Resolved (Phase 29)**: Button renamed from "Today" → "Live Trip". i18n key added to all 4 locales.
 
 ---
 
 ### Trip Companion
-| Locale | Canonical Label | Notes |
+| Locale | Canonical Label | i18n Key |
 |---|---|---|
-| EN | Trip Companion | Consistent; page uses this as eyebrow label |
-| DE | Reisebegleiter | Not yet in common.json |
-| IT | Compagno di Viaggio | Not yet in common.json |
-| HR | Pratilac Putovanja | Not yet in common.json |
+| EN | Trip Checklist | `navigation.companion` |
+| DE | Reise-Checkliste | `navigation.companion` |
+| IT | Lista di Viaggio | `navigation.companion` |
+| HR | Lista za putovanje | `navigation.companion` |
+
+**Note (Phase 30)**: Navigation label uses "Trip Checklist" (action-oriented). Page eyebrow uses "Trip Companion" (product name). Both refer to `/trips/[id]/companion`. This intentional distinction: the eyebrow names the feature; the nav link names what you do there.
 
 ---
 
 ### Trip Reflection
-| Locale | Canonical Label | Notes |
+| Locale | Canonical Label | i18n Key |
 |---|---|---|
-| EN | Trip Reflection | Page uses "Trip Reflection" as eyebrow; button on card says "Remember this trip" |
-| DE | Reisereflexion | Not yet in common.json |
-| IT | Riflessione di Viaggio | Not yet in common.json |
-| HR | Razmišljanje o Putovanju | Not yet in common.json |
+| EN | Reflect on this trip | `navigation.reflectOnTrip` |
+| DE | Diese Reise reflektieren | `navigation.reflectOnTrip` |
+| IT | Rifletti su questo viaggio | `navigation.reflectOnTrip` |
+| HR | Razmisli o ovom putovanju | `navigation.reflectOnTrip` |
 
-**Issue (P1)**: "Remember this trip" (button) vs "Trip Reflection" (page eyebrow) — same feature, different language. Align to "Reflect on this trip" for the button.
+**Resolved (Phase 29/30)**: Card button renamed from "Remember this trip" → "Reflect on this trip" (i18n key `navigation.reflectOnTrip`). Page eyebrow uses "Trip Reflection" as product name. Navigation label is action-oriented ("Reflect on this trip").
 
 ---
 
-### My Balkan Finds (Inspiration Captures)
+### My Finds (Inspiration Captures)
 | Locale | Canonical Label | Notes |
 |---|---|---|
-| EN | My Balkan Finds | Page title and canonical label |
-| DE | Meine Balkan-Funde | Not in common.json |
-| IT | Le Mie Scoperte Balcaniche | Not in common.json |
-| HR | Moja Balkanska Otkrića | Not in common.json |
+| EN | My Finds | Dashboard section eyebrow and title (Phase 30 canonical) |
+| DE | Meine Funde | Not in common.json — future need |
+| IT | Le Mie Scoperte | Not in common.json — future need |
+| HR | Moja Otkrića | Not in common.json — future need |
 
-**Issue (P1)**: Three different labels in use for the same concept:
-- Nav/My Balkans dashboard: "My Balkan Finds"
-- Resurfacing namespace: "Travel Finds" (internal)
-- My Balkans dashboard eyebrow: "Inspiration" (vague)
-Canonical user-facing label: **"My Finds"** (short) or **"My Balkan Finds"** (full).
+**Canonical (Phase 30)**: "My Finds" — both eyebrow and section title in My Balkans dashboard. "My Finds" is used for the `/my-balkans/finds` page link CTA.
+
+**Internal code identifiers** (do not change — no DB migration):
+- DB table: `inspiration_captures`
+- Type: `InspirationCapture`
+- Data function: `getInspirationCaptures()`
+- Resurfacing namespace: "Travel Finds" (internal; never user-facing)
+
+**Resolved label conflicts (Phase 30)**:
+- Old My Balkans eyebrow: "Inspiration" → now "My Finds"
+- Old My Balkans section title: "My Balkan Finds" → now "My Finds"
+- `/my-balkans/finds` page title remains "My Finds" (was already correct)
 
 ---
 

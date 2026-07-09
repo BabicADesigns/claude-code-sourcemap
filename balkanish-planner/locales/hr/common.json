@@ -2,7 +2,10 @@
   "navigation": {
     "backToMyTrips": "← Moja Putovanja",
     "todayView": "Pogled Danas",
-    "liveTrip": "Aktivno Putovanje"
+    "liveTrip": "Aktivno Putovanje",
+    "reflectOnTrip": "Razmisli o ovom putovanju",
+    "companion": "Lista za putovanje",
+    "planNextTrip": "Planiraj sljedeće putovanje"
   },
   "nav": {
     "hiddenGems": "Skrivena Blaga",

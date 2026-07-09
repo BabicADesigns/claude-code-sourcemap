@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { redirect, notFound } from "next/navigation";
 import { PageHeader } from "@/components/layout/page-header";
 import { TripCompanion } from "@/components/planner/trip-companion";
@@ -7,6 +8,8 @@ import { getCurrentUser, isSupabaseConfigured } from "@/lib/supabase/server";
 import { getSavedItineraryById } from "@/lib/data/itineraries";
 import { getReadinessItems, upsertReadinessItems } from "@/lib/data/trip-readiness";
 import { buildTripReadiness } from "@/lib/ai/trip-readiness";
+import { computeLifecycle, getTodayDateString } from "@/lib/ai/live-trip";
+import { getPrimaryLifecycleAction } from "@/lib/ai/lifecycle-navigation";
 
 export async function generateMetadata({
   params,
@@ -65,6 +68,8 @@ export default async function TripCompanionPage({
   const items = await getReadinessItems(user.id, tripId);
 
   const tripTitle = trip.title ?? trip.itinerary_json.trip_title;
+  const lifecycle = computeLifecycle(trip.departure_date, trip.duration_days, getTodayDateString());
+  const forwardAction = getPrimaryLifecycleAction(lifecycle, tripId);
 
   return (
     <div>
@@ -81,6 +86,16 @@ export default async function TripCompanionPage({
           items={items}
           departureDate={departureDate}
         />
+        {forwardAction && (
+          <div className="mt-8 border-t border-border pt-6">
+            <Link
+              href={forwardAction.href}
+              className="font-medium text-accent hover:underline"
+            >
+              {forwardAction.href.includes("/today") ? "Go to Live Trip →" : "Reflect on this trip →"}
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

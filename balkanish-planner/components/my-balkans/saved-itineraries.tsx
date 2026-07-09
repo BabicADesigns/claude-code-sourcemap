@@ -15,6 +15,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { useLocale } from "@/lib/i18n/locale-provider";
 import { track, ANALYTICS_EVENTS } from "@/lib/analytics";
 import { computeLifecycle, getTodayDateString } from "@/lib/ai/live-trip";
+import { getPrimaryLifecycleAction } from "@/lib/ai/lifecycle-navigation";
 import { ShareModal } from "@/components/share/share-modal";
 import { buildTripShareSnapshot } from "@/lib/share/sanitizer";
 
@@ -26,7 +27,7 @@ type PdfAction = "download" | "email" | "regenerate";
 
 export function SavedItineraries({ itineraries }: { itineraries: SavedItinerary[] }) {
   const router = useRouter();
-  const { locale } = useLocale();
+  const { locale, t } = useLocale();
   const [openId, setOpenId] = useState<string | null>(null);
   const [pendingId, setPendingId] = useState<string | null>(null);
   const [renamingId, setRenamingId] = useState<string | null>(null);
@@ -150,21 +151,13 @@ export function SavedItineraries({ itineraries }: { itineraries: SavedItinerary[
               <div className="flex flex-wrap gap-2">
                 {todayDateString && (() => {
                   const lifecycle = computeLifecycle(saved.departure_date, saved.duration_days, todayDateString);
-                  if (lifecycle === "DEPARTURE_DAY" || lifecycle === "IN_TRIP" || lifecycle === "PRE_TRIP") {
-                    return (
-                      <Button asChild variant="default" size="sm">
-                        <Link href={`/trips/${saved.id}/today`}>Live Trip</Link>
-                      </Button>
-                    );
-                  }
-                  if (lifecycle === "COMPLETED") {
-                    return (
-                      <Button asChild variant="outline" size="sm">
-                        <Link href={`/trips/${saved.id}/reflection`}>Reflect on this trip</Link>
-                      </Button>
-                    );
-                  }
-                  return null;
+                  const action = getPrimaryLifecycleAction(lifecycle, saved.id);
+                  if (!action) return null;
+                  return (
+                    <Button asChild variant={action.variant} size="sm">
+                      <Link href={action.href}>{t("common", action.labelKey)}</Link>
+                    </Button>
+                  );
                 })()}
                 <Button variant="outline" size="sm" onClick={() => setOpenId(saved.id)}>
                   View

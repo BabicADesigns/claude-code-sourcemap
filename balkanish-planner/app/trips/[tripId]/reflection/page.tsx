@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { redirect, notFound } from "next/navigation";
 import { PageHeader } from "@/components/layout/page-header";
 import { TripNavBack } from "@/components/planner/trip-nav-back";
@@ -90,6 +91,14 @@ export default async function TripReflectionPage({
           existingDecisions={learningDecisions}
           liveStates={liveStates}
         />
+
+        {lifecycle === "COMPLETED" && (
+          <div className="mt-8 border-t border-border pt-6">
+            <Link href="/planner" className="font-medium text-accent hover:underline">
+              Plan your next trip →
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

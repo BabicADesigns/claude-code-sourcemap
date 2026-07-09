@@ -2,7 +2,7 @@
 
 Balkanish Planner — all unresolved UX issues, classified by severity and status.
 
-Updated: Phase 29.
+Updated: Phase 30.
 
 ---
 
@@ -89,10 +89,13 @@ Updated: Phase 29.
 **ID**: UX-007
 **Surface**: `/my-balkans` and `/my-trips`
 **Files**: `app/my-balkans/page.tsx`, `app/my-trips/page.tsx`
-**Description**: Hidden Gems (saved destinations) and Food Finds appear in **both** `/my-balkans` and `/my-trips`. A user who saves a hidden gem sees it in two different nav sections with no explanation of why.
-**Impact**: Navigation confusion. Users don't know which page "owns" their saved content. Two top-level nav items competing for the same space.
-**Fix (Phase 29 — deferred)**: This requires a page-architecture decision. Canonical split: `/my-balkans` = all content saves (no itineraries); `/my-trips` = itineraries + trip tools only. Removing favorites from `/my-trips` is a scope-appropriate P2 for a future phase.
-**Status**: ⏳ Deferred — architecture decision needed; not a safe one-line fix
+**Description**: Hidden Gems (saved destinations) and Food Finds appeared in **both** `/my-balkans` and `/my-trips`. A user who saved a hidden gem saw it in two different nav sections with no explanation of why. Additionally, AI Itineraries were in My Balkans despite My Trips being the canonical trip workspace.
+**Impact**: Navigation confusion. Users didn't know which page "owned" their saved content. Two top-level nav items competing for the same space.
+**Fix (Phase 30)**: Defined canonical workspace split and enforced it structurally:
+- **My Balkans** = saved content (Hidden Gems, Food Finds, Culture Notes, Secret Swaps, Postcards, My Finds). AI Itineraries section removed.
+- **My Trips** = trip planning and lifecycle workspace (AI Itineraries, Delivery History). Hidden Gems and Food Finds sections removed.
+- Each workspace carries a cross-reference footer link to the other.
+**Status**: ✅ Fixed in Phase 30
 
 ---
 
@@ -177,11 +180,16 @@ Updated: Phase 29.
 | UX-005 | Hardcoded back links not i18n'd | `TripNavBack` client component + locale keys |
 | UX-006 | "Remember this trip" vs "Trip Reflection" | Button renamed to "Reflect on this trip" |
 
+## Fixed in Phase 30
+
+| ID | Issue | Resolution |
+|---|---|---|
+| UX-007 | My Balkans / My Trips overlap | Canonical workspace split enforced; AI Itineraries moved to My Trips only; Hidden Gems + Food Finds moved to My Balkans only; cross-reference footer links added |
+
 ## Deferred (with reason)
 
 | ID | Issue | Reason for deferral |
 |---|---|---|
-| UX-007 | My Balkans / My Trips overlap | Architecture decision; high-risk restructure |
 | UX-008 | No onboarding flow | New component + new user detection needed |
 | UX-009 | No post-save CTA | Requires new planner post-save state |
 | UX-010 | Dashboard pages not i18n'd | Requires server-side i18n pattern |

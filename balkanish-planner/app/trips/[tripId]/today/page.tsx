@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { redirect, notFound } from "next/navigation";
-import Link from "next/link";
 import { PageHeader } from "@/components/layout/page-header";
+import { TripNavLiveTrip } from "@/components/planner/trip-nav-back";
 import { LiveTripToday } from "@/components/planner/live-trip-today";
 import { getCurrentUser, isSupabaseConfigured } from "@/lib/supabase/server";
 import { getSavedItineraryById } from "@/lib/data/itineraries";
@@ -111,20 +111,7 @@ export default async function LiveTripTodayPage({
         description={`${trip.duration_days} days · ${trip.month}`}
       />
       <div className="container py-8 sm:py-12">
-        <div className="mb-6 flex gap-4">
-          <Link
-            href="/my-trips"
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            ← My Trips
-          </Link>
-          <Link
-            href={`/trips/${tripId}/companion`}
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Trip Checklist
-          </Link>
-        </div>
+        <TripNavLiveTrip tripId={tripId} />
 
         <LiveTripToday
           tripId={tripId}

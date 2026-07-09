@@ -108,14 +108,15 @@ Balkanish Planner · Complete surface map as of Phase 28 completion.
 - **Empty state**: N/A
 - **i18n**: Partial
 
-### `/my-balkans` — Personal Dashboard
+### `/my-balkans` — Saved Content Workspace
 - **Auth**: Required
 - **Type**: Aggregated saves dashboard
-- **Sections**: Hidden Gems (saved), Food Finds (saved), Culture Notes (saved), Secret Swaps (saved), Postcards (saved), My Balkan Finds, AI Itineraries
+- **Sections**: Hidden Gems (saved), Food Finds (saved), Culture Notes (saved), Secret Swaps (saved), Postcards (saved), My Finds
 - **CTA model**: Per-section Browse CTAs on empty; per-card save/manage CTAs when populated
 - **Empty state**: Each section has its own empty state with link to browse
 - **i18n**: Section labels hardcoded English in page file; cards i18n'd
-- **Overlap**: Hidden Gems and Food Finds also appear in `/my-trips`
+- **Cross-reference**: Footer link to My Trips ("Planning a trip? Your AI itineraries and trip tools are in My Trips →")
+- **Phase 30 changes**: AI Itineraries section removed (canonical home: `/my-trips`). "My Finds" eyebrow + title replaces "Inspiration" + "My Balkan Finds". Cross-reference footer link added.
 
 ### `/my-balkans/finds` — Inspiration Captures (My Finds)
 - **Auth**: Required
@@ -126,13 +127,14 @@ Balkanish Planner · Complete surface map as of Phase 28 completion.
 - **Empty state**: `FindsEmpty` component (separate empty state)
 - **i18n**: Namespace `finds`; section labels hardcoded English
 
-### `/my-trips` — Trip Management Dashboard
+### `/my-trips` — Trip Planning & Lifecycle Workspace
 - **Auth**: Required
 - **Type**: Trip-centric dashboard
-- **Sections**: Recent Trip, All Trips, Hidden Gems (saved), Food Finds (saved), Delivery History
-- **CTA model**: Per-trip card with 9 action buttons (P0 issue)
+- **Sections**: Recent Trip, All Trips, Delivery History
+- **CTA model**: Per-trip card with primary row (lifecycle CTA, View, Trip Companion, Share) + secondary row (PDF tools, Delete)
 - **Empty state**: Per-section, with links to browse/plan
-- **Overlap**: Hidden Gems and Food Finds also appear in `/my-balkans`
+- **Cross-reference**: Footer link to My Balkans ("Looking for saved places and dishes? Your saved Balkans are in My Balkans →")
+- **Phase 30 changes**: Hidden Gems and Food Finds sections removed (canonical home: `/my-balkans`). Cross-reference footer link added. Data fetches for destinations/foodFinds/savedEntityIds removed.
 
 ### `/trips/[tripId]/today` — Live Trip Today
 - **Auth**: Required
@@ -140,19 +142,22 @@ Balkanish Planner · Complete surface map as of Phase 28 completion.
 - **Lifecycle gates**: Shown for PRE_TRIP, DEPARTURE_DAY, IN_TRIP
 - **Sections**: Day agenda, activity states, cultural intelligence, Resurfaced Finds (Phase 28)
 - **i18n**: Namespace `liveTrip` + `resurfacing`
+- **Phase 30 changes**: Hardcoded English nav replaced with `TripNavLiveTrip` client component (i18n'd "← My Trips" + "Trip Checklist").
 
 ### `/trips/[tripId]/companion` — Trip Companion
 - **Auth**: Required
 - **Type**: Pre-trip readiness checklist
-- **Back nav**: Hardcoded "← Back to My Trips" (not i18n'd — P1 issue)
+- **Back nav**: `TripNavBackSimple` (i18n'd "← My Trips")
 - **i18n**: Namespace `tripReadiness`
+- **Phase 30 changes**: Lifecycle-aware forward handoff added below main content (Live Trip for active lifecycle; Reflect for COMPLETED).
 
 ### `/trips/[tripId]/reflection` — Post-Trip Reflection
 - **Auth**: Required
 - **Type**: Memory capture + learning review
 - **Lifecycle gates**: Accessible post-trip (COMPLETED)
-- **Back nav**: Hardcoded "← My Trips" + "Today View" (not i18n'd — P1 issue)
+- **Back nav**: `TripNavBack` (i18n'd "← My Trips" + "Today View")
 - **i18n**: Namespace `reflection`
+- **Phase 30 changes**: "Plan your next trip →" forward handoff added for COMPLETED lifecycle.
 
 ---
 

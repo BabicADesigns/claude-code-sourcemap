@@ -2,7 +2,10 @@
   "navigation": {
     "backToMyTrips": "← My Trips",
     "todayView": "Today View",
-    "liveTrip": "Live Trip"
+    "liveTrip": "Live Trip",
+    "reflectOnTrip": "Reflect on this trip",
+    "companion": "Trip Checklist",
+    "planNextTrip": "Plan your next trip"
   },
   "nav": {
     "hiddenGems": "Hidden Gems",
