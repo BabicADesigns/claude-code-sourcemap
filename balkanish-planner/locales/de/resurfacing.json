@@ -1,0 +1,33 @@
+{
+  "section": {
+    "title": "Erinnerst du dich?",
+    "subtitle": "Das hast du vor einer Weile gespeichert. Es passt zu dieser Reise."
+  },
+  "reasons": {
+    "ON_ROUTE": "Liegt auf deiner Route",
+    "NEAR_OVERNIGHT_STOP": "In der Nähe deiner Unterkunft",
+    "NEAR_DAY_STOP": "Nah an einem Tagesausflug-Stopp",
+    "UPCOMING_DAY_OPPORTUNITY": "Nahe dem morgigen Stopp",
+    "NEAR_ROUTE": "Nicht weit von deinem Weg entfernt",
+    "SAME_DESTINATION": "Liegt in einem deiner Reiseziele",
+    "TRIP_INTEREST_MATCH": "Passt zu deinen Interessen",
+    "SAME_REGION": "In der Region, die du erkundest"
+  },
+  "confidence": {
+    "high": "Sehr gute Übereinstimmung",
+    "medium": "Gute Übereinstimmung",
+    "low": "Mögliche Übereinstimmung"
+  },
+  "distance": {
+    "straight_line": "{km} km entfernt (Luftlinie)"
+  },
+  "actions": {
+    "view_find": "Fund ansehen",
+    "add_to_day": "Zum heutigen Tag hinzufügen",
+    "not_this_trip": "Nicht diese Reise",
+    "remind_me_later": "Später erinnern",
+    "dismiss": "Verwerfen"
+  },
+  "saved_label": "Gespeicherter Fund",
+  "unknown_place": "Ein gespeicherter Ort"
+}

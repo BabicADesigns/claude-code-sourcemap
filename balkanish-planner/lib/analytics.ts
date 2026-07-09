@@ -44,6 +44,13 @@ export const ANALYTICS_EVENTS = {
   SHARE_FORMAT_SELECTED: "Share Format Selected",
   SHARE_NATIVE_OPENED: "Share Native Opened",
   SHARE_DOWNLOADED: "Share Downloaded",
+  // Phase 28 — Travel Find Resurfacing (no find content, no location, no note text)
+  TRAVEL_FIND_MATCH_GENERATED: "Travel Find Match Generated",
+  TRAVEL_FIND_RESURFACED: "Travel Find Resurfaced",
+  TRAVEL_FIND_RESURFACING_DISMISSED: "Travel Find Resurfacing Dismissed",
+  TRAVEL_FIND_ADDED_TO_TRIP: "Travel Find Added To Trip",
+  TRAVEL_FIND_ADDED_TO_DAY: "Travel Find Added To Day",
+  TRAVEL_FIND_REMIND_LATER: "Travel Find Remind Later",
 } as const;
 
 export type AnalyticsEventName = (typeof ANALYTICS_EVENTS)[keyof typeof ANALYTICS_EVENTS];

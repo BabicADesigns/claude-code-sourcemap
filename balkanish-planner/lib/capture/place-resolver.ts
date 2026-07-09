@@ -24,7 +24,7 @@ interface KnownPlace {
   keywords: string[];
 }
 
-const BALKAN_PLACES: KnownPlace[] = [
+export const BALKAN_PLACES: KnownPlace[] = [
   // Croatia
   { name: "Plitvice Lakes", country_code: "HR", region: "Lika", place_type: "NATIONAL_PARK", keywords: ["plitvice", "plitvička jezera", "plitvice lakes"] },
   { name: "Dubrovnik", country_code: "HR", region: "Dalmatia", place_type: "CITY_OR_TOWN", keywords: ["dubrovnik", "ragusa"] },

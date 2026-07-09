@@ -2265,3 +2265,161 @@ export const INSPIRATION_PLACE_TYPE_LABELS: Record<InspirationPlaceType, string>
   REGION: "Region",
   UNKNOWN: "Unknown",
 };
+
+// =============================================================================
+// Phase 28 — Travel Find Resurfacing & Proximity Intelligence
+// =============================================================================
+
+/**
+ * Why a saved find is being resurfaced.
+ * Multiple reasons can apply simultaneously; the highest-weight reasons drive the UI copy.
+ */
+export type ResurfacingReason =
+  | "ON_ROUTE"                 // find's place_name matches a map_point destination
+  | "NEAR_ROUTE"               // haversine distance ≤ nearRouteMaxDistanceKm
+  | "NEAR_DAY_STOP"            // haversine distance ≤ nearStopMaxDistanceKm (day-trip map_point)
+  | "NEAR_OVERNIGHT_STOP"      // haversine distance ≤ nearStopMaxDistanceKm (overnight map_point)
+  | "SAME_DESTINATION"         // place_name matches a map_point (synonym of ON_ROUTE; kept for UI labeling)
+  | "SAME_REGION"              // country_code matches trip country; no finer match found
+  | "TRIP_INTEREST_MATCH"      // place_type aligns with itinerary interests
+  | "UPCOMING_DAY_OPPORTUNITY"; // match is on tomorrow's day (DAY_AHEAD window)
+
+/** Confidence in the match, derived from reasons + capture.resolution_confidence. */
+export type MatchConfidence = "HIGH" | "MEDIUM" | "LOW";
+
+/**
+ * Which distance metric backs the distanceKm value.
+ * GEOGRAPHIC_DISTANCE is the only one Phase 28 produces (haversine straight-line).
+ * The others are reserved for when a TravelDistanceProvider is connected.
+ * Never fabricate ROUTE_DISTANCE, TRAVEL_TIME, or DETOUR_TIME.
+ */
+export type ResurfacingDistanceMetric =
+  | "GEOGRAPHIC_DISTANCE"   // straight-line haversine (km) — Phase 28
+  | "ROUTE_DISTANCE"        // road route km — requires TravelDistanceProvider
+  | "TRAVEL_TIME"           // road minutes — requires TravelDistanceProvider
+  | "DETOUR_TIME";          // extra minutes above current route — requires TravelDistanceProvider
+
+/** When in the trip lifecycle the resurfacing activates. */
+export type ResurfacingWindow =
+  | "PLANNING"    // departure_date set, >14 days out
+  | "PRE_TRIP"    // 1–14 days before departure
+  | "LIVE_TRIP"   // trip is active
+  | "DAY_AHEAD"   // match is relevant for tomorrow
+  | "SAME_DAY"    // match is relevant today
+  | "POST_TRIP";  // after the trip
+
+/** User actions on a resurfaced find card. */
+export type ResurfacingAction =
+  | "VIEW_FIND"       // opened the find detail (navigated to /my-balkans/finds)
+  | "ADD_TO_TRIP"     // added to itinerary via explicit confirmation
+  | "ADD_TO_DAY"      // marked as today's activity
+  | "NOT_THIS_TRIP"   // dismissed for this trip; can resurface on a different trip
+  | "REMIND_ME_LATER" // cooldown applied; surfaced again after cooldownAfterRemindLaterDays
+  | "DISMISS";        // permanently dismissed from resurfacing (all trips)
+
+/** What triggered the match and on which day. */
+export interface TravelFindMatchContext {
+  tripId: string;
+  tripTitle: string | null;
+  lifecycle: ResurfacingWindow;
+  /** Which itinerary day the match is anchored to. Null = match spans the whole trip. */
+  matchedDayNumber: number | null;
+  /** ISO date string for matchedDayNumber. Null when matchedDayNumber is null. */
+  matchedDayDate: string | null;
+}
+
+/** One find matched to one trip. */
+export interface TravelFindTripMatch {
+  captureId: string;
+  context: TravelFindMatchContext;
+  reasons: ResurfacingReason[];
+  confidence: MatchConfidence;
+  /** Straight-line km to nearest map_point. Null when capture has no coordinates. */
+  distanceKm: number | null;
+  /** Which metric produced distanceKm. Null when distanceKm is null. */
+  distanceMetric: ResurfacingDistanceMetric | null;
+  /** 0–100. Deterministic. Computed by ranker.ts. */
+  relevanceScore: number;
+}
+
+/** A find that has passed matching + ranking + fatigue checks and is ready to show. */
+export interface ResurfacingCandidate {
+  match: TravelFindTripMatch;
+  capture: InspirationCapture;
+  /** ISO — null if never surfaced before. */
+  lastResurfacedAt: string | null;
+  resurfaceCount: number;
+  /** ISO — null if not currently suppressed. */
+  suppressedUntil: string | null;
+}
+
+/**
+ * All resurfacing thresholds in one place.
+ * Change `DEFAULT_RESURFACING_POLICY` in lib/resurfacing/policy.ts — no matcher/ranker code changes needed.
+ */
+export interface ResurfacingPolicyConfig {
+  /** Below this score, the find is not surfaced. Default: 30. */
+  minScoreToSurface: number;
+  /** At or above this score, the find is shown prominently. Default: 70. */
+  strongScoreThreshold: number;
+  /** Days to suppress after REMIND_ME_LATER. Default: 7. */
+  cooldownAfterRemindLaterDays: number;
+  /** Days to suppress after VIEW_FIND. Default: 3. */
+  cooldownAfterViewDays: number;
+  /** Max finds to surface per trip per page load. Default: 2. */
+  maxResurfacedFindsShown: number;
+  /** Capture must be within this straight-line km to qualify for NEAR_ROUTE. Default: 30. */
+  nearRouteMaxDistanceKm: number;
+  /** Capture must be within this straight-line km to qualify for NEAR_*_STOP. Default: 15. */
+  nearStopMaxDistanceKm: number;
+  /** Minimum capture.resolution_confidence required to use its coordinates. Default: 0.4. */
+  minCaptureConfidenceForGeo: number;
+}
+
+/** Persisted record of a resurfacing event and optional user action. */
+export interface ResurfacingHistoryEntry {
+  id: string;
+  user_id: string;
+  capture_id: string;
+  trip_id: string;
+  resurfaced_at: string;
+  window: ResurfacingWindow;
+  reasons: ResurfacingReason[];
+  confidence: MatchConfidence;
+  action: ResurfacingAction | null;
+  action_at: string | null;
+  suppressed_until: string | null;
+  permanently_dismissed: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+/**
+ * Abstraction boundary for routing/distance APIs.
+ * The core matching engine (matcher.ts) never depends on a specific vendor.
+ * Phase 28 uses only haversine (GEOGRAPHIC_DISTANCE).
+ * Connect a real routing API by implementing this interface and passing it to computeResurfacingCandidates.
+ */
+export interface TravelDistanceProvider {
+  name: string;
+  version: string;
+  getDistanceKm(
+    from: { lat: number; lng: number },
+    to: { lat: number; lng: number }
+  ): Promise<{ distanceKm: number; metric: ResurfacingDistanceMetric } | null>;
+}
+
+/**
+ * Abstraction boundary for push/email notification providers.
+ * Phase 28 is in-product only (inline Trip Companion section).
+ * Activate push notifications by implementing this interface and calling it from
+ * a scheduled job or a server action — the core engine never knows the vendor.
+ */
+export interface TravelNotificationProvider {
+  name: string;
+  version: string;
+  sendResurfacingNotification(
+    userId: string,
+    candidate: ResurfacingCandidate
+  ): Promise<{ success: boolean; error?: string }>;
+}

@@ -29,8 +29,11 @@ import {
   type PracticalContextCard,
   LOCAL_PHRASE_CATEGORY_LABELS,
 } from "@/lib/types";
-import { track } from "@/lib/analytics";
+import { track, ANALYTICS_EVENTS } from "@/lib/analytics";
 import type { Namespace } from "@/lib/i18n/dictionaries";
+import { ResurfacedFindCard } from "@/components/resurfacing/resurfaced-find-card";
+import { trackResurfacing } from "@/lib/actions/resurfacing";
+import type { ResurfacingCandidate } from "@/lib/types";
 
 interface LiveTripTodayProps {
   tripId: string;
@@ -39,6 +42,7 @@ interface LiveTripTodayProps {
   readinessItems: TripReadinessItem[];
   culturalInsights: CulturalInsight[];
   localPhrases: LocalPhrase[];
+  resurfacedCandidates: ResurfacingCandidate[];
 }
 
 // ---------------------------------------------------------------------------
@@ -52,6 +56,7 @@ export function LiveTripToday({
   readinessItems,
   culturalInsights,
   localPhrases,
+  resurfacedCandidates,
 }: LiveTripTodayProps) {
   const { t } = useLocale();
   const router = useRouter();
@@ -263,6 +268,11 @@ export function LiveTripToday({
             />
           )}
         </>
+      )}
+
+      {/* Remember this? — resurfaced finds */}
+      {resurfacedCandidates.length > 0 && (
+        <ResurfacedFindsSection candidates={resurfacedCandidates} tripId={tripId} t={t} />
       )}
 
       {/* Cultural intelligence */}
@@ -822,6 +832,45 @@ function TomorrowPreview({
       </p>
       <p className="text-sm font-medium text-foreground">{day.title}</p>
       <p className="text-sm text-foreground/70 mt-1 line-clamp-2">{day.summary}</p>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Resurfaced finds section
+// ---------------------------------------------------------------------------
+
+function ResurfacedFindsSection({
+  candidates,
+  tripId,
+  t,
+}: {
+  candidates: ResurfacingCandidate[];
+  tripId: string;
+  t: TFn;
+}) {
+  useEffect(() => {
+    for (const c of candidates) {
+      void trackResurfacing(
+        c.capture.id,
+        tripId,
+        c.match.context.lifecycle,
+        c.match.reasons,
+        c.match.confidence
+      );
+      track(ANALYTICS_EVENTS.TRAVEL_FIND_RESURFACED, { confidence: c.match.confidence });
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  return (
+    <div className="space-y-3">
+      <h3 className="text-sm font-semibold text-foreground/80">{t("resurfacing", "section.title")}</h3>
+      <p className="text-xs text-muted-foreground">{t("resurfacing", "section.subtitle")}</p>
+      <div className="space-y-3">
+        {candidates.map((c) => (
+          <ResurfacedFindCard key={c.capture.id} candidate={c} tripId={tripId} t={t} />
+        ))}
+      </div>
     </div>
   );
 }
