@@ -1,4 +1,9 @@
 {
+  "navigation": {
+    "backToMyTrips": "← Moja Putovanja",
+    "todayView": "Pogled Danas",
+    "liveTrip": "Aktivno Putovanje"
+  },
   "nav": {
     "hiddenGems": "Skrivena Blaga",
     "foodFinds": "Gastro Otkrića",

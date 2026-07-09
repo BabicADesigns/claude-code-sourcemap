@@ -1,4 +1,9 @@
 {
+  "navigation": {
+    "backToMyTrips": "← I Miei Viaggi",
+    "todayView": "Vista di Oggi",
+    "liveTrip": "Viaggio in Corso"
+  },
   "nav": {
     "hiddenGems": "Gemme Nascoste",
     "foodFinds": "Scoperte Culinarie",

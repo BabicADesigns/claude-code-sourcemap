@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { redirect, notFound } from "next/navigation";
-import Link from "next/link";
 import { PageHeader } from "@/components/layout/page-header";
 import { TripCompanion } from "@/components/planner/trip-companion";
+import { TripNavBackSimple } from "@/components/planner/trip-nav-back";
 import { getCurrentUser, isSupabaseConfigured } from "@/lib/supabase/server";
 import { getSavedItineraryById } from "@/lib/data/itineraries";
 import { getReadinessItems, upsertReadinessItems } from "@/lib/data/trip-readiness";
@@ -74,14 +74,7 @@ export default async function TripCompanionPage({
         description={`${trip.duration_days} days · ${trip.month}`}
       />
       <div className="container py-8 sm:py-12">
-        <div className="mb-6">
-          <Link
-            href="/my-trips"
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            ← Back to My Trips
-          </Link>
-        </div>
+        <TripNavBackSimple />
         <TripCompanion
           tripId={tripId}
           tripTitle={tripTitle}

@@ -24,7 +24,7 @@ export function SiteHeader({ user }: { user: { email: string } | null }) {
           <LogoMark size={30} className="sm:hidden" />
           <LogoMark size={36} className="hidden sm:block" />
           <span className="flex flex-col leading-tight">
-            <span className="font-display text-base font-semibold text-sage-dark sm:text-xl">BabicADesigns</span>
+            <span className="font-display text-base font-semibold text-sage-dark sm:text-xl">Balkanish Planner</span>
             <span className="hidden font-script text-xs italic text-rose sm:block">The Balkanish AI Way</span>
           </span>
         </Link>

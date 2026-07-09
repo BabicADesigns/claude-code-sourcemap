@@ -146,33 +146,28 @@ export function SavedItineraries({ itineraries }: { itineraries: SavedItinerary[
               )}
             </div>
             <div className="flex w-full flex-col gap-2">
+              {/* Primary actions */}
               <div className="flex flex-wrap gap-2">
+                {todayDateString && (() => {
+                  const lifecycle = computeLifecycle(saved.departure_date, saved.duration_days, todayDateString);
+                  if (lifecycle === "DEPARTURE_DAY" || lifecycle === "IN_TRIP" || lifecycle === "PRE_TRIP") {
+                    return (
+                      <Button asChild variant="default" size="sm">
+                        <Link href={`/trips/${saved.id}/today`}>Live Trip</Link>
+                      </Button>
+                    );
+                  }
+                  if (lifecycle === "COMPLETED") {
+                    return (
+                      <Button asChild variant="outline" size="sm">
+                        <Link href={`/trips/${saved.id}/reflection`}>Reflect on this trip</Link>
+                      </Button>
+                    );
+                  }
+                  return null;
+                })()}
                 <Button variant="outline" size="sm" onClick={() => setOpenId(saved.id)}>
                   View
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  disabled={pdfPending?.id === saved.id}
-                  onClick={() => handleDownloadPdf(saved)}
-                >
-                  {pdfPending?.id === saved.id && pdfPending.action === "download" ? "Preparing…" : "Download PDF"}
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  disabled={pdfPending?.id === saved.id}
-                  onClick={() => handleEmailPdf(saved)}
-                >
-                  {pdfPending?.id === saved.id && pdfPending.action === "email" ? "Sending…" : "Email PDF"}
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  disabled={pdfPending?.id === saved.id}
-                  onClick={() => handleRegeneratePdf(saved)}
-                >
-                  {pdfPending?.id === saved.id && pdfPending.action === "regenerate" ? "Regenerating…" : "Regenerate PDF"}
                 </Button>
                 <Button asChild variant="outline" size="sm">
                   <Link href={`/trips/${saved.id}/companion`}>Trip Companion</Link>
@@ -187,26 +182,32 @@ export function SavedItineraries({ itineraries }: { itineraries: SavedItinerary[
                 >
                   Share
                 </Button>
-                {todayDateString && (() => {
-                  const lifecycle = computeLifecycle(saved.departure_date, saved.duration_days, todayDateString);
-                  if (lifecycle === "DEPARTURE_DAY" || lifecycle === "IN_TRIP" || lifecycle === "PRE_TRIP") {
-                    return (
-                      <Button asChild variant="default" size="sm">
-                        <Link href={`/trips/${saved.id}/today`}>Today</Link>
-                      </Button>
-                    );
-                  }
-                  if (lifecycle === "COMPLETED") {
-                    return (
-                      <Button asChild variant="outline" size="sm">
-                        <Link href={`/trips/${saved.id}/reflection`}>Remember this trip</Link>
-                      </Button>
-                    );
-                  }
-                  return null;
-                })()}
-                <Button asChild variant="ghost" size="sm">
-                  <Link href="/planner">Edit in Planner</Link>
+              </div>
+              {/* Secondary actions */}
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  disabled={pdfPending?.id === saved.id}
+                  onClick={() => handleDownloadPdf(saved)}
+                >
+                  {pdfPending?.id === saved.id && pdfPending.action === "download" ? "Preparing…" : "Download PDF"}
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  disabled={pdfPending?.id === saved.id}
+                  onClick={() => handleEmailPdf(saved)}
+                >
+                  {pdfPending?.id === saved.id && pdfPending.action === "email" ? "Sending…" : "Email PDF"}
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  disabled={pdfPending?.id === saved.id}
+                  onClick={() => handleRegeneratePdf(saved)}
+                >
+                  {pdfPending?.id === saved.id && pdfPending.action === "regenerate" ? "Regenerating…" : "Regenerate PDF"}
                 </Button>
                 <Button
                   variant="ghost"

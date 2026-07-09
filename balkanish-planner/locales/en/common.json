@@ -1,4 +1,9 @@
 {
+  "navigation": {
+    "backToMyTrips": "← My Trips",
+    "todayView": "Today View",
+    "liveTrip": "Live Trip"
+  },
   "nav": {
     "hiddenGems": "Hidden Gems",
     "foodFinds": "Food Finds",

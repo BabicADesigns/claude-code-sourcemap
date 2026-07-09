@@ -1,4 +1,9 @@
 {
+  "navigation": {
+    "backToMyTrips": "← Meine Reisen",
+    "todayView": "Tagesansicht",
+    "liveTrip": "Live-Reise"
+  },
   "nav": {
     "hiddenGems": "Versteckte Schätze",
     "foodFinds": "Kulinarische Entdeckungen",

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { redirect, notFound } from "next/navigation";
-import Link from "next/link";
 import { PageHeader } from "@/components/layout/page-header";
+import { TripNavBack } from "@/components/planner/trip-nav-back";
 import { PostTripReflection } from "@/components/planner/post-trip-reflection";
 import { getCurrentUser, isSupabaseConfigured } from "@/lib/supabase/server";
 import { getSavedItineraryById } from "@/lib/data/itineraries";
@@ -76,20 +76,7 @@ export default async function TripReflectionPage({
         description={`${trip.duration_days} days · ${trip.month}`}
       />
       <div className="container py-8 sm:py-12">
-        <div className="mb-6 flex gap-4">
-          <Link
-            href="/my-trips"
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            ← My Trips
-          </Link>
-          <Link
-            href={`/trips/${tripId}/today`}
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Today View
-          </Link>
-        </div>
+        <TripNavBack tripId={tripId} />
 
         <PostTripReflection
           tripId={tripId}
