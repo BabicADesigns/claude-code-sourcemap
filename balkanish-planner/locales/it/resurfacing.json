@@ -1,0 +1,33 @@
+{
+  "section": {
+    "title": "Te lo ricordi?",
+    "subtitle": "L'hai salvato un po' di tempo fa. Si adatta a questo viaggio."
+  },
+  "reasons": {
+    "ON_ROUTE": "È sul tuo percorso",
+    "NEAR_OVERNIGHT_STOP": "Vicino a dove dormi",
+    "NEAR_DAY_STOP": "Vicino a una tappa giornaliera",
+    "UPCOMING_DAY_OPPORTUNITY": "Vicino alla tappa di domani",
+    "NEAR_ROUTE": "Non lontano dal tuo cammino",
+    "SAME_DESTINATION": "Si trova in una delle tue destinazioni",
+    "TRIP_INTEREST_MATCH": "In linea con i tuoi interessi",
+    "SAME_REGION": "Nella regione che stai esplorando"
+  },
+  "confidence": {
+    "high": "Corrispondenza forte",
+    "medium": "Buona corrispondenza",
+    "low": "Possibile corrispondenza"
+  },
+  "distance": {
+    "straight_line": "{km} km di distanza (in linea d'aria)"
+  },
+  "actions": {
+    "view_find": "Visualizza il trovato",
+    "add_to_day": "Aggiungi a oggi",
+    "not_this_trip": "Non per questo viaggio",
+    "remind_me_later": "Ricordamelo dopo",
+    "dismiss": "Ignora"
+  },
+  "saved_label": "Trovato salvato",
+  "unknown_place": "Un posto che hai salvato"
+}

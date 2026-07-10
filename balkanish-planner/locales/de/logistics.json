@@ -1,0 +1,76 @@
+{
+  "travelSegments": {
+    "sectionLabel": "Unterwegs",
+    "sectionDescription": "Nur Planungsschätzungen — bitte Fahrpläne und Fährtickets vor der Reise prüfen.",
+    "estimatedLabel": "Planungsschätzung",
+    "editorialLabel": "Redaktionelle Empfehlung",
+    "distanceLabel": "Entfernung",
+    "driveTimeLabel": "Fahrzeit",
+    "transitTimeLabel": "Mit öffentlichen Verkehrsmitteln",
+    "byLabel": "mit",
+    "approxKm": "~{km} km",
+    "ferryNote": "Fähre erforderlich",
+    "borderNote": "Grenzübergang",
+    "verifyDisclaimer": "Grenzinformationen können sich ändern — bitte vor der Reise die aktuellen Anforderungen prüfen."
+  },
+  "complexity": {
+    "EASY": "Einfach",
+    "MANAGEABLE": "Machbar",
+    "LONG_DAY": "Langer Tag",
+    "COMPLEX": "Anspruchsvoll",
+    "NOT_RECOMMENDED": "Nicht empfohlen"
+  },
+  "confidence": {
+    "EDITORIAL_STABLE": "Redaktionell geprüft",
+    "EDITORIAL_ESTIMATE": "Planungsschätzung",
+    "VERIFY_BEFORE_TRAVEL": "Vor der Reise prüfen",
+    "LIVE_PROVIDER": "Live-Daten"
+  },
+  "transportMode": {
+    "car": "Eigenes Auto",
+    "rental_car": "Mietauto",
+    "motorcycle": "Motorrad",
+    "camper": "Wohnmobil",
+    "bus": "Bus",
+    "train": "Zug",
+    "ferry": "Fähre",
+    "passenger_ferry": "Passagierfähre",
+    "taxi_transfer": "Taxi / Transfer",
+    "bike": "Fahrrad",
+    "e_bike": "E-Bike",
+    "walk": "Zu Fuß",
+    "flight": "Flug",
+    "mixed": "Gemischt"
+  },
+  "ferryNotice": {
+    "heading": "Fährbuchung",
+    "vehicleCapable": "Fahrzeuge erlaubt",
+    "advanceBooking": "Vorabbuchen empfohlen",
+    "lastVerified": "Zuletzt geprüft: {season}",
+    "disclaimer": "Fährpläne ändern sich je nach Saison. Bitte aktuelle Abfahrtszeiten beim Anbieter prüfen und Sommer-Tickets früh buchen."
+  },
+  "borderNotice": {
+    "heading": "Grenzübergang",
+    "typicalWait": "Typische Wartezeit: {hint}",
+    "documentRequirements": "Erforderliche Dokumente",
+    "disclaimer": "Grenzregeln können sich ändern. Immer aktuelle Anforderungen vor der Reise prüfen.",
+    "lastVerified": "Information von {date} — vor der Reise prüfen."
+  },
+  "camperNote": {
+    "narrowRoadWarning": "Enge Straße — Vorsicht mit großen Fahrzeugen",
+    "scenicHighlight": "Landschaftlich reizvoll",
+    "parkingHint": "Parkhinweis"
+  },
+  "preferences": {
+    "label": "Wie reist du?",
+    "description": "Optional — hilft uns, Logistikhinweise auf deine Reiseart zuzuschneiden.",
+    "noPreference": "Keine Präferenz"
+  },
+  "pdf": {
+    "sectionEyebrow": "Unterwegs",
+    "sectionTitle": "So kommt ihr zwischen den Stopps weiter",
+    "estimateDisclaimer": "Alle Fahrzeiten sind nur Planungsschätzungen. Bitte Fahrpläne, Fährtickets und Grenzbestimmungen vor der Reise prüfen.",
+    "ferryVerifyNote": "Fährpläne müssen vor der Buchung direkt beim Anbieter geprüft werden.",
+    "borderVerifyNote": "Grenzinformationen können sich ändern. Bitte offizielle Quellen vor der Reise konsultieren."
+  }
+}

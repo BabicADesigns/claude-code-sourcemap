@@ -6,6 +6,9 @@ import {
   DESTINATION_CATEGORY_LABELS,
   PLANNER_STYLE_LABELS,
   TRIP_PACE_LABELS,
+  TRAVEL_MOOD_LABELS,
+  CUISINE_PREFERENCE_LABELS,
+  TRANSPORT_PREFERENCE_LABELS,
   type Country,
   type ItineraryFocus,
   type DestinationCategory,
@@ -14,7 +17,20 @@ import {
   type RouteVariant,
   type VerificationStatus,
   type DestinationSourceType,
+  type ModerationStatus,
+  type TravelMood,
+  type CuisinePreference,
+  type TransportPreference,
+  type CulturalInsight,
+  type FounderNote,
 } from "@/lib/types";
+import {
+  resolveInsightsForDestination,
+  resolveFounderNote,
+  buildCulturalContextForBrief,
+} from "@/lib/ai/cultural-resolver";
+import { buildMemoryBriefBlock } from "@/lib/ai/travel-memory";
+import type { TravelMemorySignal } from "@/lib/types";
 import {
   deriveItineraryFocus,
   buildGroundedItinerary,
@@ -22,16 +38,18 @@ import {
   type GroundedItinerary,
   type GroundedDayTrip,
 } from "@/lib/ai/grounding";
+import { buildLogisticsContextForBrief } from "@/lib/ai/route-practicality";
 import { parseDiscoveryQuery } from "@/lib/ai/discovery-query";
 import { discoverDestinationCandidates, DISCOVERY_COVERAGE_THRESHOLD } from "@/lib/ai/discovery";
 
-export const BUDGET_TIERS = ["budget", "mid_range", "luxury"] as const;
+export const BUDGET_TIERS = ["budget", "mid_range", "premium", "luxury"] as const;
 export type BudgetTier = (typeof BUDGET_TIERS)[number];
 
 export const BUDGET_TIER_LABELS: Record<BudgetTier, string> = {
   budget: "Budget — hostels, konobas, ferries",
   mid_range: "Mid-range — boutique stays, good tables, the occasional splurge",
-  luxury: "Premium — design hotels, private drivers, tasting menus",
+  premium: "Premium — design hotels, private drivers, curated experiences",
+  luxury: "Luxury — five-star stays, private yachts, tasting menus",
 };
 
 export const INTEREST_OPTIONS = [
@@ -59,6 +77,18 @@ export function defaultVariantForPace(pace: TripPace): RouteVariant {
   return ROUTE_VARIANTS.find((variant) => VARIANT_PACE[variant] === pace) ?? "balanced";
 }
 
+export const TRAVEL_MOODS = [
+  "slow_living", "romantic", "adventure", "family_time",
+  "digital_detox", "road_trip", "luxury_escape", "weekend_escape",
+] as const;
+
+export const CUISINE_PREFERENCE_OPTIONS = [
+  "vegetarian", "seafood", "traditional_balkan", "street_food",
+  "fine_dining", "wine_lovers", "coffee_lovers", "desserts",
+] as const;
+
+export const TRANSPORT_PREFERENCES = Object.keys(TRANSPORT_PREFERENCE_LABELS) as TransportPreference[];
+
 export const plannerInputSchema = z.object({
   durationDays: z.number().int().min(2).max(21),
   month: z.string().min(1),
@@ -70,6 +100,14 @@ export const plannerInputSchema = z.object({
   interests: z.array(z.string()).min(1).max(6),
   /** Free-text smart discovery request (requirement #7), e.g. "quiet alternatives to Dubrovnik". Optional — empty/absent means discovery only kicks in if curated coverage is thin. */
   discoveryQuery: z.string().max(200).optional(),
+  // Phase 17 personalization
+  /** Optional mood that shapes the AI prose tone — does not change destinations, only narrative style. */
+  travel_mood: z.enum(TRAVEL_MOODS as unknown as [TravelMood, ...TravelMood[]]).optional(),
+  /** Optional food preferences — used to bias food_finds and enrich the AI brief. */
+  cuisine_preferences: z.array(z.enum(CUISINE_PREFERENCE_OPTIONS as unknown as [CuisinePreference, ...CuisinePreference[]])).optional(),
+  // Phase 19 logistics preferences
+  /** Optional transport preferences — used to personalise logistics guidance, does not change destinations. */
+  transport_preferences: z.array(z.enum(TRANSPORT_PREFERENCES as [TransportPreference, ...TransportPreference[]])).optional(),
 });
 export type PlannerInput = z.infer<typeof plannerInputSchema>;
 
@@ -134,6 +172,8 @@ const destinationCandidateSchema = z.object({
   ]),
   rationale: z.string(),
   matched_focus: z.array(z.enum(Object.keys(ITINERARY_FOCUS_LABELS) as [ItineraryFocus, ...ItineraryFocus[]])),
+  /** Persistent editorial review state from the shared discovered_destinations registry (migration 0012) — see lib/data/discovered-destinations.ts. */
+  moderation_status: z.enum(["pending", "approved", "rejected"] as [ModerationStatus, ...ModerationStatus[]]),
 });
 
 export const generatedItinerarySchema = z.object({
@@ -308,6 +348,20 @@ const PROSE_SYSTEM_PROMPT = `You are the Balkanish Planner's writing voice — w
 
 You will receive a JSON trip brief containing the ONLY real facts you may use: real destination names, regions, real day trips with real drive times, and real distances between stops. These facts are already finalized and verified. Do not rename them, do not add a destination, dish, distance, or fact that is not present in the brief, and do not invent specific restaurants or landmarks — keep those generic ("a konoba on the waterfront") unless the brief names something specific.
 
+If the brief includes a "personalization" block, let it shape the prose tone and emphasis:
+- travel_mood sets the emotional register (e.g. "Slow Living" → lingering, contemplative pacing; "Adventure" → active, energetic; "Romantic" → intimate, sensory details).
+- food_preferences guide which meals and food culture details you foreground.
+- budget shapes the accommodation and dining language (budget → konobas and shared ferries; luxury ��� private transfers and tasting menus).
+Personalization influences tone only — it never changes the factual stops.
+
+If the brief includes a "cultural_context" block, use these editorial notes to write more grounded, culturally aware prose. Let them shape the atmosphere and social texture of the narrative. Cultural context notes must be treated as background colour, not direct quotes — weave them into the writing naturally. Do NOT invent cultural facts not present in the brief.
+
+If the brief includes a "trip_memory" block, let it silently shape the prose emphasis — which activities to foreground, what tone to take for meals and accommodation, what to linger on. Do NOT mention that memory was used. Never write "we remembered you like...", "based on your past trips...", or any phrase that reveals the memory mechanism exists. Never infer sensitive personal attributes (religion, ethnicity, sexual orientation, health, political views, etc.) from destination choices or memory signals.
+
+CRITICAL — Founder Notes: If the brief includes a founder_note headline, you may mention that such a note exists ("our founder has a note about this destination") but you must NEVER reproduce, paraphrase, or invent the note's content. Surface only the headline, never the body.
+
+CULTURAL SENSITIVITY: The Balkans has a complex history. Never make sweeping generalisations about ethnic, religious, or national groups. Describe customs and atmosphere, not character. Write with the warmth of a knowledgeable friend, not the certainty of an anthropologist.
+
 Your job is only to write the narrative prose around these fixed facts: a trip title, a short overview, and for each day a summary, morning, afternoon, and evening paragraph. If a day has a day_trip in the brief, that day's afternoon or evening text must mention it using the exact name and drive time given.
 
 Respond with a single JSON object only, no markdown fences, no extra commentary, matching exactly:
@@ -332,7 +386,14 @@ const proseSchema = z.object({
   ),
 });
 
-function buildGroundingBrief(input: PlannerInput, pace: TripPace, grounded: GroundedItinerary): string {
+function buildGroundingBrief(
+  input: PlannerInput,
+  pace: TripPace,
+  grounded: GroundedItinerary,
+  allCulturalInsights?: CulturalInsight[],
+  allFounderNotes?: FounderNote[],
+  memorySignals?: TravelMemorySignal[]
+): string {
   const stops = grounded.stops.map((stop, idx) => {
     const dayTrip = grounded.dayTrips.find((dt) => dt.fromDestinationSlug === stop.destination.slug);
     return {
@@ -354,6 +415,50 @@ function buildGroundingBrief(input: PlannerInput, pace: TripPace, grounded: Grou
     };
   });
 
+  const personalization: Record<string, string> = {};
+  if (input.travel_mood) personalization.travel_mood = TRAVEL_MOOD_LABELS[input.travel_mood];
+  if (input.cuisine_preferences?.length) {
+    personalization.food_preferences = input.cuisine_preferences
+      .map((c) => CUISINE_PREFERENCE_LABELS[c])
+      .join(", ");
+  }
+  personalization.budget = BUDGET_TIER_LABELS[input.budget];
+  if (input.transport_preferences?.length) {
+    personalization.transport_style = input.transport_preferences
+      .map((tp) => TRANSPORT_PREFERENCE_LABELS[tp])
+      .join(", ");
+  }
+
+  const logisticsContext = buildLogisticsContextForBrief(grounded.stops, grounded.legDistancesKm);
+
+  let culturalContext: string | undefined;
+  if (allCulturalInsights && allCulturalInsights.length > 0) {
+    const tripInsights: CulturalInsight[] = [];
+    let tripFounderNote: FounderNote | null = null;
+    for (const stop of grounded.stops) {
+      const stopInsights = resolveInsightsForDestination(
+        allCulturalInsights,
+        stop.destination.slug,
+        stop.destination.region ?? null,
+        stop.destination.country ?? null,
+        3
+      );
+      tripInsights.push(...stopInsights);
+      if (!tripFounderNote && allFounderNotes) {
+        tripFounderNote = resolveFounderNote(
+          allFounderNotes,
+          stop.destination.slug,
+          stop.destination.region ?? null,
+          stop.destination.country ?? null
+        );
+      }
+    }
+    const built = buildCulturalContextForBrief(tripInsights.slice(0, 8), tripFounderNote);
+    if (built) culturalContext = built;
+  }
+
+  const tripMemory = memorySignals ? buildMemoryBriefBlock(memorySignals) : null;
+
   return JSON.stringify(
     {
       duration_days: input.durationDays,
@@ -361,6 +466,10 @@ function buildGroundingBrief(input: PlannerInput, pace: TripPace, grounded: Grou
       travel_style: PLANNER_STYLE_LABELS[input.plannerStyle],
       pace: TRIP_PACE_LABELS[pace],
       focus: ITINERARY_FOCUS_LABELS[grounded.focus],
+      personalization,
+      logistics_context: logisticsContext || undefined,
+      cultural_context: culturalContext || undefined,
+      trip_memory: tripMemory || undefined,
       stops,
     },
     null,
@@ -401,12 +510,26 @@ function applyProse(skeleton: GeneratedItinerary, prose: z.infer<typeof proseSch
   });
 }
 
+interface CulturalContext {
+  insights: CulturalInsight[];
+  founderNotes: FounderNote[];
+}
+
+export interface TravelMemoryContext {
+  signals: TravelMemorySignal[];
+}
+
 /**
  * Generates one itinerary. `variant` locks the pace used for selection/pacing (see VARIANT_PACE) —
  * input.pace is not read here; it's UI metadata generateItineraryVariants' caller uses to pick
  * which of the three variants to show by default, not a second, conflicting pace signal.
  */
-export async function generateItinerary(input: PlannerInput, variant: RouteVariant = "balanced"): Promise<GeneratedItinerary> {
+export async function generateItinerary(
+  input: PlannerInput,
+  variant: RouteVariant = "balanced",
+  culturalContext?: CulturalContext,
+  memoryContext?: TravelMemoryContext
+): Promise<GeneratedItinerary> {
   const pace = VARIANT_PACE[variant];
   const focus = deriveItineraryFocus(input.plannerStyle, input.interests);
   const grounded = buildGroundedItinerary(input.plannerStyle, focus, input.country, input.durationDays, pace);
@@ -419,7 +542,10 @@ export async function generateItinerary(input: PlannerInput, variant: RouteVaria
 
   const [prose, discoveredCandidates] = await Promise.all([
     isOpenAIConfigured()
-      ? fetchProse(buildGroundingBrief(input, pace, grounded), skeleton.days.length).catch((error) => {
+      ? fetchProse(
+          buildGroundingBrief(input, pace, grounded, culturalContext?.insights, culturalContext?.founderNotes, memoryContext?.signals),
+          skeleton.days.length
+        ).catch((error) => {
           console.error("AI prose layer failed; falling back to deterministic itinerary text.", error);
           return null;
         })
@@ -443,9 +569,11 @@ export async function generateItinerary(input: PlannerInput, variant: RouteVaria
 
 /** Requirement #6 — Conservative/Balanced/Explorer, generated from the same input, pace fixed per variant. */
 export async function generateItineraryVariants(
-  input: PlannerInput
+  input: PlannerInput,
+  culturalContext?: CulturalContext,
+  memoryContext?: TravelMemoryContext
 ): Promise<Record<RouteVariant, GeneratedItinerary>> {
-  const results = await Promise.all(ROUTE_VARIANTS.map((variant) => generateItinerary(input, variant)));
+  const results = await Promise.all(ROUTE_VARIANTS.map((variant) => generateItinerary(input, variant, culturalContext, memoryContext)));
   return {
     conservative: results[0],
     balanced: results[1],

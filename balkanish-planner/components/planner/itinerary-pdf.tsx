@@ -1,8 +1,10 @@
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 import type { GeneratedItinerary, PlannerInput } from "@/lib/ai/itinerary";
-import { PLANNER_STYLE_LABELS, ITINERARY_FOCUS_LABELS, TRIP_PACE_LABELS, ROUTE_VARIANT_LABELS } from "@/lib/types";
+import { PLANNER_STYLE_LABELS, ITINERARY_FOCUS_LABELS, TRIP_PACE_LABELS, ROUTE_VARIANT_LABELS, CULTURAL_INSIGHT_CATEGORY_LABELS, READINESS_CATEGORY_LABELS, type PartnerMatchResult, type TravelSegment, type CulturalInsight, type FounderNote } from "@/lib/types";
+import { buildTripReadiness } from "@/lib/ai/trip-readiness";
 import { ItineraryMapPdf } from "@/components/planner/itinerary-map-pdf";
 import { buildMapModel } from "@/lib/maps/itinerary-map-model";
+import { deriveTrustTier } from "@/lib/ai/trust";
 import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
 import { getDictionary, translate } from "@/lib/i18n/dictionaries";
 
@@ -118,6 +120,14 @@ const styles = StyleSheet.create({
   },
   footerText: { fontSize: 8, color: COLOR.muted },
 
+  partnerCard: { marginBottom: 16, paddingBottom: 14, borderBottomWidth: 1, borderBottomColor: COLOR.hairline },
+  partnerCategory: { fontSize: 8.5, letterSpacing: 1, color: COLOR.muted, textTransform: "uppercase", marginBottom: 2 },
+  partnerName: { fontSize: 14, color: COLOR.sageDark, marginBottom: 4 },
+  partnerTrustBadge: { fontSize: 9, letterSpacing: 1, color: COLOR.rose, textTransform: "uppercase", marginBottom: 6 },
+  partnerDescription: { fontSize: 10.5, lineHeight: 1.5, color: COLOR.charcoal, marginBottom: 4 },
+  partnerNote: { fontSize: 10, lineHeight: 1.5, color: COLOR.muted, fontStyle: "italic", marginBottom: 4 },
+  partnerDisclosure: { fontSize: 8.5, lineHeight: 1.4, color: COLOR.muted, marginTop: 4 },
+
   // --- Reserved photography slots (unused today — see the file-level comment above) ---
   /** Would sit as a full-bleed background layer behind the cover's text block, e.g. the trip's first stop's hero_image. */
   coverImageSlot: { position: "absolute", top: 0, left: 0, right: 0, bottom: 0 },
@@ -127,6 +137,38 @@ const styles = StyleSheet.create({
   mapStopThumb: { width: 16, height: 16, borderRadius: 8 },
   /** A small square photo beside a Food Recommendations list item, once restaurant picks carry an ImageAsset. */
   foodItemThumb: { width: 40, height: 40, borderRadius: 4, marginRight: 8 },
+
+  logisticsSegmentCard: { marginBottom: 14, paddingBottom: 12, borderBottomWidth: 1, borderBottomColor: COLOR.hairline },
+  logisticsSegmentRow: { flexDirection: "row", justifyContent: "space-between", flexWrap: "wrap", marginBottom: 2 },
+  logisticsSegmentMeta: { fontSize: 9.5, color: COLOR.muted, marginBottom: 4 },
+  logisticsComplexityBadge: { fontSize: 9, letterSpacing: 0.5, color: COLOR.sageDark, textTransform: "uppercase" },
+  logisticsNoticeText: { fontSize: 9.5, lineHeight: 1.4, color: COLOR.rose, fontStyle: "italic", marginTop: 3 },
+  logisticsBorderText: { fontSize: 9.5, lineHeight: 1.4, color: COLOR.muted, marginTop: 3 },
+  logisticsEstimateLabel: { fontSize: 9, color: COLOR.muted, marginTop: 2 },
+
+  culturalInsightCard: { marginBottom: 14, paddingBottom: 12, borderBottomWidth: 1, borderBottomColor: COLOR.hairline },
+  culturalInsightCategory: { fontSize: 8.5, letterSpacing: 1, color: COLOR.sage, textTransform: "uppercase", marginBottom: 2 },
+  culturalInsightHeadline: { fontSize: 13, color: COLOR.sageDark, marginBottom: 4 },
+  culturalInsightNuance: { fontSize: 10, lineHeight: 1.4, color: COLOR.muted, fontStyle: "italic", marginTop: 3 },
+  founderNoteCard: {
+    marginBottom: 18,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    borderLeftWidth: 3,
+    borderLeftColor: COLOR.sage,
+    backgroundColor: COLOR.cream,
+  },
+  founderNoteLabel: { fontSize: 8.5, letterSpacing: 1.5, color: COLOR.sage, textTransform: "uppercase", marginBottom: 4 },
+  founderNoteHeadline: { fontSize: 13, color: COLOR.sageDark, marginBottom: 4 },
+  founderNoteAttribution: { fontSize: 9, color: COLOR.muted, fontStyle: "italic", marginTop: 3 },
+
+  readinessItem: { marginBottom: 10, paddingBottom: 10, borderBottomWidth: 1, borderBottomColor: COLOR.hairline },
+  readinessMeta: { flexDirection: "row", flexWrap: "wrap", marginBottom: 2 },
+  readinessCategory: { fontSize: 8.5, letterSpacing: 0.5, color: COLOR.muted, textTransform: "uppercase", marginRight: 8 },
+  readinessPriorityCritical: { fontSize: 8.5, color: COLOR.rose, fontWeight: 700 },
+  readinessPriorityHigh: { fontSize: 8.5, color: COLOR.sageDark, fontWeight: 700 },
+  readinessTitle: { fontSize: 12, color: COLOR.sageDark, marginBottom: 3 },
+  readinessDescription: { fontSize: 9.5, lineHeight: 1.4, color: COLOR.charcoal },
 });
 
 function PageFooter({ t }: { t: Translate }) {
@@ -142,14 +184,25 @@ export function ItineraryPdfDocument({
   itinerary,
   input,
   locale = DEFAULT_LOCALE,
+  matchedPartners,
+  travelSegments,
+  culturalInsights,
+  culturalFounderNote,
 }: {
   itinerary: GeneratedItinerary;
   input: PlannerInput;
   locale?: Locale;
+  matchedPartners?: PartnerMatchResult[];
+  travelSegments?: TravelSegment[];
+  culturalInsights?: CulturalInsight[];
+  culturalFounderNote?: FounderNote | null;
 }) {
   const mapModel = buildMapModel(itinerary);
   const dictionary = getDictionary(locale);
   const t: Translate = (key, vars) => translate(dictionary, "pdf", key, vars);
+  const tp: Translate = (key, vars) => translate(dictionary, "partners", key, vars);
+  const tl: Translate = (key, vars) => translate(dictionary, "logistics", key, vars);
+  const tc: Translate = (key, vars) => translate(dictionary, "cultureIntel", key, vars);
 
   return (
     <Document title={itinerary.trip_title}>
@@ -372,7 +425,7 @@ export function ItineraryPdfDocument({
           {(itinerary.discovered_candidates ?? []).map((candidate) => (
             <View key={candidate.name} style={styles.aiCandidateCard} wrap={false}>
               <Text style={styles.aiCandidateEyebrow}>
-                {t("aiSuggestedCard.badge")} · {t("aiSuggestedCard.confidenceLabel")}:{" "}
+                {t(`aiSuggestedCard.trustTier.${deriveTrustTier(candidate)}`)} · {t("aiSuggestedCard.confidenceLabel")}:{" "}
                 {Math.round(candidate.confidence_score * 100)}%
               </Text>
               <Text style={styles.aiCandidateTitle}>
@@ -432,6 +485,185 @@ export function ItineraryPdfDocument({
         ))}
         <PageFooter t={t} />
       </Page>
+
+      {/* Before You Go — deterministic readiness checklist */}
+      {(() => {
+        const tr: Translate = (key, vars) => translate(dictionary, "tripReadiness", key, vars);
+        const readinessTemplates = buildTripReadiness({
+          itinerary,
+          input,
+          travelSegments,
+          departureDate: null,
+        });
+        const preTrip = readinessTemplates.filter((item) =>
+          ["DO_NOW", "NOW_URGENT", "THIS_WEEK", "THIS_MONTH", "BEFORE_YOU_GO", "PLANNING_PHASE"].includes(item.timing_window)
+        );
+        if (preTrip.length === 0) return null;
+        const critical = preTrip.filter((i) => i.priority === "CRITICAL");
+        const high = preTrip.filter((i) => i.priority === "HIGH");
+        const rest = preTrip.filter((i) => i.priority !== "CRITICAL" && i.priority !== "HIGH");
+        return (
+          <Page size="A4" style={styles.page}>
+            <Text style={styles.sectionEyebrow}>{tr("pdf.sectionEyebrow")}</Text>
+            <Text style={styles.sectionTitle}>{tr("pdf.sectionTitle")}</Text>
+            <Text style={[styles.text, { fontStyle: "italic", marginBottom: 14 }]}>{tr("pdf.intro")}</Text>
+            {critical.length > 0 && (
+              <>
+                <Text style={[styles.label, { color: COLOR.rose, marginBottom: 6 }]}>{tr("pdf.critical")}</Text>
+                {critical.map((item) => (
+                  <View key={item.rule_key} style={styles.readinessItem} wrap={false}>
+                    <View style={styles.readinessMeta}>
+                      <Text style={styles.readinessCategory}>{READINESS_CATEGORY_LABELS[item.category]}</Text>
+                    </View>
+                    <Text style={styles.readinessTitle}>{item.title}</Text>
+                    <Text style={styles.readinessDescription}>{item.description}</Text>
+                  </View>
+                ))}
+              </>
+            )}
+            {high.length > 0 && (
+              <>
+                <Text style={[styles.label, { marginBottom: 6 }]}>{tr("pdf.important")}</Text>
+                {high.map((item) => (
+                  <View key={item.rule_key} style={styles.readinessItem} wrap={false}>
+                    <View style={styles.readinessMeta}>
+                      <Text style={styles.readinessCategory}>{READINESS_CATEGORY_LABELS[item.category]}</Text>
+                    </View>
+                    <Text style={styles.readinessTitle}>{item.title}</Text>
+                    <Text style={styles.readinessDescription}>{item.description}</Text>
+                  </View>
+                ))}
+              </>
+            )}
+            {rest.length > 0 && (
+              <>
+                <Text style={[styles.label, { marginBottom: 6 }]}>{tr("pdf.recommended")}</Text>
+                {rest.map((item) => (
+                  <View key={item.rule_key} style={styles.readinessItem} wrap={false}>
+                    <View style={styles.readinessMeta}>
+                      <Text style={styles.readinessCategory}>{READINESS_CATEGORY_LABELS[item.category]}</Text>
+                    </View>
+                    <Text style={styles.readinessTitle}>{item.title}</Text>
+                    <Text style={styles.readinessDescription}>{item.description}</Text>
+                  </View>
+                ))}
+              </>
+            )}
+            <PageFooter t={t} />
+          </Page>
+        );
+      })()}
+
+      {/* Getting Around (optional — only present when travel segments exist) */}
+      {travelSegments && travelSegments.length > 0 && (
+        <Page size="A4" style={styles.page}>
+          <Text style={styles.sectionEyebrow}>{tl("pdf.sectionEyebrow")}</Text>
+          <Text style={styles.sectionTitle}>{tl("pdf.sectionTitle")}</Text>
+          <Text style={[styles.text, { fontStyle: "italic", marginBottom: 12 }]}>
+            {tl("pdf.estimateDisclaimer")}
+          </Text>
+          {travelSegments.map((segment) => (
+            <View
+              key={`${segment.from_destination_slug}-${segment.to_destination_slug}`}
+              style={styles.logisticsSegmentCard}
+              wrap={false}
+            >
+              <View style={styles.logisticsSegmentRow}>
+                <Text style={styles.dayTripEyebrow}>
+                  {segment.from_destination_name} → {segment.to_destination_name}
+                </Text>
+                <Text style={styles.logisticsComplexityBadge}>
+                  {tl(`complexity.${segment.practicality.rating}`)}
+                </Text>
+              </View>
+              <Text style={styles.logisticsSegmentMeta}>
+                {tl(`transportMode.${segment.primary_mode}`)} · ~{segment.distance_km} km
+                {segment.drive_time_estimate ? ` · ${segment.drive_time_estimate}` : ""}
+              </Text>
+              <Text style={styles.text}>{segment.practicality.reason}</Text>
+              {segment.editorial_note ? (
+                <Text style={[styles.text, { fontStyle: "italic" }]}>{segment.editorial_note}</Text>
+              ) : null}
+              {segment.ferry_info ? (
+                <Text style={styles.logisticsNoticeText}>
+                  {tl("ferryNotice.heading")} — {tl("pdf.ferryVerifyNote")}
+                </Text>
+              ) : null}
+              {segment.border_info ? (
+                <Text style={styles.logisticsBorderText}>
+                  {tl("borderNotice.heading")} — {tl("pdf.borderVerifyNote")}
+                </Text>
+              ) : null}
+              {segment.is_estimated ? (
+                <Text style={styles.logisticsEstimateLabel}>{tl("confidence.EDITORIAL_ESTIMATE")}</Text>
+              ) : null}
+            </View>
+          ))}
+          <PageFooter t={t} />
+        </Page>
+      )}
+
+      {/* Living Like a Local (optional — only present when cultural insights exist) */}
+      {culturalInsights && culturalInsights.length > 0 && (
+        <Page size="A4" style={styles.page}>
+          <Text style={styles.sectionEyebrow}>{tc("pdf.sectionEyebrow")}</Text>
+          <Text style={styles.sectionTitle}>{tc("pdf.sectionTitle")}</Text>
+          <Text style={[styles.text, { fontStyle: "italic", marginBottom: 12 }]}>
+            {tc("pdf.editorialDisclaimer")}
+          </Text>
+          {culturalFounderNote && (
+            <View style={styles.founderNoteCard} wrap={false}>
+              <Text style={styles.founderNoteLabel}>{tc("pdf.founderNoteLabel")}</Text>
+              <Text style={styles.founderNoteHeadline}>{culturalFounderNote.headline}</Text>
+              <Text style={styles.text}>{culturalFounderNote.body}</Text>
+              {culturalFounderNote.attribution ? (
+                <Text style={styles.founderNoteAttribution}>— {culturalFounderNote.attribution}</Text>
+              ) : null}
+            </View>
+          )}
+          {culturalInsights.map((insight) => (
+            <View key={insight.id} style={styles.culturalInsightCard} wrap={false}>
+              <Text style={styles.culturalInsightCategory}>
+                {CULTURAL_INSIGHT_CATEGORY_LABELS[insight.category]}
+              </Text>
+              <Text style={styles.culturalInsightHeadline}>{insight.headline}</Text>
+              <Text style={styles.text}>{insight.body}</Text>
+              {insight.nuance ? (
+                <Text style={styles.culturalInsightNuance}>{insight.nuance}</Text>
+              ) : null}
+            </View>
+          ))}
+          <PageFooter t={t} />
+        </Page>
+      )}
+
+      {/* Local Recommendations (optional — only present when matched partners exist) */}
+      {matchedPartners && matchedPartners.length > 0 && (
+        <Page size="A4" style={styles.page}>
+          <Text style={styles.sectionEyebrow}>{t("sections.localRecommendations.eyebrow")}</Text>
+          <Text style={styles.sectionTitle}>{t("sections.localRecommendations.title")}</Text>
+          {matchedPartners.map(({ partner }) => (
+            <View key={partner.id} style={styles.partnerCard} wrap={false}>
+              <Text style={styles.partnerCategory}>{tp(`categories.${partner.category}`)}</Text>
+              <Text style={styles.partnerName}>{partner.name}</Text>
+              <Text style={styles.partnerTrustBadge}>{tp(`trust_levels.${partner.trust_level}`)}</Text>
+              <Text style={styles.partnerDescription}>{partner.short_description}</Text>
+              {partner.editorial_note ? (
+                <Text style={styles.partnerNote}>{partner.editorial_note}</Text>
+              ) : null}
+              {partner.founder_note && partner.trust_level === "founder_pick" ? (
+                <Text style={styles.partnerNote}>&ldquo;{partner.founder_note}&rdquo;</Text>
+              ) : null}
+              {partner.commercial_relationship !== "none" ? (
+                <Text style={styles.partnerDisclosure}>
+                  {t("partnerCard.disclosureLabel")} {partner.disclosure_text ?? tp(`disclosure.${partner.commercial_relationship}`)}
+                </Text>
+              ) : null}
+            </View>
+          ))}
+          <PageFooter t={t} />
+        </Page>
+      )}
     </Document>
   );
 }

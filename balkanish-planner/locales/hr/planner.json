@@ -4,6 +4,7 @@
     "tripLength": "Trajanje i tempo",
     "style": "Stil i budžet",
     "interests": "Interesi",
+    "vibe": "Raspoloženje & hrana",
     "review": "Pregled"
   },
   "stepIndicator": "Korak {current} od {total}",
@@ -37,6 +38,33 @@
     "label": "Interesi",
     "description": "Odaberite nekoliko — oni oblikuju skrivena blaga i izlete koje vam predlažemo."
   },
+  "vibeStep": {
+    "moodLabel": "Raspoloženje putovanja (neobavezno)",
+    "moodDescription": "Određuje ton i emocionalni register vašeg itinerara.",
+    "noMood": "Bez preferencije",
+    "cuisineLabel": "Prehrambene preferencije (neobavezno)",
+    "cuisineDescription": "Oblikuje preporuke hrane i kulinarskih trenutaka u vašem itineraru.",
+    "moods": {
+      "slow_living": "Spori život",
+      "romantic": "Romantično",
+      "adventure": "Avantura",
+      "family_time": "Obiteljsko vrijeme",
+      "digital_detox": "Digitalni detoks",
+      "road_trip": "Road trip",
+      "luxury_escape": "Luksuzno bijeg",
+      "weekend_escape": "Vikend bijeg"
+    },
+    "cuisine": {
+      "vegetarian": "Vegetarijansko",
+      "seafood": "Plodovi mora",
+      "traditional_balkan": "Tradicionalna balkanska kuhinja",
+      "street_food": "Ulična hrana",
+      "fine_dining": "Fino blagovanje",
+      "wine_lovers": "Ljubitelji vina",
+      "coffee_lovers": "Ljubitelji kave",
+      "desserts": "Deserti i slastice"
+    }
+  },
   "reviewStep": {
     "heading": "Pregledajte svoje putovanje",
     "destinationLabel": "Odredište",
@@ -47,6 +75,10 @@
     "travelStyleLabel": "Stil putovanja",
     "budgetLabel": "Budžet",
     "interestsLabel": "Interesi",
+    "moodLabel": "Raspoloženje putovanja",
+    "noMood": "Bez preferencije",
+    "cuisineLabel": "Prehrambene preferencije",
+    "noCuisine": "Bez preferencije",
     "discoveryLabel": "Pametna pretraga",
     "variantsNote": "Generirat ćemo tri opcije rute — Konzervativnu, Uravnoteženu i Istraživačku — kako biste mogli usporediti opušteniji tempo s ispunjenijim."
   },
@@ -78,7 +110,11 @@
     "curatedBadgeHint": "Svaka stanica gore dolazi iz naše uredničko provjerene baze odredišta.",
     "sectionTitle": "Mogućnosti koje predlaže AI",
     "sectionDescription": "Ova mjesta još nisu u našoj kuriranoj bazi. Naš AI sloj otkrivanja predložio ih je za vaš upit, a svako je prošlo provjeru strukturne uvjerljivosti prije nego što je prikazano ovdje — to nije isto što i urednička provjera činjenica.",
-    "aiSuggestedBadge": "AI prijedlog",
+    "trustTier": {
+      "verified": "Provjereno",
+      "community_verified": "Provjereno od zajednice",
+      "ai_suggested": "AI prijedlog"
+    },
     "confidenceLabel": "Pouzdanost",
     "verificationStatus": {
       "unverified": "Nije provjereno",

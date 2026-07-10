@@ -1,0 +1,47 @@
+{
+  "founders_pick": {
+    "eyebrow": "Scelta del Fondatore",
+    "by": "di"
+  },
+  "local_heroes": {
+    "eyebrow": "Eroi Locali",
+    "heading": "Le Persone che Animano Questo Posto"
+  },
+  "stories": {
+    "eyebrow": "Storie Balkanish",
+    "heading": "Storie dalla Regione"
+  },
+  "community_notes": {
+    "eyebrow": "Consigli della Community",
+    "heading": "Cosa Dicono i Viaggiatori",
+    "empty": "Ancora nessun consiglio — sii il primo a condividerne uno.",
+    "anonymous": "Viaggiatore anonimo"
+  },
+  "note_form": {
+    "heading": "Condividi un Consiglio",
+    "content_label": "Il tuo consiglio",
+    "content_placeholder": "Qualcosa che hai scoperto e che gli altri vorrebbero sapere…",
+    "category_label": "Categoria",
+    "author_label": "Il tuo nome (opzionale)",
+    "author_placeholder": "Lascia vuoto per restare anonimo",
+    "submit": "Condividi consiglio",
+    "submitting": "Condivisione in corso…",
+    "success": "Grazie — il tuo consiglio è in attesa di revisione editoriale.",
+    "error": "Qualcosa è andato storto. Riprova."
+  },
+  "categories": {
+    "sunset_spot": "Punto Tramonto",
+    "parking": "Parcheggio",
+    "coffee": "Caffè",
+    "local_etiquette": "Etichetta Locale",
+    "seasonal": "Stagionale",
+    "food_tip": "Consiglio Gastronomico",
+    "transport": "Trasporti",
+    "other": "Consiglio"
+  },
+  "gem_badge": {
+    "verified": "Hidden Gem Verificato",
+    "community_verified": "Hidden Gem della Community",
+    "ai_suggested": "Hidden Gem Suggerito dall'IA"
+  }
+}

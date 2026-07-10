@@ -2,7 +2,7 @@
   "cover": {
     "eyebrowPrefix": "Un Itinerario Balkanish",
     "routeLabel": "Il percorso",
-    "brand": "BabicADesigns",
+    "brand": "Balkanish Travel Planner",
     "brandScript": "Creato con Amore e Vegeta",
     "paceSuffix": "ritmo"
   },
@@ -19,7 +19,8 @@
     },
     "foodRecommendations": { "eyebrow": "Consigli Gastronomici", "title": "Mangia come un local" },
     "hiddenGems": { "eyebrow": "Gemme Nascoste", "title": "Fuori dalla strada principale" },
-    "localNotes": { "eyebrow": "Note Locali", "title": "Quello che sanno i locali" }
+    "localNotes": { "eyebrow": "Note Locali", "title": "Quello che sanno i locali" },
+    "localRecommendations": { "eyebrow": "Raccomandazioni Locali", "title": "Posti che raccomandiamo personalmente" }
   },
   "summaryFacts": {
     "duration": "Durata",
@@ -52,7 +53,11 @@
     "localTipLabel": "Consiglio locale:"
   },
   "aiSuggestedCard": {
-    "badge": "Suggerito dall'AI",
+    "trustTier": {
+      "verified": "Verificato",
+      "community_verified": "Verificato dalla community",
+      "ai_suggested": "Suggerito dall'AI"
+    },
     "confidenceLabel": "Affidabilità",
     "verificationStatus": {
       "unverified": "Non verificato",
@@ -72,7 +77,14 @@
     "overview": { "eyebrow": "Panoramica", "title": "Perché visitarla" },
     "scorecard": { "eyebrow": "Valutazione", "title": "A colpo d'occhio" }
   },
+  "partnerCard": {
+    "disclosureLabel": "Nota:",
+    "visitWebsite": "Visita il sito",
+    "viewBooking": "Vedi le opzioni di prenotazione",
+    "followInstagram": "Segui su Instagram",
+    "viewInApp": "Visualizza nell'app"
+  },
   "footer": {
-    "tagline": "BabicADesigns · Creato con Amore e Vegeta"
+    "tagline": "Balkanish Travel Planner · Creato con Amore e Vegeta"
   }
 }

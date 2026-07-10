@@ -1,4 +1,12 @@
 {
+  "navigation": {
+    "backToMyTrips": "← I Miei Viaggi",
+    "todayView": "Vista di Oggi",
+    "liveTrip": "Viaggio in Corso",
+    "reflectOnTrip": "Rifletti su questo viaggio",
+    "companion": "Lista di Viaggio",
+    "planNextTrip": "Pianifica il prossimo viaggio"
+  },
   "nav": {
     "hiddenGems": "Gemme Nascoste",
     "foodFinds": "Scoperte Culinarie",

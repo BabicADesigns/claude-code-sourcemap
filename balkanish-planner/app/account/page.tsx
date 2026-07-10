@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { PageHeader } from "@/components/layout/page-header";
 import { ProfileForm } from "@/components/account/profile-form";
+import { TravelMemoryPanel } from "@/components/account/travel-memory-panel";
 import { getCurrentUser, isSupabaseConfigured } from "@/lib/supabase/server";
 import { getProfile } from "@/lib/data/profile";
+import { getActiveMemorySignals } from "@/lib/data/travel-memory";
 
 export const metadata: Metadata = {
   title: "Account",
@@ -27,7 +29,10 @@ export default async function AccountPage() {
   const user = await getCurrentUser();
   if (!user) redirect("/sign-in");
 
-  const profile = await getProfile(user.id);
+  const [profile, memorySignals] = await Promise.all([
+    getProfile(user.id),
+    getActiveMemorySignals(user.id),
+  ]);
 
   return (
     <div>
@@ -38,6 +43,7 @@ export default async function AccountPage() {
       />
       <div className="container py-8 sm:py-12">
         <ProfileForm email={user.email ?? ""} profile={profile} />
+        <TravelMemoryPanel initialSignals={memorySignals} />
       </div>
     </div>
   );

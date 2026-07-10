@@ -1,0 +1,33 @@
+{
+  "section": {
+    "title": "Sjećaš li se?",
+    "subtitle": "Spremi/la si ovo neko vrijeme. Odgovara ovom putovanju."
+  },
+  "reasons": {
+    "ON_ROUTE": "Na tvojoj je ruti",
+    "NEAR_OVERNIGHT_STOP": "Blizu mjesta gdje spavaš",
+    "NEAR_DAY_STOP": "Blizu izletišta",
+    "UPCOMING_DAY_OPPORTUNITY": "Blizu sutrašnje postaje",
+    "NEAR_ROUTE": "Nije daleko od tvog puta",
+    "SAME_DESTINATION": "U jednoj od tvojih destinacija",
+    "TRIP_INTEREST_MATCH": "Odgovara tvojim interesima",
+    "SAME_REGION": "U regiji koju istražuješ"
+  },
+  "confidence": {
+    "high": "Snažno podudaranje",
+    "medium": "Dobro podudaranje",
+    "low": "Moguće podudaranje"
+  },
+  "distance": {
+    "straight_line": "{km} km (u ravnoj liniji)"
+  },
+  "actions": {
+    "view_find": "Pogledaj nalaz",
+    "add_to_day": "Dodaj na danas",
+    "not_this_trip": "Ne za ovo putovanje",
+    "remind_me_later": "Podsjeti me kasnije",
+    "dismiss": "Odbaci"
+  },
+  "saved_label": "Spremljeni nalaz",
+  "unknown_place": "Mjesto koje si spremi/la"
+}

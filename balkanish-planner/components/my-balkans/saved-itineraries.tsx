@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Pencil } from "lucide-react";
@@ -14,6 +14,10 @@ import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useLocale } from "@/lib/i18n/locale-provider";
 import { track, ANALYTICS_EVENTS } from "@/lib/analytics";
+import { computeLifecycle, getTodayDateString } from "@/lib/ai/live-trip";
+import { getPrimaryLifecycleAction } from "@/lib/ai/lifecycle-navigation";
+import { ShareModal } from "@/components/share/share-modal";
+import { buildTripShareSnapshot } from "@/lib/share/sanitizer";
 
 function tripName(saved: SavedItinerary) {
   return saved.title ?? saved.itinerary_json.trip_title;
@@ -23,13 +27,19 @@ type PdfAction = "download" | "email" | "regenerate";
 
 export function SavedItineraries({ itineraries }: { itineraries: SavedItinerary[] }) {
   const router = useRouter();
-  const { locale } = useLocale();
+  const { locale, t } = useLocale();
   const [openId, setOpenId] = useState<string | null>(null);
   const [pendingId, setPendingId] = useState<string | null>(null);
   const [renamingId, setRenamingId] = useState<string | null>(null);
   const [renameValue, setRenameValue] = useState("");
   const [pdfPending, setPdfPending] = useState<{ id: string; action: PdfAction } | null>(null);
   const [pdfFeedback, setPdfFeedback] = useState<Record<string, { isError: boolean; text: string }>>({});
+  const [todayDateString, setTodayDateString] = useState<string | null>(null);
+  const [shareItinerary, setShareItinerary] = useState<SavedItinerary | null>(null);
+
+  useEffect(() => {
+    setTodayDateString(getTodayDateString());
+  }, []);
 
   const openItinerary = itineraries.find((i) => i.id === openId) ?? null;
 
@@ -137,12 +147,39 @@ export function SavedItineraries({ itineraries }: { itineraries: SavedItinerary[
               )}
             </div>
             <div className="flex w-full flex-col gap-2">
+              {/* Primary actions */}
               <div className="flex flex-wrap gap-2">
+                {todayDateString && (() => {
+                  const lifecycle = computeLifecycle(saved.departure_date, saved.duration_days, todayDateString);
+                  const action = getPrimaryLifecycleAction(lifecycle, saved.id);
+                  if (!action) return null;
+                  return (
+                    <Button asChild variant={action.variant} size="sm">
+                      <Link href={action.href}>{t("common", action.labelKey)}</Link>
+                    </Button>
+                  );
+                })()}
                 <Button variant="outline" size="sm" onClick={() => setOpenId(saved.id)}>
                   View
                 </Button>
+                <Button asChild variant="outline" size="sm">
+                  <Link href={`/trips/${saved.id}/companion`}>Trip Companion</Link>
+                </Button>
                 <Button
                   variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    track(ANALYTICS_EVENTS.SHARE_ASSET_CREATED, { itinerary_id: saved.id });
+                    setShareItinerary(saved);
+                  }}
+                >
+                  Share
+                </Button>
+              </div>
+              {/* Secondary actions */}
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  variant="ghost"
                   size="sm"
                   disabled={pdfPending?.id === saved.id}
                   onClick={() => handleDownloadPdf(saved)}
@@ -150,7 +187,7 @@ export function SavedItineraries({ itineraries }: { itineraries: SavedItinerary[
                   {pdfPending?.id === saved.id && pdfPending.action === "download" ? "Preparing…" : "Download PDF"}
                 </Button>
                 <Button
-                  variant="outline"
+                  variant="ghost"
                   size="sm"
                   disabled={pdfPending?.id === saved.id}
                   onClick={() => handleEmailPdf(saved)}
@@ -164,9 +201,6 @@ export function SavedItineraries({ itineraries }: { itineraries: SavedItinerary[
                   onClick={() => handleRegeneratePdf(saved)}
                 >
                   {pdfPending?.id === saved.id && pdfPending.action === "regenerate" ? "Regenerating…" : "Regenerate PDF"}
-                </Button>
-                <Button asChild variant="ghost" size="sm">
-                  <Link href="/planner">Edit in Planner</Link>
                 </Button>
                 <Button
                   variant="ghost"
@@ -192,6 +226,14 @@ export function SavedItineraries({ itineraries }: { itineraries: SavedItinerary[
           </div>
         ))}
       </div>
+
+      {shareItinerary && (
+        <ShareModal
+          snapshot={buildTripShareSnapshot(shareItinerary)}
+          open={shareItinerary !== null}
+          onClose={() => setShareItinerary(null)}
+        />
+      )}
 
       <Dialog open={openId !== null} onOpenChange={(open) => !open && setOpenId(null)}>
         <DialogContent className="max-h-[85vh] max-w-2xl overflow-y-auto">

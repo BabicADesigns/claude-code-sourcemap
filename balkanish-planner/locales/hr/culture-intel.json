@@ -1,0 +1,56 @@
+{
+  "sectionTitle": "Živjeti kao lokalac",
+  "sectionSubtitle": "Kulturna inteligencija za vaše putovanje",
+  "insightsHeading": "Lokalno znanje",
+  "phrasesHeading": "Korisne fraze",
+  "founderNoteLabel": "Bilješka naše osnivačice",
+  "storiesHeading": "Osobne veze",
+  "contributionsHeading": "Podijelite lokalno znanje",
+  "estimateDisclaimer": "Kulturni kontekst je uredničke smjernice. Lokalni običaji variraju — promatrajte i prilagodite se u hodu.",
+  "sensitivityNote": "Ovaj uvid dotiče osjetljivu temu. Dijelimo ga kako bismo vam pomogli putovati s poštovanjem.",
+  "verifyCurrentContext": "Ovo se moglo promijeniti. Provjerite aktualni kontekst lokalno.",
+  "categories": {
+    "LOCAL_RHYTHM": "Lokalni ritam",
+    "SOCIAL_CUSTOM": "Društveni običaji",
+    "FOOD_CULTURE": "Kultura hrane",
+    "COFFEE_CULTURE": "Kultura kave",
+    "MARKET_CULTURE": "Kultura tržnice",
+    "RELIGIOUS_OBSERVANCE": "Vjerski običaji",
+    "DRESS_CODE": "Pravila odijevanja",
+    "TIPPING_ETIQUETTE": "Napojnice",
+    "BARGAINING_NORMS": "Cjenkanje",
+    "NOISE_AND_PACE": "Buka i tempo",
+    "HOSPITALITY_CUSTOMS": "Gostoprimstvo",
+    "FAMILY_AND_COMMUNITY": "Obitelj i zajednica",
+    "SEASONAL_RHYTHM": "Sezonski ritam",
+    "FESTIVAL_AND_CELEBRATION": "Festivali i proslave",
+    "LANGUAGE_TIPS": "Jezični savjeti",
+    "GETTING_AROUND_LOCALLY": "Kretanje lokalno",
+    "SAFETY_AWARENESS": "Sigurnost",
+    "DIGITAL_AND_CONNECTIVITY": "Povezivost",
+    "MONEY_AND_PAYMENT": "Novac i plaćanje",
+    "PHOTOGRAPHY_ETIQUETTE": "Fotografiranje",
+    "ENVIRONMENTAL_NORMS": "Okolišne norme",
+    "LGBTQ_CONTEXT": "LGBTQ+ kontekst",
+    "ACCESSIBILITY_CONTEXT": "Pristupačnost"
+  },
+  "confidence": {
+    "EDITORIAL_VERIFIED": "Uredničke provjere",
+    "LOCAL_CONTEXT": "Lokalni kontekst",
+    "GENERAL_GUIDANCE": "Opće smjernice",
+    "VERIFY_CURRENT_CONTEXT": "Provjerite lokalno"
+  },
+  "phrase": {
+    "transliterationLabel": "Zvuči kao",
+    "pronunciationLabel": "Savjet",
+    "translationLabel": "Znači"
+  },
+  "pdf": {
+    "sectionEyebrow": "Živjeti kao lokalac",
+    "sectionTitle": "Kulturna inteligencija za vaše putovanje",
+    "insightsHeading": "Lokalno znanje",
+    "phrasesHeading": "Korisne fraze",
+    "founderNoteLabel": "Bilješka naše osnivačice",
+    "editorialDisclaimer": "Kulturni uvidi su samo uredničke smjernice. Lokalni običaji variraju — promatrajte i prilagodite se putujući."
+  }
+}

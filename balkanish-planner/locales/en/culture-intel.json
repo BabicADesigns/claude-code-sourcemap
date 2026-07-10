@@ -1,0 +1,56 @@
+{
+  "sectionTitle": "Living Like a Local",
+  "sectionSubtitle": "Cultural intelligence for your journey",
+  "insightsHeading": "Local Knowledge",
+  "phrasesHeading": "Useful Phrases",
+  "founderNoteLabel": "A note from our founder",
+  "storiesHeading": "Personal Connections",
+  "contributionsHeading": "Share Local Knowledge",
+  "estimateDisclaimer": "Cultural context is editorial guidance. Local customs vary — observe and adapt as you go.",
+  "sensitivityNote": "This insight touches on a sensitive topic. We've shared it to help you travel respectfully.",
+  "verifyCurrentContext": "This may have changed. Verify current context locally.",
+  "categories": {
+    "LOCAL_RHYTHM": "Local Rhythm",
+    "SOCIAL_CUSTOM": "Social Customs",
+    "FOOD_CULTURE": "Food Culture",
+    "COFFEE_CULTURE": "Coffee Culture",
+    "MARKET_CULTURE": "Market Culture",
+    "RELIGIOUS_OBSERVANCE": "Religious Observance",
+    "DRESS_CODE": "Dress Code",
+    "TIPPING_ETIQUETTE": "Tipping",
+    "BARGAINING_NORMS": "Bargaining",
+    "NOISE_AND_PACE": "Noise & Pace",
+    "HOSPITALITY_CUSTOMS": "Hospitality",
+    "FAMILY_AND_COMMUNITY": "Family & Community",
+    "SEASONAL_RHYTHM": "Seasonal Rhythm",
+    "FESTIVAL_AND_CELEBRATION": "Festivals",
+    "LANGUAGE_TIPS": "Language Tips",
+    "GETTING_AROUND_LOCALLY": "Getting Around",
+    "SAFETY_AWARENESS": "Safety",
+    "DIGITAL_AND_CONNECTIVITY": "Connectivity",
+    "MONEY_AND_PAYMENT": "Money & Payment",
+    "PHOTOGRAPHY_ETIQUETTE": "Photography",
+    "ENVIRONMENTAL_NORMS": "Environment",
+    "LGBTQ_CONTEXT": "LGBTQ+ Context",
+    "ACCESSIBILITY_CONTEXT": "Accessibility"
+  },
+  "confidence": {
+    "EDITORIAL_VERIFIED": "Editorially verified",
+    "LOCAL_CONTEXT": "Local context",
+    "GENERAL_GUIDANCE": "General guidance",
+    "VERIFY_CURRENT_CONTEXT": "Verify locally"
+  },
+  "phrase": {
+    "transliterationLabel": "Sounds like",
+    "pronunciationLabel": "Tip",
+    "translationLabel": "Means"
+  },
+  "pdf": {
+    "sectionEyebrow": "Living Like a Local",
+    "sectionTitle": "Cultural intelligence for your journey",
+    "insightsHeading": "Local Knowledge",
+    "phrasesHeading": "Useful Phrases",
+    "founderNoteLabel": "A note from our founder",
+    "editorialDisclaimer": "Cultural insights are editorial guidance only. Local customs vary — observe and adapt as you travel."
+  }
+}

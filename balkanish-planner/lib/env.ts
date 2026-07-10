@@ -19,6 +19,7 @@ export interface EnvironmentReport {
   openai: { configured: boolean };
   plausible: { configured: boolean };
   email: { configured: boolean };
+  editorial: { configured: boolean };
   siteUrl: { configured: boolean; value: string };
 }
 
@@ -65,6 +66,8 @@ export function getEnvironmentReport(): EnvironmentReport {
     // Mirrors lib/email/send.ts's isEmailConfigured() — duplicated rather than imported
     // for the same leaf-module reason as the openai/plausible checks above.
     email: { configured: Boolean(process.env.RESEND_API_KEY && process.env.EMAIL_FROM_ADDRESS) },
+    // Mirrors lib/auth/editors.ts's EDITOR_EMAILS check — duplicated for the same leaf-module reason.
+    editorial: { configured: Boolean(process.env.EDITOR_EMAILS) },
     siteUrl: {
       configured: Boolean(process.env.NEXT_PUBLIC_SITE_URL),
       value: process.env.NEXT_PUBLIC_SITE_URL ?? "https://balkanish.babicadesigns.blog",

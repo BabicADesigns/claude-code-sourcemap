@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { slugify } from "@/lib/utils";
 import { savePostcard } from "@/lib/actions/postcards";
 import { track, ANALYTICS_EVENTS } from "@/lib/analytics";
+import { DEFAULT_SHARE_BRAND_CONFIG } from "@/lib/share/brand-config";
 
 const moods = ["Wanderlust", "Nostalgic", "Joyful", "Peaceful", "Romantic", "Adventurous"];
 
@@ -168,7 +169,7 @@ export function PostcardEditor() {
               <div className="mt-4 flex items-center gap-2">
                 <LogoMark size={22} color="#F5EEE6" />
                 <p className="font-sans text-xs uppercase tracking-widest text-cream/90">
-                  {destination.name} · Balkanish
+                  {destination.name} · {DEFAULT_SHARE_BRAND_CONFIG.shortAttribution}
                 </p>
               </div>
             </div>

@@ -1,0 +1,78 @@
+{
+  "meta": {
+    "title": "Meine Balkan-Funde",
+    "description": "Orte, die online entdeckt, von Freunden empfohlen oder aus einem Traumurlaub erinnert wurden."
+  },
+  "page": {
+    "eyebrow": "Meine Funde",
+    "title": "Meine Balkan-Funde",
+    "description": "Die Quelle kann verschwinden — dein Fund bleibt."
+  },
+  "capture": {
+    "eyebrow": "Erfassen",
+    "title": "Neuen Fund speichern",
+    "subtitle": "Link einfügen, Ortsname eingeben oder Screenshot hochladen.",
+    "tabs": {
+      "url": "URL / Link",
+      "text": "Ortsname",
+      "screenshot": "Screenshot"
+    },
+    "placeholders": {
+      "url": "https://instagram.com/reel/… oder ein beliebiger Weblink",
+      "text": "z. B. Plitvicer Seen, Kroatien — Wasserfälle, die die Fahrt wert sind",
+      "note": "Deine Notiz (optional) — warum du es gespeichert hast"
+    },
+    "screenshot_notice": "Der Screenshot wird nur kurz analysiert und sofort gelöscht. Wird nie gespeichert.",
+    "submit": "Fund speichern",
+    "submitting": "Wird gespeichert…",
+    "errors": {
+      "empty_url": "Füge eine URL ein, um zu starten.",
+      "empty_text": "Gib einen Ortsnamen oder eine Empfehlung ein.",
+      "empty_screenshot": "Wähle einen Screenshot zum Hochladen.",
+      "image_read_error": "Bild konnte nicht gelesen werden. Bitte JPEG oder PNG verwenden.",
+      "not_signed_in": "Melde dich an, um Funde zu speichern.",
+      "service_unavailable": "Dienst nicht verfügbar."
+    }
+  },
+  "sections": {
+    "pending": "Warte auf dich",
+    "resolved": "Gespeicherte Funde",
+    "unresolved": "Braucht eine Notiz",
+    "unresolved_hint": "Der Ort konnte nicht identifiziert werden. Füge eine Notiz hinzu."
+  },
+  "empty": {
+    "title": "Noch keine Funde",
+    "description": "Füge einen Link ein, gib einen Ortsnamen ein oder lade einen Screenshot hoch — deine Balkanliste beginnt hier."
+  },
+  "card": {
+    "unnamed": "Unbenannter Fund",
+    "view_source": "Quelle ansehen",
+    "dismiss": "Ignorieren",
+    "delete": "Löschen",
+    "delete_confirm": "Diesen Fund endgültig löschen?"
+  },
+  "resolution": {
+    "confirm_question": "Ist das der richtige Ort?",
+    "yes": "Ja, das stimmt",
+    "not_quite": "Nicht ganz",
+    "correct_title": "Ortsnamen korrigieren",
+    "place_placeholder": "Ortsname",
+    "country_placeholder": "Ländercode (z. B. HR, ME, SI)",
+    "save_correction": "Korrektur speichern",
+    "back": "Zurück",
+    "errors": {
+      "empty_place": "Bitte gib einen Ortsnamen ein.",
+      "confirm_failed": "Fund konnte nicht bestätigt werden.",
+      "correct_failed": "Korrektur konnte nicht gespeichert werden."
+    }
+  },
+  "status": {
+    "RESOLVED_HIGH_CONFIDENCE": "Aufgelöst",
+    "NEEDS_CONFIRMATION": "Ort bestätigen?",
+    "AMBIGUOUS": "Mehrdeutig",
+    "UNRESOLVED": "Nicht aufgelöst",
+    "USER_CONFIRMED": "Bestätigt",
+    "USER_CORRECTED": "Korrigiert",
+    "DISMISSED": "Ignoriert"
+  }
+}

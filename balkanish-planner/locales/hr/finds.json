@@ -1,0 +1,78 @@
+{
+  "meta": {
+    "title": "Moji balkanski nalasci",
+    "description": "Mjesta otkrivena online, preporučena od prijatelja ili zapamćena iz sanjskog putovanja."
+  },
+  "page": {
+    "eyebrow": "Moji nalasci",
+    "title": "Moji balkanski nalasci",
+    "description": "Izvor može nestati — tvoj nalaz neće."
+  },
+  "capture": {
+    "eyebrow": "Uhvati",
+    "title": "Spremi novi nalaz",
+    "subtitle": "Zalijepite link, unesite naziv mjesta ili učitajte screenshot.",
+    "tabs": {
+      "url": "URL / Link",
+      "text": "Naziv mjesta",
+      "screenshot": "Screenshot"
+    },
+    "placeholders": {
+      "url": "https://instagram.com/reel/… ili bilo koji web link",
+      "text": "npr. Plitvička jezera, Hrvatska — slapovi vrijedni vožnje",
+      "note": "Tvoja bilješka (neobavezno) — zašto si to spremi, tko ti je preporučio"
+    },
+    "screenshot_notice": "Screenshot se kratko analizira i odmah briše. Nikada se ne pohranjuje.",
+    "submit": "Spremi nalaz",
+    "submitting": "Spremanje…",
+    "errors": {
+      "empty_url": "Zalijepite URL za početak.",
+      "empty_text": "Unesite naziv mjesta ili preporuku.",
+      "empty_screenshot": "Odaberite screenshot za učitavanje.",
+      "image_read_error": "Slika se nije mogla pročitati. Pokušajte JPEG ili PNG.",
+      "not_signed_in": "Prijavite se za spremanje nalaza.",
+      "service_unavailable": "Usluga nije dostupna."
+    }
+  },
+  "sections": {
+    "pending": "Čeka vas",
+    "resolved": "Spremljeni nalazi",
+    "unresolved": "Treba bilješku",
+    "unresolved_hint": "Sustav nije mogao identificirati mjesto. Dodajte bilješku kako biste zapamtili zašto ste ga spremili."
+  },
+  "empty": {
+    "title": "Još nema nalaza",
+    "description": "Zalijepite link, unesite naziv mjesta ili učitajte screenshot — vaša balkanska lista počinje ovdje."
+  },
+  "card": {
+    "unnamed": "Imenovan nalaz",
+    "view_source": "Pogledaj izvor",
+    "dismiss": "Odbaci",
+    "delete": "Obriši",
+    "delete_confirm": "Trajno obrisati ovaj nalaz?"
+  },
+  "resolution": {
+    "confirm_question": "Je li ovo pravo mjesto?",
+    "yes": "Da, točno je",
+    "not_quite": "Nije baš",
+    "correct_title": "Ispravite naziv mjesta",
+    "place_placeholder": "Naziv mjesta",
+    "country_placeholder": "Kod zemlje (npr. HR, ME, SI)",
+    "save_correction": "Spremi ispravak",
+    "back": "Natrag",
+    "errors": {
+      "empty_place": "Unesite naziv mjesta.",
+      "confirm_failed": "Nije moguće potvrditi nalaz.",
+      "correct_failed": "Nije moguće spremiti ispravak."
+    }
+  },
+  "status": {
+    "RESOLVED_HIGH_CONFIDENCE": "Riješeno",
+    "NEEDS_CONFIRMATION": "Potvrdite mjesto?",
+    "AMBIGUOUS": "Dvosmisleno",
+    "UNRESOLVED": "Neriješeno",
+    "USER_CONFIRMED": "Potvrđeno",
+    "USER_CORRECTED": "Ispravljeno",
+    "DISMISSED": "Odbačeno"
+  }
+}

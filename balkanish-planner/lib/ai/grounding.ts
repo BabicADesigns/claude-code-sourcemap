@@ -9,6 +9,7 @@ import type {
   PlannerStyle,
   ScoreKey,
   TravelType,
+  TravelMemorySignal,
   TripPace,
 } from "@/lib/types";
 import { DESTINATION_SCORES, PLANNER_STYLE_LABELS } from "@/lib/types";
@@ -500,6 +501,38 @@ export interface GroundedItinerary {
   widenedSearch: boolean;
   /** 0–1 diagnostic: how comfortably the curated pool covered this request — see docs/ai-expansion-roadmap.md Stage 1. */
   coverageScore: number;
+}
+
+/**
+ * Phase 24: Derive a suggested TripPace from confirmed ITINERARY_PACE memory signals.
+ * Returns null when no relevant confirmed signal exists — the caller should use its default.
+ * Never overrides an explicit traveller selection; it's a soft hint for "which variant to surface first".
+ *
+ * Signal value → TripPace mapping:
+ *   LIGHT → "relaxed"
+ *   BALANCED → "balanced"
+ *   FULL → "active"
+ */
+export function derivePaceHintFromMemory(signals: TravelMemorySignal[]): TripPace | null {
+  const paceMap: Record<string, TripPace> = {
+    LIGHT: "relaxed",
+    BALANCED: "balanced",
+    FULL: "active",
+  };
+
+  // Take the most recently-set confirmed ITINERARY_PACE signal
+  const paceSignal = signals
+    .filter(
+      (s) =>
+        s.domain === "ITINERARY_PACE" &&
+        s.confirmation_status === "CONFIRMED" &&
+        s.active === true &&
+        s.value != null
+    )
+    .sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())[0];
+
+  if (!paceSignal || !paceSignal.value) return null;
+  return paceMap[paceSignal.value] ?? null;
 }
 
 export function buildGroundedItinerary(

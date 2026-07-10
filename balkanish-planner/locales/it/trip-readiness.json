@@ -1,0 +1,88 @@
+{
+  "pageTitle": "Compagno di Viaggio",
+  "pageSubtitle": "Quello che devi davvero fare prima di questo viaggio.",
+  "setDepartureDatePrompt": "Inserisci la data di partenza per vedere cosa è importante adesso.",
+  "setDepartureDateLabel": "Data di partenza",
+  "setDepartureDateSave": "Salva data",
+  "setDepartureDateClear": "Rimuovi data",
+  "noDepartureDate": "Nessuna data di partenza impostata",
+  "countdown": {
+    "future": "Parti tra {days} giorni",
+    "tomorrow": "Parti domani",
+    "today": "Giorno di partenza — buon viaggio",
+    "started": "Viaggio in corso",
+    "completed": "Viaggio completato"
+  },
+  "whatMattersNow": "Cosa conta adesso",
+  "allChecked": "Tutto fatto — sei pronto.",
+  "progress": "{done} di {total} completati",
+  "sections": {
+    "DO_NOW": "Da fare subito",
+    "NOW_URGENT": "Urgente — {days} giorni alla partenza",
+    "THIS_WEEK": "Questa settimana",
+    "THIS_MONTH": "Questo mese",
+    "BEFORE_YOU_GO": "Prima della partenza",
+    "PLANNING_PHASE": "Fase di pianificazione",
+    "IN_DESTINATION": "Una volta arrivato",
+    "POST_TRIP": "Dopo il ritorno"
+  },
+  "categories": {
+    "DOCUMENTS": "Documenti",
+    "VISA": "Visto",
+    "HEALTH": "Salute",
+    "INSURANCE": "Assicurazione",
+    "ACCOMMODATION": "Alloggio",
+    "TRANSPORT": "Trasporti",
+    "FERRY": "Traghetto",
+    "BORDER_CROSSING": "Valico di frontiera",
+    "MONEY": "Denaro e carte",
+    "CONNECTIVITY": "Connettività",
+    "PACKING": "Bagagli",
+    "WEATHER": "Meteo",
+    "LOCAL_CUSTOMS": "Usanze locali",
+    "EMERGENCY": "Emergenza",
+    "LANGUAGE": "Lingua",
+    "ACTIVITIES": "Attività",
+    "FOOD": "Cibo e ristoranti"
+  },
+  "priority": {
+    "CRITICAL": "Critico",
+    "HIGH": "Importante",
+    "MEDIUM": "Consigliato",
+    "LOW": "Facoltativo"
+  },
+  "status": {
+    "PENDING": "Da fare",
+    "DONE": "Fatto",
+    "SKIPPED": "Saltato",
+    "NA": "Non applicabile"
+  },
+  "bookingState": {
+    "NOT_STARTED": "Non prenotato",
+    "PLANNED": "Pianificato",
+    "USER_MARKED_BOOKED": "Prenotato"
+  },
+  "actions": {
+    "markDone": "Segna come fatto",
+    "markPending": "Annulla",
+    "markSkipped": "Salta",
+    "markBooked": "Segna come prenotato",
+    "addNote": "Aggiungi nota",
+    "saveNote": "Salva",
+    "cancelNote": "Annulla"
+  },
+  "reservationSensitivity": {
+    "CRITICAL": "Prenota subito",
+    "HIGH": "Prenota presto",
+    "MEDIUM": "Prenota in anticipo",
+    "LOW": ""
+  },
+  "pdf": {
+    "sectionEyebrow": "Prima di partire",
+    "sectionTitle": "Lista di controllo pre-viaggio",
+    "intro": "Una checklist pratica basata sul tuo viaggio. Gli elementi critici e importanti non vanno rimandati all'ultimo momento.",
+    "critical": "Critico",
+    "important": "Importante",
+    "recommended": "Consigliato"
+  }
+}

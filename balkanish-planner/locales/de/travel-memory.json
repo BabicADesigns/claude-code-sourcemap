@@ -1,0 +1,40 @@
+{
+  "sectionTitle": "Dein Reisgedächtnis",
+  "sectionSubtitle": "Was wir über deine Reisepräferenzen bemerkt haben. Du behältst jederzeit die Kontrolle — bestätige, was stimmt, und weise ab, was nicht passt.",
+  "noMemoryYet": "Wir haben noch keine Reisepräferenzen bemerkt. Je mehr du den Planer nutzt, desto besser lernen wir, was dir gefällt.",
+  "confirmedTitle": "Bestätigte Präferenzen",
+  "noticedTitle": "Das haben wir bemerkt",
+  "noticedHint": "Basierend auf deiner Nutzung des Planers. Bestätige, was für dich stimmt.",
+  "stillLearningTitle": "Noch am Lernen",
+  "strengthLabels": {
+    "strong_pattern": "Klares Muster",
+    "noticed": "Bemerkt",
+    "still_learning": "Lernend"
+  },
+  "directions": {
+    "POSITIVE": "Mag",
+    "NEGATIVE": "Vermeidet lieber",
+    "NEUTRAL": "Interessiert an"
+  },
+  "actions": {
+    "confirm": "Bestätigen",
+    "reject": "Nicht für mich",
+    "remove": "Entfernen",
+    "confirmLabel": "Diese Präferenz bestätigen",
+    "rejectLabel": "Diese Präferenz ablehnen"
+  },
+  "resetTitle": "Gelernte Präferenzen zurücksetzen",
+  "resetDescription": "Dies entfernt alle Präferenzen, die wir aus deinem Verhalten gelernt haben. Deine bestätigten Präferenzen und Kontoeinstellungen bleiben unberührt.",
+  "resetButton": "Gelernte Präferenzen zurücksetzen",
+  "resetConfirm": "Bist du sicher? Dies kann nicht rückgängig gemacht werden.",
+  "privacyNote": "Dein Reisgedächtnis ist privat — es wird nur zur Personalisierung deiner eigenen Reisepläne verwendet. Wir geben es nie weiter, nutzen es nie für Werbung und leiten nie sensible persönliche Attribute aus deinen Reisezielen ab.",
+  "sources": {
+    "PROFILE_CONFIRMATION": "Im Profil gesetzt",
+    "WIZARD_SELECTION": "Im Planer gewählt",
+    "ITINERARY_KEEP": "Reiseplan gespeichert",
+    "ITINERARY_REGENERATE": "Reiseplan neu generiert",
+    "PARTNER_SAVE": "Partnerangebot gespeichert",
+    "DIRECT_MEMORY_CONFIRMATION": "Von dir bestätigt",
+    "TRIP_COMPLETION_FEEDBACK": "Feedback nach der Reise"
+  }
+}

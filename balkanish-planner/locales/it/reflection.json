@@ -1,0 +1,114 @@
+{
+  "page": {
+    "title": "Riflessione sul viaggio",
+    "subtitle": "Prenditi un momento per il tuo viaggio.",
+    "not_eligible": "La riflessione è disponibile per i viaggi completati.",
+    "cta_start": "Rifletti su questo viaggio",
+    "cta_continue": "Continua la riflessione",
+    "cta_view": "Vedi la tua riflessione"
+  },
+  "timing": {
+    "just_returned": "Bentornato",
+    "just_returned_body": "Sei appena tornato. Nessuna fretta — rifletti quando sei pronto.",
+    "recent": "Ancora fresco",
+    "recent_body": "Questo viaggio è ancora recente. Un buon momento per guardare indietro.",
+    "past_trip": "Guardando indietro",
+    "past_trip_body": "È passato un po' di tempo. I tuoi ricordi restano validi."
+  },
+  "steps": {
+    "overall": "Generale",
+    "pace": "Ritmo e pianificazione",
+    "items": "Momenti chiave",
+    "memory": "Cosa ricordare",
+    "done": "Salvato"
+  },
+  "overall": {
+    "title": "Com'è stato il viaggio in generale?",
+    "subtitle": "La tua risposta onesta aiuta a personalizzare i piani futuri.",
+    "loved_it": "L'ho adorato",
+    "good_trip": "Bel viaggio",
+    "mixed": "Sensazioni miste",
+    "not_my_trip": "Non è il mio tipo di viaggio",
+    "prefer_not_to_say": "Preferisco non dirlo"
+  },
+  "pace": {
+    "title": "Com'era il ritmo?",
+    "too_slow": "Troppo lento — avevo tempo libero",
+    "just_right": "Perfetto",
+    "a_little_full": "Un po' pieno",
+    "too_full": "Troppo pieno — avevo bisogno di più riposo",
+    "unknown": "Non sono sicuro",
+    "planning_title": "Com'era la struttura?",
+    "more_structure": "Avrei preferito più struttura",
+    "current_level": "La struttura era giusta",
+    "more_flexibility": "Avrei preferito più flessibilità",
+    "planning_unknown": "Non sono sicuro"
+  },
+  "items": {
+    "title": "Momenti da ricordare o da saltare?",
+    "subtitle": "Valuta solo ciò che hai davvero vissuto. Salta il resto.",
+    "loved": "L'ho adorato",
+    "liked": "Mi è piaciuto",
+    "neutral": "Era ok",
+    "would_skip": "Lo salterei la prossima volta",
+    "not_experienced": "Non l'ho fatto",
+    "slot_morning": "Mattina",
+    "slot_afternoon": "Pomeriggio",
+    "slot_evening": "Sera",
+    "slot_food": "Momento gastronomico"
+  },
+  "return": {
+    "title": "Torneresti?",
+    "yes": "Sì — ci tornerei",
+    "maybe": "Forse",
+    "no": "Probabilmente no",
+    "prefer_not_to_say": "Preferisco non dirlo",
+    "destination_prompt": "Qualche posto in particolare?",
+    "destination_placeholder": "Facoltativo — es. Spalato, la costa…"
+  },
+  "note": {
+    "title": "Qualcos'altro in mente?",
+    "subtitle": "Questa nota è privata. Solo per te — i nostri sistemi non la leggono mai.",
+    "placeholder": "La tua nota privata…",
+    "privacy_label": "Privata — solo tu puoi vederla"
+  },
+  "memory": {
+    "title": "Cosa dovremmo ricordare?",
+    "subtitle": "Questi suggerimenti vengono dalla tua riflessione. Sei tu a decidere cosa conservare.",
+    "empty": "Nulla da suggerire in base a questa riflessione.",
+    "confirm_all": "Ricorda tutto",
+    "skip_all": "Salta tutto",
+    "confirm_cta": "Ricorda",
+    "reject_cta": "Non ricordare",
+    "defer_cta": "Decidi dopo",
+    "candidate_high": "Suggerimento sicuro",
+    "candidate_medium": "Basato sulla tua riflessione",
+    "candidate_low": "Possibile preferenza",
+    "conflict_warning": "Questo è in contrasto con qualcosa che già sappiamo di te.",
+    "conflict_resolve": "Quale è corretto?",
+    "source_pace": "Riflessione sul ritmo",
+    "source_planning": "Preferenza di pianificazione",
+    "source_item": "Valutazione attività",
+    "source_overall": "Impressione generale"
+  },
+  "complete": {
+    "title": "Riflessione salvata",
+    "body": "I tuoi ricordi di viaggio sono stati salvati. Influenzeranno silenziosamente le raccomandazioni future.",
+    "cta_planner": "Pianifica un altro viaggio",
+    "cta_trips": "I miei viaggi"
+  },
+  "dismiss": {
+    "cta": "Salta la riflessione",
+    "confirm_title": "Saltare questa riflessione?",
+    "confirm_body": "Puoi tornare in qualsiasi momento dal tuo viaggio.",
+    "confirm_cta": "Sì, salta per ora",
+    "cancel_cta": "Continua"
+  },
+  "privacy": {
+    "note": "La tua riflessione è privata. Balkanish non la usa per il marketing, non la condivide con i partner e non la mostra pubblicamente."
+  },
+  "errors": {
+    "load_failed": "Impossibile caricare la tua riflessione. Riprova.",
+    "save_failed": "Salvataggio non riuscito. Controlla la connessione e riprova."
+  }
+}

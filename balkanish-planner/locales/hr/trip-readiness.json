@@ -1,0 +1,88 @@
+{
+  "pageTitle": "Putni pratilac",
+  "pageSubtitle": "Što zaista trebate napraviti prije ovog putovanja.",
+  "setDepartureDatePrompt": "Unesite datum polaska da biste vidjeli što je važno sada.",
+  "setDepartureDateLabel": "Datum polaska",
+  "setDepartureDateSave": "Spremi datum",
+  "setDepartureDateClear": "Ukloni datum",
+  "noDepartureDate": "Datum polaska nije postavljen",
+  "countdown": {
+    "future": "Polazite za {days} dana",
+    "tomorrow": "Polazite sutra",
+    "today": "Dan polaska — sretan put",
+    "started": "Putovanje u tijeku",
+    "completed": "Putovanje završeno"
+  },
+  "whatMattersNow": "Što je sada važno",
+  "allChecked": "Sve je gotovo — spremni ste.",
+  "progress": "{done} od {total} gotovo",
+  "sections": {
+    "DO_NOW": "Napravite odmah",
+    "NOW_URGENT": "Hitno — {days} dana do polaska",
+    "THIS_WEEK": "Ovaj tjedan",
+    "THIS_MONTH": "Ovaj mjesec",
+    "BEFORE_YOU_GO": "Prije polaska",
+    "PLANNING_PHASE": "U fazi planiranja",
+    "IN_DESTINATION": "Na odredištu",
+    "POST_TRIP": "Po povratku"
+  },
+  "categories": {
+    "DOCUMENTS": "Dokumenti",
+    "VISA": "Viza",
+    "HEALTH": "Zdravlje",
+    "INSURANCE": "Osiguranje",
+    "ACCOMMODATION": "Smještaj",
+    "TRANSPORT": "Prijevoz",
+    "FERRY": "Trajekt",
+    "BORDER_CROSSING": "Granični prijelaz",
+    "MONEY": "Novac i kartice",
+    "CONNECTIVITY": "Povezivost",
+    "PACKING": "Pakiranje",
+    "WEATHER": "Vrijeme",
+    "LOCAL_CUSTOMS": "Lokalni običaji",
+    "EMERGENCY": "Hitni slučaj",
+    "LANGUAGE": "Jezik",
+    "ACTIVITIES": "Aktivnosti",
+    "FOOD": "Hrana i restorani"
+  },
+  "priority": {
+    "CRITICAL": "Kritično",
+    "HIGH": "Važno",
+    "MEDIUM": "Preporučeno",
+    "LOW": "Po želji"
+  },
+  "status": {
+    "PENDING": "Čeka",
+    "DONE": "Gotovo",
+    "SKIPPED": "Preskočeno",
+    "NA": "Nije primjenjivo"
+  },
+  "bookingState": {
+    "NOT_STARTED": "Nije rezervirano",
+    "PLANNED": "Planirano",
+    "USER_MARKED_BOOKED": "Rezervirano"
+  },
+  "actions": {
+    "markDone": "Označi kao gotovo",
+    "markPending": "Poništi",
+    "markSkipped": "Preskoči",
+    "markBooked": "Označi kao rezervirano",
+    "addNote": "Dodaj bilješku",
+    "saveNote": "Spremi",
+    "cancelNote": "Odustani"
+  },
+  "reservationSensitivity": {
+    "CRITICAL": "Rezervirajte odmah",
+    "HIGH": "Rezervirajte rano",
+    "MEDIUM": "Rezervirajte unaprijed",
+    "LOW": ""
+  },
+  "pdf": {
+    "sectionEyebrow": "Prije polaska",
+    "sectionTitle": "Kontrolna lista",
+    "intro": "Praktična lista za vaše putovanje. Kritične i važne stavke ne smiju se ostavljati za zadnji trenutak.",
+    "critical": "Kritično",
+    "important": "Važno",
+    "recommended": "Preporučeno"
+  }
+}

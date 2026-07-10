@@ -1,0 +1,88 @@
+{
+  "pageTitle": "Trip Companion",
+  "pageSubtitle": "What you actually need to do before this trip.",
+  "setDepartureDatePrompt": "Set your departure date to see what matters right now.",
+  "setDepartureDateLabel": "Departure date",
+  "setDepartureDateSave": "Save date",
+  "setDepartureDateClear": "Clear date",
+  "noDepartureDate": "No departure date set",
+  "countdown": {
+    "future": "You leave in {days} days",
+    "tomorrow": "You leave tomorrow",
+    "today": "Departure day — safe travels",
+    "started": "Trip underway",
+    "completed": "Trip completed"
+  },
+  "whatMattersNow": "What matters right now",
+  "allChecked": "All done — you're ready to go.",
+  "progress": "{done} of {total} done",
+  "sections": {
+    "DO_NOW": "Do now",
+    "NOW_URGENT": "Urgent — {days} days to go",
+    "THIS_WEEK": "This week",
+    "THIS_MONTH": "This month",
+    "BEFORE_YOU_GO": "Before you go",
+    "PLANNING_PHASE": "In your planning",
+    "IN_DESTINATION": "Once you're there",
+    "POST_TRIP": "After you return"
+  },
+  "categories": {
+    "DOCUMENTS": "Documents",
+    "VISA": "Visa",
+    "HEALTH": "Health",
+    "INSURANCE": "Insurance",
+    "ACCOMMODATION": "Accommodation",
+    "TRANSPORT": "Transport",
+    "FERRY": "Ferry",
+    "BORDER_CROSSING": "Border Crossing",
+    "MONEY": "Money & Cards",
+    "CONNECTIVITY": "Connectivity",
+    "PACKING": "Packing",
+    "WEATHER": "Weather",
+    "LOCAL_CUSTOMS": "Local Customs",
+    "EMERGENCY": "Emergency",
+    "LANGUAGE": "Language",
+    "ACTIVITIES": "Activities",
+    "FOOD": "Food & Dining"
+  },
+  "priority": {
+    "CRITICAL": "Critical",
+    "HIGH": "Important",
+    "MEDIUM": "Recommended",
+    "LOW": "Nice to do"
+  },
+  "status": {
+    "PENDING": "To do",
+    "DONE": "Done",
+    "SKIPPED": "Skipped",
+    "NA": "Not applicable"
+  },
+  "bookingState": {
+    "NOT_STARTED": "Not booked",
+    "PLANNED": "Planned",
+    "USER_MARKED_BOOKED": "Booked"
+  },
+  "actions": {
+    "markDone": "Mark done",
+    "markPending": "Undo",
+    "markSkipped": "Skip",
+    "markBooked": "Mark booked",
+    "addNote": "Add note",
+    "saveNote": "Save",
+    "cancelNote": "Cancel"
+  },
+  "reservationSensitivity": {
+    "CRITICAL": "Book immediately",
+    "HIGH": "Book early",
+    "MEDIUM": "Book in advance",
+    "LOW": ""
+  },
+  "pdf": {
+    "sectionEyebrow": "Before You Go",
+    "sectionTitle": "Pre-Trip Checklist",
+    "intro": "A practical checklist based on your trip. Items marked Critical or Important should not be left to the last minute.",
+    "critical": "Critical",
+    "important": "Important",
+    "recommended": "Recommended"
+  }
+}

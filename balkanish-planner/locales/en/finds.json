@@ -1,0 +1,78 @@
+{
+  "meta": {
+    "title": "My Balkan Finds",
+    "description": "Places spotted online, sent by friends, or remembered from a dream trip."
+  },
+  "page": {
+    "eyebrow": "My Finds",
+    "title": "My Balkan Finds",
+    "description": "Your source may disappear — your find won't."
+  },
+  "capture": {
+    "eyebrow": "Capture",
+    "title": "Save a new find",
+    "subtitle": "Paste a link, type a place name, or upload a screenshot.",
+    "tabs": {
+      "url": "URL / Link",
+      "text": "Place name",
+      "screenshot": "Screenshot"
+    },
+    "placeholders": {
+      "url": "https://instagram.com/reel/… or any web link",
+      "text": "e.g. Plitvice Lakes, Croatia — waterfalls worth the drive",
+      "note": "Your note (optional) — why you saved it, who recommended it"
+    },
+    "screenshot_notice": "Screenshot is analyzed for context and immediately discarded. Never stored.",
+    "submit": "Save this find",
+    "submitting": "Saving…",
+    "errors": {
+      "empty_url": "Paste a URL to get started.",
+      "empty_text": "Enter a place name or recommendation.",
+      "empty_screenshot": "Choose a screenshot to upload.",
+      "image_read_error": "Could not read the image. Please try a JPEG or PNG.",
+      "not_signed_in": "Sign in to save your finds.",
+      "service_unavailable": "Service unavailable."
+    }
+  },
+  "sections": {
+    "pending": "Waiting for you",
+    "resolved": "Saved finds",
+    "unresolved": "Needs a note",
+    "unresolved_hint": "The system couldn't identify the place. Add a note to remember why you saved it."
+  },
+  "empty": {
+    "title": "No finds yet",
+    "description": "Paste a URL, type a place name, or upload a screenshot above — your Balkan bucket list starts here."
+  },
+  "card": {
+    "unnamed": "Unnamed find",
+    "view_source": "View source",
+    "dismiss": "Dismiss",
+    "delete": "Delete",
+    "delete_confirm": "Delete this find permanently?"
+  },
+  "resolution": {
+    "confirm_question": "Is this the right place?",
+    "yes": "Yes, that's right",
+    "not_quite": "Not quite",
+    "correct_title": "Correct the place name",
+    "place_placeholder": "Place name",
+    "country_placeholder": "Country code (e.g. HR, ME, SI)",
+    "save_correction": "Save correction",
+    "back": "Back",
+    "errors": {
+      "empty_place": "Please enter a place name.",
+      "confirm_failed": "Could not confirm find.",
+      "correct_failed": "Could not save correction."
+    }
+  },
+  "status": {
+    "RESOLVED_HIGH_CONFIDENCE": "Resolved",
+    "NEEDS_CONFIRMATION": "Confirm place?",
+    "AMBIGUOUS": "Ambiguous",
+    "UNRESOLVED": "Unresolved",
+    "USER_CONFIRMED": "Confirmed",
+    "USER_CORRECTED": "Corrected",
+    "DISMISSED": "Dismissed"
+  }
+}

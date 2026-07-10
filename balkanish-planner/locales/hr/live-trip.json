@@ -1,0 +1,109 @@
+{
+  "page": {
+    "title": "Danas",
+    "subtitle": "Tvoje putovanje, dan po dan"
+  },
+  "lifecycle": {
+    "planning": {
+      "title": "Putovanje još nije počelo",
+      "body": "Postavi datum polaska u svom Pratitelju putovanja kako bi otključao/la pregled Dana.",
+      "cta": "Otvori Pratitelja putovanja"
+    },
+    "pre_trip": {
+      "title": "Sutra kreće putovanje",
+      "body": "Tvoje putovanje počinje sutra. Evo što je planirano za prvi dan.",
+      "badge": "Polazak sutra"
+    },
+    "departure_day": {
+      "title": "Dan 1 — kreće se",
+      "badge": "Danas · Dan 1"
+    },
+    "in_trip": {
+      "badge": "Dan {day} od {total}"
+    },
+    "completed": {
+      "title": "Putovanje završeno",
+      "body": "Tvoje putovanje je gotovo. Nadamo se da je bilo sve što si planirao/la — i još ponešto.",
+      "cta_memory": "Zapamti ovo putovanje"
+    }
+  },
+  "now_next": {
+    "now": "Sad",
+    "next": "Sljedeće",
+    "later": "Kasnije danas",
+    "done_today": "Završeno danas"
+  },
+  "slots": {
+    "morning": "Jutro",
+    "afternoon": "Poslijepodne",
+    "evening": "Večer",
+    "food": "Gastronomski savjet",
+    "day_overview": "Pregled"
+  },
+  "load": {
+    "light": "Lagan dan",
+    "moderate": "Umjeren dan",
+    "full": "Pun dan"
+  },
+  "flexibility": {
+    "easy_to_move": "Lako se može prerasporediti",
+    "some_flexibility": "Malo fleksibilnosti",
+    "tightly_packed": "Gusto ispunjen"
+  },
+  "item": {
+    "mark_done": "Označi kao završeno",
+    "mark_planned": "Označi kao planirano",
+    "skip": "Preskoči",
+    "save_for_later": "Spremi za kasnije",
+    "done_label": "Završeno",
+    "skipped_label": "Preskočeno",
+    "saved_label": "Spremljeno za kasnije",
+    "planned_label": "Planirano"
+  },
+  "lighter_day": {
+    "propose_cta": "Predloži lakši dan",
+    "sheet_title": "Lakši dan",
+    "sheet_body": "Na temelju tvog plana, evo prijedloga za mirniji dan.",
+    "keep_label": "Zadrži",
+    "skip_label": "Odloži",
+    "accept_cta": "Primijeni lakši dan",
+    "dismiss_cta": "Zadrži plan",
+    "disclaimer": "Ovo je samo prijedlog. Ti odlučuješ."
+  },
+  "practical": {
+    "ferry_day": "Dan trajektom",
+    "border_crossing": "Prelazak granice",
+    "logistics_move": "Dan putovanja",
+    "reservation_due": "Potrebna akcija",
+    "offline_reminder": "Ograničena veza",
+    "packing_check": "Provjera prtljage",
+    "capability_static": "Stabilna informacija",
+    "capability_derived": "Iz tvog itinerera",
+    "capability_confirmed": "Ti si potvrdio/la",
+    "verify_before_travel": "Provjeri prije polaska"
+  },
+  "day_nav": {
+    "previous": "Prethodni dan",
+    "next": "Sljedeći dan",
+    "today": "Natrag na danas"
+  },
+  "tomorrow": {
+    "title": "Sutra",
+    "body": "Pregled dana {day}."
+  },
+  "cultural": {
+    "section_title": "Korisno znati danas"
+  },
+  "phrases": {
+    "section_title": "Korisno danas"
+  },
+  "offline": {
+    "banner": "Nisi spojen/a. Neki sadržaji možda nisu ažurni.",
+    "snapshot_saved": "Spremljeno za pregled bez interneta",
+    "snapshot_age": "Zadnje spremljeno prije {time}",
+    "save_cta": "Spremi offline",
+    "mutation_blocked": "Nisi spojen/a. Promjene zahtijevaju internet vezu."
+  },
+  "companion_link": "Lista putovanja",
+  "open_today_cta": "Otvori Danas"
+}

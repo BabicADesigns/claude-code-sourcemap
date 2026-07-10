@@ -1,0 +1,33 @@
+{
+  "section": {
+    "title": "Remember this?",
+    "subtitle": "You saved this a while back. It fits this trip."
+  },
+  "reasons": {
+    "ON_ROUTE": "It's on your route",
+    "NEAR_OVERNIGHT_STOP": "Close to where you're staying",
+    "NEAR_DAY_STOP": "Near a day-trip stop",
+    "UPCOMING_DAY_OPPORTUNITY": "Near tomorrow's stop",
+    "NEAR_ROUTE": "Not far from your path",
+    "SAME_DESTINATION": "It's in one of your destinations",
+    "TRIP_INTEREST_MATCH": "Matches what you're into",
+    "SAME_REGION": "In the region you're exploring"
+  },
+  "confidence": {
+    "high": "Strong match",
+    "medium": "Good match",
+    "low": "Possible match"
+  },
+  "distance": {
+    "straight_line": "{km} km away (straight line)"
+  },
+  "actions": {
+    "view_find": "View saved find",
+    "add_to_day": "Add to today",
+    "not_this_trip": "Not this trip",
+    "remind_me_later": "Remind me later",
+    "dismiss": "Dismiss"
+  },
+  "saved_label": "Saved find",
+  "unknown_place": "A place you saved"
+}

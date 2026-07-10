@@ -187,6 +187,9 @@ export interface Destination {
   is_featured: boolean;
   latitude: number;
   longitude: number;
+  // Phase 17 seasonal intelligence and crowd awareness (nullable — curated editorially)
+  seasonal_data?: SeasonalData | null;
+  crowd_level?: CrowdLevel | null;
 }
 
 export interface DayTrip {
@@ -263,6 +266,57 @@ export interface DestinationCandidate {
   /** One sentence, AI-authored, explaining why this place fits the request — narrative, not a verified fact. */
   rationale: string;
   matched_focus: ItineraryFocus[];
+  /**
+   * Human moderation state of this candidate's row in the shared `discovered_destinations`
+   * registry (docs/ai-expansion-engine-architecture.md). Distinct from `verification_status`:
+   * that's an automated structural check run once at generation time, this is an editor's
+   * persistent, cross-session decision. Defaults to "pending" — see registerDiscoveredDestination.
+   */
+  moderation_status: ModerationStatus;
+}
+
+/**
+ * Editorial review state of a `discovered_destinations` registry row — human-driven and
+ * persistent across itinerary generations, unlike the automated `VerificationStatus`. See
+ * docs/ai-expansion-engine-architecture.md "Moderation workflow".
+ */
+export type ModerationStatus = "pending" | "approved" | "rejected";
+
+/**
+ * The badge tier shown to end users — derived, never stored. "verified" = a real curated
+ * `Destination`. "community_verified" = an `ai_suggested` candidate an editor has approved
+ * (or that usage has reinforced) but not yet promoted into the curated dataset.
+ * "ai_suggested" = still pending review. See deriveTrustTier in lib/ai/trust.ts.
+ */
+export type TrustTier = "verified" | "community_verified" | "ai_suggested";
+
+/**
+ * A shared, deduplicated registry row for a place Layer B has proposed — persists across
+ * itinerary generations and users so an editor can review it once, not once per request.
+ * Maps 1:1 to `public.discovered_destinations` (migration 0012). Deliberately separate from
+ * `DestinationCandidate` (which is embedded per-itinerary, read-only, and has no stable id)
+ * — this is the mutable, server-side record that candidate is checked against.
+ */
+export interface DiscoveredDestination {
+  id: string;
+  normalized_key: string;
+  name: string;
+  region: string;
+  country: Country;
+  latitude: number;
+  longitude: number;
+  source: DestinationSourceType;
+  confidence_score: number;
+  verification_status: VerificationStatus;
+  rationale: string;
+  matched_focus: ItineraryFocus[];
+  moderation_status: ModerationStatus;
+  times_suggested: number;
+  times_saved: number;
+  /** Set once an editor promotes this row into `public.destinations` — see promoteDiscoveredDestination. */
+  promoted_destination_id: string | null;
+  created_at: string;
+  updated_at: string;
 }
 
 /** What kind of smart-discovery request a free-text query expresses — see lib/ai/discovery-query.ts. */
@@ -413,6 +467,127 @@ export const TRAVEL_STYLE_TO_PLANNER_STYLE: Record<TravelStyle, PlannerStyle> = 
   family_friendly: "family",
 };
 
+// ---------------------------------------------------------------------------
+// Phase 17 — Smart Personalization Engine
+// ---------------------------------------------------------------------------
+
+export type TravelerInterest =
+  | "food"
+  | "history"
+  | "beaches"
+  | "photography"
+  | "hiking"
+  | "islands"
+  | "nightlife"
+  | "architecture"
+  | "hidden_gems"
+  | "wine"
+  | "family"
+  | "wellness"
+  | "adventure";
+
+export const TRAVELER_INTEREST_LABELS: Record<TravelerInterest, string> = {
+  food: "Food & dining",
+  history: "History & old towns",
+  beaches: "Beaches & coastline",
+  photography: "Photography",
+  hiking: "Hiking & nature",
+  islands: "Island hopping",
+  nightlife: "Nightlife",
+  architecture: "Architecture",
+  hidden_gems: "Hidden gems",
+  wine: "Wine & gastronomy",
+  family: "Family activities",
+  wellness: "Wellness & relaxation",
+  adventure: "Adventure sports",
+};
+
+export type MobilityOption =
+  | "car"
+  | "camper"
+  | "motorcycle"
+  | "bicycle"
+  | "ferry"
+  | "public_transport"
+  | "walking";
+
+export const MOBILITY_OPTION_LABELS: Record<MobilityOption, string> = {
+  car: "Car",
+  camper: "Camper / motorhome",
+  motorcycle: "Motorcycle",
+  bicycle: "Bicycle",
+  ferry: "Ferry",
+  public_transport: "Public transport",
+  walking: "Walking / on foot",
+};
+
+export type CuisinePreference =
+  | "vegetarian"
+  | "seafood"
+  | "traditional_balkan"
+  | "street_food"
+  | "fine_dining"
+  | "wine_lovers"
+  | "coffee_lovers"
+  | "desserts";
+
+export const CUISINE_PREFERENCE_LABELS: Record<CuisinePreference, string> = {
+  vegetarian: "Vegetarian",
+  seafood: "Seafood",
+  traditional_balkan: "Traditional Balkan",
+  street_food: "Street food",
+  fine_dining: "Fine dining",
+  wine_lovers: "Wine lovers",
+  coffee_lovers: "Coffee lovers",
+  desserts: "Desserts & pastries",
+};
+
+export type TravelMood =
+  | "slow_living"
+  | "romantic"
+  | "adventure"
+  | "family_time"
+  | "digital_detox"
+  | "road_trip"
+  | "luxury_escape"
+  | "weekend_escape";
+
+export const TRAVEL_MOOD_LABELS: Record<TravelMood, string> = {
+  slow_living: "Slow Living",
+  romantic: "Romantic",
+  adventure: "Adventure",
+  family_time: "Family Time",
+  digital_detox: "Digital Detox",
+  road_trip: "Road Trip",
+  luxury_escape: "Luxury Escape",
+  weekend_escape: "Weekend Escape",
+};
+
+/** Per-season narrative context for a destination — authored editorially, never AI-generated. */
+export interface SeasonalData {
+  /** 1-indexed month numbers (1 = January) when this destination is at its best. */
+  best_months: number[];
+  /** Months where visiting is not recommended (e.g. off-season ferry shutdowns, extreme heat). */
+  avoid_months?: number[];
+  avoid_reason?: string;
+  seasonal_highlights: {
+    spring?: string;
+    summer?: string;
+    autumn?: string;
+    winter?: string;
+  };
+  rainy_day_ideas?: string[];
+}
+
+/** Crowd density tier for a destination in its peak season. Architecture-only in Phase 17 — no live API data. */
+export type CrowdLevel = "busy" | "moderate" | "quiet";
+
+export const CROWD_LEVEL_LABELS: Record<CrowdLevel, string> = {
+  busy: "Very busy in peak season",
+  moderate: "Manageable crowds",
+  quiet: "Rarely crowded",
+};
+
 export interface Profile {
   id: string;
   display_name: string | null;
@@ -424,9 +599,17 @@ export interface Profile {
   preferred_language: Locale;
   created_at: string;
   updated_at: string;
+  // Phase 17 personalization preferences (all optional — filled via account settings)
+  travel_pace?: TripPace | null;
+  interests?: TravelerInterest[] | null;
+  mobility?: MobilityOption[] | null;
+  budget_preference?: "budget" | "mid_range" | "premium" | "luxury" | null;
+  cuisine_preferences?: CuisinePreference[] | null;
+  // Phase 19 logistics preferences
+  transport_preferences?: TransportPreference[] | null;
 }
 
-export type FavoriteEntityType = "destination" | "food_find" | "culture_note" | "secret_swap";
+export type FavoriteEntityType = "destination" | "food_find" | "culture_note" | "secret_swap" | "discovered_destination";
 
 export interface Favorite {
   id: string;
@@ -457,6 +640,7 @@ export interface SavedItinerary {
   travel_style: TravelStyle;
   interests: string[];
   itinerary_json: import("@/lib/ai/itinerary").GeneratedItinerary;
+  departure_date?: string | null;
   created_at: string;
 }
 
@@ -512,4 +696,1730 @@ export interface PdfDelivery {
 /** A PdfDelivery joined with the PdfDocument it belongs to, for rendering delivery history in one pass. */
 export interface PdfDeliveryWithDocument extends PdfDelivery {
   document: PdfDocument;
+}
+
+// ---------------------------------------------------------------------------
+// Phase 16 — Community Intelligence & Founder's Picks
+// ---------------------------------------------------------------------------
+
+/** Editorial identity for a Balkanish founder — name, photo, bio, signature, links. */
+export interface Founder {
+  id: string;
+  name: string;
+  slug: string;
+  bio: string;
+  /** Handwritten-style text string rendered via font-script, e.g. "Ivana" */
+  signature?: string;
+  photo?: ImageAsset;
+  social_links?: { instagram?: string; website?: string };
+  created_at: string;
+}
+
+/**
+ * A founder's personal editorial recommendation for a destination — an authentic voice note
+ * distinct from the destination's own editorial copy. Never auto-generated; always authored.
+ */
+export interface FoundersPick {
+  id: string;
+  destination_slug: string;
+  founder_id: string;
+  founder?: Founder;
+  title: string;
+  body: string;
+  portrait?: ImageAsset;
+  /** Overrides founder.signature for this specific pick if the founder wants a different sign-off. */
+  signature_override?: string;
+  /** e.g. "Written from Vis, August" — short, evocative place-and-time context */
+  location?: string;
+  created_at: string;
+}
+
+/** The kind of tip a community note contains — drives category badge and sort order. */
+export type CommunityNoteCategory =
+  | "sunset_spot"
+  | "parking"
+  | "coffee"
+  | "local_etiquette"
+  | "seasonal"
+  | "food_tip"
+  | "transport"
+  | "other";
+
+export const COMMUNITY_NOTE_CATEGORY_LABELS: Record<CommunityNoteCategory, string> = {
+  sunset_spot: "Sunset Spot",
+  parking: "Parking",
+  coffee: "Coffee",
+  local_etiquette: "Local Etiquette",
+  seasonal: "Seasonal",
+  food_tip: "Food Tip",
+  transport: "Transport",
+  other: "Tip",
+};
+
+/**
+ * A user-submitted travel tip linked to a specific destination. Pending moderation by default;
+ * only `approved` notes are surfaced publicly. Author name is optional — anonymous notes are valid.
+ */
+export interface CommunityNote {
+  id: string;
+  destination_slug: string;
+  content: string;
+  category: CommunityNoteCategory;
+  author_name?: string;
+  language: Locale;
+  moderation_status: ModerationStatus;
+  submitted_at: string;
+  created_at: string;
+}
+
+/**
+ * A real local who lives and works in a destination — editorial only, never an advertisement.
+ * The "local hero" concept is a human-authored character study, not a business listing.
+ */
+export interface LocalHero {
+  id: string;
+  name: string;
+  profession: string;
+  story: string;
+  photo?: ImageAsset;
+  destination_slug: string;
+  website?: string;
+  social_links?: { instagram?: string; facebook?: string };
+  created_at: string;
+}
+
+/** The broad theme a Balkanish story belongs to — drives the story index filter. */
+export type StoryCategory =
+  | "coffee_culture"
+  | "traditions"
+  | "island_life"
+  | "local_customs"
+  | "food_rituals"
+  | "festivals";
+
+export const STORY_CATEGORY_LABELS: Record<StoryCategory, string> = {
+  coffee_culture: "Coffee Culture",
+  traditions: "Traditions",
+  island_life: "Island Life",
+  local_customs: "Local Customs",
+  food_rituals: "Food Rituals",
+  festivals: "Festivals",
+};
+
+/**
+ * An editorial cultural narrative — multilingual, human-authored. The body and title are
+ * LocalizedText so each locale can carry a properly written version, not a machine translation.
+ */
+export interface BalkanishStory {
+  id: string;
+  slug: string;
+  title: LocalizedText;
+  body: LocalizedText;
+  excerpt?: LocalizedText;
+  category: StoryCategory;
+  hero_image?: ImageAsset;
+  published_at: string;
+  created_at: string;
+}
+
+/**
+ * What kind of engagement signal is being recorded. Collected for future ranking signals
+ * (Phase 16 requirement #7) — never exposed as a public score or ranking today.
+ */
+export type EngagementSignalType = "view" | "like" | "bookmark" | "planner_usage" | "community_confirmation";
+
+/** What kind of entity the engagement signal is attached to. Extends FavoriteEntityType with Phase 16 content types. */
+export type EngagementEntityType = FavoriteEntityType | "story" | "local_hero" | "founders_pick";
+
+/**
+ * A single engagement event stored for future ranking use. `user_id` is optional — anonymous
+ * views are valid signals. Never read back to end users; only aggregated internally.
+ */
+export interface EngagementSignal {
+  id: string;
+  entity_type: EngagementEntityType;
+  entity_id: string;
+  signal_type: EngagementSignalType;
+  user_id?: string;
+  created_at: string;
+}
+
+// ---------------------------------------------------------------------------
+// Phase 18 — Local Trust & Partner Recommendation System
+// ---------------------------------------------------------------------------
+
+/**
+ * Editorial trust tier for a local partner or recommendation.
+ * Trust level reflects editorial judgment, NOT commercial relationship.
+ * A partner with a commercial connection can still earn a Founder's Pick —
+ * the connection is disclosed separately via CommercialRelationship.
+ */
+export type PartnerTrustLevel = "founder_pick" | "verified_local" | "community_favourite";
+
+export const PARTNER_TRUST_LEVEL_LABELS: Record<PartnerTrustLevel, string> = {
+  founder_pick: "Founder's Pick",
+  verified_local: "Verified Local",
+  community_favourite: "Community Favourite",
+};
+
+/**
+ * Whether and how a commercial relationship exists between Balkanish and a partner.
+ * Stored explicitly and disclosed to users — never used to influence recommendation ranking.
+ * Editorial relevance always comes first; commercial relationships are a transparency record only.
+ */
+export type CommercialRelationship =
+  | "none"
+  | "affiliate"
+  | "paid_partnership"
+  | "founder_connection"
+  | "owned_or_affiliated_project";
+
+export const COMMERCIAL_RELATIONSHIP_LABELS: Record<CommercialRelationship, string> = {
+  none: "No commercial relationship",
+  affiliate: "Affiliate",
+  paid_partnership: "Paid partnership",
+  founder_connection: "Founder connection",
+  owned_or_affiliated_project: "Founder's project",
+};
+
+/** The kind of local experience or service a partner provides. A partner may have a primary category plus additional tags. */
+export type PartnerCategory =
+  | "food_drink"
+  | "outdoor_adventure"
+  | "accommodation"
+  | "transport"
+  | "culture_arts"
+  | "wellness"
+  | "shopping"
+  | "family"
+  | "workspace"
+  | "experience";
+
+export const PARTNER_CATEGORY_LABELS: Record<PartnerCategory, string> = {
+  food_drink: "Food & Drink",
+  outdoor_adventure: "Outdoor Adventure",
+  accommodation: "Accommodation",
+  transport: "Transport",
+  culture_arts: "Culture & Arts",
+  wellness: "Wellness",
+  shopping: "Shopping",
+  family: "Family",
+  workspace: "Workspace & Coworking",
+  experience: "Experience",
+};
+
+/**
+ * A local business, guide, experience, or project the Balkanish editorial team recommends.
+ * Distinct from `FoundersPick` (a destination voice note) — this is a partner entity with
+ * external links, commercial disclosure, and contextual matching signals.
+ *
+ * Commercial relationships are stored and disclosed to users.
+ * They never inflate recommendation ranking — see docs/local-trust-recommendation-system.md.
+ */
+export interface LocalPartner {
+  id: string;
+  name: string;
+  slug: string;
+  trust_level: PartnerTrustLevel;
+  commercial_relationship: CommercialRelationship;
+  /** Explicit disclosure text. Falls back to auto-generated text from commercial_relationship when null. */
+  disclosure_text?: string | null;
+  category: PartnerCategory;
+  /** Additional category tags for multi-signal matching. */
+  categories?: PartnerCategory[];
+  country?: Country | null;
+  /** Sub-national region, e.g. "Kvarner", "Istria", "Dalmatia". */
+  region?: string | null;
+  /** Slugs of specific destinations this partner is relevant to. */
+  destination_slugs?: string[];
+  /** 1–2 sentence editorial description. */
+  short_description: string;
+  /** Internal editorial note (not shown to users). */
+  editorial_note?: string | null;
+  /** Personal founder note — shown to users for Founder's Pick partners. */
+  founder_note?: string | null;
+  // External links — all nullable; partners may not have all channels
+  website_url?: string | null;
+  instagram_url?: string | null;
+  booking_url?: string | null;
+  app_url?: string | null;
+  /** Only when intentionally published by the partner. Never scraped. */
+  contact_email?: string | null;
+  contact_phone?: string | null;
+  // Contextual matching signals — used by partner-match.ts, never visible in UI
+  traveler_interests?: TravelerInterest[];
+  mobility_options?: MobilityOption[];
+  travel_moods?: TravelMood[];
+  cuisine_types?: CuisinePreference[];
+  trip_paces?: TripPace[];
+  family_suitable?: boolean;
+  accessibility_notes?: string | null;
+  /** 1-indexed best months (1 = January). */
+  best_months?: number[];
+  hero_image?: ImageAsset | null;
+  /** Editorial priority weight 0–100. Higher = more likely to surface. Never influenced by commercial relationship. */
+  priority: number;
+  /** Only active partners appear in itinerary recommendations. Inactive partners are visible in admin only. */
+  active: boolean;
+  /** Marks development/demo fixtures that must never surface in production itineraries. */
+  demo_only?: boolean;
+  verified_at?: string | null;
+  /** Email or identifier of the editorial team member who verified this partner. */
+  verified_by?: string | null;
+  created_at?: string;
+  updated_at?: string;
+}
+
+/** A partner paired with its contextual relevance score and internal match reasons. */
+export interface PartnerMatchResult {
+  partner: LocalPartner;
+  /** 0–1 composite relevance score. Never exposed to users — used only for ranking and density filtering. */
+  relevance_score: number;
+  /** Internal audit trail — not shown in UI. */
+  match_reasons: string[];
+}
+
+// ─── Phase 19: Trip Logistics & Getting Around Engine ─────────────────────────
+
+export type TransportMode =
+  | "car"
+  | "rental_car"
+  | "motorcycle"
+  | "camper"
+  | "bus"
+  | "train"
+  | "ferry"
+  | "passenger_ferry"
+  | "taxi_transfer"
+  | "bike"
+  | "e_bike"
+  | "walk"
+  | "flight"
+  | "mixed";
+
+export const TRANSPORT_MODE_LABELS: Record<TransportMode, string> = {
+  car: "Own car",
+  rental_car: "Rental car",
+  motorcycle: "Motorcycle",
+  camper: "Camper / motorhome",
+  bus: "Bus",
+  train: "Train",
+  ferry: "Ferry",
+  passenger_ferry: "Passenger ferry",
+  taxi_transfer: "Taxi / transfer",
+  bike: "Bicycle",
+  e_bike: "E-bike",
+  walk: "Walking",
+  flight: "Flight",
+  mixed: "Mixed transport",
+};
+
+/** How feasible / comfortable a particular leg or route segment is. */
+export type RouteComplexity = "EASY" | "MANAGEABLE" | "LONG_DAY" | "COMPLEX" | "NOT_RECOMMENDED";
+
+export const ROUTE_COMPLEXITY_LABELS: Record<RouteComplexity, string> = {
+  EASY: "Easy",
+  MANAGEABLE: "Manageable",
+  LONG_DAY: "Long day",
+  COMPLEX: "Complex",
+  NOT_RECOMMENDED: "Not recommended",
+};
+
+/** How reliable / current the logistics information is. LIVE_PROVIDER must never be assigned without a real live integration. */
+export type LogisticsConfidence =
+  | "EDITORIAL_STABLE"
+  | "EDITORIAL_ESTIMATE"
+  | "VERIFY_BEFORE_TRAVEL"
+  | "LIVE_PROVIDER";
+
+export const LOGISTICS_CONFIDENCE_LABELS: Record<LogisticsConfidence, string> = {
+  EDITORIAL_STABLE: "Editorially verified",
+  EDITORIAL_ESTIMATE: "Planning estimate",
+  VERIFY_BEFORE_TRAVEL: "Verify before travel",
+  LIVE_PROVIDER: "Live data",
+};
+
+/** Whether a day is primarily about being somewhere, moving, or recovering. */
+export type DayType = "EXPERIENCE_DAY" | "TRANSFER_DAY" | "MIXED_DAY" | "REST_DAY";
+
+/** How practicable a route segment is, with human-readable reasoning. */
+export interface RoutePracticality {
+  rating: RouteComplexity;
+  /** One or two sentences explaining the rating — shown to users. */
+  reason: string;
+  confidence: LogisticsConfidence;
+}
+
+/** Traveler's preferred transport style — used to personalise logistics guidance. */
+export type TransportPreference =
+  | "own_car"
+  | "rental_car"
+  | "public_transport_preferred"
+  | "avoid_driving"
+  | "camper_motorhome"
+  | "motorcycle"
+  | "cycling_focused"
+  | "ferry_friendly"
+  | "avoid_ferries";
+
+export const TRANSPORT_PREFERENCE_LABELS: Record<TransportPreference, string> = {
+  own_car: "Travelling in my own car",
+  rental_car: "Planning to rent a car",
+  public_transport_preferred: "Prefer buses & trains",
+  avoid_driving: "Not driving — transfers & ferries only",
+  camper_motorhome: "Camper or motorhome",
+  motorcycle: "Motorcycle",
+  cycling_focused: "Cycling-focused trip",
+  ferry_friendly: "Ferry travel is a highlight for me",
+  avoid_ferries: "I'd rather skip ferries",
+};
+
+/** Where the transport information originates — determines how it should be cited. */
+export type TransportSourceType =
+  | "editorial_knowledge"
+  | "operator_website"
+  | "community_report"
+  | "ai_estimate";
+
+export interface TransportSource {
+  type: TransportSourceType;
+  name: string;
+  url?: string;
+  /** YYYY-MM or YYYY */
+  verified_at?: string;
+}
+
+/** Structured ferry metadata — always verified before display; never fabricated schedules. */
+export interface FerryInfo {
+  operator_name?: string;
+  operator_url?: string;
+  /** Season or year when this was last verified, e.g. "Summer 2025". */
+  last_verified_season?: string;
+  /** True if the ferry accepts vehicles (cars, campervans). */
+  vehicle_capable?: boolean;
+  frequency_hint?: string;
+  advance_booking_required?: boolean;
+  booking_tip?: string;
+}
+
+/** Border crossing notes — inherently changeable; never presented as definitive. */
+export interface BorderInfo {
+  crossing_point?: string;
+  typical_wait_hint?: string;
+  document_requirements?: string;
+  /** Never presented as current; always accompanied by a "verify before travel" disclaimer. */
+  last_verified?: string;
+}
+
+/** Road quality and suitability notes for campers and large vehicles. */
+export interface CamperRoadInfo {
+  road_quality?: "excellent" | "good" | "mixed" | "rough" | "not_recommended_for_large_vehicles";
+  narrow_road_warning?: boolean;
+  max_vehicle_length_hint?: string;
+  parking_hint?: string;
+  scenic_drive_highlight?: string;
+}
+
+/**
+ * An editorial logistics connection between two destinations.
+ * Stable-knowledge fields are safe to display; live-schedule fields must never be fabricated.
+ */
+export interface LogisticsConnection {
+  id: string;
+  from_destination_slug: string;
+  to_destination_slug: string;
+  /** Most natural transport mode for this leg. */
+  primary_mode: TransportMode;
+  /** Alternative modes the traveller can reasonably consider. */
+  alternative_modes?: TransportMode[];
+  /** Estimated driving distance in km — may be null if crossing requires ferry. */
+  road_distance_km?: number | null;
+  /** Estimated drive time as a human-readable string, e.g. "2h 30min". EDITORIAL_ESTIMATE only. */
+  drive_time_estimate?: string | null;
+  /** Estimated public transport journey time. */
+  transit_time_estimate?: string | null;
+  practicality: RoutePracticality;
+  /** Optional editorial note — tips, scenic route callouts, etc. */
+  editorial_note?: string | null;
+  ferry_info?: FerryInfo | null;
+  border_info?: BorderInfo | null;
+  camper_info?: CamperRoadInfo | null;
+  sources?: TransportSource[];
+  /** Only active connections appear in itinerary guidance. */
+  active: boolean;
+  /** Development/demo fixtures must never surface in production. */
+  demo_only?: boolean;
+  created_at?: string;
+  updated_at?: string;
+}
+
+/**
+ * A computed travel segment for a specific itinerary leg — built client-side from
+ * LogisticsConnection data (or haversine fallback) after the AI itinerary is generated.
+ */
+export interface TravelSegment {
+  from_destination_name: string;
+  from_destination_slug: string;
+  to_destination_name: string;
+  to_destination_slug: string;
+  primary_mode: TransportMode;
+  /** km between the two stops — haversine if no connection record exists. */
+  distance_km: number;
+  drive_time_estimate?: string | null;
+  transit_time_estimate?: string | null;
+  practicality: RoutePracticality;
+  editorial_note?: string | null;
+  ferry_info?: FerryInfo | null;
+  border_info?: BorderInfo | null;
+  camper_info?: CamperRoadInfo | null;
+  /** True when built from haversine + heuristics rather than an editorial connection. */
+  is_estimated: boolean;
+}
+
+// ─── Phase 20: Cultural Intelligence ─────────────────────────────────────────
+
+export type CulturalInsightScope = "DESTINATION" | "REGION" | "COUNTRY";
+export const CULTURAL_INSIGHT_SCOPE_LABELS: Record<CulturalInsightScope, string> = {
+  DESTINATION: "Destination-specific",
+  REGION: "Regional",
+  COUNTRY: "Country-wide",
+};
+
+export type CulturalInsightCategory =
+  | "LOCAL_RHYTHM"
+  | "SOCIAL_CUSTOM"
+  | "FOOD_CULTURE"
+  | "COFFEE_CULTURE"
+  | "MARKET_CULTURE"
+  | "RELIGIOUS_OBSERVANCE"
+  | "DRESS_CODE"
+  | "TIPPING_ETIQUETTE"
+  | "BARGAINING_NORMS"
+  | "NOISE_AND_PACE"
+  | "HOSPITALITY_CUSTOMS"
+  | "FAMILY_AND_COMMUNITY"
+  | "SEASONAL_RHYTHM"
+  | "FESTIVAL_AND_CELEBRATION"
+  | "LANGUAGE_TIPS"
+  | "GETTING_AROUND_LOCALLY"
+  | "SAFETY_AWARENESS"
+  | "DIGITAL_AND_CONNECTIVITY"
+  | "MONEY_AND_PAYMENT"
+  | "PHOTOGRAPHY_ETIQUETTE"
+  | "ENVIRONMENTAL_NORMS"
+  | "LGBTQ_CONTEXT"
+  | "ACCESSIBILITY_CONTEXT";
+
+export const CULTURAL_INSIGHT_CATEGORY_LABELS: Record<CulturalInsightCategory, string> = {
+  LOCAL_RHYTHM: "Local Rhythm",
+  SOCIAL_CUSTOM: "Social Customs",
+  FOOD_CULTURE: "Food Culture",
+  COFFEE_CULTURE: "Coffee Culture",
+  MARKET_CULTURE: "Market Culture",
+  RELIGIOUS_OBSERVANCE: "Religious Observance",
+  DRESS_CODE: "Dress Code",
+  TIPPING_ETIQUETTE: "Tipping Etiquette",
+  BARGAINING_NORMS: "Bargaining Norms",
+  NOISE_AND_PACE: "Noise & Pace",
+  HOSPITALITY_CUSTOMS: "Hospitality Customs",
+  FAMILY_AND_COMMUNITY: "Family & Community",
+  SEASONAL_RHYTHM: "Seasonal Rhythm",
+  FESTIVAL_AND_CELEBRATION: "Festivals & Celebrations",
+  LANGUAGE_TIPS: "Language Tips",
+  GETTING_AROUND_LOCALLY: "Getting Around Locally",
+  SAFETY_AWARENESS: "Safety Awareness",
+  DIGITAL_AND_CONNECTIVITY: "Digital & Connectivity",
+  MONEY_AND_PAYMENT: "Money & Payment",
+  PHOTOGRAPHY_ETIQUETTE: "Photography Etiquette",
+  ENVIRONMENTAL_NORMS: "Environmental Norms",
+  LGBTQ_CONTEXT: "LGBTQ+ Context",
+  ACCESSIBILITY_CONTEXT: "Accessibility",
+};
+
+export type CulturalConfidence =
+  | "EDITORIAL_VERIFIED"
+  | "LOCAL_CONTEXT"
+  | "GENERAL_GUIDANCE"
+  | "VERIFY_CURRENT_CONTEXT";
+
+export const CULTURAL_CONFIDENCE_LABELS: Record<CulturalConfidence, string> = {
+  EDITORIAL_VERIFIED: "Editorial verified",
+  LOCAL_CONTEXT: "Local context",
+  GENERAL_GUIDANCE: "General guidance",
+  VERIFY_CURRENT_CONTEXT: "Verify current context",
+};
+
+export type CulturalSensitivity =
+  | "NONE"
+  | "NEEDS_REVIEW"
+  | "HISTORICALLY_SENSITIVE"
+  | "POLITICALLY_SENSITIVE";
+
+export const CULTURAL_SENSITIVITY_LABELS: Record<CulturalSensitivity, string> = {
+  NONE: "None",
+  NEEDS_REVIEW: "Needs review",
+  HISTORICALLY_SENSITIVE: "Historically sensitive",
+  POLITICALLY_SENSITIVE: "Politically sensitive",
+};
+
+export interface CulturalInsight {
+  id: string;
+  scope: CulturalInsightScope;
+  /** Matches a destination slug when scope === "DESTINATION", region slug when "REGION", country code when "COUNTRY". */
+  scope_slug: string;
+  category: CulturalInsightCategory;
+  headline: string;
+  body: string;
+  /** Optional second paragraph providing additional nuance. */
+  nuance?: string | null;
+  confidence: CulturalConfidence;
+  sensitivity: CulturalSensitivity;
+  /** Optional tag for seasonal applicability, e.g. "summer", "ramadan". */
+  seasonal_tag?: string | null;
+  active: boolean;
+  demo_only: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export type LocalPhraseCategory =
+  | "GREETING"
+  | "THANKS"
+  | "FOOD_ORDER"
+  | "DIRECTIONS"
+  | "SHOPPING"
+  | "EMERGENCY"
+  | "COURTESY"
+  | "NUMBERS";
+
+export const LOCAL_PHRASE_CATEGORY_LABELS: Record<LocalPhraseCategory, string> = {
+  GREETING: "Greetings",
+  THANKS: "Thanks",
+  FOOD_ORDER: "Ordering Food",
+  DIRECTIONS: "Directions",
+  SHOPPING: "Shopping",
+  EMERGENCY: "Emergency",
+  COURTESY: "Courtesy",
+  NUMBERS: "Numbers",
+};
+
+export interface LocalPhrase {
+  id: string;
+  /** ISO 639-1 or BCP-47 language code, e.g. "hr", "bs", "sr", "mk", "sq". */
+  language_code: string;
+  language_name: string;
+  category: LocalPhraseCategory;
+  phrase: string;
+  transliteration?: string | null;
+  translation: string;
+  pronunciation_tip?: string | null;
+  /** Countries or regions where this phrase is applicable. */
+  applicable_country_codes: string[];
+  active: boolean;
+  demo_only: boolean;
+}
+
+export type FounderNoteScope = "DESTINATION" | "REGION" | "COUNTRY" | "GENERAL";
+export const FOUNDER_NOTE_SCOPE_LABELS: Record<FounderNoteScope, string> = {
+  DESTINATION: "Destination",
+  REGION: "Regional",
+  COUNTRY: "Country",
+  GENERAL: "General",
+};
+
+export interface FounderNote {
+  id: string;
+  scope: FounderNoteScope;
+  /** Matches destination/region/country slug when scope is not GENERAL. */
+  scope_slug?: string | null;
+  headline: string;
+  body: string;
+  /** Optional attribution label shown alongside the note, e.g. "— Anita, founder". */
+  attribution?: string | null;
+  /** Optional URL-safe image key for founder photo. */
+  image_key?: string | null;
+  active: boolean;
+  demo_only: boolean;
+  created_at: string;
+}
+
+export type PersonalConnectionStatus = "SUBMITTED" | "UNDER_REVIEW" | "APPROVED" | "REJECTED";
+
+export interface PersonalConnectionStory {
+  id: string;
+  destination_slug: string;
+  author_display_name: string;
+  story: string;
+  connection_type?: string | null;
+  status: PersonalConnectionStatus;
+  created_at: string;
+}
+
+export type CulturalContributionStatus = "SUBMITTED" | "UNDER_REVIEW" | "APPROVED" | "REJECTED";
+
+export interface CulturalContribution {
+  id: string;
+  destination_slug?: string | null;
+  region_slug?: string | null;
+  country_code?: string | null;
+  category: CulturalInsightCategory;
+  suggested_headline: string;
+  suggested_body: string;
+  contributor_display_name?: string | null;
+  contributor_user_id?: string | null;
+  status: CulturalContributionStatus;
+  reviewer_note?: string | null;
+  created_at: string;
+}
+
+export interface CulturalMatchResult {
+  insights: CulturalInsight[];
+  phrases: LocalPhrase[];
+  /** Surfaced founder note, if one matches the scope. AI may surface; AI may NEVER invent. */
+  founderNote: FounderNote | null;
+  personalStories: PersonalConnectionStory[];
+}
+
+// ---------------------------------------------------------------------------
+// Phase 21 — Travel Memory & Adaptive Traveller Intelligence
+// ---------------------------------------------------------------------------
+
+/** Where a memory signal came from. Determines base weight and decay protection. */
+export type MemorySignalSource =
+  | "PROFILE_CONFIRMATION"      // Explicitly set in account settings (weight: 1.0, never decays)
+  | "WIZARD_SELECTION"          // Chosen in the planner wizard (weight: 0.8)
+  | "ITINERARY_KEEP"            // Kept an itinerary without regenerating (weight: 0.6)
+  | "ITINERARY_REGENERATE"      // Regenerated — signals what was NOT wanted (weight: 0.4)
+  | "PARTNER_SAVE"              // Saved a partner listing (weight: 0.4)
+  | "DIRECT_MEMORY_CONFIRMATION"// Confirmed a signal from the memory UI (weight: 1.0, never decays)
+  | "TRIP_COMPLETION_FEEDBACK"  // Explicit post-trip feedback (weight: 0.7)
+  | "POST_TRIP_REFLECTION";     // Phase 24: structured reflection with candidate confirmation (weight: 0.85)
+
+export const MEMORY_SIGNAL_SOURCE_WEIGHTS: Record<MemorySignalSource, number> = {
+  PROFILE_CONFIRMATION: 1.0,
+  WIZARD_SELECTION: 0.8,
+  ITINERARY_KEEP: 0.6,
+  ITINERARY_REGENERATE: 0.4,
+  PARTNER_SAVE: 0.4,
+  DIRECT_MEMORY_CONFIRMATION: 1.0,
+  TRIP_COMPLETION_FEEDBACK: 0.7,
+  POST_TRIP_REFLECTION: 0.85,
+};
+
+/** Sources where signals are treated as authoritative and never decay over time. */
+export const PROTECTED_MEMORY_SOURCES = new Set<MemorySignalSource>([
+  "PROFILE_CONFIRMATION",
+  "DIRECT_MEMORY_CONFIRMATION",
+]);
+
+/** Sources whose signals are considered weak on first observation (require repetition to strengthen). */
+export const WEAK_SIGNAL_SOURCES = new Set<MemorySignalSource>([
+  "ITINERARY_REGENERATE",
+  "PARTNER_SAVE",
+]);
+
+/** The complete allowlist of sources accepted at ingestion — anything outside this set is rejected. */
+export const ALLOWED_MEMORY_SIGNAL_SOURCES = new Set<MemorySignalSource>([
+  "PROFILE_CONFIRMATION",
+  "WIZARD_SELECTION",
+  "ITINERARY_KEEP",
+  "ITINERARY_REGENERATE",
+  "PARTNER_SAVE",
+  "DIRECT_MEMORY_CONFIRMATION",
+  "TRIP_COMPLETION_FEEDBACK",
+  "POST_TRIP_REFLECTION",
+]);
+
+/** Preference domains the memory engine may track. */
+export type MemoryPreferenceDomain =
+  | "PACE"               // Relaxed vs active travel cadence
+  | "BUDGET"             // Spending comfort level
+  | "ACCOMMODATION"      // Stay type preference
+  | "TRANSPORT"          // Preferred transit modes
+  | "FOOD_CULTURE"       // Dining style and food interests
+  | "NATURE"             // Outdoor and landscape preference
+  | "HISTORY"            // Historical and cultural interest
+  | "ART"                // Art and museums
+  | "NIGHTLIFE"          // Evening and nightlife preference
+  | "PHOTOGRAPHY"        // Photography interest
+  | "ADVENTURE"          // Adventure activities
+  | "WELLNESS"           // Wellness and spa preference
+  | "FAMILY"             // Family-oriented features
+  | "ROMANCE"            // Romantic travel preference
+  | "SOLO"               // Solo travel preference
+  | "GROUP"              // Group travel preference
+  | "BEACHES"            // Beach and coastal preference
+  | "MOUNTAINS"          // Mountain and highlands preference
+  | "CITIES"             // Urban exploration preference
+  | "RURAL"              // Rural and off-the-beaten-path preference
+  | "SUSTAINABILITY"     // Eco-conscious travel preference
+  | "LANGUAGE"           // Language learning interest
+  | "COFFEE_CULTURE"     // Coffee culture and café preference
+  | "WINE"               // Wine and vineyard preference
+  | "LOCAL_EVENTS"       // Local festivals and events
+  | "HIDDEN_GEMS"        // Off-the-beaten-path preference
+  | "GUIDED_TOURS"       // Guided vs self-guided preference
+  | "ISLAND_HOPPING"     // Island and coastal route preference
+  | "ROAD_TRIPS"                    // Road trip preference
+  | "SLOW_TRAVEL"                   // Extended stay in fewer places
+  // Phase 24 — Post-Trip Reflection domains
+  | "ITINERARY_PACE"                // Preferred day-fullness based on pace reflection
+  | "PLANNING_STRUCTURE"            // Preferred structure level: more vs. less planned
+  | "ACTIVITY_CATEGORY_PREFERENCE"; // Category-level affinity inferred from item reflection
+
+export const MEMORY_PREFERENCE_DOMAIN_LABELS: Record<MemoryPreferenceDomain, string> = {
+  PACE: "Travel pace",
+  BUDGET: "Budget comfort",
+  ACCOMMODATION: "Accommodation style",
+  TRANSPORT: "Transport preference",
+  FOOD_CULTURE: "Food & dining",
+  NATURE: "Nature & outdoors",
+  HISTORY: "History & heritage",
+  ART: "Art & museums",
+  NIGHTLIFE: "Nightlife",
+  PHOTOGRAPHY: "Photography",
+  ADVENTURE: "Adventure activities",
+  WELLNESS: "Wellness & spa",
+  FAMILY: "Family travel",
+  ROMANCE: "Romantic travel",
+  SOLO: "Solo travel",
+  GROUP: "Group travel",
+  BEACHES: "Beaches & coast",
+  MOUNTAINS: "Mountains & highlands",
+  CITIES: "Urban exploration",
+  RURAL: "Rural & countryside",
+  SUSTAINABILITY: "Eco-conscious travel",
+  LANGUAGE: "Language learning",
+  COFFEE_CULTURE: "Coffee culture",
+  WINE: "Wine & vineyards",
+  LOCAL_EVENTS: "Local events & festivals",
+  HIDDEN_GEMS: "Hidden gems",
+  GUIDED_TOURS: "Guided experiences",
+  ISLAND_HOPPING: "Island hopping",
+  ROAD_TRIPS: "Road trips",
+  SLOW_TRAVEL: "Slow travel",
+  ITINERARY_PACE: "Itinerary pace",
+  PLANNING_STRUCTURE: "Planning structure",
+  ACTIVITY_CATEGORY_PREFERENCE: "Activity category preference",
+};
+
+/**
+ * Domains that must NEVER be inferred from travel behaviour.
+ * Signals targeting these domains are rejected at ingestion regardless of source.
+ * This is a hard privacy guardrail — not configurable.
+ */
+export const BLOCKED_MEMORY_DOMAINS = new Set<string>([
+  "RELIGION",
+  "ETHNICITY",
+  "RACE",
+  "SEXUAL_ORIENTATION",
+  "POLITICAL_AFFILIATION",
+  "HEALTH",
+  "DISABILITY",
+  "INCOME",
+  "IMMIGRATION_STATUS",
+  "CRIMINAL_HISTORY",
+]);
+
+/** Which direction a preference signal points. */
+export type MemorySignalDirection = "POSITIVE" | "NEGATIVE" | "NEUTRAL";
+
+/** Traveller's review state for a specific memory signal. */
+export type MemoryConfirmationStatus = "UNCONFIRMED" | "CONFIRMED" | "REJECTED";
+
+/** Trip group context at time of signal observation. */
+export type MemoryTripContext =
+  | "SOLO"
+  | "COUPLE"
+  | "FAMILY"
+  | "FRIENDS"
+  | "WORKATION"
+  | "ROAD_TRIP";
+
+/** One observed travel preference signal. Rows deduplicate on (user_id, domain, subject, direction). */
+export interface TravelMemorySignal {
+  id: string;
+  user_id: string;
+  source: MemorySignalSource;
+  domain: MemoryPreferenceDomain;
+  /** Human-readable description, e.g. "slow mornings and cafés" */
+  subject: string;
+  /** Optional specific value, e.g. "Dubrovnik", "Croatian wine" */
+  value?: string | null;
+  direction: MemorySignalDirection;
+  /** Computed 0–1 strength (source weight + repetition bonus, capped at 1.0) */
+  strength: number;
+  /** Computed 0–1 confidence (source weight + repetition + confirmation status) */
+  confidence: number;
+  source_trip_id?: string | null;
+  /** How many times this signal has been observed (incremented on repeat) */
+  occurrence_count: number;
+  first_observed_at: string;
+  last_observed_at: string;
+  trip_context?: MemoryTripContext | null;
+  confirmation_status: MemoryConfirmationStatus;
+  /** For REJECTED signals: ISO timestamp when the 90-day cooldown expires */
+  rejected_until?: string | null;
+  active: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export type MemoryStrengthLabel = "strong_pattern" | "noticed" | "still_learning";
+
+/** Aggregated summary of a traveller's memory signals, for UI display. */
+export interface TravelMemorySummary {
+  confirmed: TravelMemorySignal[];
+  strong: TravelMemorySignal[];
+  noticed: TravelMemorySignal[];
+  learning: TravelMemorySignal[];
+  total: number;
+}
+
+// ---------------------------------------------------------------------------
+// Phase 22 — Trip Companion & Pre-Trip Readiness Engine
+// ---------------------------------------------------------------------------
+
+export type ReadinessCategory =
+  | "DOCUMENTS"
+  | "VISA"
+  | "HEALTH"
+  | "INSURANCE"
+  | "ACCOMMODATION"
+  | "TRANSPORT"
+  | "FERRY"
+  | "BORDER_CROSSING"
+  | "MONEY"
+  | "CONNECTIVITY"
+  | "PACKING"
+  | "WEATHER"
+  | "LOCAL_CUSTOMS"
+  | "EMERGENCY"
+  | "LANGUAGE"
+  | "ACTIVITIES"
+  | "FOOD";
+
+/**
+ * When this readiness item becomes relevant relative to departure.
+ * DO_NOW is a system override for items that are immediately actionable regardless of countdown.
+ */
+export type ReadinessTimingWindow =
+  | "DO_NOW"          // Immediate regardless of timeline
+  | "NOW_URGENT"      // ≤3 days to departure
+  | "THIS_WEEK"       // 4–14 days
+  | "THIS_MONTH"      // 15–30 days
+  | "BEFORE_YOU_GO"   // 31–90 days
+  | "PLANNING_PHASE"  // >90 days, or no departure date set
+  | "IN_DESTINATION"  // Relevant once travelling, not before
+  | "POST_TRIP";      // After return
+
+export type ReadinessStatus = "PENDING" | "DONE" | "SKIPPED" | "NA";
+export type ReadinessPriority = "CRITICAL" | "HIGH" | "MEDIUM" | "LOW";
+export type ReservationSensitivity = "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
+
+/** "Planning is not booking" — explicit three-state booking model. */
+export type BookingState = "NOT_STARTED" | "PLANNED" | "USER_MARKED_BOOKED";
+
+export type TripCountdownState = "FUTURE" | "TODAY" | "STARTED" | "COMPLETED";
+
+export interface TripReadinessItem {
+  id: string;
+  user_id: string;
+  trip_id: string;
+  rule_key: string;
+  category: ReadinessCategory;
+  timing_window: ReadinessTimingWindow;
+  status: ReadinessStatus;
+  priority: ReadinessPriority;
+  title: string;
+  description: string;
+  notes?: string | null;
+  booking_state: BookingState;
+  reservation_sensitivity: ReservationSensitivity;
+  is_auto_generated: boolean;
+  context_metadata?: Record<string, unknown> | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface TripReadinessSummary {
+  countdownState: TripCountdownState;
+  daysUntilDeparture: number | null;
+  total: number;
+  done: number;
+  critical: TripReadinessItem[];
+  urgent: TripReadinessItem[];
+  thisWeek: TripReadinessItem[];
+  thisMonth: TripReadinessItem[];
+  planningPhase: TripReadinessItem[];
+}
+
+export interface WhatMattersNow {
+  state: TripCountdownState;
+  daysUntilDeparture: number | null;
+  items: TripReadinessItem[];
+}
+
+export const READINESS_CATEGORY_LABELS: Record<ReadinessCategory, string> = {
+  DOCUMENTS: "Documents",
+  VISA: "Visa",
+  HEALTH: "Health",
+  INSURANCE: "Insurance",
+  ACCOMMODATION: "Accommodation",
+  TRANSPORT: "Transport",
+  FERRY: "Ferry",
+  BORDER_CROSSING: "Border Crossing",
+  MONEY: "Money & Cards",
+  CONNECTIVITY: "Connectivity",
+  PACKING: "Packing",
+  WEATHER: "Weather",
+  LOCAL_CUSTOMS: "Local Customs",
+  EMERGENCY: "Emergency",
+  LANGUAGE: "Language",
+  ACTIVITIES: "Activities",
+  FOOD: "Food & Dining",
+};
+
+/** Ordering used when displaying timing windows in the UI, most urgent first. */
+export const READINESS_TIMING_WINDOW_ORDER: Record<ReadinessTimingWindow, number> = {
+  DO_NOW: 0,
+  NOW_URGENT: 1,
+  THIS_WEEK: 2,
+  THIS_MONTH: 3,
+  BEFORE_YOU_GO: 4,
+  PLANNING_PHASE: 5,
+  IN_DESTINATION: 6,
+  POST_TRIP: 7,
+};
+
+// ---------------------------------------------------------------------------
+// Phase 23 — Live Trip Mode & On-the-Road Companion
+// ---------------------------------------------------------------------------
+
+/**
+ * Where the trip is in its lifecycle, computed deterministically from
+ * departure_date and trip duration. No live data, no server clock —
+ * computed client-side in the user's local timezone.
+ */
+export type TripLifecycleState =
+  | "PLANNING"       // No departure date set, or departure date is >1 day away
+  | "PRE_TRIP"       // 1 day before departure (eve of travel)
+  | "DEPARTURE_DAY"  // The departure date itself (day 1)
+  | "IN_TRIP"        // Days 2–N of the trip
+  | "COMPLETED";     // All trip days have passed
+
+/**
+ * What a traveller can mark a day slot as.
+ * PLANNED is the default (no explicit action taken).
+ */
+export type LiveItemStatus = "PLANNED" | "DONE" | "SKIPPED" | "SAVED_FOR_LATER";
+
+/** The prose slot within an ItineraryDay that this item maps to. */
+export type DaySlot = "morning" | "afternoon" | "evening" | "food" | "day_overview";
+
+/**
+ * How firmly a slot is anchored to a time.
+ * FIXED_TIME is never assignable from prose-only ItineraryDay content —
+ * only SUGGESTED_TIME and UNTIMED are valid for Phase 23.
+ */
+export type ItemTimeSemantic = "FIXED_TIME" | "SUGGESTED_TIME" | "TIME_WINDOW" | "UNTIMED";
+
+/**
+ * How full a day appears based on prose slot density.
+ * LIGHT: 0–1 non-empty prose slots
+ * MODERATE: 2 slots
+ * FULL: 3+ slots
+ * Note: these are editorial estimates, not provable facts about traveller time.
+ */
+export type DayLoadLevel = "LIGHT" | "MODERATE" | "FULL";
+
+/** How easy it is to reorganise a day slot — derived from day load. */
+export type PlanFlexibility = "EASY_TO_MOVE" | "SOME_FLEXIBILITY" | "TIGHTLY_PACKED";
+
+/**
+ * What kind of data capability backs a displayed piece of information.
+ * Only LIVE_PROVIDER authorises a "live" claim; none exist in Phase 23.
+ * All Phase 23 information is STATIC_CURATED or TRIP_DERIVED.
+ */
+export type LiveDataCapability =
+  | "STATIC_CURATED"   // Editorially authored, stable knowledge
+  | "TRIP_DERIVED"     // Computed from saved itinerary content, no external data
+  | "USER_CONFIRMED"   // Traveller explicitly confirmed (e.g. booking state)
+  | "LIVE_PROVIDER";   // Would require a real live integration — NEVER assigned in Phase 23
+
+/** Groups items into the Now/Next/Later model for the Today view. */
+export type NowNextGroup = "NOW" | "NEXT" | "LATER" | "DONE_TODAY";
+
+/** The kind of practical context card to surface for this day. */
+export type PracticalContextCardType =
+  | "FERRY_DAY"        // A ferry segment is planned for this day
+  | "BORDER_CROSSING"  // A border crossing is on this day's route
+  | "LOGISTICS_MOVE"   // A multi-hour transfer on a travel day
+  | "RESERVATION_DUE"  // A readiness item with HIGH/CRITICAL sensitivity is pending
+  | "OFFLINE_REMINDER" // Connectivity may be limited (curated region note)
+  | "PACKING_CHECK";   // A packing-related readiness item is still PENDING
+
+/** A traveller's persisted state for one day slot. Rows in live_trip_item_states. */
+export interface LiveTripItemState {
+  id: string;
+  user_id: string;
+  trip_id: string;
+  item_key: string;
+  status: LiveItemStatus;
+  note?: string | null;
+  changed_on_date?: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+/** A single actionable item in the Today view, combining itinerary prose + persisted state. */
+export interface LiveTripDayItem {
+  /** Stable key: "day{N}:{slot}" */
+  item_key: string;
+  day_number: number;
+  slot: DaySlot;
+  time_semantic: ItemTimeSemantic;
+  /** The prose text from the ItineraryDay for this slot. */
+  prose: string;
+  status: LiveItemStatus;
+  now_next_group: NowNextGroup;
+  flexibility: PlanFlexibility;
+  note?: string | null;
+}
+
+/** A contextual card surfaced in the Today view for practical on-the-road information. */
+export interface PracticalContextCard {
+  type: PracticalContextCardType;
+  headline: string;
+  body: string;
+  capability: LiveDataCapability;
+  /** Optional link or booking reference the traveller confirmed. */
+  action_url?: string | null;
+}
+
+/**
+ * The computed state of the traveller's trip at the current moment.
+ * Computed deterministically from departure_date, duration_days, and local client date.
+ * No live data, no GPS, no external APIs.
+ */
+export interface CurrentTripMoment {
+  lifecycle: TripLifecycleState;
+  /** 1-indexed current trip day (1 = departure day), null if not yet started or completed. */
+  current_day_number: number | null;
+  /** ISO date string of today in the user's local timezone. */
+  today_date_string: string;
+  /** Days until departure (negative = in past). Null if no departure date set. */
+  days_from_departure: number | null;
+}
+
+/** Full context for one trip day in the Today view. */
+export interface TripDayContext {
+  day_number: number;
+  date_string: string;
+  title: string;
+  load: DayLoadLevel;
+  flexibility: PlanFlexibility;
+  items: LiveTripDayItem[];
+  practical_cards: PracticalContextCard[];
+}
+
+/** A proposed lighter-day alternative, built from skipping lower-priority slots. */
+export interface LighterDayProposal {
+  original_day_number: number;
+  suggested_items_to_keep: string[];  // item_keys
+  suggested_items_to_skip: string[];  // item_keys
+  reasoning: string;
+  load_after: DayLoadLevel;
+}
+
+// ---------------------------------------------------------------------------
+// Phase 24 — Post-Trip Reflection & Memory Loop
+// ---------------------------------------------------------------------------
+
+/**
+ * Where the traveller is in the reflection lifecycle for a given trip.
+ * NOT_STARTED is the default — no row exists until the traveller opens reflection.
+ * DISMISSED is manually reopenable; it must not delete any trip data.
+ */
+export type TripReflectionStatus =
+  | "NOT_STARTED"  // No reflection row exists yet
+  | "IN_PROGRESS"  // Started but not finished
+  | "COMPLETED"    // Traveller has finished and confirmed
+  | "DISMISSED";   // Explicitly dismissed — can be reopened
+
+/**
+ * Which post-trip timing window the reflection falls into.
+ * Determines wording ("While it's still fresh…" vs "Looking back…").
+ * Eligibility never expires — these affect UI copy only.
+ */
+export type ReflectionTimingWindow =
+  | "JUST_RETURNED"  // 0–3 days after trip completion
+  | "RECENT"         // 4–30 days after
+  | "PAST_TRIP";     // 31+ days after
+
+/**
+ * The traveller's overall feeling about the trip.
+ * Must NOT be treated as a universal preference signal for a destination.
+ * LOVED_IT on a trip to Croatia ≠ "user loves Croatia".
+ */
+export type OverallFeeling =
+  | "LOVED_IT"
+  | "GOOD_TRIP"
+  | "MIXED"
+  | "NOT_MY_TRIP"
+  | "PREFER_NOT_TO_SAY";
+
+/**
+ * How the traveller felt about the pace of the trip.
+ * This is the primary input to ITINERARY_PACE learning candidates.
+ * Important: one trip's pace signal alone does not create a permanent preference —
+ * TripLearningCandidates mediate promotion to Travel Memory.
+ */
+export type PaceReflection =
+  | "TOO_SLOW"
+  | "JUST_RIGHT"
+  | "A_LITTLE_FULL"
+  | "TOO_FULL"
+  | "UNKNOWN";
+
+/**
+ * How the traveller felt about the planning structure of the trip.
+ * Influences future PLANNING_STRUCTURE memory candidates.
+ */
+export type PlanningComfort =
+  | "MORE_STRUCTURE"
+  | "CURRENT_LEVEL"
+  | "MORE_FLEXIBILITY"
+  | "UNKNOWN";
+
+/**
+ * Per-item reflection value for a single itinerary slot.
+ * Unanswered items remain unanswered — no coercion to NEUTRAL.
+ * NOT_EXPERIENCED is the default for SKIPPED items unless explicitly overridden.
+ * DONE ≠ LOVED; SKIPPED ≠ WOULD_SKIP — these require explicit selection.
+ */
+export type ItemReflection =
+  | "LOVED"
+  | "LIKED"
+  | "NEUTRAL"
+  | "WOULD_SKIP"
+  | "NOT_EXPERIENCED";
+
+/**
+ * Whether the traveller would return to a specific destination.
+ * Must be scoped to a clear destination — not "the Balkans" in general.
+ * NO ≠ "user dislikes destination"; it is a narrower return intent.
+ */
+export type ReturnIntent =
+  | "YES"
+  | "MAYBE"
+  | "NO"
+  | "PREFER_NOT_TO_SAY";
+
+/**
+ * The traveller's decision on a proposed TripLearningCandidate.
+ * DEFERRED allows the candidate to be re-proposed in future reflections.
+ * REJECTED avoids creating a negative memory signal (it only suppresses the candidate).
+ */
+export type CandidateDecision =
+  | "CONFIRMED"   // Traveller accepted → memory promotion triggered
+  | "REJECTED"    // Traveller declined → no memory signal created
+  | "DEFERRED";   // Traveller wants to decide later
+
+/**
+ * How confidently the candidate was derived from explicit reflection evidence.
+ * HIGH: direct pace/planning/item statement
+ * MEDIUM: inferred from multiple consistent explicit signals
+ * LOW: derived from single explicit signal with limited corroboration
+ */
+export type CandidateConfidenceBasis =
+  | "HIGH"    // Direct explicit statement (e.g. "too full" → pace candidate)
+  | "MEDIUM"  // Multiple consistent explicit signals
+  | "LOW";    // Single explicit signal, limited corroboration
+
+/**
+ * A proposed memory update derived deterministically from reflection data.
+ * Every candidate has an explicit evidence basis — no behavioural ambiguity assumptions.
+ * Candidates are proposed to the traveller before any memory promotion happens.
+ * The traveller confirms, rejects, or defers. Confirmed → Travel Memory via server action.
+ */
+export interface TripLearningCandidate {
+  /** Stable deterministic key: "{tripId}:{domain}:{subject_slug}" */
+  candidate_key: string;
+  domain: MemoryPreferenceDomain;
+  subject: string;
+  value?: string | null;
+  direction: MemorySignalDirection;
+  /** Human-readable description of the evidence, e.g. "You said this trip felt too full." */
+  evidence_summary: string;
+  confidence_basis: CandidateConfidenceBasis;
+  /** Which reflection field(s) generated this candidate. */
+  evidence_sources: Array<"pace_reflection" | "planning_comfort" | "item_reflection" | "overall_feeling">;
+  /** The MemorySignalSource to use when promoting this candidate. */
+  memory_signal_source: MemorySignalSource;
+  /** Whether this candidate conflicts with an existing confirmed memory signal. */
+  conflicts_with_existing: boolean;
+  /** The ID of the conflicting memory signal, if any. */
+  conflicting_signal_id?: string | null;
+  /** Whether this domain is safe to promote (blocked domains filtered before this point). */
+  is_promotable: boolean;
+}
+
+/** A persisted row in trip_reflections. One per (user_id, trip_id). */
+export interface TripReflection {
+  id: string;
+  user_id: string;
+  trip_id: string;
+  status: TripReflectionStatus;
+  overall_feeling?: OverallFeeling | null;
+  pace_reflection?: PaceReflection | null;
+  planning_comfort?: PlanningComfort | null;
+  return_intent?: ReturnIntent | null;
+  return_intent_destination?: string | null;
+  /** Private free-text note. Never sent to analytics, AI, or public surfaces. */
+  private_note?: string | null;
+  completed_at?: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+/** One item-level reflection row in trip_reflection_items. */
+export interface TripReflectionItem {
+  id: string;
+  user_id: string;
+  trip_id: string;
+  /** Stable item key: "day{N}:{slot}" — same format as Phase 23 live_trip_item_states. */
+  item_key: string;
+  value: ItemReflection;
+  created_at: string;
+  updated_at: string;
+}
+
+/** A persisted candidate decision row in trip_learning_candidates. */
+export interface TripLearningCandidateDecision {
+  id: string;
+  user_id: string;
+  trip_id: string;
+  candidate_key: string;
+  decision: CandidateDecision;
+  decided_at: string;
+  created_at: string;
+}
+
+/**
+ * Itinerary pace preference derived from confirmed Travel Memory.
+ * Used as an input to future itinerary grounding.
+ * UNSPECIFIED = no confirmed preference; let the itinerary engine use defaults.
+ */
+export type ItineraryPacePreference = "LIGHT" | "BALANCED" | "FULL" | "UNSPECIFIED";
+
+export const OVERALL_FEELING_LABELS: Record<OverallFeeling, string> = {
+  LOVED_IT: "Loved it",
+  GOOD_TRIP: "A good trip",
+  MIXED: "A bit mixed",
+  NOT_MY_TRIP: "Not really my trip",
+  PREFER_NOT_TO_SAY: "Prefer not to say",
+};
+
+export const PACE_REFLECTION_LABELS: Record<PaceReflection, string> = {
+  TOO_SLOW: "Too slow",
+  JUST_RIGHT: "Just right",
+  A_LITTLE_FULL: "A little full",
+  TOO_FULL: "Too full",
+  UNKNOWN: "Hard to say",
+};
+
+export const PLANNING_COMFORT_LABELS: Record<PlanningComfort, string> = {
+  MORE_STRUCTURE: "More structure",
+  CURRENT_LEVEL: "About the same",
+  MORE_FLEXIBILITY: "More breathing room",
+  UNKNOWN: "Not sure",
+};
+
+export const ITEM_REFLECTION_LABELS: Record<ItemReflection, string> = {
+  LOVED: "Loved this",
+  LIKED: "Liked it",
+  NEUTRAL: "It was fine",
+  WOULD_SKIP: "Would skip next time",
+  NOT_EXPERIENCED: "Didn't do this",
+};
+
+export const RETURN_INTENT_LABELS: Record<ReturnIntent, string> = {
+  YES: "Yes, definitely",
+  MAYBE: "Maybe",
+  NO: "Probably not",
+  PREFER_NOT_TO_SAY: "Prefer not to say",
+};
+
+// ---------------------------------------------------------------------------
+// Phase 26 — Inspiration Capture & Travel Intent Layer
+// ---------------------------------------------------------------------------
+
+/**
+ * How the user originally discovered the place.
+ * Source-agnostic: the domain never hardcodes a specific social platform
+ * as the core abstraction — provider is tracked separately in InspirationCapture.
+ */
+export type InspirationCaptureSource =
+  | "URL"           // Any web URL
+  | "SOCIAL_URL"    // URL detected as a social media platform URL
+  | "SCREENSHOT"    // Image/screenshot uploaded by the user
+  | "MANUAL_TEXT"   // User typed a place name or recommendation
+  | "SHARED_LINK";  // A link shared from another user or app (future use)
+
+/**
+ * The inferred social/web provider when source_type is URL or SOCIAL_URL.
+ * This is provenance metadata only — the capture pipeline never imports
+ * provider-specific API logic into the core domain layer.
+ * New providers can be detected and added here without changing the pipeline.
+ */
+export type InspirationSourceProvider =
+  | "INSTAGRAM"
+  | "YOUTUBE"
+  | "TIKTOK"
+  | "PINTEREST"
+  | "TWITTER"
+  | "FACEBOOK"
+  | "GENERIC_WEB"
+  | "UNKNOWN";
+
+/**
+ * How confidently the system resolved the inspiration to a named place.
+ * USER_CONFIRMED and USER_CORRECTED always take precedence over system resolution.
+ * The system never silently asserts a guessed destination as fact.
+ */
+export type CaptureResolutionStatus =
+  | "RESOLVED_HIGH_CONFIDENCE"  // System confidence ≥0.8; auto-resolved
+  | "NEEDS_CONFIRMATION"        // System has a suggestion (0.4–0.79); ask user
+  | "AMBIGUOUS"                 // Multiple plausible matches; ask user
+  | "UNRESOLVED"               // System could not extract useful place information
+  | "USER_CONFIRMED"           // User explicitly confirmed the system's suggestion
+  | "USER_CORRECTED"           // User corrected the system with their own place data
+  | "DISMISSED";               // User dismissed this find; retained for audit trail
+
+/** The broad category of a travel find's place. */
+export type InspirationPlaceType =
+  | "NATURAL_FEATURE"    // Canyon, waterfall, cave, beach
+  | "CITY_OR_TOWN"       // Urban destination
+  | "VILLAGE"            // Small settlement, off-track
+  | "NATIONAL_PARK"      // Protected natural area
+  | "COASTAL_AREA"       // Coast, bay, island, peninsula
+  | "MOUNTAIN"           // Peak, ridge, highland
+  | "RIVER_OR_LAKE"      // Inland water feature
+  | "HISTORICAL_SITE"    // Heritage, ruin, monument, old town
+  | "FOOD_OR_DRINK"      // Restaurant, konoba, winery, market
+  | "ACTIVITY"           // Hiking trail, kayaking spot, viewpoint
+  | "REGION"             // Broad geographic area
+  | "UNKNOWN";
+
+/**
+ * Provenance metadata stored alongside each capture.
+ * Records how and when extraction happened, which adapter processed it,
+ * and whether a user correction was applied — without storing raw image data.
+ */
+export interface InspirationCaptureProvenance {
+  adapter: string;
+  adapter_version: string;
+  extracted_at: string;
+  resolution_method: string;
+  raw_metadata: Record<string, string | null>;
+  user_correction_applied: boolean;
+  screenshot_analyzed: boolean;
+  screenshot_retained: boolean;  // Always false in Phase 26; screenshots are discarded after analysis
+}
+
+/**
+ * One persisted inspiration capture / travel find.
+ * The source may disappear; the destination memory remains.
+ * Row in public.inspiration_captures; user_id-scoped RLS.
+ */
+export interface InspirationCapture {
+  id: string;
+  user_id: string;
+  source_type: InspirationCaptureSource;
+  source_url: string | null;
+  source_provider: InspirationSourceProvider | null;
+  source_creator: string | null;
+  /** Provider-level post/reel/pin ID retained for audit provenance, never for re-fetching private content. */
+  original_source_reference: string | null;
+  place_name: string | null;
+  country_code: string | null;
+  region: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  place_type: InspirationPlaceType | null;
+  user_note: string | null;
+  /** Observable context from the source — what the caption/title described, not inferred user intent. */
+  capture_context: string | null;
+  /** Deterministic reminder of why this was saved. Never claims user emotion unless explicitly stated. */
+  memory_spark: string | null;
+  resolution_confidence: number;
+  resolution_status: CaptureResolutionStatus;
+  provenance: InspirationCaptureProvenance | null;
+  captured_at: string;
+  confirmed_at: string | null;
+  dismissed_at: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+/**
+ * Normalized output from any capture adapter.
+ * The pipeline passes this to the place resolver — adapters never resolve places directly.
+ */
+export interface CaptureAdapterResult {
+  source_type: InspirationCaptureSource;
+  source_provider: InspirationSourceProvider | null;
+  source_creator: string | null;
+  original_source_reference: string | null;
+  raw_title: string | null;
+  raw_description: string | null;
+  raw_location_hint: string | null;
+  capture_context: string | null;
+  confidence: number;
+  provenance_metadata: Record<string, string | null>;
+  extraction_available: boolean;
+  extraction_note: string | null;
+}
+
+/** Place resolution output from the place resolver. */
+export interface PlaceResolutionResult {
+  place_name: string | null;
+  country_code: string | null;
+  region: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  place_type: InspirationPlaceType | null;
+  resolution_status: CaptureResolutionStatus;
+  resolution_confidence: number;
+  resolution_method: string;
+}
+
+/** Result of screenshot/image evidence analysis. Never contains the original image data. */
+export interface ImageEvidenceResult {
+  available: boolean;
+  extraction_note: string;
+  raw_text_extracted: string | null;
+  location_hints: string[];
+  confidence: number;
+}
+
+/** Input for initiating a capture from a URL, text, or screenshot. */
+export interface InspirationCaptureInput {
+  source_url?: string | null;
+  manual_text?: string | null;
+  image_data_base64?: string | null;  // Temporary — not persisted; discarded after pipeline
+  user_note?: string | null;
+}
+
+/** Patch applied when a user confirms or corrects a find's place information. */
+export interface InspirationCapturePatch {
+  place_name?: string | null;
+  country_code?: string | null;
+  region?: string | null;
+  place_type?: InspirationPlaceType | null;
+  user_note?: string | null;
+  resolution_status?: CaptureResolutionStatus;
+}
+
+export const INSPIRATION_CAPTURE_SOURCE_LABELS: Record<InspirationCaptureSource, string> = {
+  URL: "Web link",
+  SOCIAL_URL: "Social media",
+  SCREENSHOT: "Screenshot",
+  MANUAL_TEXT: "Personal tip",
+  SHARED_LINK: "Shared link",
+};
+
+export const INSPIRATION_SOURCE_PROVIDER_LABELS: Record<InspirationSourceProvider, string> = {
+  INSTAGRAM: "Instagram",
+  YOUTUBE: "YouTube",
+  TIKTOK: "TikTok",
+  PINTEREST: "Pinterest",
+  TWITTER: "Twitter / X",
+  FACEBOOK: "Facebook",
+  GENERIC_WEB: "Web",
+  UNKNOWN: "Unknown source",
+};
+
+export const CAPTURE_RESOLUTION_STATUS_LABELS: Record<CaptureResolutionStatus, string> = {
+  RESOLVED_HIGH_CONFIDENCE: "Resolved",
+  NEEDS_CONFIRMATION: "Needs confirmation",
+  AMBIGUOUS: "Ambiguous",
+  UNRESOLVED: "Unresolved",
+  USER_CONFIRMED: "Confirmed",
+  USER_CORRECTED: "Corrected",
+  DISMISSED: "Dismissed",
+};
+
+export const INSPIRATION_PLACE_TYPE_LABELS: Record<InspirationPlaceType, string> = {
+  NATURAL_FEATURE: "Natural feature",
+  CITY_OR_TOWN: "City or town",
+  VILLAGE: "Village",
+  NATIONAL_PARK: "National park",
+  COASTAL_AREA: "Coastal area",
+  MOUNTAIN: "Mountain",
+  RIVER_OR_LAKE: "River or lake",
+  HISTORICAL_SITE: "Historical site",
+  FOOD_OR_DRINK: "Food or drink",
+  ACTIVITY: "Activity or experience",
+  REGION: "Region",
+  UNKNOWN: "Unknown",
+};
+
+// =============================================================================
+// Phase 28 — Travel Find Resurfacing & Proximity Intelligence
+// =============================================================================
+
+/**
+ * Why a saved find is being resurfaced.
+ * Multiple reasons can apply simultaneously; the highest-weight reasons drive the UI copy.
+ */
+export type ResurfacingReason =
+  | "ON_ROUTE"                 // find's place_name matches a map_point destination
+  | "NEAR_ROUTE"               // haversine distance ≤ nearRouteMaxDistanceKm
+  | "NEAR_DAY_STOP"            // haversine distance ≤ nearStopMaxDistanceKm (day-trip map_point)
+  | "NEAR_OVERNIGHT_STOP"      // haversine distance ≤ nearStopMaxDistanceKm (overnight map_point)
+  | "SAME_DESTINATION"         // place_name matches a map_point (synonym of ON_ROUTE; kept for UI labeling)
+  | "SAME_REGION"              // country_code matches trip country; no finer match found
+  | "TRIP_INTEREST_MATCH"      // place_type aligns with itinerary interests
+  | "UPCOMING_DAY_OPPORTUNITY"; // match is on tomorrow's day (DAY_AHEAD window)
+
+/** Confidence in the match, derived from reasons + capture.resolution_confidence. */
+export type MatchConfidence = "HIGH" | "MEDIUM" | "LOW";
+
+/**
+ * Which distance metric backs the distanceKm value.
+ * GEOGRAPHIC_DISTANCE is the only one Phase 28 produces (haversine straight-line).
+ * The others are reserved for when a TravelDistanceProvider is connected.
+ * Never fabricate ROUTE_DISTANCE, TRAVEL_TIME, or DETOUR_TIME.
+ */
+export type ResurfacingDistanceMetric =
+  | "GEOGRAPHIC_DISTANCE"   // straight-line haversine (km) — Phase 28
+  | "ROUTE_DISTANCE"        // road route km — requires TravelDistanceProvider
+  | "TRAVEL_TIME"           // road minutes — requires TravelDistanceProvider
+  | "DETOUR_TIME";          // extra minutes above current route — requires TravelDistanceProvider
+
+/** When in the trip lifecycle the resurfacing activates. */
+export type ResurfacingWindow =
+  | "PLANNING"    // departure_date set, >14 days out
+  | "PRE_TRIP"    // 1–14 days before departure
+  | "LIVE_TRIP"   // trip is active
+  | "DAY_AHEAD"   // match is relevant for tomorrow
+  | "SAME_DAY"    // match is relevant today
+  | "POST_TRIP";  // after the trip
+
+/** User actions on a resurfaced find card. */
+export type ResurfacingAction =
+  | "VIEW_FIND"       // opened the find detail (navigated to /my-balkans/finds)
+  | "ADD_TO_TRIP"     // added to itinerary via explicit confirmation
+  | "ADD_TO_DAY"      // marked as today's activity
+  | "NOT_THIS_TRIP"   // dismissed for this trip; can resurface on a different trip
+  | "REMIND_ME_LATER" // cooldown applied; surfaced again after cooldownAfterRemindLaterDays
+  | "DISMISS";        // permanently dismissed from resurfacing (all trips)
+
+/** What triggered the match and on which day. */
+export interface TravelFindMatchContext {
+  tripId: string;
+  tripTitle: string | null;
+  lifecycle: ResurfacingWindow;
+  /** Which itinerary day the match is anchored to. Null = match spans the whole trip. */
+  matchedDayNumber: number | null;
+  /** ISO date string for matchedDayNumber. Null when matchedDayNumber is null. */
+  matchedDayDate: string | null;
+}
+
+/** One find matched to one trip. */
+export interface TravelFindTripMatch {
+  captureId: string;
+  context: TravelFindMatchContext;
+  reasons: ResurfacingReason[];
+  confidence: MatchConfidence;
+  /** Straight-line km to nearest map_point. Null when capture has no coordinates. */
+  distanceKm: number | null;
+  /** Which metric produced distanceKm. Null when distanceKm is null. */
+  distanceMetric: ResurfacingDistanceMetric | null;
+  /** 0–100. Deterministic. Computed by ranker.ts. */
+  relevanceScore: number;
+}
+
+/** A find that has passed matching + ranking + fatigue checks and is ready to show. */
+export interface ResurfacingCandidate {
+  match: TravelFindTripMatch;
+  capture: InspirationCapture;
+  /** ISO — null if never surfaced before. */
+  lastResurfacedAt: string | null;
+  resurfaceCount: number;
+  /** ISO — null if not currently suppressed. */
+  suppressedUntil: string | null;
+}
+
+/**
+ * All resurfacing thresholds in one place.
+ * Change `DEFAULT_RESURFACING_POLICY` in lib/resurfacing/policy.ts — no matcher/ranker code changes needed.
+ */
+export interface ResurfacingPolicyConfig {
+  /** Below this score, the find is not surfaced. Default: 30. */
+  minScoreToSurface: number;
+  /** At or above this score, the find is shown prominently. Default: 70. */
+  strongScoreThreshold: number;
+  /** Days to suppress after REMIND_ME_LATER. Default: 7. */
+  cooldownAfterRemindLaterDays: number;
+  /** Days to suppress after VIEW_FIND. Default: 3. */
+  cooldownAfterViewDays: number;
+  /** Max finds to surface per trip per page load. Default: 2. */
+  maxResurfacedFindsShown: number;
+  /** Capture must be within this straight-line km to qualify for NEAR_ROUTE. Default: 30. */
+  nearRouteMaxDistanceKm: number;
+  /** Capture must be within this straight-line km to qualify for NEAR_*_STOP. Default: 15. */
+  nearStopMaxDistanceKm: number;
+  /** Minimum capture.resolution_confidence required to use its coordinates. Default: 0.4. */
+  minCaptureConfidenceForGeo: number;
+}
+
+/** Persisted record of a resurfacing event and optional user action. */
+export interface ResurfacingHistoryEntry {
+  id: string;
+  user_id: string;
+  capture_id: string;
+  trip_id: string;
+  resurfaced_at: string;
+  window: ResurfacingWindow;
+  reasons: ResurfacingReason[];
+  confidence: MatchConfidence;
+  action: ResurfacingAction | null;
+  action_at: string | null;
+  suppressed_until: string | null;
+  permanently_dismissed: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+/**
+ * Abstraction boundary for routing/distance APIs.
+ * The core matching engine (matcher.ts) never depends on a specific vendor.
+ * Phase 28 uses only haversine (GEOGRAPHIC_DISTANCE).
+ * Connect a real routing API by implementing this interface and passing it to computeResurfacingCandidates.
+ */
+export interface TravelDistanceProvider {
+  name: string;
+  version: string;
+  getDistanceKm(
+    from: { lat: number; lng: number },
+    to: { lat: number; lng: number }
+  ): Promise<{ distanceKm: number; metric: ResurfacingDistanceMetric } | null>;
+}
+
+/**
+ * Abstraction boundary for push/email notification providers.
+ * Phase 28 is in-product only (inline Trip Companion section).
+ * Activate push notifications by implementing this interface and calling it from
+ * a scheduled job or a server action — the core engine never knows the vendor.
+ */
+export interface TravelNotificationProvider {
+  name: string;
+  version: string;
+  sendResurfacingNotification(
+    userId: string,
+    candidate: ResurfacingCandidate
+  ): Promise<{ success: boolean; error?: string }>;
 }

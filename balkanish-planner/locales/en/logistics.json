@@ -1,0 +1,76 @@
+{
+  "travelSegments": {
+    "sectionLabel": "Getting around",
+    "sectionDescription": "Planning estimates only — verify timetables and book ferries before you travel.",
+    "estimatedLabel": "Planning estimate",
+    "editorialLabel": "Editorial guidance",
+    "distanceLabel": "Distance",
+    "driveTimeLabel": "Drive time",
+    "transitTimeLabel": "By public transport",
+    "byLabel": "by",
+    "approxKm": "~{km} km",
+    "ferryNote": "Ferry required",
+    "borderNote": "Border crossing",
+    "verifyDisclaimer": "Border crossing info is subject to change — always verify current requirements before travel."
+  },
+  "complexity": {
+    "EASY": "Easy",
+    "MANAGEABLE": "Manageable",
+    "LONG_DAY": "Long day",
+    "COMPLEX": "Complex",
+    "NOT_RECOMMENDED": "Not recommended"
+  },
+  "confidence": {
+    "EDITORIAL_STABLE": "Editorially verified",
+    "EDITORIAL_ESTIMATE": "Planning estimate",
+    "VERIFY_BEFORE_TRAVEL": "Verify before travel",
+    "LIVE_PROVIDER": "Live data"
+  },
+  "transportMode": {
+    "car": "Own car",
+    "rental_car": "Rental car",
+    "motorcycle": "Motorcycle",
+    "camper": "Camper",
+    "bus": "Bus",
+    "train": "Train",
+    "ferry": "Ferry",
+    "passenger_ferry": "Passenger ferry",
+    "taxi_transfer": "Taxi / transfer",
+    "bike": "Bicycle",
+    "e_bike": "E-bike",
+    "walk": "Walking",
+    "flight": "Flight",
+    "mixed": "Mixed"
+  },
+  "ferryNotice": {
+    "heading": "Ferry booking",
+    "vehicleCapable": "Takes vehicles",
+    "advanceBooking": "Advance booking recommended",
+    "lastVerified": "Last verified: {season}",
+    "disclaimer": "Ferry schedules change seasonally. Check the operator's website for current timetables and book early for summer travel."
+  },
+  "borderNotice": {
+    "heading": "Border crossing",
+    "typicalWait": "Typical wait: {hint}",
+    "documentRequirements": "Documents needed",
+    "disclaimer": "Border rules change. Always verify current requirements with official sources before you travel.",
+    "lastVerified": "Info from {date} — verify before travel."
+  },
+  "camperNote": {
+    "narrowRoadWarning": "Narrow road — take care with large vehicles",
+    "scenicHighlight": "Scenic drive",
+    "parkingHint": "Parking note"
+  },
+  "preferences": {
+    "label": "How are you getting around?",
+    "description": "Optional — helps us tailor logistics guidance to your journey style.",
+    "noPreference": "No preference"
+  },
+  "pdf": {
+    "sectionEyebrow": "Getting Around",
+    "sectionTitle": "How to get between stops",
+    "estimateDisclaimer": "All journey times shown are planning estimates only. Verify timetables, ferry bookings, and border requirements before travel.",
+    "ferryVerifyNote": "Ferry schedules must be verified directly with the operator before booking.",
+    "borderVerifyNote": "Border crossing information is subject to change. Check official government sources before travel."
+  }
+}

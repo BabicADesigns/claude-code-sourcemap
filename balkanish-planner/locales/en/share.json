@@ -1,0 +1,44 @@
+{
+  "modal": {
+    "title": "Share this trip",
+    "formatLabel": "Format",
+    "styleLabel": "Style",
+    "previewLabel": "Preview",
+    "saveImage": "Save image",
+    "saving": "Preparing…",
+    "share": "Share",
+    "sharing": "Opening…",
+    "sharingFailed": "Sharing failed. Try downloading instead.",
+    "privacyNote": "The image is created in your browser and never uploaded automatically. Only what you choose to share leaves your device."
+  },
+  "formats": {
+    "story": "Story",
+    "feed": "Feed",
+    "postcard": "Postcard",
+    "storyHint": "9:16 · portrait",
+    "feedHint": "1:1 · square",
+    "postcardHint": "4:5 · portrait"
+  },
+  "templates": {
+    "journeySummary": "Journey",
+    "balkanStory": "Story",
+    "postcard": "Postcard"
+  },
+  "card": {
+    "nights": "nights",
+    "stops": "stops",
+    "dayTrips": "day trips",
+    "km": "km",
+    "myTripPlan": "my trip plan",
+    "balkanItinerary": "balkan itinerary",
+    "myBalkanStory": "My Balkan Story",
+    "withLoveFrom": "with love from",
+    "pace": "pace",
+    "nightsIn": "nights in",
+    "nightsLabel": "nights"
+  },
+  "entry": {
+    "buttonLabel": "Share",
+    "tooltip": "Create a shareable image of this trip"
+  }
+}

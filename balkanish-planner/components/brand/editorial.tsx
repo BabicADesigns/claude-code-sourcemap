@@ -3,7 +3,7 @@ import Link from "next/link";
 import { MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-import { ASPECT_RATIO_CLASSES, type ImageAsset, type ImageCredit } from "@/lib/types";
+import { ASPECT_RATIO_CLASSES, type ImageAsset, type ImageCredit, type FoundersPick, type LocalHero, type BalkanishStory } from "@/lib/types";
 import { resolveCaption } from "@/lib/media/caption";
 import type { Locale } from "@/lib/i18n/config";
 
@@ -360,5 +360,121 @@ export function GuidebookReference({
         <p className="mt-1.5 font-sans text-[10px] uppercase tracking-widest text-muted-foreground">{source}</p>
       )}
     </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Phase 16 — Community Intelligence & Founder's Picks editorial components
+// ---------------------------------------------------------------------------
+
+/**
+ * An elegant card for a founder's personal recommendation — distinct from general editorial copy
+ * by its personal voice, handwritten sign-off, and portrait/portrait-less variants.
+ */
+export function FoundersPickCard({
+  pick,
+  className,
+}: {
+  pick: FoundersPick;
+  className?: string;
+}) {
+  const signature = pick.signature_override ?? pick.founder?.signature ?? pick.founder?.name;
+  return (
+    <div className={cn("rounded-xl border border-accent/30 bg-accent/5 p-6 sm:p-7", className)}>
+      <p className="font-sans text-xs font-semibold uppercase tracking-widest text-accent">
+        Founder&apos;s Pick
+      </p>
+      <h3 className="mt-2 font-display text-xl text-sage-dark sm:text-2xl">{pick.title}</h3>
+      <p className="mt-3 font-serif leading-relaxed text-foreground/85">{pick.body}</p>
+      <div className="mt-5 flex items-center gap-3">
+        {pick.founder?.photo && (
+          <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full">
+            <Image
+              src={pick.founder.photo.url}
+              alt={pick.founder.photo.alt}
+              fill
+              sizes="40px"
+              className="object-cover"
+            />
+          </div>
+        )}
+        <div className="min-w-0">
+          {signature && (
+            <p className="font-script text-lg italic text-sage-dark">{signature}</p>
+          )}
+          {pick.location && (
+            <p className="font-sans text-[10px] uppercase tracking-widest text-muted-foreground">
+              {pick.location}
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** A compact character study card for a local hero — no external links to avoid becoming a business directory. */
+export function LocalHeroCard({
+  hero,
+  className,
+}: {
+  hero: LocalHero;
+  className?: string;
+}) {
+  return (
+    <div className={cn("flex gap-4 rounded-xl border border-border bg-card p-5", className)}>
+      {hero.photo && (
+        <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full">
+          <Image
+            src={hero.photo.url}
+            alt={hero.photo.alt}
+            fill
+            sizes="64px"
+            className="object-cover"
+          />
+        </div>
+      )}
+      <div className="min-w-0">
+        <p className="font-sans text-xs uppercase tracking-widest text-muted-foreground">{hero.profession}</p>
+        <h4 className="mt-0.5 font-display text-lg text-sage-dark">{hero.name}</h4>
+        <p className="mt-1.5 font-serif text-sm leading-relaxed text-foreground/80">{hero.story}</p>
+      </div>
+    </div>
+  );
+}
+
+/** An editorial story card linking to the full narrative — shows hero image, category, and excerpt. */
+export function StoryCard({
+  story,
+  locale,
+  className,
+}: {
+  story: BalkanishStory;
+  locale: Locale;
+  className?: string;
+}) {
+  const title = story.title[locale] ?? story.title.en;
+  const excerpt = story.excerpt ? (story.excerpt[locale] ?? story.excerpt.en) : undefined;
+  return (
+    <Link href={`/stories/${story.slug}`} className={cn("group block rounded-xl border border-border bg-card overflow-hidden", className)}>
+      {story.hero_image && (
+        <div className="relative aspect-[16/9] overflow-hidden">
+          <Image
+            src={story.hero_image.url}
+            alt={story.hero_image.alt}
+            fill
+            sizes="(min-width: 768px) 50vw, 100vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        </div>
+      )}
+      <div className="p-5">
+        <Badge variant="secondary" className="text-xs">{story.category.replace("_", " ")}</Badge>
+        <h3 className="mt-2 font-display text-lg text-sage-dark">{title}</h3>
+        {excerpt && (
+          <p className="mt-1.5 font-serif text-sm leading-relaxed text-foreground/75 line-clamp-3">{excerpt}</p>
+        )}
+      </div>
+    </Link>
   );
 }

@@ -1,0 +1,47 @@
+import type { CommunityNote } from "@/lib/types";
+
+export const mockCommunityNotes: CommunityNote[] = [
+  {
+    id: "note-vis-sunset",
+    destination_slug: "vis",
+    content: "The best sunset is from the old fort above the town, not the beach. Take the path that starts behind the church — about 20 minutes up. You'll likely be alone.",
+    category: "sunset_spot",
+    author_name: "Petra",
+    language: "en",
+    moderation_status: "approved",
+    submitted_at: "2024-07-10T18:30:00Z",
+    created_at: "2024-07-10T18:30:00Z",
+  },
+  {
+    id: "note-vis-coffee",
+    destination_slug: "vis",
+    content: "Kafić Karijola on the Vis town waterfront opens early and the owner will bring you a newspaper you can't read. Worth it for the morning light alone.",
+    category: "coffee",
+    author_name: "James",
+    language: "en",
+    moderation_status: "approved",
+    submitted_at: "2024-08-02T09:15:00Z",
+    created_at: "2024-08-02T09:15:00Z",
+  },
+  {
+    id: "note-vis-etiquette",
+    destination_slug: "vis",
+    content: "Locals eat late — 9pm or later for dinner. If you arrive at 7 you'll have the place to yourself, but the kitchen will be uncertain about you.",
+    category: "local_etiquette",
+    language: "en",
+    moderation_status: "approved",
+    submitted_at: "2024-08-15T20:00:00Z",
+    created_at: "2024-08-15T20:00:00Z",
+  },
+  {
+    id: "note-cavtat-parking",
+    destination_slug: "cavtat",
+    content: "Park in the municipal lot at the top of town and walk down. It's free before 8am and after 8pm. The walk down the stairs is worth it — better than the main road.",
+    category: "parking",
+    author_name: "Markus",
+    language: "en",
+    moderation_status: "approved",
+    submitted_at: "2024-06-20T10:00:00Z",
+    created_at: "2024-06-20T10:00:00Z",
+  },
+];

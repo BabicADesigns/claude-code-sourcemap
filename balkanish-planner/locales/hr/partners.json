@@ -1,0 +1,44 @@
+{
+  "trust_levels": {
+    "founder_pick": "Osnivačin izbor",
+    "verified_local": "Provjereno lokalno",
+    "community_favourite": "Omiljeno u zajednici"
+  },
+  "trust_hints": {
+    "founder_pick": "Osobna preporuka osnivačice Balkanisha",
+    "verified_local": "Ručno pregledano i osobno potvrđeno od strane uredničkog tima",
+    "community_favourite": "Preporučeno od strane putničke zajednice Balkanisha"
+  },
+  "disclosure": {
+    "affiliate": "Možemo zaraditi malu proviziju ako rezerviraš putem ovog linka, bez dodatnih troškova za tebe.",
+    "paid_partnership": "Plaćeno partnerstvo.",
+    "founder_connection": "Napomena: osnivačica Balkanisha ima osobnu vezu s ovim projektom.",
+    "owned_or_affiliated_project": "Napomena: ovo je projekt koji je povezan s timom Balkanisha. Ova preporuka je iskrena i nije kupljena pozicija."
+  },
+  "cta": {
+    "discover": "Otkrijte ovo mjesto",
+    "meet": "Upoznajte lokalce",
+    "experience": "Pogledajte iskustvo",
+    "website": "Posjetite njihovu stranicu",
+    "booking": "Pregledajte opcije rezervacije",
+    "app": "Prikaži u aplikaciji",
+    "instagram": "Pratite na Instagramu",
+    "external_note": "Otvara vanjsku stranicu"
+  },
+  "section_heading": "Lokalne preporuke",
+  "section_description": "Mjesta i ljudi koje tim Balkanisha osobno preporučuje za ovu vrstu putovanja.",
+  "coming_soon": "Uskoro dostupno",
+  "demo_notice": "Demo partner — još nije aktivan",
+  "categories": {
+    "food_drink": "Hrana i piće",
+    "outdoor_adventure": "Avantura na otvorenom",
+    "accommodation": "Smještaj",
+    "transport": "Prijevoz",
+    "culture_arts": "Kultura i umjetnost",
+    "wellness": "Wellness",
+    "shopping": "Shopping",
+    "family": "Obitelj",
+    "workspace": "Workspace i coworking",
+    "experience": "Iskustvo"
+  }
+}

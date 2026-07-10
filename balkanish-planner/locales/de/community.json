@@ -1,0 +1,47 @@
+{
+  "founders_pick": {
+    "eyebrow": "Gründer-Empfehlung",
+    "by": "von"
+  },
+  "local_heroes": {
+    "eyebrow": "Lokale Helden",
+    "heading": "Menschen, die diesen Ort ausmachen"
+  },
+  "stories": {
+    "eyebrow": "Balkanish-Geschichten",
+    "heading": "Geschichten aus der Region"
+  },
+  "community_notes": {
+    "eyebrow": "Community-Tipps",
+    "heading": "Was Reisende sagen",
+    "empty": "Noch keine Community-Tipps — teile als Erste(r) einen.",
+    "anonymous": "Anonymer Reisender"
+  },
+  "note_form": {
+    "heading": "Tipp teilen",
+    "content_label": "Dein Tipp",
+    "content_placeholder": "Etwas, das du entdeckt hast und das andere wissen sollten…",
+    "category_label": "Kategorie",
+    "author_label": "Dein Name (optional)",
+    "author_placeholder": "Leer lassen für anonym",
+    "submit": "Tipp teilen",
+    "submitting": "Wird geteilt…",
+    "success": "Danke — dein Tipp wartet auf die redaktionelle Prüfung.",
+    "error": "Etwas ist schiefgelaufen. Bitte versuche es erneut."
+  },
+  "categories": {
+    "sunset_spot": "Sonnenuntergangspunkt",
+    "parking": "Parken",
+    "coffee": "Kaffee",
+    "local_etiquette": "Lokale Etikette",
+    "seasonal": "Saisonales",
+    "food_tip": "Essentipp",
+    "transport": "Transport",
+    "other": "Tipp"
+  },
+  "gem_badge": {
+    "verified": "Bestätigtes Hidden Gem",
+    "community_verified": "Community Hidden Gem",
+    "ai_suggested": "KI-empfohlenes Hidden Gem"
+  }
+}

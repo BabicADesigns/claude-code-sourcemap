@@ -1,6 +1,6 @@
 import type { GeneratedItinerary, PlannerInput } from "@/lib/ai/itinerary";
 import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
-import { TRAVEL_STYLE_TO_PLANNER_STYLE, type SavedItinerary } from "@/lib/types";
+import { TRAVEL_STYLE_TO_PLANNER_STYLE, type SavedItinerary, type PartnerMatchResult, type TravelSegment, type CulturalInsight, type FounderNote } from "@/lib/types";
 
 /**
  * Renders the branded itinerary PDF to a Blob. Shared by the on-demand "Export Premium
@@ -10,13 +10,17 @@ import { TRAVEL_STYLE_TO_PLANNER_STYLE, type SavedItinerary } from "@/lib/types"
 export async function generateItineraryPdfBlob(
   itinerary: GeneratedItinerary,
   input: PlannerInput,
-  locale: Locale = DEFAULT_LOCALE
+  locale: Locale = DEFAULT_LOCALE,
+  matchedPartners?: PartnerMatchResult[],
+  travelSegments?: TravelSegment[],
+  culturalInsights?: CulturalInsight[],
+  culturalFounderNote?: FounderNote | null
 ): Promise<Blob> {
   const [{ pdf }, { ItineraryPdfDocument }] = await Promise.all([
     import("@react-pdf/renderer"),
     import("@/components/planner/itinerary-pdf"),
   ]);
-  return pdf(<ItineraryPdfDocument itinerary={itinerary} input={input} locale={locale} />).toBlob();
+  return pdf(<ItineraryPdfDocument itinerary={itinerary} input={input} locale={locale} matchedPartners={matchedPartners} travelSegments={travelSegments} culturalInsights={culturalInsights} culturalFounderNote={culturalFounderNote} />).toBlob();
 }
 
 async function streamToBuffer(stream: NodeJS.ReadableStream): Promise<Buffer> {
@@ -36,13 +40,17 @@ async function streamToBuffer(stream: NodeJS.ReadableStream): Promise<Buffer> {
 export async function generateItineraryPdfBuffer(
   itinerary: GeneratedItinerary,
   input: PlannerInput,
-  locale: Locale = DEFAULT_LOCALE
+  locale: Locale = DEFAULT_LOCALE,
+  matchedPartners?: PartnerMatchResult[],
+  travelSegments?: TravelSegment[],
+  culturalInsights?: CulturalInsight[],
+  culturalFounderNote?: FounderNote | null
 ): Promise<Buffer> {
   const [{ pdf }, { ItineraryPdfDocument }] = await Promise.all([
     import("@react-pdf/renderer"),
     import("@/components/planner/itinerary-pdf"),
   ]);
-  const stream = await pdf(<ItineraryPdfDocument itinerary={itinerary} input={input} locale={locale} />).toBuffer();
+  const stream = await pdf(<ItineraryPdfDocument itinerary={itinerary} input={input} locale={locale} matchedPartners={matchedPartners} travelSegments={travelSegments} culturalInsights={culturalInsights} culturalFounderNote={culturalFounderNote} />).toBuffer();
   return streamToBuffer(stream);
 }
 

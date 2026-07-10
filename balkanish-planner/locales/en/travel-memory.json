@@ -1,0 +1,40 @@
+{
+  "sectionTitle": "Your Travel Memory",
+  "sectionSubtitle": "Things we've noticed about how you like to travel. You're always in control — confirm what's right, dismiss what isn't.",
+  "noMemoryYet": "We haven't noticed any travel preferences yet. As you use the planner, we'll start to learn what you enjoy.",
+  "confirmedTitle": "Confirmed preferences",
+  "noticedTitle": "We've noticed",
+  "noticedHint": "Based on how you've used the planner. Confirm the ones that feel right.",
+  "stillLearningTitle": "Still learning",
+  "strengthLabels": {
+    "strong_pattern": "Strong pattern",
+    "noticed": "Noticed",
+    "still_learning": "Learning"
+  },
+  "directions": {
+    "POSITIVE": "Enjoys",
+    "NEGATIVE": "Prefers to avoid",
+    "NEUTRAL": "Interested in"
+  },
+  "actions": {
+    "confirm": "Confirm",
+    "reject": "Not for me",
+    "remove": "Remove",
+    "confirmLabel": "Confirm this preference",
+    "rejectLabel": "Dismiss this preference"
+  },
+  "resetTitle": "Reset learned preferences",
+  "resetDescription": "This will remove all preferences we've learned from your behaviour. Your confirmed preferences and account settings will not be affected.",
+  "resetButton": "Reset learned preferences",
+  "resetConfirm": "Are you sure? This cannot be undone.",
+  "privacyNote": "Your travel memory is private — it's only ever used to personalise your own itineraries. We never share it, never use it for advertising, and never infer sensitive personal attributes from where you travel.",
+  "sources": {
+    "PROFILE_CONFIRMATION": "Set in your profile",
+    "WIZARD_SELECTION": "Chosen in the planner",
+    "ITINERARY_KEEP": "Saved an itinerary",
+    "ITINERARY_REGENERATE": "Regenerated an itinerary",
+    "PARTNER_SAVE": "Saved a partner listing",
+    "DIRECT_MEMORY_CONFIRMATION": "Confirmed by you",
+    "TRIP_COMPLETION_FEEDBACK": "Post-trip feedback"
+  }
+}

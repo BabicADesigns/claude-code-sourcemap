@@ -1,0 +1,114 @@
+{
+  "page": {
+    "title": "Reisereflexion",
+    "subtitle": "Nimm dir einen Moment für deine Reise.",
+    "not_eligible": "Die Reflexion ist für abgeschlossene Reisen verfügbar.",
+    "cta_start": "Diese Reise reflektieren",
+    "cta_continue": "Reflexion fortsetzen",
+    "cta_view": "Reflexion anzeigen"
+  },
+  "timing": {
+    "just_returned": "Willkommen zurück",
+    "just_returned_body": "Du bist gerade erst zurück. Kein Stress — reflektiere, wenn du bereit bist.",
+    "recent": "Noch frisch",
+    "recent_body": "Diese Reise liegt noch nicht lange zurück. Ein guter Moment zum Zurückblicken.",
+    "past_trip": "Ein Blick zurück",
+    "past_trip_body": "Etwas Zeit ist vergangen. Deine Erinnerungen sind trotzdem wertvoll."
+  },
+  "steps": {
+    "overall": "Gesamt",
+    "pace": "Tempo & Planung",
+    "items": "Highlights",
+    "memory": "Was merken",
+    "done": "Gespeichert"
+  },
+  "overall": {
+    "title": "Wie war die Reise insgesamt?",
+    "subtitle": "Deine ehrliche Antwort hilft, künftige Pläne zu personalisieren.",
+    "loved_it": "Ich habe sie geliebt",
+    "good_trip": "Gute Reise",
+    "mixed": "Gemischte Gefühle",
+    "not_my_trip": "Nicht mein Typ Reise",
+    "prefer_not_to_say": "Lieber nicht sagen"
+  },
+  "pace": {
+    "title": "Wie war das Tempo?",
+    "too_slow": "Zu langsam — ich hatte Zeit übrig",
+    "just_right": "Genau richtig",
+    "a_little_full": "Etwas voll",
+    "too_full": "Zu voll — ich brauchte mehr Erholung",
+    "unknown": "Nicht sicher",
+    "planning_title": "Wie hat sich die Struktur angefühlt?",
+    "more_structure": "Ich hätte mehr Struktur bevorzugt",
+    "current_level": "Die Struktur war genau richtig",
+    "more_flexibility": "Ich hätte mehr Flexibilität bevorzugt",
+    "planning_unknown": "Nicht sicher"
+  },
+  "items": {
+    "title": "Highlights oder Dinge, die du überspringen würdest?",
+    "subtitle": "Bewerte nur, was du wirklich erlebt hast. Überspringe den Rest.",
+    "loved": "Ich habe es geliebt",
+    "liked": "Hat mir gefallen",
+    "neutral": "War in Ordnung",
+    "would_skip": "Würde ich beim nächsten Mal überspringen",
+    "not_experienced": "Habe ich nicht gemacht",
+    "slot_morning": "Morgen",
+    "slot_afternoon": "Nachmittag",
+    "slot_evening": "Abend",
+    "slot_food": "Food-Highlight"
+  },
+  "return": {
+    "title": "Würdest du zurückkehren?",
+    "yes": "Ja — ich würde zurückkehren",
+    "maybe": "Vielleicht",
+    "no": "Wahrscheinlich nicht",
+    "prefer_not_to_say": "Lieber nicht sagen",
+    "destination_prompt": "Ein bestimmter Ort?",
+    "destination_placeholder": "Optional — z.B. Split, die Küste…"
+  },
+  "note": {
+    "title": "Noch etwas auf dem Herzen?",
+    "subtitle": "Diese Notiz ist privat. Nur für dich — unsere Systeme lesen sie nie.",
+    "placeholder": "Deine private Notiz…",
+    "privacy_label": "Privat — nur du kannst das sehen"
+  },
+  "memory": {
+    "title": "Was sollen wir merken?",
+    "subtitle": "Diese Vorschläge kommen aus deiner Reflexion. Du entscheidest, was wir behalten.",
+    "empty": "Basierend auf dieser Reflexion gibt es nichts vorzuschlagen.",
+    "confirm_all": "Alles merken",
+    "skip_all": "Alles überspringen",
+    "confirm_cta": "Merken",
+    "reject_cta": "Nicht merken",
+    "defer_cta": "Später entscheiden",
+    "candidate_high": "Sicherer Vorschlag",
+    "candidate_medium": "Basierend auf deiner Reflexion",
+    "candidate_low": "Mögliche Präferenz",
+    "conflict_warning": "Das steht im Widerspruch zu etwas, das wir bereits über dich wissen.",
+    "conflict_resolve": "Was ist korrekt?",
+    "source_pace": "Tempo-Reflexion",
+    "source_planning": "Planungspräferenz",
+    "source_item": "Aktivitätsbewertung",
+    "source_overall": "Gesamteindruck"
+  },
+  "complete": {
+    "title": "Reflexion gespeichert",
+    "body": "Deine Reiseerinnerungen sind gespeichert. Sie werden künftige Empfehlungen subtil beeinflussen.",
+    "cta_planner": "Weitere Reise planen",
+    "cta_trips": "Meine Reisen"
+  },
+  "dismiss": {
+    "cta": "Reflexion überspringen",
+    "confirm_title": "Diese Reflexion überspringen?",
+    "confirm_body": "Du kannst jederzeit aus deiner Reise heraus zurückkehren.",
+    "confirm_cta": "Ja, vorerst überspringen",
+    "cancel_cta": "Weitermachen"
+  },
+  "privacy": {
+    "note": "Deine Reflexion ist privat. Balkanish verwendet sie nicht für Marketing, teilt sie nicht mit Partnern und veröffentlicht sie nicht."
+  },
+  "errors": {
+    "load_failed": "Deine Reflexion konnte nicht geladen werden. Versuche es erneut.",
+    "save_failed": "Speichern fehlgeschlagen. Überprüfe deine Verbindung und versuche es erneut."
+  }
+}

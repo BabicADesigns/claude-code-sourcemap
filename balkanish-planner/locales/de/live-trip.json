@@ -1,0 +1,109 @@
+{
+  "page": {
+    "title": "Heute",
+    "subtitle": "Deine Reise, Tag für Tag"
+  },
+  "lifecycle": {
+    "planning": {
+      "title": "Reise noch nicht begonnen",
+      "body": "Lege ein Abreisedatum in deinem Reisebegleiter fest, um die Tagesansicht zu öffnen.",
+      "cta": "Reisebegleiter öffnen"
+    },
+    "pre_trip": {
+      "title": "Morgen geht es los",
+      "body": "Deine Reise beginnt morgen. Hier ist, was für Tag eins geplant ist.",
+      "badge": "Abreise morgen"
+    },
+    "departure_day": {
+      "title": "Tag 1 — es geht los",
+      "badge": "Heute · Tag 1"
+    },
+    "in_trip": {
+      "badge": "Tag {day} von {total}"
+    },
+    "completed": {
+      "title": "Reise abgeschlossen",
+      "body": "Deine Reise ist vorbei. Wir hoffen, sie war alles, was du geplant hattest — und ein bisschen mehr.",
+      "cta_memory": "Diese Reise festhalten"
+    }
+  },
+  "now_next": {
+    "now": "Jetzt",
+    "next": "Als nächstes",
+    "later": "Später heute",
+    "done_today": "Heute erledigt"
+  },
+  "slots": {
+    "morning": "Morgen",
+    "afternoon": "Nachmittag",
+    "evening": "Abend",
+    "food": "Kulinarischer Tipp",
+    "day_overview": "Übersicht"
+  },
+  "load": {
+    "light": "Entspannter Tag",
+    "moderate": "Mittlerer Tag",
+    "full": "Voller Tag"
+  },
+  "flexibility": {
+    "easy_to_move": "Leicht umzuplanen",
+    "some_flexibility": "Etwas flexibel",
+    "tightly_packed": "Straff geplant"
+  },
+  "item": {
+    "mark_done": "Als erledigt markieren",
+    "mark_planned": "Als geplant markieren",
+    "skip": "Überspringen",
+    "save_for_later": "Für später merken",
+    "done_label": "Erledigt",
+    "skipped_label": "Übersprungen",
+    "saved_label": "Für später gemerkt",
+    "planned_label": "Geplant"
+  },
+  "lighter_day": {
+    "propose_cta": "Entspannteren Tag vorschlagen",
+    "sheet_title": "Ein entspannterer Tag",
+    "sheet_body": "Basierend auf deinem Plan ein Vorschlag für einen leichteren Tag.",
+    "keep_label": "Behalten",
+    "skip_label": "Beiseitelegen",
+    "accept_cta": "Leichteren Tag anwenden",
+    "dismiss_cta": "Plan behalten",
+    "disclaimer": "Dies ist nur ein Vorschlag. Du entscheidest."
+  },
+  "practical": {
+    "ferry_day": "Fährtag",
+    "border_crossing": "Grenzübertritt",
+    "logistics_move": "Reisetag",
+    "reservation_due": "Aktion erforderlich",
+    "offline_reminder": "Eingeschränkte Verbindung",
+    "packing_check": "Packcheck",
+    "capability_static": "Stabile Information",
+    "capability_derived": "Aus deinem Reiseplan",
+    "capability_confirmed": "Von dir bestätigt",
+    "verify_before_travel": "Vor der Reise prüfen"
+  },
+  "day_nav": {
+    "previous": "Vorheriger Tag",
+    "next": "Nächster Tag",
+    "today": "Zurück zu heute"
+  },
+  "tomorrow": {
+    "title": "Morgen",
+    "body": "Vorschau auf Tag {day}."
+  },
+  "cultural": {
+    "section_title": "Gut zu wissen heute"
+  },
+  "phrases": {
+    "section_title": "Nützlich heute"
+  },
+  "offline": {
+    "banner": "Du bist offline. Manche Inhalte sind möglicherweise veraltet.",
+    "snapshot_saved": "Für Offline-Ansicht gespeichert",
+    "snapshot_age": "Zuletzt gespeichert vor {time}",
+    "save_cta": "Offline speichern",
+    "mutation_blocked": "Du bist offline. Änderungen benötigen eine Verbindung."
+  },
+  "companion_link": "Reiseliste",
+  "open_today_cta": "Heute öffnen"
+}

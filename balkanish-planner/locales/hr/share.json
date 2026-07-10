@@ -1,0 +1,44 @@
+{
+  "modal": {
+    "title": "Podijeli putovanje",
+    "formatLabel": "Format",
+    "styleLabel": "Stil",
+    "previewLabel": "Pregled",
+    "saveImage": "Spremi sliku",
+    "saving": "Priprema…",
+    "share": "Podijeli",
+    "sharing": "Otvaranje…",
+    "sharingFailed": "Dijeljenje nije uspjelo. Pokušaj preuzeti sliku.",
+    "privacyNote": "Slika se stvara u tvom pregledniku i ne prenosi se automatski. Samo ono što odabereš podijeliti napušta tvoj uređaj."
+  },
+  "formats": {
+    "story": "Priča",
+    "feed": "Objava",
+    "postcard": "Razglednica",
+    "storyHint": "9:16 · portret",
+    "feedHint": "1:1 · kvadrat",
+    "postcardHint": "4:5 · portret"
+  },
+  "templates": {
+    "journeySummary": "Putovanje",
+    "balkanStory": "Priča",
+    "postcard": "Razglednica"
+  },
+  "card": {
+    "nights": "noći",
+    "stops": "odredišta",
+    "dayTrips": "izleti",
+    "km": "km",
+    "myTripPlan": "moj plan putovanja",
+    "balkanItinerary": "balkanski itinerar",
+    "myBalkanStory": "Moja balkanska priča",
+    "withLoveFrom": "s ljubavlju iz",
+    "pace": "tempo",
+    "nightsIn": "noći u",
+    "nightsLabel": "noći"
+  },
+  "entry": {
+    "buttonLabel": "Podijeli",
+    "tooltip": "Stvori sliku za dijeljenje ovog putovanja"
+  }
+}

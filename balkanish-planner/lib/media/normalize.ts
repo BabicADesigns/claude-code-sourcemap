@@ -90,7 +90,7 @@ export function normalizeCultureHeroImage(
  * without them. Returns undefined when there's no URL to synthesize from,
  * so callers can fall back further rather than fabricate one.
  */
-function synthesizeImageAsset(url: string | null | undefined, label: string): ImageAsset | undefined {
+export function synthesizeImageAsset(url: string | null | undefined, label: string): ImageAsset | undefined {
   if (!url) return undefined;
   return {
     url,

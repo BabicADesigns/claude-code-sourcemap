@@ -1,0 +1,44 @@
+{
+  "modal": {
+    "title": "Condividi il viaggio",
+    "formatLabel": "Formato",
+    "styleLabel": "Stile",
+    "previewLabel": "Anteprima",
+    "saveImage": "Salva immagine",
+    "saving": "Preparazione…",
+    "share": "Condividi",
+    "sharing": "Apertura…",
+    "sharingFailed": "Condivisione fallita. Prova a scaricare l'immagine.",
+    "privacyNote": "L'immagine viene creata nel tuo browser e non viene caricata automaticamente. Solo ciò che scegli di condividere lascia il tuo dispositivo."
+  },
+  "formats": {
+    "story": "Storia",
+    "feed": "Feed",
+    "postcard": "Cartolina",
+    "storyHint": "9:16 · verticale",
+    "feedHint": "1:1 · quadrato",
+    "postcardHint": "4:5 · verticale"
+  },
+  "templates": {
+    "journeySummary": "Viaggio",
+    "balkanStory": "Storia",
+    "postcard": "Cartolina"
+  },
+  "card": {
+    "nights": "notti",
+    "stops": "tappe",
+    "dayTrips": "gite",
+    "km": "km",
+    "myTripPlan": "il mio piano viaggio",
+    "balkanItinerary": "itinerario balcanico",
+    "myBalkanStory": "La mia storia balcanica",
+    "withLoveFrom": "con amore da",
+    "pace": "ritmo",
+    "nightsIn": "notti in",
+    "nightsLabel": "notti"
+  },
+  "entry": {
+    "buttonLabel": "Condividi",
+    "tooltip": "Crea un'immagine condivisibile di questo viaggio"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "trust_levels": {
+    "founder_pick": "Scelta della Fondatrice",
+    "verified_local": "Locale Verificato",
+    "community_favourite": "Preferito dalla Community"
+  },
+  "trust_hints": {
+    "founder_pick": "Una raccomandazione personale della fondatrice di Balkanish",
+    "verified_local": "Revisionato manualmente e verificato personalmente dal team editoriale",
+    "community_favourite": "Raccomandato dalla community di viaggiatori Balkanish"
+  },
+  "disclosure": {
+    "affiliate": "Potremmo ricevere una piccola commissione se prenoti tramite questo link, senza costi aggiuntivi per te.",
+    "paid_partnership": "Partnership a pagamento.",
+    "founder_connection": "Nota: la fondatrice di Balkanish ha una connessione personale con questo progetto.",
+    "owned_or_affiliated_project": "Nota: questo è un progetto collegato al team di Balkanish. Questa raccomandazione è autentica e non è una posizione acquistata."
+  },
+  "cta": {
+    "discover": "Scopri questo posto",
+    "meet": "Incontra il locale",
+    "experience": "Vedi l'esperienza",
+    "website": "Visita il loro sito",
+    "booking": "Vedi le opzioni di prenotazione",
+    "app": "Visualizza nell'app",
+    "instagram": "Segui su Instagram",
+    "external_note": "Apre sito esterno"
+  },
+  "section_heading": "Raccomandazioni locali",
+  "section_description": "Luoghi e persone che il team di Balkanish raccomanda personalmente per questo tipo di viaggio.",
+  "coming_soon": "Prossimamente",
+  "demo_notice": "Partner demo — non ancora attivo",
+  "categories": {
+    "food_drink": "Cibo & Bevande",
+    "outdoor_adventure": "Avventura all'aperto",
+    "accommodation": "Alloggio",
+    "transport": "Trasporti",
+    "culture_arts": "Cultura & Arte",
+    "wellness": "Benessere",
+    "shopping": "Shopping",
+    "family": "Famiglia",
+    "workspace": "Workspace & Coworking",
+    "experience": "Esperienza"
+  }
+}

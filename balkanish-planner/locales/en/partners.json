@@ -1,0 +1,44 @@
+{
+  "trust_levels": {
+    "founder_pick": "Founder's Pick",
+    "verified_local": "Verified Local",
+    "community_favourite": "Community Favourite"
+  },
+  "trust_hints": {
+    "founder_pick": "A personal recommendation from the Balkanish founder",
+    "verified_local": "Manually reviewed and personally verified by the editorial team",
+    "community_favourite": "Recommended by the Balkanish travelling community"
+  },
+  "disclosure": {
+    "affiliate": "We may earn a small commission if you book through this link, at no extra cost to you.",
+    "paid_partnership": "Paid partnership.",
+    "founder_connection": "Note: the Balkanish founder has a personal connection to this project.",
+    "owned_or_affiliated_project": "Disclosure: this is a project connected to the Balkanish team. This recommendation is genuine and does not buy editorial rank."
+  },
+  "cta": {
+    "discover": "Discover this place",
+    "meet": "Meet the local",
+    "experience": "See the experience",
+    "website": "Visit their website",
+    "booking": "View booking options",
+    "app": "View in app",
+    "instagram": "Follow on Instagram",
+    "external_note": "Opens external site"
+  },
+  "section_heading": "Local Recommendations",
+  "section_description": "Places and people the Balkanish team personally recommends for this kind of trip.",
+  "coming_soon": "Coming soon",
+  "demo_notice": "Demo partner — not yet live",
+  "categories": {
+    "food_drink": "Food & Drink",
+    "outdoor_adventure": "Outdoor Adventure",
+    "accommodation": "Accommodation",
+    "transport": "Transport",
+    "culture_arts": "Culture & Arts",
+    "wellness": "Wellness",
+    "shopping": "Shopping",
+    "family": "Family",
+    "workspace": "Workspace & Coworking",
+    "experience": "Experience"
+  }
+}

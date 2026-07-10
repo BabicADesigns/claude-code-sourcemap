@@ -10,6 +10,47 @@ export const ANALYTICS_EVENTS = {
   PDF_GENERATED: "PDF Generated",
   PDF_DOWNLOADED: "PDF Downloaded",
   PDF_EMAILED: "PDF Emailed",
+  // Phase 16 — Community Intelligence & Founder's Picks
+  COMMUNITY_NOTE_SUBMITTED: "Community Note Submitted",
+  GEM_CONFIRMED: "Gem Confirmed",
+  STORY_VIEWED: "Story Viewed",
+  LOCAL_HERO_VIEWED: "Local Hero Viewed",
+  FOUNDERS_PICK_VIEWED: "Founders Pick Viewed",
+  // Phase 23 — Live Trip Mode (privacy-conscious; no location, no PII, no item text)
+  LIVE_TRIP_OPENED: "Live Trip Opened",
+  TODAY_ITEM_MARKED_DONE: "Today Item Marked Done",
+  TODAY_ITEM_SKIPPED: "Today Item Skipped",
+  LIGHTER_DAY_PROPOSED: "Lighter Day Proposed",
+  LIGHTER_DAY_ACCEPTED: "Lighter Day Accepted",
+  OFFLINE_SNAPSHOT_SAVED: "Offline Snapshot Saved",
+  TOMORROW_PREVIEW_OPENED: "Tomorrow Preview Opened",
+  // Phase 24 — Post-Trip Reflection (no item text, no private note content, no destination PII)
+  REFLECTION_STARTED: "Reflection Started",
+  REFLECTION_STEP_COMPLETED: "Reflection Step Completed",
+  REFLECTION_DISMISSED: "Reflection Dismissed",
+  REFLECTION_COMPLETED: "Reflection Completed",
+  LEARNING_CANDIDATE_CONFIRMED: "Learning Candidate Confirmed",
+  LEARNING_CANDIDATE_REJECTED: "Learning Candidate Rejected",
+  LEARNING_CANDIDATE_DEFERRED: "Learning Candidate Deferred",
+  REFLECTION_MEMORY_PROMOTED: "Reflection Memory Promoted",
+  // Phase 26 — Inspiration Capture (no source content, no URL text, no note text)
+  FIND_CAPTURED: "Find Captured",
+  FIND_CONFIRMED: "Find Confirmed",
+  FIND_CORRECTED: "Find Corrected",
+  FIND_DISMISSED: "Find Dismissed",
+  FIND_DELETED: "Find Deleted",
+  // Phase 27 — Shareability (no trip content, no note text, no user PII)
+  SHARE_ASSET_CREATED: "Share Asset Created",
+  SHARE_FORMAT_SELECTED: "Share Format Selected",
+  SHARE_NATIVE_OPENED: "Share Native Opened",
+  SHARE_DOWNLOADED: "Share Downloaded",
+  // Phase 28 — Travel Find Resurfacing (no find content, no location, no note text)
+  TRAVEL_FIND_MATCH_GENERATED: "Travel Find Match Generated",
+  TRAVEL_FIND_RESURFACED: "Travel Find Resurfaced",
+  TRAVEL_FIND_RESURFACING_DISMISSED: "Travel Find Resurfacing Dismissed",
+  TRAVEL_FIND_ADDED_TO_TRIP: "Travel Find Added To Trip",
+  TRAVEL_FIND_ADDED_TO_DAY: "Travel Find Added To Day",
+  TRAVEL_FIND_REMIND_LATER: "Travel Find Remind Later",
 } as const;
 
 export type AnalyticsEventName = (typeof ANALYTICS_EVENTS)[keyof typeof ANALYTICS_EVENTS];
