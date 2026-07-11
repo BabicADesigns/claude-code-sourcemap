@@ -8,6 +8,8 @@ import { DeliveryHistory } from "@/components/my-balkans/delivery-history";
 import { getCurrentUser, isSupabaseConfigured } from "@/lib/supabase/server";
 import { getSavedItineraries } from "@/lib/data/itineraries";
 import { getDeliveryHistoryForUser } from "@/lib/data/pdf-delivery";
+import { computeActivationState } from "@/lib/activation-state";
+import { MyTripsGuidance } from "@/components/guidance/my-trips-guidance";
 
 export const metadata: Metadata = { title: "My Trips" };
 
@@ -33,6 +35,12 @@ export default async function MyTripsPage() {
   ]);
 
   const mostRecent = itineraries[0] ?? null;
+  const todayString = new Date().toISOString().slice(0, 10);
+  const activationState = computeActivationState({
+    savedContentCount: 0,
+    itineraries,
+    todayString,
+  });
 
   return (
     <div>
@@ -42,6 +50,7 @@ export default async function MyTripsPage() {
         description="The latest plan you saved, every trip you've ever built, and your PDF delivery history."
       />
       <div className="container flex flex-col gap-12 py-8 sm:gap-16 sm:py-12">
+        <MyTripsGuidance state={activationState} />
         <DashboardSection
           eyebrow="Pick up where you left off"
           title="Recent Trip"

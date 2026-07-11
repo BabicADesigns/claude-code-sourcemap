@@ -16,6 +16,7 @@ import { getSecretSwaps } from "@/lib/data/secret-swaps";
 import { getSavedEntityIds } from "@/lib/data/favorites";
 import { getSavedPostcards } from "@/lib/data/postcards";
 import { getInspirationCaptures } from "@/lib/data/inspiration-captures";
+import { MyBalkansGuidance } from "@/components/guidance/my-balkans-guidance";
 
 export const metadata: Metadata = { title: "My Balkans" };
 
@@ -64,6 +65,14 @@ export default async function MyBalkansPage() {
   const savedCultureNotes = cultureNotes.filter((n) => savedCultureNoteIds.has(n.id));
   const savedSecretSwaps = secretSwaps.filter((s) => savedSecretSwapIds.has(s.id));
 
+  const savedContentCount =
+    savedDestinations.length +
+    savedFoodFinds.length +
+    savedCultureNotes.length +
+    savedSecretSwaps.length +
+    postcards.length +
+    inspirationCaptures.length;
+
   return (
     <div>
       <PageHeader
@@ -72,6 +81,7 @@ export default async function MyBalkansPage() {
         description="The places, dishes, and finds you've collected — your personal corner of the Balkans."
       />
       <div className="container flex flex-col gap-12 py-8 sm:gap-16 sm:py-12">
+        <MyBalkansGuidance isEmpty={savedContentCount === 0} />
         <DashboardSection
           eyebrow="Saved"
           title="Hidden Gems"

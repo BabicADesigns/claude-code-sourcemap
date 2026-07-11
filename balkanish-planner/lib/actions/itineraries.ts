@@ -42,7 +42,7 @@ const TRANSPORT_TO_DOMAIN: Record<string, string> = {
 export async function saveItinerary(
   itinerary: GeneratedItinerary,
   input: PlannerInput
-): Promise<{ error?: string }> {
+): Promise<{ id?: string; error?: string }> {
   if (!isSupabaseConfigured()) return { error: "Accounts aren't connected yet." };
 
   const user = await getCurrentUser();
@@ -103,7 +103,7 @@ export async function saveItinerary(
 
   revalidatePath("/my-balkans");
   revalidatePath("/my-trips");
-  return {};
+  return { id: tripId ?? undefined };
 }
 
 export async function deleteItinerary(id: string): Promise<{ error?: string }> {

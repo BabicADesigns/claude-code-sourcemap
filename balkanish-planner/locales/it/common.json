@@ -4,8 +4,22 @@
     "todayView": "Vista di Oggi",
     "liveTrip": "Viaggio in Corso",
     "reflectOnTrip": "Rifletti su questo viaggio",
+    "goToLiveTrip": "Vai al Viaggio in Corso →",
     "companion": "Lista di Viaggio",
     "planNextTrip": "Pianifica il prossimo viaggio"
+  },
+  "guidance": {
+    "welcomeEyebrow": "Per iniziare",
+    "myBalkansEmptyTitle": "Il tuo spazio Balcani è pronto.",
+    "myBalkansEmptyHint": "Salva una gemma nascosta, un posto dove mangiare o una nota culturale. Oppure vai direttamente al Pianificatore IA e crea il tuo primo viaggio.",
+    "browseHiddenGems": "Scopri le gemme nascoste",
+    "planYourFirstTrip": "Pianifica il primo viaggio",
+    "myTripsEmptyTitle": "Nessun viaggio salvato ancora.",
+    "myTripsEmptyHint": "Dì all'IA le tue date, il tuo stile di viaggio e cosa conta — costruirà un piano giorno per giorno con gemme locali e cucina.",
+    "tripSavedTitle": "Il tuo viaggio è salvato.",
+    "tripSavedHint": "Lo trovi in I Miei Viaggi quando vuoi — oppure apri la Lista di Viaggio per prepararti prima di partire.",
+    "viewInMyTrips": "Vai a I Miei Viaggi",
+    "openTripChecklist": "Apri la Lista di Viaggio"
   },
   "nav": {
     "hiddenGems": "Gemme Nascoste",

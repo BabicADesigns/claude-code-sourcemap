@@ -4,8 +4,22 @@
     "todayView": "Tagesansicht",
     "liveTrip": "Live-Reise",
     "reflectOnTrip": "Diese Reise reflektieren",
+    "goToLiveTrip": "Zur Live-Reise →",
     "companion": "Reise-Checkliste",
     "planNextTrip": "Nächste Reise planen"
+  },
+  "guidance": {
+    "welcomeEyebrow": "Erste Schritte",
+    "myBalkansEmptyTitle": "Dein Balkan-Arbeitsbereich ist bereit.",
+    "myBalkansEmptyHint": "Speichere ein verstecktes Juwel, einen Geheimtipp oder eine Kulturnotiz. Oder geh direkt zum KI-Planer und erstelle deine erste Reise.",
+    "browseHiddenGems": "Versteckte Schätze entdecken",
+    "planYourFirstTrip": "Erste Reise planen",
+    "myTripsEmptyTitle": "Noch keine Reisen gespeichert.",
+    "myTripsEmptyHint": "Gib dem KI-Planer deine Reisedaten, deinen Stil und was dir wichtig ist — er erstellt einen tagesweisen Plan mit lokalen Geheimtipps und Kulinarik.",
+    "tripSavedTitle": "Deine Reise ist gespeichert.",
+    "tripSavedHint": "Du findest sie jederzeit unter Meine Reisen — oder öffne die Reise-Checkliste, um dich vorzubereiten.",
+    "viewInMyTrips": "In Meine Reisen",
+    "openTripChecklist": "Reise-Checkliste öffnen"
   },
   "nav": {
     "hiddenGems": "Versteckte Schätze",

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -147,6 +148,7 @@ export function PlannerFlow({
   const [isSavingItinerary, setIsSavingItinerary] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [itinerarySaved, setItinerarySaved] = useState(false);
+  const [savedTripId, setSavedTripId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const {
@@ -346,6 +348,7 @@ export function PlannerFlow({
       return;
     }
     setItinerarySaved(true);
+    setSavedTripId(result.id ?? null);
   }
 
   if (itineraries && submittedInput && activeItinerary) {
@@ -395,12 +398,36 @@ export function PlannerFlow({
               setSubmittedInput(null);
               setTravelSegments([]);
               setStep(0);
+              setItinerarySaved(false);
+              setSavedTripId(null);
             }}
           >
             {t("planner", "result.planAnotherTrip")}
           </Button>
         </div>
         {saveError && <p className="mt-3 font-sans text-sm text-destructive print:hidden">{saveError}</p>}
+        {itinerarySaved && (
+          <div className="mt-5 rounded-xl border border-border bg-muted/30 p-4 print:hidden sm:p-5">
+            <p className="font-display text-base text-sage-dark">
+              {t("common", "guidance.tripSavedTitle")}
+            </p>
+            <p className="mt-1 font-serif text-sm text-foreground/70">
+              {t("common", "guidance.tripSavedHint")}
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <Button asChild variant="outline" size="sm">
+                <Link href="/my-trips">{t("common", "guidance.viewInMyTrips")}</Link>
+              </Button>
+              {savedTripId && (
+                <Button asChild variant="outline" size="sm">
+                  <Link href={`/trips/${savedTripId}/companion`}>
+                    {t("common", "guidance.openTripChecklist")}
+                  </Link>
+                </Button>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     );
   }

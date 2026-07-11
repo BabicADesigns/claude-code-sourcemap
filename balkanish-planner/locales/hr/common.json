@@ -4,8 +4,22 @@
     "todayView": "Pogled Danas",
     "liveTrip": "Aktivno Putovanje",
     "reflectOnTrip": "Razmisli o ovom putovanju",
+    "goToLiveTrip": "Idi na Aktivno Putovanje →",
     "companion": "Lista za putovanje",
     "planNextTrip": "Planiraj sljedeće putovanje"
+  },
+  "guidance": {
+    "welcomeEyebrow": "Početak",
+    "myBalkansEmptyTitle": "Tvoj balkanski radni prostor je spreman.",
+    "myBalkansEmptyHint": "Spremi skriveno blago, gastro otkriće ili kulturnu bilješku. Ili idi ravno na AI Planer i napravi svoje prvo putovanje.",
+    "browseHiddenGems": "Istraži skrivena blaga",
+    "planYourFirstTrip": "Planiraj prvo putovanje",
+    "myTripsEmptyTitle": "Još nema spremljenih putovanja.",
+    "myTripsEmptyHint": "Reci AI planeru datume, stil putovanja i što ti je važno — izradit će plan po danima s lokalnim mjestima i gastro preporukama.",
+    "tripSavedTitle": "Tvoje putovanje je spremljeno.",
+    "tripSavedHint": "Naći ćeš ga u Moja Putovanja kada god zatreba — ili otvori Listu za putovanje i pripremi se unaprijed.",
+    "viewInMyTrips": "Prikaži u Moja Putovanja",
+    "openTripChecklist": "Otvori Listu za putovanje"
   },
   "nav": {
     "hiddenGems": "Skrivena Blaga",

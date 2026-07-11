@@ -4,8 +4,22 @@
     "todayView": "Today View",
     "liveTrip": "Live Trip",
     "reflectOnTrip": "Reflect on this trip",
+    "goToLiveTrip": "Go to Live Trip →",
     "companion": "Trip Checklist",
     "planNextTrip": "Plan your next trip"
+  },
+  "guidance": {
+    "welcomeEyebrow": "Getting started",
+    "myBalkansEmptyTitle": "Your Balkans workspace is ready.",
+    "myBalkansEmptyHint": "Save a hidden gem, a food spot, or a culture note worth keeping. Or skip straight to the AI Planner and build your first trip.",
+    "browseHiddenGems": "Browse Hidden Gems",
+    "planYourFirstTrip": "Plan Your First Trip",
+    "myTripsEmptyTitle": "No trips saved yet.",
+    "myTripsEmptyHint": "Tell the AI your dates, travel style, and what matters — it'll build a day-by-day plan with local gems and food worked in.",
+    "tripSavedTitle": "Your trip is saved.",
+    "tripSavedHint": "Find it in My Trips whenever you need it — or open the Trip Checklist to get ready before you go.",
+    "viewInMyTrips": "View in My Trips",
+    "openTripChecklist": "Open Trip Checklist"
   },
   "nav": {
     "hiddenGems": "Hidden Gems",
