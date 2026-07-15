@@ -53,5 +53,65 @@
     "label": "Language"
   },
   "destinations": "Destinations",
-  "dayTrips": "Day Trips"
+  "dayTrips": "Day Trips",
+  "newsletter": {
+    "title": "Join the Hidden List",
+    "tagline": "Occasional dispatches. No itinerary spam, no algorithm-chasing — just the next hidden gem before it stops being hidden.",
+    "emailLabel": "Email address",
+    "placeholder": "you@example.com",
+    "joining": "Joining…",
+    "joinButton": "Join the list",
+    "successPrefix": "You're on the list. Check",
+    "successSuffix": "the next time we find something worth the detour."
+  },
+  "guides": {
+    "eyebrow": "Premium Guides",
+    "title": "For when you want to go deeper",
+    "description": "Single-region guides, written the same way as everything else here — no listicle padding, just the places worth your time.",
+    "checkoutSoon": "Checkout coming soon",
+    "pages": "{n} pages",
+    "destinations": "{n} destinations"
+  },
+  "itinerary": {
+    "yourItinerary": "Your itinerary",
+    "day": "Day",
+    "dayTrips": "Day trips",
+    "dayTripLabel": "Day trip",
+    "from": "from",
+    "drive": "drive",
+    "localTip": "Local tip",
+    "base": "Base",
+    "morning": "Morning",
+    "afternoon": "Afternoon",
+    "evening": "Evening",
+    "foodHighlight": "Food highlight",
+    "hiddenGems": "Hidden gems",
+    "restaurants": "Restaurants worth the detour",
+    "cultureNotes": "Culture notes",
+    "packingList": "Packing list",
+    "whyTheseStops": "Why these stops",
+    "routeOverview": "Route overview"
+  },
+  "dashboard": {
+    "myBalkans": {
+      "emptyHiddenGems": "Nothing saved here yet — pomalo, no rush. Save a destination you'd actually go back to.",
+      "emptyFoodFinds": "No dishes saved yet. Find the one worth the detour.",
+      "emptyCultureNotes": "Nothing filed away yet — the things nobody explains to visitors are waiting.",
+      "emptySecretSwaps": "No swaps saved yet. Loved a famous spot? Find the quieter version locals prefer.",
+      "emptyPostcards": "No postcards saved yet. Make one and mail it home, digitally.",
+      "emptyFinds": "Nothing captured yet. Paste a link, type a place name, or upload a screenshot to start your bucket list.",
+      "findsCount": "{count} find saved",
+      "findsCountPlural": "{count} finds saved",
+      "viewAllFinds": "View all finds →",
+      "planningTrip": "Planning a trip?",
+      "tripToolsLink": "Your AI itineraries and trip tools are in My Trips →"
+    },
+    "myTrips": {
+      "emptyRecentTrip": "No trips planned yet. Tell us your dates and we'll build the day-by-day.",
+      "emptyAllTrips": "No trips planned yet. Tell us your dates and we'll build the day-by-day.",
+      "emptyDelivery": "No downloads or emails yet. Download or email a trip PDF above and it'll show up here.",
+      "lookingForSaved": "Looking for saved places and dishes?",
+      "savedPlacesLink": "Your saved Balkans are in My Balkans →"
+    }
+  }
 }

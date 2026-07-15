@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { Mail } from "lucide-react";
 import { subscribeToNewsletter } from "@/lib/actions/newsletter";
 import { track, ANALYTICS_EVENTS } from "@/lib/analytics";
+import { useLocale } from "@/lib/i18n/locale-provider";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,7 @@ import { cn } from "@/lib/utils";
 
 /** Reusable newsletter capture — "Join the Hidden List". Drop into any page; tags the subscription with its source. */
 export function NewsletterSignup({ sourcePage, className }: { sourcePage: string; className?: string }) {
+  const { t } = useLocale();
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -41,35 +43,36 @@ export function NewsletterSignup({ sourcePage, className }: { sourcePage: string
         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent/20 text-sage-dark">
           <Mail className="h-4 w-4" aria-hidden="true" />
         </span>
-        <p className="font-sans text-xs font-semibold uppercase tracking-widest text-sage-dark">Join the Hidden List</p>
+        <p className="font-sans text-xs font-semibold uppercase tracking-widest text-sage-dark">
+          {t("common", "newsletter.title")}
+        </p>
       </div>
 
       {subscribed ? (
         <p className="mt-4 font-serif text-foreground/85">
-          You&rsquo;re on the list. Check {email} the next time we find something worth the detour.
+          {t("common", "newsletter.successPrefix")} {email} {t("common", "newsletter.successSuffix")}
         </p>
       ) : (
         <>
           <p className="mt-4 font-display text-xl leading-snug text-foreground sm:text-2xl">
-            Occasional dispatches. No itinerary spam, no algorithm-chasing — just the next hidden gem before it stops
-            being hidden.
+            {t("common", "newsletter.tagline")}
           </p>
           <form onSubmit={onSubmit} className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-start">
             <div className="flex-1">
               <Label htmlFor={`newsletter-email-${sourcePage}`} className="sr-only">
-                Email address
+                {t("common", "newsletter.emailLabel")}
               </Label>
               <Input
                 id={`newsletter-email-${sourcePage}`}
                 type="email"
-                placeholder="you@example.com"
+                placeholder={t("common", "newsletter.placeholder")}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
             <Button type="submit" disabled={isSubmitting} className="shrink-0">
-              {isSubmitting ? "Joining…" : "Join the list"}
+              {isSubmitting ? t("common", "newsletter.joining") : t("common", "newsletter.joinButton")}
             </Button>
           </form>
           {error && <p className="mt-3 font-sans text-sm text-destructive">{error}</p>}

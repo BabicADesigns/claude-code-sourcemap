@@ -53,5 +53,65 @@
     "label": "Lingua"
   },
   "destinations": "Destinazioni",
-  "dayTrips": "Gite di un Giorno"
+  "dayTrips": "Gite di un Giorno",
+  "newsletter": {
+    "title": "Unisciti alla Hidden List",
+    "tagline": "Dispatches occasionali. Niente spam di itinerari, niente algoritmi — solo la prossima gemma nascosta prima che smetta di esserlo.",
+    "emailLabel": "Indirizzo email",
+    "placeholder": "tu@esempio.it",
+    "joining": "Iscrizione in corso…",
+    "joinButton": "Iscriviti alla lista",
+    "successPrefix": "Sei in lista. Controlla",
+    "successSuffix": "la prossima volta che troviamo qualcosa che vale il viaggio."
+  },
+  "guides": {
+    "eyebrow": "Guide Premium",
+    "title": "Per quando vuoi andare più in profondità",
+    "description": "Guide per singola regione, scritte come tutto il resto — senza riempitivo, solo i posti che valgono il tuo tempo.",
+    "checkoutSoon": "Checkout in arrivo",
+    "pages": "{n} pagine",
+    "destinations": "{n} destinazioni"
+  },
+  "itinerary": {
+    "yourItinerary": "Il tuo itinerario",
+    "day": "Giorno",
+    "dayTrips": "Gite di un giorno",
+    "dayTripLabel": "Gita di un giorno",
+    "from": "da",
+    "drive": "in auto",
+    "localTip": "Consiglio locale",
+    "base": "Base",
+    "morning": "Mattina",
+    "afternoon": "Pomeriggio",
+    "evening": "Sera",
+    "foodHighlight": "Highlights culinari",
+    "hiddenGems": "Gemme nascoste",
+    "restaurants": "Ristoranti che valgono il viaggio",
+    "cultureNotes": "Note di cultura",
+    "packingList": "Lista dei bagagli",
+    "whyTheseStops": "Perché queste tappe",
+    "routeOverview": "Panoramica del percorso"
+  },
+  "dashboard": {
+    "myBalkans": {
+      "emptyHiddenGems": "Niente salvato ancora — pomalo, nessuna fretta. Salva una destinazione a cui torneresti davvero.",
+      "emptyFoodFinds": "Nessun piatto salvato ancora. Trova quello che vale il viaggio.",
+      "emptyCultureNotes": "Niente archiviato ancora — le cose che nessuno spiega ai visitatori ti aspettano.",
+      "emptySecretSwaps": "Nessuno swap salvato ancora. Amato un posto famoso? Trova la versione più tranquilla che preferiscono i locali.",
+      "emptyPostcards": "Nessuna cartolina salvata ancora. Creane una e spediscila a casa, digitalmente.",
+      "emptyFinds": "Niente catturato ancora. Incolla un link, scrivi un nome di luogo o carica uno screenshot.",
+      "findsCount": "{count} trova salvato",
+      "findsCountPlural": "{count} trova salvati",
+      "viewAllFinds": "Vedi tutti i trova →",
+      "planningTrip": "Stai pianificando un viaggio?",
+      "tripToolsLink": "I tuoi itinerari AI e strumenti di viaggio sono in I Miei Viaggi →"
+    },
+    "myTrips": {
+      "emptyRecentTrip": "Nessun viaggio pianificato ancora. Dicci le tue date e costruiremo il piano giorno per giorno.",
+      "emptyAllTrips": "Nessun viaggio pianificato ancora. Dicci le tue date e costruiremo il piano giorno per giorno.",
+      "emptyDelivery": "Nessun download o email ancora. Scarica o invia un PDF del viaggio sopra e apparirà qui.",
+      "lookingForSaved": "Cerchi posti e piatti salvati?",
+      "savedPlacesLink": "I tuoi Balcani salvati sono in I Miei Balcani →"
+    }
+  }
 }

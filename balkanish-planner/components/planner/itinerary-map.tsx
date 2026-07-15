@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import type { GeneratedItinerary } from "@/lib/ai/itinerary";
 import { buildMapModel } from "@/lib/maps/itinerary-map-model";
 import { createMapProjection } from "@/lib/maps/projection";
+import { useLocale } from "@/lib/i18n/locale-provider";
 
 const VIEW_WIDTH = 400;
 const VIEW_HEIGHT = 320;
@@ -15,6 +16,7 @@ const PADDING = 36;
  * "visit here" at a glance. Pure on-brand SVG, no map-tile dependency.
  */
 export function ItineraryMap({ itinerary }: { itinerary: GeneratedItinerary }) {
+  const { t } = useLocale();
   const model = useMemo(() => buildMapModel(itinerary), [itinerary]);
 
   if (model.stops.length === 0) return null;
@@ -23,9 +25,16 @@ export function ItineraryMap({ itinerary }: { itinerary: GeneratedItinerary }) {
   const routePoints = model.stops.map((stop) => projection.project(stop));
   const routePath = routePoints.map((p, i) => `${i === 0 ? "M" : "L"}${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(" ");
 
+  const dayLabel = (start: number, end: number) =>
+    start === end
+      ? `${t("common", "itinerary.day")} ${start}`
+      : `${t("common", "itinerary.day")}${t("common", "itinerary.day") === "Day" ? "s" : ""} ${start}–${end}`;
+
   return (
     <div className="mt-8 sm:mt-10">
-      <p className="font-sans text-xs uppercase tracking-widest text-accent">Route overview</p>
+      <p className="font-sans text-xs uppercase tracking-widest text-accent">
+        {t("common", "itinerary.routeOverview")}
+      </p>
 
       <div className="mt-3 overflow-hidden rounded-xl border border-border bg-cream/50 p-3 sm:p-5">
         <svg
@@ -90,8 +99,10 @@ export function ItineraryMap({ itinerary }: { itinerary: GeneratedItinerary }) {
               {stop.order}
             </span>
             <p className="font-serif text-sm text-foreground/85">
-              <span className="font-semibold text-sage-dark">Base: {stop.name}</span> —{" "}
-              {stop.dayStart === stop.dayEnd ? `Day ${stop.dayStart}` : `Days ${stop.dayStart}–${stop.dayEnd}`}
+              <span className="font-semibold text-sage-dark">
+                {t("common", "itinerary.base")}: {stop.name}
+              </span>{" "}
+              — {dayLabel(stop.dayStart, stop.dayEnd)}
             </p>
           </li>
         ))}
@@ -104,8 +115,11 @@ export function ItineraryMap({ itinerary }: { itinerary: GeneratedItinerary }) {
               <span className="h-1.5 w-1.5 rounded-full bg-rose" />
             </span>
             <p className="font-serif text-sm text-foreground/85">
-              <span className="font-semibold text-rose">Day trip: {trip.name}</span> — Day {trip.day}, from{" "}
-              {trip.fromStopName} ({trip.driveTime})
+              <span className="font-semibold text-rose">
+                {t("common", "itinerary.dayTripLabel")}: {trip.name}
+              </span>{" "}
+              — {t("common", "itinerary.day")} {trip.day},{" "}
+              {t("common", "itinerary.from")} {trip.fromStopName} ({trip.driveTime})
             </p>
           </li>
         ))}

@@ -34,7 +34,7 @@ export function ItineraryView({
 
   return (
     <div>
-      <p className="font-sans text-xs uppercase tracking-widest text-accent">Your itinerary</p>
+      <p className="font-sans text-xs uppercase tracking-widest text-accent">{t("common", "itinerary.yourItinerary")}</p>
       <div className="mt-2 flex flex-wrap items-center gap-3">
         <h2 className="font-display text-3xl text-sage-dark sm:text-4xl">{itinerary.trip_title}</h2>
         <span className="inline-flex items-center rounded-full border border-sage-dark/30 bg-sage-dark/10 px-3 py-1 font-sans text-xs uppercase tracking-widest text-sage-dark">
@@ -48,7 +48,7 @@ export function ItineraryView({
 
       {itinerary.selection_reasons.length > 0 && (
         <div className="mt-8 rounded-xl border border-border bg-muted/40 p-4 sm:mt-10 sm:p-5">
-          <h4 className="font-display text-xl text-sage-dark">Why these stops</h4>
+          <h4 className="font-display text-xl text-sage-dark">{t("common", "itinerary.whyTheseStops")}</h4>
           <ul className="mt-3 flex flex-col gap-2 font-serif text-sm text-foreground/85">
             {itinerary.selection_reasons.map((reason) => (
               <li key={reason.destination_slug}>
@@ -62,24 +62,34 @@ export function ItineraryView({
       <div className="mt-8 flex flex-col gap-5 sm:gap-6">
         {itinerary.days.map((day) => (
           <div key={day.day} className="break-inside-avoid-page rounded-xl border border-border p-4 sm:p-5">
-            <p className="font-sans text-xs uppercase tracking-widest text-muted-foreground">Day {day.day}</p>
+            <p className="font-sans text-xs uppercase tracking-widest text-muted-foreground">
+              {t("common", "itinerary.day")} {day.day}
+            </p>
             <h3 className="mt-1 font-display text-xl text-sage-dark sm:text-2xl">{day.title}</h3>
             <p className="mt-2 font-serif text-sm text-foreground/85">{day.summary}</p>
             <dl className="mt-4 grid gap-3 sm:grid-cols-2">
               <div>
-                <dt className="font-sans text-xs uppercase tracking-widest text-muted-foreground">Morning</dt>
+                <dt className="font-sans text-xs uppercase tracking-widest text-muted-foreground">
+                  {t("common", "itinerary.morning")}
+                </dt>
                 <dd className="font-serif text-sm text-foreground/85">{day.morning}</dd>
               </div>
               <div>
-                <dt className="font-sans text-xs uppercase tracking-widest text-muted-foreground">Afternoon</dt>
+                <dt className="font-sans text-xs uppercase tracking-widest text-muted-foreground">
+                  {t("common", "itinerary.afternoon")}
+                </dt>
                 <dd className="font-serif text-sm text-foreground/85">{day.afternoon}</dd>
               </div>
               <div>
-                <dt className="font-sans text-xs uppercase tracking-widest text-muted-foreground">Evening</dt>
+                <dt className="font-sans text-xs uppercase tracking-widest text-muted-foreground">
+                  {t("common", "itinerary.evening")}
+                </dt>
                 <dd className="font-serif text-sm text-foreground/85">{day.evening}</dd>
               </div>
               <div>
-                <dt className="font-sans text-xs uppercase tracking-widest text-muted-foreground">Food highlight</dt>
+                <dt className="font-sans text-xs uppercase tracking-widest text-muted-foreground">
+                  {t("common", "itinerary.foodHighlight")}
+                </dt>
                 <dd className="font-serif text-sm text-foreground/85">{day.food_highlight}</dd>
               </div>
             </dl>
@@ -89,7 +99,7 @@ export function ItineraryView({
 
       {itinerary.day_trips.length > 0 && (
         <div className="mt-8 sm:mt-10">
-          <h4 className="font-display text-xl text-sage-dark">Day trips</h4>
+          <h4 className="font-display text-xl text-sage-dark">{t("common", "itinerary.dayTrips")}</h4>
           <div className="mt-3 flex flex-col gap-4">
             {itinerary.day_trips.map((trip) => (
               <div
@@ -97,12 +107,17 @@ export function ItineraryView({
                 className="break-inside-avoid-page rounded-xl border border-dashed border-rose/60 bg-rose/5 p-4 sm:p-5"
               >
                 <p className="font-sans text-xs uppercase tracking-widest text-rose">
-                  Day {trip.day} · Day trip from {trip.origin}
+                  {t("common", "itinerary.day")} {trip.day} · {t("common", "itinerary.dayTripLabel")}{" "}
+                  {t("common", "itinerary.from")} {trip.origin}
                 </p>
                 <h5 className="mt-1 font-display text-lg text-sage-dark">{trip.destination_name}</h5>
-                <p className="mt-1 font-sans text-xs text-muted-foreground">{trip.drive_time} drive</p>
+                <p className="mt-1 font-sans text-xs text-muted-foreground">
+                  {trip.drive_time} {t("common", "itinerary.drive")}
+                </p>
                 <p className="mt-2 font-serif text-sm text-foreground/85">{trip.why_go}</p>
-                <p className="mt-2 font-serif text-sm italic text-foreground/70">Local tip: {trip.local_tip}</p>
+                <p className="mt-2 font-serif text-sm italic text-foreground/70">
+                  {t("common", "itinerary.localTip")}: {trip.local_tip}
+                </p>
               </div>
             ))}
           </div>
@@ -168,10 +183,10 @@ export function ItineraryView({
       )}
 
       <div className="mt-8 grid gap-6 sm:mt-10 sm:grid-cols-2 sm:gap-8">
-        <ItineraryListSection title="Hidden gems" items={itinerary.hidden_gems} />
-        <ItineraryListSection title="Restaurants worth the detour" items={itinerary.restaurant_picks} />
-        <ItineraryListSection title="Culture notes" items={itinerary.culture_notes} />
-        <ItineraryListSection title="Packing list" items={itinerary.packing_list} />
+        <ItineraryListSection title={t("common", "itinerary.hiddenGems")} items={itinerary.hidden_gems} />
+        <ItineraryListSection title={t("common", "itinerary.restaurants")} items={itinerary.restaurant_picks} />
+        <ItineraryListSection title={t("common", "itinerary.cultureNotes")} items={itinerary.culture_notes} />
+        <ItineraryListSection title={t("common", "itinerary.packingList")} items={itinerary.packing_list} />
       </div>
     </div>
   );
