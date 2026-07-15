@@ -1,7 +1,7 @@
 import { useRef, useState, type ChangeEvent } from 'react'
 import { Download, Upload } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { buildBackup, downloadBackup, parseBackupFile, BackupParseError, type BackupData } from '@/lib/backup'
+import { buildBackup, downloadBackup, parseBackupFile, BackupParseError, type BackupData } from '@/services/backup'
 
 export function BackupSheet({
   data,

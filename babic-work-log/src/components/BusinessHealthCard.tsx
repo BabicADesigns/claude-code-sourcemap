@@ -1,7 +1,7 @@
 import { TrendingUp } from 'lucide-react'
-import { formatCurrency, formatHours } from '@/lib/date'
-import type { BusinessHealth } from '@/lib/calculations'
-import type { Project } from '@/lib/types'
+import { formatCurrency, formatHours } from '@/services/date'
+import type { BusinessHealth } from '@/services/calculations'
+import type { Project } from '@/models'
 
 export function BusinessHealthCard({ health, projects }: { health: BusinessHealth; projects: Project[] }) {
   if (health.amount === 0 && health.hours === 0) return null

@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge'
-import type { EntryStatus } from '@/lib/types'
-import { STATUS_LABELS } from '@/lib/types'
+import type { EntryStatus } from '@/models'
+import { STATUS_LABELS } from '@/models'
 
 const VARIANT: Record<EntryStatus, 'gold' | 'adriatic' | 'sage'> = {
   offen: 'gold',

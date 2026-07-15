@@ -3,9 +3,9 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { EntryList } from '@/components/EntryList'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
 import { Watermark } from '@/components/Watermark'
-import { cn } from '@/lib/utils'
-import { addMonths, formatDateDisplay, formatMonthLabel, getMonthGrid, toISODate, WEEKDAY_SHORT_MONDAY_FIRST } from '@/lib/date'
-import type { EnrichedEntry, Project, TimeEntry } from '@/lib/types'
+import { cn } from '@/services/utils'
+import { addMonths, formatDateDisplay, formatMonthLabel, getMonthGrid, toISODate, WEEKDAY_SHORT_MONDAY_FIRST } from '@/services/date'
+import type { EnrichedEntry, Project, TimeEntry } from '@/models'
 
 export function CalendarView({
   entries,

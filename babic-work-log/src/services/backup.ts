@@ -1,5 +1,5 @@
 import { CURRENT_SCHEMA_VERSION, normalizeClient, normalizeDocument, normalizeEntry, migrateLegacyProjects, normalizeProject } from './migrations'
-import type { Client, Project, ProjectDocument, TimeEntry } from './types'
+import type { Client, Project, ProjectDocument, TimeEntry } from '../models'
 import { toISODate } from './date'
 
 export interface BackupFile {

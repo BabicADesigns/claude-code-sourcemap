@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
-import { loadEntries, saveEntries } from '@/lib/storage'
-import type { EntryStatus, TimeEntry } from '@/lib/types'
-import { uid } from '@/lib/utils'
+import { loadEntries, saveEntries } from '@/services/storage'
+import type { EntryStatus, TimeEntry } from '@/models'
+import { uid } from '@/services/utils'
 
 export function useEntries() {
   const [entries, setEntries] = useState<TimeEntry[]>(() => loadEntries())

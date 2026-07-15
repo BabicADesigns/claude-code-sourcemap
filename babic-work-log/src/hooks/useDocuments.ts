@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
-import { loadDocuments, saveDocuments } from '@/lib/storage'
-import type { ProjectDocument } from '@/lib/types'
-import { uid } from '@/lib/utils'
+import { loadDocuments, saveDocuments } from '@/services/storage'
+import type { ProjectDocument } from '@/models'
+import { uid } from '@/services/utils'
 
 export interface NewDocumentInput {
   projectId: string

@@ -6,11 +6,12 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
 import { ProjectDetailSheet } from '@/components/ProjectDetailSheet'
-import { cn } from '@/lib/utils'
-import { effectiveRateForProject, summarizeByProject } from '@/lib/calculations'
-import { formatCurrency, formatHours } from '@/lib/date'
-import { PROJECT_COLORS } from '@/lib/types'
-import type { Client, PricingType, Project, ProjectDocument, TimeEntry } from '@/lib/types'
+import { Badge } from '@/components/ui/badge'
+import { cn } from '@/services/utils'
+import { effectiveRateForProject, summarizeByProject } from '@/services/calculations'
+import { formatCurrency, formatHours } from '@/services/date'
+import { PROJECT_COLORS, PROJECT_STATUS_LABELS } from '@/models'
+import type { Client, PricingType, Project, ProjectDocument, TimeEntry } from '@/models'
 import type { NewProjectInput } from '@/hooks/useProjects'
 
 export function ProjectsView({
@@ -224,7 +225,10 @@ function ProjectRow({
         <div className="flex min-w-0 items-center gap-2.5">
           <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ backgroundColor: project.color }} />
           <div className="min-w-0">
-            <p className="truncate font-medium text-ink">{project.name}</p>
+            <div className="flex items-center gap-1.5">
+              <p className="truncate font-medium text-ink">{project.name}</p>
+              {project.status !== 'active' && <Badge variant="rose">{PROJECT_STATUS_LABELS[project.status]}</Badge>}
+            </div>
             <p className="truncate text-xs text-muted-foreground">
               {clientName} · {project.pricingType === 'fixed' ? `Festpreis ${formatCurrency(project.fixedPrice ?? 0)}` : `${project.defaultRate} €/h`}
             </p>

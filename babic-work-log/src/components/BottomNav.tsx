@@ -1,5 +1,5 @@
 import { TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { cn } from '@/lib/utils'
+import { cn } from '@/services/utils'
 import { BarChart3, CalendarRange, LayoutGrid, Users } from 'lucide-react'
 
 const ITEMS = [

@@ -1,6 +1,6 @@
-import type { Client, Project, ProjectDocument, TimeEntry } from './types'
-import { PROJECT_COLORS } from './types'
-import { CURRENT_SCHEMA_VERSION, migrateLegacyProjects } from './migrations'
+import type { Client, Project, ProjectDocument, TimeEntry } from '../models'
+import { PROJECT_COLORS } from '../models'
+import { CURRENT_SCHEMA_VERSION, migrateLegacyProjects, normalizeClient, normalizeProject } from './migrations'
 import { uid } from './utils'
 
 const CLIENTS_KEY = 'babic-work-log:clients'
@@ -68,6 +68,7 @@ function seedDefaults(): { clients: Client[]; projects: Project[] } {
         color: PROJECT_COLORS[colorIndex++ % PROJECT_COLORS.length],
         defaultRate: p.defaultRate,
         pricingType: 'hourly',
+        status: 'active',
         createdAt: Date.now(),
       })
     }
@@ -77,9 +78,13 @@ function seedDefaults(): { clients: Client[]; projects: Project[] } {
 
 let bootstrapped: { clients: Client[]; projects: Project[] } | null = null
 
-/** Loads clients + projects together and migrates legacy (pre-1.1) data once.
- * Existing records are only ever extended with new fields, never dropped or
- * overwritten — this is safe to run against real production data. */
+/** Loads clients + projects together and migrates legacy data. Existing
+ * records are only ever extended with new fields (via normalizeClient /
+ * normalizeProject), never dropped, renamed, or overwritten — every branch
+ * below re-normalizes on every load so a record that already has every
+ * current field is unaffected, and one that's missing a newer field (e.g.
+ * a Sprint 1.1 project without `status`) gets it defaulted here rather than
+ * silently staying incomplete. Safe to run against real production data. */
 function bootstrap(): { clients: Client[]; projects: Project[] } {
   if (bootstrapped) return bootstrapped
 
@@ -90,20 +95,21 @@ function bootstrap(): { clients: Client[]; projects: Project[] } {
 
   if (!existingProjects || existingProjects.length === 0) {
     result = seedDefaults()
-    write(CLIENTS_KEY, result.clients)
-    write(PROJECTS_KEY, result.projects)
   } else if (!existingClients || existingProjects.some((p) => !p.clientId)) {
     const migrated = migrateLegacyProjects(existingProjects)
     result = {
-      clients: [...(existingClients ?? []), ...migrated.clients],
+      clients: [...(existingClients ?? []).map(normalizeClient), ...migrated.clients],
       projects: migrated.projects,
     }
-    write(CLIENTS_KEY, result.clients)
-    write(PROJECTS_KEY, result.projects)
   } else {
-    result = { clients: existingClients, projects: existingProjects }
+    result = {
+      clients: existingClients.map(normalizeClient),
+      projects: existingProjects.map(normalizeProject),
+    }
   }
 
+  write(CLIENTS_KEY, result.clients)
+  write(PROJECTS_KEY, result.projects)
   write(SCHEMA_VERSION_KEY, CURRENT_SCHEMA_VERSION)
   bootstrapped = result
   return result

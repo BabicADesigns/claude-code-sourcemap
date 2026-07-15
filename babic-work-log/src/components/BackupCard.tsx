@@ -1,5 +1,5 @@
 import { ChevronRight, ShieldCheck, ShieldAlert } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn } from '@/services/utils'
 
 export function BackupCard({ lastBackupAt, onOpen }: { lastBackupAt: number | null; onOpen: () => void }) {
   const days = lastBackupAt !== null ? Math.floor((Date.now() - lastBackupAt) / 86_400_000) : null

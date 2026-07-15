@@ -1,4 +1,4 @@
-import type { EnrichedEntry, EntryStatus, Payment, Project, TimeEntry } from './types'
+import type { EnrichedEntry, EntryStatus, Payment, Project, TimeEntry } from '../models'
 import {
   addWeeks,
   endOfMonth,

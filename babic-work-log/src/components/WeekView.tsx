@@ -2,10 +2,10 @@ import { useState } from 'react'
 import { ChevronLeft, ChevronRight, FileDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { EntryList } from '@/components/EntryList'
-import { entriesInRange, sumAmount, sumHours } from '@/lib/calculations'
-import { addWeeks, endOfWeek, formatWeekLabel, startOfWeek } from '@/lib/date'
-import { formatCurrency, formatHours } from '@/lib/date'
-import type { EnrichedEntry, Project, TimeEntry } from '@/lib/types'
+import { entriesInRange, sumAmount, sumHours } from '@/services/calculations'
+import { addWeeks, endOfWeek, formatWeekLabel, startOfWeek } from '@/services/date'
+import { formatCurrency, formatHours } from '@/services/date'
+import type { EnrichedEntry, Project, TimeEntry } from '@/models'
 
 export function WeekView({
   entries,
@@ -57,7 +57,7 @@ export function WeekView({
           variant="secondary"
           className="w-full"
           onClick={async () => {
-            const { exportActivityReport } = await import('@/lib/pdf')
+            const { exportActivityReport } = await import('@/services/pdf')
             exportActivityReport({
               title: 'Wochenübersicht',
               subtitle: formatWeekLabel(reference),

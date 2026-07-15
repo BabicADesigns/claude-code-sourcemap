@@ -2,10 +2,10 @@ import { useState } from 'react'
 import { Plus, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { formatCurrency, formatDateShort, todayISO } from '@/lib/date'
-import { paymentsSum } from '@/lib/calculations'
-import type { Payment } from '@/lib/types'
-import { uid } from '@/lib/utils'
+import { formatCurrency, formatDateShort, todayISO } from '@/services/date'
+import { paymentsSum } from '@/services/calculations'
+import type { Payment } from '@/models'
+import { uid } from '@/services/utils'
 
 export function PaymentsSection({
   payments,

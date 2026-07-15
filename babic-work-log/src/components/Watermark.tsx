@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils'
+import { cn } from '@/services/utils'
 
 type WatermarkSize = 'lg' | 'md' | 'sm'
 type WatermarkPosition = 'center' | 'bottom-right' | 'top-right'

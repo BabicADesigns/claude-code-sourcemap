@@ -1,7 +1,7 @@
 import { CheckCircle2 } from 'lucide-react'
-import { formatCurrency, formatHours } from '@/lib/date'
-import type { DayClose } from '@/lib/calculations'
-import type { Project } from '@/lib/types'
+import { formatCurrency, formatHours } from '@/services/date'
+import type { DayClose } from '@/services/calculations'
+import type { Project } from '@/models'
 
 export function DayCloseContent({ summary, projects }: { summary: DayClose; projects: Project[] }) {
   const projectName = (id: string) => projects.find((p) => p.id === id)?.name ?? 'Unbekannt'

@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
-import { loadProjects, saveProjects } from '@/lib/storage'
-import type { PricingType, Project } from '@/lib/types'
-import { PROJECT_COLORS } from '@/lib/types'
-import { uid } from '@/lib/utils'
+import { loadProjects, saveProjects } from '@/services/storage'
+import type { PricingType, Project, ProjectStatus } from '@/models'
+import { PROJECT_COLORS } from '@/models'
+import { uid } from '@/services/utils'
 
 export interface NewProjectInput {
   name: string
@@ -11,6 +11,8 @@ export interface NewProjectInput {
   color?: string
   pricingType?: PricingType
   fixedPrice?: number
+  status?: ProjectStatus
+  notes?: string
 }
 
 export function useProjects() {
@@ -29,6 +31,8 @@ export function useProjects() {
       color: input.color ?? PROJECT_COLORS[0],
       pricingType: input.pricingType ?? 'hourly',
       fixedPrice: input.fixedPrice,
+      status: input.status ?? 'active',
+      notes: input.notes,
       createdAt: Date.now(),
     }
     setProjects((prev) => [...prev, project])

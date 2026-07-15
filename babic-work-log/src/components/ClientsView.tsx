@@ -3,7 +3,10 @@ import { Archive, ArchiveRestore, Plus, Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input, Textarea } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import type { Client, Project } from '@/lib/types'
+import { cn } from '@/services/utils'
+import { PROJECT_COLORS } from '@/models'
+import type { Client, Project } from '@/models'
+import type { NewClientInput } from '@/hooks/useClients'
 
 export function ClientsView({
   clients,
@@ -15,14 +18,17 @@ export function ClientsView({
 }: {
   clients: Client[]
   projects: Project[]
-  onAdd: (input: { name: string; phone?: string; email?: string; notes?: string }) => void
+  onAdd: (input: NewClientInput) => void
   onUpdate: (id: string, patch: Partial<Omit<Client, 'id'>>) => void
   onArchive: (id: string, archived: boolean) => void
   onDelete: (id: string) => void
 }) {
   const [name, setName] = useState('')
+  const [company, setCompany] = useState('')
   const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
+  const [defaultRate, setDefaultRate] = useState('')
+  const [color, setColor] = useState<string>(PROJECT_COLORS[0])
   const [notes, setNotes] = useState('')
 
   const projectCountFor = (clientId: string) => projects.filter((p) => p.clientId === clientId).length
@@ -33,10 +39,21 @@ export function ClientsView({
   function handleAdd(e: FormEvent) {
     e.preventDefault()
     if (!name.trim()) return
-    onAdd({ name: name.trim(), phone: phone.trim() || undefined, email: email.trim() || undefined, notes: notes.trim() || undefined })
+    onAdd({
+      name: name.trim(),
+      company: company.trim() || undefined,
+      phone: phone.trim() || undefined,
+      email: email.trim() || undefined,
+      defaultRate: defaultRate ? Number(defaultRate) : undefined,
+      color,
+      notes: notes.trim() || undefined,
+    })
     setName('')
+    setCompany('')
     setPhone('')
     setEmail('')
+    setDefaultRate('')
+    setColor(PROJECT_COLORS[0])
     setNotes('')
   }
 
@@ -47,6 +64,10 @@ export function ClientsView({
           <Label htmlFor="new-client">Neuer Kunde</Label>
           <Input id="new-client" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
         </div>
+        <div>
+          <Label htmlFor="new-client-company">Firma (optional)</Label>
+          <Input id="new-client-company" value={company} onChange={(e) => setCompany(e.target.value)} />
+        </div>
         <div className="grid grid-cols-2 gap-3">
           <div>
             <Label htmlFor="new-client-phone">Telefon (optional)</Label>
@@ -55,6 +76,36 @@ export function ClientsView({
           <div>
             <Label htmlFor="new-client-email">Mail (optional)</Label>
             <Input id="new-client-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          </div>
+        </div>
+        <div>
+          <Label htmlFor="new-client-rate">Standard-Stundensatz (optional, €)</Label>
+          <Input
+            id="new-client-rate"
+            type="number"
+            inputMode="decimal"
+            step="0.5"
+            min="0"
+            value={defaultRate}
+            onChange={(e) => setDefaultRate(e.target.value)}
+          />
+        </div>
+        <div>
+          <Label>Farbe</Label>
+          <div className="flex flex-wrap gap-2">
+            {PROJECT_COLORS.map((c) => (
+              <button
+                key={c}
+                type="button"
+                onClick={() => setColor(c)}
+                className={cn(
+                  'h-8 w-8 rounded-full border-2 transition-transform',
+                  color === c ? 'scale-110 border-ink' : 'border-transparent',
+                )}
+                style={{ backgroundColor: c }}
+                aria-label={`Farbe ${c} wählen`}
+              />
+            ))}
           </div>
         </div>
         <div>
@@ -117,11 +168,17 @@ function ClientRow({
   return (
     <div className="rounded-2xl bg-card p-4 shadow-soft">
       <div className="flex items-center justify-between gap-3">
-        <Input
-          value={client.name}
-          onChange={(e) => onUpdate(client.id, { name: e.target.value })}
-          className="h-9 flex-1 border-none bg-transparent px-0 font-medium text-ink focus-visible:ring-0"
-        />
+        <div className="flex min-w-0 flex-1 items-center gap-2.5">
+          <span
+            className="h-2.5 w-2.5 shrink-0 rounded-full"
+            style={{ backgroundColor: client.color ?? '#8B9B7A' }}
+          />
+          <Input
+            value={client.name}
+            onChange={(e) => onUpdate(client.id, { name: e.target.value })}
+            className="h-9 flex-1 border-none bg-transparent px-0 font-medium text-ink focus-visible:ring-0"
+          />
+        </div>
         <div className="flex shrink-0 gap-1">
           <button
             onClick={() => onArchive(client.id, !client.archived)}
@@ -141,9 +198,11 @@ function ClientRow({
           )}
         </div>
       </div>
+      {client.company && <p className="mt-1 text-sm text-muted-foreground">{client.company}</p>}
       <div className="mt-1 flex flex-wrap gap-x-3 text-xs text-muted-foreground">
         {client.phone && <span>{client.phone}</span>}
         {client.email && <span>{client.email}</span>}
+        {typeof client.defaultRate === 'number' && <span>{client.defaultRate} €/h</span>}
         <span>
           {projectCount} {projectCount === 1 ? 'Projekt' : 'Projekte'}
         </span>

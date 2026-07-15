@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { ClientsView } from '@/components/ClientsView'
 import { ProjectsView } from '@/components/ProjectsView'
-import { cn } from '@/lib/utils'
-import type { Client, Project, ProjectDocument, TimeEntry } from '@/lib/types'
+import { cn } from '@/services/utils'
+import type { Client, Project, ProjectDocument, TimeEntry } from '@/models'
 import type { NewClientInput } from '@/hooks/useClients'
 import type { NewProjectInput } from '@/hooks/useProjects'
 

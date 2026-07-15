@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { WeekView } from '@/components/WeekView'
 import { MonthView } from '@/components/MonthView'
 import { CalendarView } from '@/components/CalendarView'
-import { cn } from '@/lib/utils'
-import type { EnrichedEntry, Project, TimeEntry } from '@/lib/types'
+import { cn } from '@/services/utils'
+import type { EnrichedEntry, Project, TimeEntry } from '@/models'
 
 type SubView = 'week' | 'month' | 'calendar'
 

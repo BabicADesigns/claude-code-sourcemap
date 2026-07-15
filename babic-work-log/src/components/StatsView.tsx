@@ -1,7 +1,7 @@
 import { useMemo, type ReactNode } from 'react'
-import { entriesThisMonth, summarizeByClient, summarizeByProject, sumAmount } from '@/lib/calculations'
-import { formatCurrency, formatHours, formatMonthLabel } from '@/lib/date'
-import type { Client, EnrichedEntry, Project } from '@/lib/types'
+import { entriesThisMonth, summarizeByClient, summarizeByProject, sumAmount } from '@/services/calculations'
+import { formatCurrency, formatHours, formatMonthLabel } from '@/services/date'
+import type { Client, EnrichedEntry, Project } from '@/models'
 
 export function StatsView({
   entries,

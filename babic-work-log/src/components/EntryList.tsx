@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion'
 import { Timer } from 'lucide-react'
 import { StatusBadge } from '@/components/StatusBadge'
-import { entryAmount, entryHours } from '@/lib/calculations'
-import { formatDateShort, formatCurrency, formatHours } from '@/lib/date'
-import type { EnrichedEntry, Project, TimeEntry } from '@/lib/types'
+import { entryAmount, entryHours } from '@/services/calculations'
+import { formatDateShort, formatCurrency, formatHours } from '@/services/date'
+import type { EnrichedEntry, Project, TimeEntry } from '@/models'
 
 export function EntryList({
   entries,

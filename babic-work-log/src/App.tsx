@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Tabs, TabsContent } from '@/components/ui/tabs'
 import { BottomNav } from '@/components/BottomNav'
 import { Dashboard } from '@/components/Dashboard'
@@ -7,18 +7,18 @@ import { ClientsAndProjectsView } from '@/components/ClientsAndProjectsView'
 import { StatsView } from '@/components/StatsView'
 import { EntryForm } from '@/components/EntryForm'
 import { BackupSheet } from '@/components/BackupSheet'
+import type { TimerStopConfirmation } from '@/components/TimerStopDialog'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
 import { useEntries } from '@/hooks/useEntries'
 import { useProjects } from '@/hooks/useProjects'
 import { useClients } from '@/hooks/useClients'
 import { useDocuments } from '@/hooks/useDocuments'
-import { useTimer, type StoppedTimer } from '@/hooks/useTimer'
-import { enrichEntries } from '@/lib/calculations'
-import { todayISO } from '@/lib/date'
-import { loadLastBackupAt, saveLastBackupAt } from '@/lib/storage'
-import { mergeBackupData, type BackupData } from '@/lib/backup'
-import { uid } from '@/lib/utils'
-import type { TimeEntry } from '@/lib/types'
+import { useTimer } from '@/hooks/useTimer'
+import { enrichEntries } from '@/services/calculations'
+import { todayISO } from '@/services/date'
+import { loadLastBackupAt, saveLastBackupAt } from '@/services/storage'
+import { mergeBackupData, type BackupData } from '@/services/backup'
+import type { TimeEntry } from '@/models'
 
 export default function App() {
   const { entries, upsertEntry, deleteEntry, replaceAll: replaceAllEntries } = useEntries()
@@ -32,21 +32,10 @@ export default function App() {
   const [view, setView] = useState('dashboard')
   const [sheetOpen, setSheetOpen] = useState(false)
   const [editingEntry, setEditingEntry] = useState<TimeEntry | null>(null)
-  const [pendingOpenId, setPendingOpenId] = useState<string | null>(null)
   const [backupSheetOpen, setBackupSheetOpen] = useState(false)
   const [lastBackupAt, setLastBackupAt] = useState<number | null>(() => loadLastBackupAt())
 
   const enrichedEntries = useMemo(() => enrichEntries(entries, projects), [entries, projects])
-
-  useEffect(() => {
-    if (!pendingOpenId) return
-    const found = entries.find((e) => e.id === pendingOpenId)
-    if (found) {
-      setEditingEntry(found)
-      setSheetOpen(true)
-      setPendingOpenId(null)
-    }
-  }, [entries, pendingOpenId])
 
   function openNewEntry() {
     setEditingEntry(null)
@@ -58,21 +47,19 @@ export default function App() {
     setSheetOpen(true)
   }
 
-  function handleTimerStopped(result: StoppedTimer) {
-    const project = projects.find((p) => p.id === result.projectId)
-    const id = uid()
+  function handleCreateEntryFromTimer(data: TimerStopConfirmation & { hours: number }) {
+    const project = projects.find((p) => p.id === data.projectId)
+    const notes = [data.description, data.notes].filter((s) => s.length > 0).join('\n\n') || undefined
     upsertEntry({
-      id,
-      projectId: result.projectId,
+      projectId: data.projectId,
       date: todayISO(),
-      category: result.category,
-      manualHours: result.hours,
+      category: data.category,
+      manualHours: data.hours,
       hourlyRate: project?.defaultRate ?? 0,
-      notes: '',
+      notes,
       status: 'offen',
       source: 'timer',
     })
-    setPendingOpenId(id)
   }
 
   function handleBackupExported() {
@@ -97,12 +84,14 @@ export default function App() {
         <Dashboard
           entries={enrichedEntries}
           projects={projects}
+          clients={clients}
           timer={timer}
           lastBackupAt={lastBackupAt}
           onNewEntry={openNewEntry}
           onSelectEntry={openEntry}
-          onTimerStopped={handleTimerStopped}
+          onCreateEntryFromTimer={handleCreateEntryFromTimer}
           onOpenBackup={() => setBackupSheetOpen(true)}
+          onNavigateToProjects={() => setView('clients-projects')}
         />
       </TabsContent>
       <TabsContent value="periods" tabIndex={-1}>

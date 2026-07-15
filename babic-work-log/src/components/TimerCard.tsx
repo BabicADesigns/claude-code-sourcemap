@@ -3,8 +3,8 @@ import { Pause, Play, Square, Timer as TimerIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { formatElapsed, type UseTimerReturn } from '@/hooks/useTimer'
-import { CATEGORIES } from '@/lib/types'
-import type { Project } from '@/lib/types'
+import { CATEGORIES } from '@/models'
+import type { Project } from '@/models'
 
 export function TimerCard({
   timer,

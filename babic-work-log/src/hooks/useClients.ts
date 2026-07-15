@@ -1,12 +1,15 @@
 import { useCallback, useEffect, useState } from 'react'
-import { loadClients, saveClients } from '@/lib/storage'
-import type { Client } from '@/lib/types'
-import { uid } from '@/lib/utils'
+import { loadClients, saveClients } from '@/services/storage'
+import type { Client } from '@/models'
+import { uid } from '@/services/utils'
 
 export interface NewClientInput {
   name: string
+  company?: string
   phone?: string
   email?: string
+  defaultRate?: number
+  color?: string
   notes?: string
 }
 

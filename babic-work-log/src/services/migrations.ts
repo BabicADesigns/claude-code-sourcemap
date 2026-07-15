@@ -1,11 +1,16 @@
-import { CATEGORIES, PROJECT_COLORS } from './types'
-import type { Client, PricingType, Project, ProjectDocument, TimeEntry } from './types'
+import { CATEGORIES, PROJECT_COLORS } from '../models'
+import type { Client, PricingType, Project, ProjectDocument, ProjectStatus, TimeEntry } from '../models'
 import { uid } from './utils'
 
 /** Bump whenever the stored data shape changes in a way old records don't
  * already satisfy. Used both for the automatic on-load migration and to
- * decide whether an imported backup file needs migrating. */
-export const CURRENT_SCHEMA_VERSION = 2
+ * decide whether an imported backup file needs migrating.
+ *
+ * 1 — pre-1.1 flat projects (no client/color/pricing).
+ * 2 — clients, fixed-price projects, payments, documents.
+ * 3 — client company/rate/color, project status/notes, memory-architecture
+ *     fields on TimeEntry (all additive/optional). */
+export const CURRENT_SCHEMA_VERSION = 3
 
 function colorForIndex(i: number): string {
   return PROJECT_COLORS[i % PROJECT_COLORS.length]
@@ -35,8 +40,11 @@ export function normalizeClient(c: Partial<Client> & { id: string }): Client {
   return {
     id: c.id,
     name: c.name ?? 'Unbenannt',
+    company: c.company,
     phone: c.phone,
     email: c.email,
+    defaultRate: c.defaultRate,
+    color: c.color,
     notes: c.notes,
     createdAt: c.createdAt ?? Date.now(),
     archived: c.archived,
@@ -52,6 +60,8 @@ export function normalizeProject(p: Partial<Project> & { id: string }): Project 
     defaultRate: p.defaultRate ?? 0,
     pricingType: (p.pricingType as PricingType) ?? 'hourly',
     fixedPrice: p.fixedPrice,
+    status: (p.status as ProjectStatus) ?? 'active',
+    notes: p.notes,
     createdAt: p.createdAt ?? Date.now(),
     archived: p.archived,
   }
@@ -74,6 +84,14 @@ export function normalizeEntry(e: Partial<TimeEntry> & { id: string }): TimeEntr
     source: e.source,
     createdAt: e.createdAt ?? Date.now(),
     updatedAt: e.updatedAt ?? Date.now(),
+    // Memory Architecture (Sprint 2) — carried through untouched if present,
+    // left undefined otherwise. Nothing writes these yet.
+    summary: e.summary,
+    transcript: e.transcript,
+    tags: e.tags,
+    entities: e.entities,
+    customerId: e.customerId,
+    createdBy: e.createdBy,
   }
 }
 

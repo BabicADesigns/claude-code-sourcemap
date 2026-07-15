@@ -2,7 +2,7 @@ import jsPDF, { GState } from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import { entryAmount, entryHours, sumAmount, sumHours } from './calculations'
 import { formatDateShort } from './date'
-import type { EnrichedEntry, Project, TimeEntry } from './types'
+import type { EnrichedEntry, Project, TimeEntry } from '../models'
 import { CIPKA_B_BASE64 } from './watermarkAsset'
 
 export interface ExportOptions {

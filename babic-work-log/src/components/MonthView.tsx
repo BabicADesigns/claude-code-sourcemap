@@ -2,9 +2,9 @@ import { useState } from 'react'
 import { ChevronLeft, ChevronRight, FileDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Watermark } from '@/components/Watermark'
-import { entriesInRange, summarizeByProject, sumAmount, sumHours } from '@/lib/calculations'
-import { addMonths, endOfMonth, formatCurrency, formatHours, formatMonthLabel, startOfMonth } from '@/lib/date'
-import type { EnrichedEntry, Project } from '@/lib/types'
+import { entriesInRange, summarizeByProject, sumAmount, sumHours } from '@/services/calculations'
+import { addMonths, endOfMonth, formatCurrency, formatHours, formatMonthLabel, startOfMonth } from '@/services/date'
+import type { EnrichedEntry, Project } from '@/models'
 
 export function MonthView({ entries, projects }: { entries: EnrichedEntry[]; projects: Project[] }) {
   const [reference, setReference] = useState(new Date())
@@ -51,7 +51,7 @@ export function MonthView({ entries, projects }: { entries: EnrichedEntry[]; pro
           variant="secondary"
           className="w-full"
           onClick={async () => {
-            const { exportActivityReport } = await import('@/lib/pdf')
+            const { exportActivityReport } = await import('@/services/pdf')
             exportActivityReport({
               title: 'Monatsübersicht',
               subtitle: formatMonthLabel(reference),

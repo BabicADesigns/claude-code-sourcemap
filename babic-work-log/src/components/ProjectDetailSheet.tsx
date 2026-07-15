@@ -4,11 +4,12 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Badge } from '@/components/ui/badge'
-import { cn } from '@/lib/utils'
-import { effectiveRateForProject, summarizeByProject } from '@/lib/calculations'
-import { formatCurrency, formatHours } from '@/lib/date'
-import { PROJECT_COLORS } from '@/lib/types'
-import type { Client, PricingType, Project, ProjectDocument, TimeEntry } from '@/lib/types'
+import { Textarea } from '@/components/ui/input'
+import { cn } from '@/services/utils'
+import { effectiveRateForProject, summarizeByProject } from '@/services/calculations'
+import { formatCurrency, formatHours } from '@/services/date'
+import { PROJECT_COLORS, PROJECT_STATUS_LABELS, PROJECT_STATUS_ORDER } from '@/models'
+import type { Client, PricingType, Project, ProjectDocument, TimeEntry } from '@/models'
 
 const DOCUMENT_LABELS = ['Angebot', 'Vertrag', 'Rechnung', 'Hausaufgaben', 'Screenshot', 'PDF', 'Sonstiges']
 
@@ -95,6 +96,25 @@ export function ProjectDetailSheet({
       </div>
 
       <div>
+        <Label>Status</Label>
+        <div className="flex gap-2">
+          {PROJECT_STATUS_ORDER.map((s) => (
+            <button
+              key={s}
+              type="button"
+              onClick={() => onUpdate(project.id, { status: s })}
+              className={cn(
+                'flex-1 rounded-xl border px-2 py-2 text-xs font-medium transition-colors',
+                project.status === s ? 'border-sage bg-sage/15 text-sage-dark' : 'border-border text-muted-foreground',
+              )}
+            >
+              {PROJECT_STATUS_LABELS[s]}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div>
         <Label>Preisart</Label>
         <div className="inline-flex rounded-xl bg-cream-dark p-1">
           {(
@@ -150,6 +170,15 @@ export function ProjectDetailSheet({
           />
         </div>
       )}
+
+      <div>
+        <Label htmlFor="detail-notes">Notizen</Label>
+        <Textarea
+          id="detail-notes"
+          value={project.notes ?? ''}
+          onChange={(e) => onUpdate(project.id, { notes: e.target.value || undefined })}
+        />
+      </div>
 
       <div>
         <Label>Dokumente</Label>
