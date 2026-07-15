@@ -47,5 +47,9 @@ export function useProjects() {
     setProjects((prev) => prev.filter((p) => p.id !== id))
   }, [])
 
-  return { projects, addProject, updateProject, archiveProject, deleteProject }
+  const replaceAll = useCallback((next: Project[]) => {
+    setProjects(next)
+  }, [])
+
+  return { projects, addProject, updateProject, archiveProject, deleteProject, replaceAll }
 }

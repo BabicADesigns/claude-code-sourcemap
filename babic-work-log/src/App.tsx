@@ -6,6 +6,7 @@ import { PeriodsView } from '@/components/PeriodsView'
 import { ClientsAndProjectsView } from '@/components/ClientsAndProjectsView'
 import { StatsView } from '@/components/StatsView'
 import { EntryForm } from '@/components/EntryForm'
+import { BackupSheet } from '@/components/BackupSheet'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
 import { useEntries } from '@/hooks/useEntries'
 import { useProjects } from '@/hooks/useProjects'
@@ -14,20 +15,26 @@ import { useDocuments } from '@/hooks/useDocuments'
 import { useTimer, type StoppedTimer } from '@/hooks/useTimer'
 import { enrichEntries } from '@/lib/calculations'
 import { todayISO } from '@/lib/date'
+import { loadLastBackupAt, saveLastBackupAt } from '@/lib/storage'
+import { mergeBackupData, type BackupData } from '@/lib/backup'
 import { uid } from '@/lib/utils'
 import type { TimeEntry } from '@/lib/types'
 
 export default function App() {
-  const { entries, upsertEntry, deleteEntry } = useEntries()
-  const { projects, addProject, updateProject, archiveProject, deleteProject } = useProjects()
-  const { clients, addClient, updateClient, archiveClient, deleteClient } = useClients()
-  const { documents, addDocument, deleteDocument } = useDocuments()
+  const { entries, upsertEntry, deleteEntry, replaceAll: replaceAllEntries } = useEntries()
+  const { projects, addProject, updateProject, archiveProject, deleteProject, replaceAll: replaceAllProjects } =
+    useProjects()
+  const { clients, addClient, updateClient, archiveClient, deleteClient, replaceAll: replaceAllClients } =
+    useClients()
+  const { documents, addDocument, deleteDocument, replaceAll: replaceAllDocuments } = useDocuments()
   const timer = useTimer()
 
   const [view, setView] = useState('dashboard')
   const [sheetOpen, setSheetOpen] = useState(false)
   const [editingEntry, setEditingEntry] = useState<TimeEntry | null>(null)
   const [pendingOpenId, setPendingOpenId] = useState<string | null>(null)
+  const [backupSheetOpen, setBackupSheetOpen] = useState(false)
+  const [lastBackupAt, setLastBackupAt] = useState<number | null>(() => loadLastBackupAt())
 
   const enrichedEntries = useMemo(() => enrichEntries(entries, projects), [entries, projects])
 
@@ -68,6 +75,22 @@ export default function App() {
     setPendingOpenId(id)
   }
 
+  function handleBackupExported() {
+    const now = Date.now()
+    saveLastBackupAt(now)
+    setLastBackupAt(now)
+  }
+
+  function handleBackupImport(mode: 'merge' | 'replace', parsed: BackupData) {
+    const next: BackupData =
+      mode === 'replace' ? parsed : mergeBackupData({ clients, projects, entries, documents }, parsed)
+    replaceAllClients(next.clients)
+    replaceAllProjects(next.projects)
+    replaceAllEntries(next.entries)
+    replaceAllDocuments(next.documents)
+    setBackupSheetOpen(false)
+  }
+
   return (
     <Tabs value={view} onValueChange={setView} className="min-h-dvh bg-background">
       <TabsContent value="dashboard" tabIndex={-1}>
@@ -75,9 +98,11 @@ export default function App() {
           entries={enrichedEntries}
           projects={projects}
           timer={timer}
+          lastBackupAt={lastBackupAt}
           onNewEntry={openNewEntry}
           onSelectEntry={openEntry}
           onTimerStopped={handleTimerStopped}
+          onOpenBackup={() => setBackupSheetOpen(true)}
         />
       </TabsContent>
       <TabsContent value="periods" tabIndex={-1}>
@@ -118,6 +143,16 @@ export default function App() {
             onSave={upsertEntry}
             onDelete={deleteEntry}
             onClose={() => setSheetOpen(false)}
+          />
+        </SheetContent>
+      </Sheet>
+
+      <Sheet open={backupSheetOpen} onOpenChange={setBackupSheetOpen}>
+        <SheetContent open={backupSheetOpen} title="Backup">
+          <BackupSheet
+            data={{ clients, projects, entries, documents }}
+            onExported={handleBackupExported}
+            onImport={handleBackupImport}
           />
         </SheetContent>
       </Sheet>

@@ -35,5 +35,9 @@ export function useClients() {
     setClients((prev) => prev.filter((c) => c.id !== id))
   }, [])
 
-  return { clients, addClient, updateClient, archiveClient, deleteClient }
+  const replaceAll = useCallback((next: Client[]) => {
+    setClients(next)
+  }, [])
+
+  return { clients, addClient, updateClient, archiveClient, deleteClient, replaceAll }
 }

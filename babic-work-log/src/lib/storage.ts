@@ -1,11 +1,14 @@
 import type { Client, Project, ProjectDocument, TimeEntry } from './types'
 import { PROJECT_COLORS } from './types'
+import { CURRENT_SCHEMA_VERSION, migrateLegacyProjects } from './migrations'
 import { uid } from './utils'
 
 const CLIENTS_KEY = 'babic-work-log:clients'
 const PROJECTS_KEY = 'babic-work-log:projects'
 const ENTRIES_KEY = 'babic-work-log:entries'
 const DOCUMENTS_KEY = 'babic-work-log:documents'
+const SCHEMA_VERSION_KEY = 'babic-work-log:schema-version'
+const LAST_BACKUP_KEY = 'babic-work-log:last-backup-at'
 
 interface SeedProject {
   name: string
@@ -50,29 +53,6 @@ function write<T>(key: string, value: T): void {
   }
 }
 
-function colorForIndex(i: number): string {
-  return PROJECT_COLORS[i % PROJECT_COLORS.length]
-}
-
-/** Legacy (pre-1.1) projects had no clientId/color/pricingType. Migrate each
- * distinct legacy project into its own same-named client so existing user
- * data is never lost or renamed. */
-function migrateLegacyProjects(legacy: (Project & { clientId?: string })[]): { clients: Client[]; projects: Project[] } {
-  const clients: Client[] = []
-  const projects: Project[] = legacy.map((p, i) => {
-    if (p.clientId) return p as Project
-    const client: Client = { id: uid(), name: p.name, createdAt: p.createdAt ?? Date.now() }
-    clients.push(client)
-    return {
-      ...p,
-      clientId: client.id,
-      color: colorForIndex(i),
-      pricingType: 'hourly',
-    }
-  })
-  return { clients, projects }
-}
-
 function seedDefaults(): { clients: Client[]; projects: Project[] } {
   const clients: Client[] = []
   const projects: Project[] = []
@@ -85,7 +65,7 @@ function seedDefaults(): { clients: Client[]; projects: Project[] } {
         id: uid(),
         name: p.name,
         clientId: client.id,
-        color: colorForIndex(colorIndex++),
+        color: PROJECT_COLORS[colorIndex++ % PROJECT_COLORS.length],
         defaultRate: p.defaultRate,
         pricingType: 'hourly',
         createdAt: Date.now(),
@@ -97,7 +77,9 @@ function seedDefaults(): { clients: Client[]; projects: Project[] } {
 
 let bootstrapped: { clients: Client[]; projects: Project[] } | null = null
 
-/** Loads clients + projects together and migrates legacy (pre-1.1) data once. */
+/** Loads clients + projects together and migrates legacy (pre-1.1) data once.
+ * Existing records are only ever extended with new fields, never dropped or
+ * overwritten — this is safe to run against real production data. */
 function bootstrap(): { clients: Client[]; projects: Project[] } {
   if (bootstrapped) return bootstrapped
 
@@ -122,6 +104,7 @@ function bootstrap(): { clients: Client[]; projects: Project[] } {
     result = { clients: existingClients, projects: existingProjects }
   }
 
+  write(SCHEMA_VERSION_KEY, CURRENT_SCHEMA_VERSION)
   bootstrapped = result
   return result
 }
@@ -156,4 +139,16 @@ export function loadDocuments(): ProjectDocument[] {
 
 export function saveDocuments(documents: ProjectDocument[]): void {
   write(DOCUMENTS_KEY, documents)
+}
+
+export function loadSchemaVersion(): number {
+  return read<number>(SCHEMA_VERSION_KEY, 1)
+}
+
+export function loadLastBackupAt(): number | null {
+  return read<number | null>(LAST_BACKUP_KEY, null)
+}
+
+export function saveLastBackupAt(timestamp: number): void {
+  write(LAST_BACKUP_KEY, timestamp)
 }

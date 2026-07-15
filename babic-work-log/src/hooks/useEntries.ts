@@ -32,5 +32,9 @@ export function useEntries() {
     setEntries((prev) => prev.map((e) => (e.id === id ? { ...e, status, updatedAt: Date.now() } : e)))
   }, [])
 
-  return { entries, upsertEntry, deleteEntry, setStatus }
+  const replaceAll = useCallback((next: TimeEntry[]) => {
+    setEntries(next)
+  }, [])
+
+  return { entries, upsertEntry, deleteEntry, setStatus, replaceAll }
 }

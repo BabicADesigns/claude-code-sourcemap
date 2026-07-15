@@ -14,6 +14,7 @@ import { StatCard } from '@/components/StatCard'
 import { EntryList } from '@/components/EntryList'
 import { TimerCard } from '@/components/TimerCard'
 import { BusinessHealthCard } from '@/components/BusinessHealthCard'
+import { BackupCard } from '@/components/BackupCard'
 import { DayCloseContent } from '@/components/DayCloseSheet'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
 import { Watermark } from '@/components/Watermark'
@@ -36,16 +37,20 @@ export function Dashboard({
   entries,
   projects,
   timer,
+  lastBackupAt,
   onNewEntry,
   onSelectEntry,
   onTimerStopped,
+  onOpenBackup,
 }: {
   entries: EnrichedEntry[]
   projects: Project[]
   timer: UseTimerReturn
+  lastBackupAt: number | null
   onNewEntry: () => void
   onSelectEntry: (entry: TimeEntry) => void
   onTimerStopped: (result: StoppedTimer) => void
+  onOpenBackup: () => void
 }) {
   const [dayCloseOpen, setDayCloseOpen] = useState(false)
 
@@ -118,6 +123,8 @@ export function Dashboard({
         </div>
 
         <BusinessHealthCard health={health} projects={projects} />
+
+        <BackupCard lastBackupAt={lastBackupAt} onOpen={onOpenBackup} />
 
         <Button variant="secondary" size="lg" className="w-full" onClick={() => setDayCloseOpen(true)}>
           <ClipboardCheck className="h-5 w-5" />

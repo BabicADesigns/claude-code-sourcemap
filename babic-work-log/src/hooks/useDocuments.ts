@@ -33,5 +33,9 @@ export function useDocuments() {
     [documents],
   )
 
-  return { documents, addDocument, deleteDocument, documentsForProject }
+  const replaceAll = useCallback((next: ProjectDocument[]) => {
+    setDocuments(next)
+  }, [])
+
+  return { documents, addDocument, deleteDocument, documentsForProject, replaceAll }
 }
