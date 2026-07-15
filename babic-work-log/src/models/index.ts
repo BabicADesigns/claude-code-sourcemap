@@ -38,18 +38,97 @@ export const PROJECT_STATUS_LABELS: Record<ProjectStatus, string> = {
 
 export const PROJECT_STATUS_ORDER: ProjectStatus[] = ['active', 'paused', 'completed']
 
+export type ClientRelationship = 'client' | 'partner' | 'supplier' | 'affiliate_partner' | 'business_contact' | 'internal'
+
+export const CLIENT_RELATIONSHIP_LABELS: Record<ClientRelationship, string> = {
+  client: 'Kunde',
+  partner: 'Partner',
+  supplier: 'Lieferant',
+  affiliate_partner: 'Affiliate-Partner',
+  business_contact: 'Freund / Geschäftskontakt',
+  internal: 'Intern',
+}
+
+export const CLIENT_RELATIONSHIP_ORDER: ClientRelationship[] = [
+  'client',
+  'partner',
+  'supplier',
+  'affiliate_partner',
+  'business_contact',
+  'internal',
+]
+
+/** Richer lifecycle state than the legacy `archived` boolean — "archived" is
+ * one of these values. Kept in sync with `archived` wherever either is set
+ * (see normalizeClient) so existing archive/restore UI keeps working. */
+export type ClientStatus = 'active' | 'paused' | 'completed' | 'archived'
+
+export const CLIENT_STATUS_LABELS: Record<ClientStatus, string> = {
+  active: 'Aktiv',
+  paused: 'Pausiert',
+  completed: 'Abgeschlossen',
+  archived: 'Archiviert',
+}
+
+export const CLIENT_STATUS_ORDER: ClientStatus[] = ['active', 'paused', 'completed', 'archived']
+
+export type ClientPriority = 'high' | 'medium' | 'low'
+
+export const CLIENT_PRIORITY_LABELS: Record<ClientPriority, string> = {
+  high: 'Hoch',
+  medium: 'Mittel',
+  low: 'Niedrig',
+}
+
+export const CLIENT_PRIORITY_ORDER: ClientPriority[] = ['high', 'medium', 'low']
+
+export type PreferredCommunication = 'email' | 'phone' | 'whatsapp' | 'telegram' | 'other'
+
+export const PREFERRED_COMMUNICATION_LABELS: Record<PreferredCommunication, string> = {
+  email: 'E-Mail',
+  phone: 'Telefon',
+  whatsapp: 'WhatsApp',
+  telegram: 'Telegram',
+  other: 'Sonstiges',
+}
+
+export const PREFERRED_COMMUNICATION_ORDER: PreferredCommunication[] = ['email', 'phone', 'whatsapp', 'telegram', 'other']
+
+/** The central object every future module (Finance, Invoices, Documents,
+ * CRM, Tasks, Travel, Meetings, Content Projects, ...) references by
+ * `clientId` instead of duplicating client data. Billing defaults (rate,
+ * retainer, currency, income model) intentionally live in a separate
+ * finance-module record keyed by clientId, not here — this type stays
+ * finance-agnostic so any module can depend on it. */
 export interface Client {
   id: string
   name: string
   company?: string
+  contactPerson?: string
   phone?: string
   email?: string
+  website?: string
+  address?: string
+  country?: string
+  vatId?: string
+  relationship?: ClientRelationship
+  status: ClientStatus
+  priority?: ClientPriority
   /** Suggested starting hourly rate when creating a new project for this
    * client — a convenience default, not enforced on existing projects. */
   defaultRate?: number
   color?: string
+  tags?: string[]
+  /** General notes — the original single notes field, kept as-is. */
   notes?: string
+  /** Private/operational notes, distinct from relationship-facing notes. */
+  internalNotes?: string
+  /** Notes about the relationship itself (history, preferences, context). */
+  relationshipNotes?: string
+  preferredCommunication?: PreferredCommunication
   createdAt: number
+  /** @deprecated kept in sync with `status === 'archived'` for backward
+   * compatibility with existing archive/restore UI and stored data. */
   archived?: boolean
 }
 

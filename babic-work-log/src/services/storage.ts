@@ -58,7 +58,7 @@ function seedDefaults(): { clients: Client[]; projects: Project[] } {
   const projects: Project[] = []
   let colorIndex = 0
   for (const seed of DEFAULT_CLIENTS) {
-    const client: Client = { id: uid(), name: seed.name, createdAt: Date.now() }
+    const client: Client = { id: uid(), name: seed.name, status: 'active', createdAt: Date.now() }
     clients.push(client)
     for (const p of seed.projects) {
       projects.push({

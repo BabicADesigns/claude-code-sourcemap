@@ -1,5 +1,5 @@
 import { CATEGORIES, PROJECT_COLORS } from '../models'
-import type { Client, PricingType, Project, ProjectDocument, ProjectStatus, TimeEntry } from '../models'
+import type { Client, ClientStatus, PricingType, Project, ProjectDocument, ProjectStatus, TimeEntry } from '../models'
 import { uid } from './utils'
 
 /** Bump whenever the stored data shape changes in a way old records don't
@@ -9,8 +9,10 @@ import { uid } from './utils'
  * 1 — pre-1.1 flat projects (no client/color/pricing).
  * 2 — clients, fixed-price projects, payments, documents.
  * 3 — client company/rate/color, project status/notes, memory-architecture
- *     fields on TimeEntry (all additive/optional). */
-export const CURRENT_SCHEMA_VERSION = 3
+ *     fields on TimeEntry (all additive/optional).
+ * 4 — full client profile (contact info, relationship, status, priority,
+ *     tags, split notes, preferred communication). */
+export const CURRENT_SCHEMA_VERSION = 4
 
 function colorForIndex(i: number): string {
   return PROJECT_COLORS[i % PROJECT_COLORS.length]
@@ -26,7 +28,7 @@ export function migrateLegacyProjects(
   const clients: Client[] = []
   const projects: Project[] = legacy.map((p, i) => {
     if (p.clientId) return normalizeProject(p)
-    const client: Client = { id: uid(), name: p.name, createdAt: p.createdAt ?? Date.now() }
+    const client: Client = { id: uid(), name: p.name, status: 'active', createdAt: p.createdAt ?? Date.now() }
     clients.push(client)
     return normalizeProject({ ...p, clientId: client.id, color: colorForIndex(i), pricingType: 'hourly' })
   })
@@ -35,19 +37,38 @@ export function migrateLegacyProjects(
 
 /** Fills in any field a record might be missing (from an older app version
  * or a hand-edited/foreign backup file) with a sensible default. Never
- * drops a field it doesn't recognize. */
+ * drops a field it doesn't recognize.
+ *
+ * `status` and the legacy `archived` boolean are reconciled here: a record
+ * that only has `archived` gets `status` derived from it, and `archived` is
+ * always kept in sync with `status === 'archived'` afterwards so any code
+ * still reading the boolean (or a re-exported backup) sees a consistent
+ * value either way. */
 export function normalizeClient(c: Partial<Client> & { id: string }): Client {
+  const status: ClientStatus = c.status ?? (c.archived ? 'archived' : 'active')
   return {
     id: c.id,
     name: c.name ?? 'Unbenannt',
     company: c.company,
+    contactPerson: c.contactPerson,
     phone: c.phone,
     email: c.email,
+    website: c.website,
+    address: c.address,
+    country: c.country,
+    vatId: c.vatId,
+    relationship: c.relationship,
+    status,
+    priority: c.priority,
     defaultRate: c.defaultRate,
     color: c.color,
+    tags: c.tags,
     notes: c.notes,
+    internalNotes: c.internalNotes,
+    relationshipNotes: c.relationshipNotes,
+    preferredCommunication: c.preferredCommunication,
     createdAt: c.createdAt ?? Date.now(),
-    archived: c.archived,
+    archived: status === 'archived',
   }
 }
 

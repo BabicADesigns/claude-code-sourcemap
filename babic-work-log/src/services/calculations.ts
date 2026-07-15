@@ -1,4 +1,4 @@
-import type { EnrichedEntry, EntryStatus, Payment, Project, TimeEntry } from '../models'
+import type { EnrichedEntry, EntryStatus, Payment, Project, ProjectDocument, TimeEntry } from '../models'
 import {
   addWeeks,
   endOfMonth,
@@ -229,4 +229,70 @@ export function computeDayClose(entries: EnrichedEntry[]): DayClose {
     byProject: summarizeByProject(today),
     notes: today.map((e) => e.notes).filter((n): n is string => Boolean(n && n.trim())),
   }
+}
+
+// --- Client Timeline (architecture only — see Client Profile spec) ---
+//
+// Not rendered by any screen yet. A client timeline is a read-only view
+// composed from records that already live in their own stores (entries,
+// documents today; payments once the finance module lands) rather than a
+// new source of truth, so there's nothing to persist or migrate here — just
+// a stable shape + a pure aggregator a future screen can call directly.
+// `source` anticipates event kinds that don't exist yet (meetings, emails,
+// voice notes) so the type won't need to change when those arrive.
+
+export type ClientTimelineEventType =
+  | 'work_session'
+  | 'payment'
+  | 'document'
+  | 'note'
+  | 'meeting'
+  | 'email'
+  | 'voice_note'
+
+export interface ClientTimelineEvent {
+  id: string
+  type: ClientTimelineEventType
+  date: string // ISO yyyy-mm-dd
+  title: string
+  amount?: number
+  projectId?: string
+  /** id of the underlying record this event was derived from (entry id, document id, ...) */
+  sourceId: string
+}
+
+export function getClientTimeline(
+  clientId: string,
+  data: { entries: EnrichedEntry[] | TimeEntry[]; projects: Project[]; documents: ProjectDocument[] },
+): ClientTimelineEvent[] {
+  const projectIdsForClient = new Set(data.projects.filter((p) => p.clientId === clientId).map((p) => p.id))
+
+  const workEvents: ClientTimelineEvent[] = data.entries
+    .filter((e) => projectIdsForClient.has(e.projectId))
+    .map((e) => ({
+      id: `entry-${e.id}`,
+      type: 'work_session',
+      date: e.date,
+      title: e.notes?.trim() || e.category,
+      amount: entryAmount(e),
+      projectId: e.projectId,
+      sourceId: e.id,
+    }))
+
+  const documentEvents: ClientTimelineEvent[] = data.documents
+    .filter((d) => projectIdsForClient.has(d.projectId))
+    .map((d) => ({
+      id: `doc-${d.id}`,
+      type: 'document',
+      date: fromMillisToISODate(d.addedAt),
+      title: `${d.label}: ${d.name}`,
+      projectId: d.projectId,
+      sourceId: d.id,
+    }))
+
+  return [...workEvents, ...documentEvents].sort((a, b) => b.date.localeCompare(a.date))
+}
+
+function fromMillisToISODate(ms: number): string {
+  return new Date(ms).toISOString().slice(0, 10)
 }

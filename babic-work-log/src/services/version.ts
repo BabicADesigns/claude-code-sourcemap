@@ -1,4 +1,4 @@
-export const APP_VERSION = '1.2.0'
+export const APP_VERSION = '1.3.0'
 
 /** Real build timestamp, injected via vite.config.ts's `define`. */
 export const BUILD_DATE: string = __BUILD_DATE__
@@ -10,6 +10,17 @@ export interface ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.3.0',
+    date: '2026-07-15',
+    changes: [
+      'Kundenprofil erweitert: Ansprechpartner, Website, Adresse, Land, USt-IdNr., Beziehung (Kunde/Partner/Lieferant/Affiliate-Partner/Geschäftskontakt/Intern), Priorität, Tags und bevorzugte Kommunikation.',
+      'Kunden-Status (Aktiv/Pausiert/Abgeschlossen/Archiviert) ersetzt die einfache Archivieren-Funktion — bestehende archivierte Kunden werden automatisch übernommen.',
+      'Notizen bei Kunden aufgeteilt in allgemeine, interne und beziehungsbezogene Notizen.',
+      'Kundenprofil ist jetzt das zentrale Objekt, auf das künftige Module (Finanzen, Rechnungen, Dokumente, CRM, Aufgaben, Reisen, Meetings, Content) verweisen, statt Daten zu duplizieren.',
+      'Architektur für eine künftige Kunden-Zeitleiste vorbereitet (Arbeitssitzungen, Zahlungen, Dokumente, Notizen) — noch ohne eigene Ansicht.',
+    ],
+  },
   {
     version: '1.2.0',
     date: '2026-07-15',
