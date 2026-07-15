@@ -1,7 +1,17 @@
 import { useCallback, useEffect, useState } from 'react'
 import { loadProjects, saveProjects } from '@/lib/storage'
-import type { Project } from '@/lib/types'
+import type { PricingType, Project } from '@/lib/types'
+import { PROJECT_COLORS } from '@/lib/types'
 import { uid } from '@/lib/utils'
+
+export interface NewProjectInput {
+  name: string
+  clientId: string
+  defaultRate: number
+  color?: string
+  pricingType?: PricingType
+  fixedPrice?: number
+}
 
 export function useProjects() {
   const [projects, setProjects] = useState<Project[]>(() => loadProjects())
@@ -10,8 +20,17 @@ export function useProjects() {
     saveProjects(projects)
   }, [projects])
 
-  const addProject = useCallback((name: string, defaultRate: number) => {
-    const project: Project = { id: uid(), name, defaultRate, createdAt: Date.now() }
+  const addProject = useCallback((input: NewProjectInput) => {
+    const project: Project = {
+      id: uid(),
+      name: input.name,
+      clientId: input.clientId,
+      defaultRate: input.defaultRate,
+      color: input.color ?? PROJECT_COLORS[0],
+      pricingType: input.pricingType ?? 'hourly',
+      fixedPrice: input.fixedPrice,
+      createdAt: Date.now(),
+    }
     setProjects((prev) => [...prev, project])
     return project
   }, [])

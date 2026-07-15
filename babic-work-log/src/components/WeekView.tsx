@@ -5,14 +5,14 @@ import { EntryList } from '@/components/EntryList'
 import { entriesInRange, sumAmount, sumHours } from '@/lib/calculations'
 import { addWeeks, endOfWeek, formatWeekLabel, startOfWeek } from '@/lib/date'
 import { formatCurrency, formatHours } from '@/lib/date'
-import type { Project, TimeEntry } from '@/lib/types'
+import type { EnrichedEntry, Project, TimeEntry } from '@/lib/types'
 
 export function WeekView({
   entries,
   projects,
   onSelectEntry,
 }: {
-  entries: TimeEntry[]
+  entries: EnrichedEntry[]
   projects: Project[]
   onSelectEntry: (entry: TimeEntry) => void
 }) {
@@ -22,7 +22,7 @@ export function WeekView({
   const weekEntries = entriesInRange(entries, start, end)
 
   return (
-    <div className="mx-auto max-w-lg space-y-4 px-4 pb-28 pt-6">
+    <div className="space-y-4">
       <header className="flex items-center justify-between">
         <button
           onClick={() => setReference((d) => addWeeks(d, -1))}

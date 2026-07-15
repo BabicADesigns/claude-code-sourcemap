@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --watermark-color: #3a352e;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --watermark-color: #f5eee6;
+  }
+}
+
 @layer base {
   html {
     -webkit-tap-highlight-color: transparent;
@@ -31,5 +41,17 @@
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+
+  .watermark-mark {
+    background-color: var(--watermark-color);
+    -webkit-mask-image: url('/brand/cipka-b.png');
+    mask-image: url('/brand/cipka-b.png');
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
   }
 }

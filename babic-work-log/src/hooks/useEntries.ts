@@ -12,16 +12,14 @@ export function useEntries() {
 
   const upsertEntry = useCallback((entry: Omit<TimeEntry, 'id' | 'createdAt' | 'updatedAt'> & { id?: string }) => {
     setEntries((prev) => {
-      if (entry.id) {
-        const id = entry.id
-        return prev.map((e) => (e.id === id ? { ...e, ...entry, id, updatedAt: Date.now() } : e))
+      const id = entry.id ?? uid()
+      const existingIndex = prev.findIndex((e) => e.id === id)
+      if (existingIndex >= 0) {
+        const updated = [...prev]
+        updated[existingIndex] = { ...prev[existingIndex], ...entry, id, updatedAt: Date.now() }
+        return updated
       }
-      const newEntry: TimeEntry = {
-        ...entry,
-        id: uid(),
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
-      }
+      const newEntry: TimeEntry = { ...entry, id, createdAt: Date.now(), updatedAt: Date.now() }
       return [newEntry, ...prev]
     })
   }, [])

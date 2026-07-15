@@ -1,14 +1,25 @@
-import jsPDF from 'jspdf'
+import jsPDF, { GState } from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import { entryAmount, entryHours, sumAmount, sumHours } from './calculations'
 import { formatDateShort } from './date'
-import type { Project, TimeEntry } from './types'
+import type { EnrichedEntry, Project, TimeEntry } from './types'
+import { CIPKA_B_BASE64 } from './watermarkAsset'
 
 export interface ExportOptions {
   title: string
   subtitle: string
-  entries: TimeEntry[]
+  entries: (TimeEntry | EnrichedEntry)[]
   projects: Project[]
+}
+
+function drawWatermark(doc: jsPDF): void {
+  const pageWidth = doc.internal.pageSize.getWidth()
+  const pageHeight = doc.internal.pageSize.getHeight()
+  const size = 64
+  doc.saveGraphicsState()
+  doc.setGState(new GState({ opacity: 0.06 }))
+  doc.addImage(CIPKA_B_BASE64, 'PNG', pageWidth - size - 24, pageHeight - size - 24, size, size)
+  doc.restoreGraphicsState()
 }
 
 export function exportActivityReport({ title, subtitle, entries, projects }: ExportOptions): void {
@@ -72,6 +83,12 @@ export function exportActivityReport({ title, subtitle, entries, projects }: Exp
   doc.setFontSize(8)
   doc.setTextColor(140, 132, 118)
   doc.text('Dies ist ein Tätigkeitsnachweis, keine Rechnung.', 40, doc.internal.pageSize.getHeight() - 30)
+
+  const pageCount = doc.getNumberOfPages()
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i)
+    drawWatermark(doc)
+  }
 
   const filenameSafe = title.replace(/[^a-z0-9]+/gi, '-').toLowerCase()
   doc.save(`taetigkeitsnachweis-${filenameSafe}.pdf`)

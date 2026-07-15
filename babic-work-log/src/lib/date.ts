@@ -64,6 +64,23 @@ export function isSameDay(a: Date, b: Date): boolean {
   return toISODate(a) === toISODate(b)
 }
 
+/** Monday-first weekday short labels, matching startOfWeek's Monday anchor. */
+export const WEEKDAY_SHORT_MONDAY_FIRST = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So']
+
+/** Full 6x7 month grid (Monday-first), including leading/trailing days from
+ * adjacent months so every week row is complete. */
+export function getMonthGrid(reference: Date): Date[] {
+  const firstOfMonth = startOfMonth(reference)
+  const gridStart = startOfWeek(firstOfMonth)
+  const days: Date[] = []
+  for (let i = 0; i < 42; i++) {
+    const d = new Date(gridStart)
+    d.setDate(gridStart.getDate() + i)
+    days.push(d)
+  }
+  return days
+}
+
 const WEEKDAY_SHORT = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa']
 const MONTH_NAMES = [
   'Januar',

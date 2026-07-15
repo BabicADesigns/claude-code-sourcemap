@@ -1,12 +1,12 @@
 import { TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { cn } from '@/lib/utils'
-import { CalendarRange, LayoutGrid, FolderKanban, CalendarDays } from 'lucide-react'
+import { BarChart3, CalendarRange, LayoutGrid, Users } from 'lucide-react'
 
 const ITEMS = [
   { value: 'dashboard', label: 'Übersicht', icon: LayoutGrid },
-  { value: 'week', label: 'Woche', icon: CalendarDays },
-  { value: 'month', label: 'Monat', icon: CalendarRange },
-  { value: 'projects', label: 'Projekte', icon: FolderKanban },
+  { value: 'periods', label: 'Zeiträume', icon: CalendarRange },
+  { value: 'clients-projects', label: 'Kunden & Projekte', icon: Users },
+  { value: 'stats', label: 'Statistik', icon: BarChart3 },
 ] as const
 
 export function BottomNav() {
@@ -17,7 +17,7 @@ export function BottomNav() {
           key={value}
           value={value}
           className={cn(
-            'flex flex-1 flex-col items-center gap-1 py-2.5 text-xs font-medium text-muted-foreground transition-colors',
+            'flex flex-1 flex-col items-center gap-1 py-2.5 text-center text-[10px] font-medium leading-tight text-muted-foreground transition-colors',
             'data-[state=active]:text-sage-dark',
           )}
         >

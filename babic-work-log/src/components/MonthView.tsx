@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { ChevronLeft, ChevronRight, FileDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Watermark } from '@/components/Watermark'
 import { entriesInRange, summarizeByProject, sumAmount, sumHours } from '@/lib/calculations'
 import { addMonths, endOfMonth, formatCurrency, formatHours, formatMonthLabel, startOfMonth } from '@/lib/date'
-import type { Project, TimeEntry } from '@/lib/types'
+import type { EnrichedEntry, Project } from '@/lib/types'
 
-export function MonthView({ entries, projects }: { entries: TimeEntry[]; projects: Project[] }) {
+export function MonthView({ entries, projects }: { entries: EnrichedEntry[]; projects: Project[] }) {
   const [reference, setReference] = useState(new Date())
   const start = startOfMonth(reference)
   const end = endOfMonth(reference)
@@ -15,7 +16,7 @@ export function MonthView({ entries, projects }: { entries: TimeEntry[]; project
   const totalAmount = sumAmount(monthEntries)
 
   return (
-    <div className="mx-auto max-w-lg space-y-4 px-4 pb-28 pt-6">
+    <div className="space-y-4">
       <header className="flex items-center justify-between">
         <button
           onClick={() => setReference((d) => addMonths(d, -1))}
@@ -64,29 +65,32 @@ export function MonthView({ entries, projects }: { entries: TimeEntry[]; project
         </Button>
       )}
 
-      <section>
-        <h2 className="mb-2 font-display text-lg text-ink">Projektübersicht</h2>
-        {byProject.length === 0 ? (
-          <p className="py-8 text-center text-sm text-muted-foreground">Keine Einträge in diesem Monat.</p>
-        ) : (
-          <ul className="space-y-2">
-            {byProject.map((row) => (
-              <li key={row.projectId} className="rounded-2xl bg-card p-4 shadow-soft">
-                <div className="flex items-center justify-between">
-                  <p className="font-medium text-ink">{projectName(row.projectId)}</p>
-                  <p className="font-medium text-ink">{formatCurrency(row.amount)}</p>
-                </div>
-                <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-cream-dark">
-                  <div
-                    className="h-full rounded-full bg-sage"
-                    style={{ width: totalAmount > 0 ? `${Math.round((row.amount / totalAmount) * 100)}%` : '0%' }}
-                  />
-                </div>
-                <p className="mt-1.5 text-xs text-muted-foreground">{formatHours(row.hours)}</p>
-              </li>
-            ))}
-          </ul>
-        )}
+      <section className="relative">
+        <Watermark size="sm" position="top-right" />
+        <div className="relative z-10">
+          <h2 className="mb-2 font-display text-lg text-ink">Projektübersicht</h2>
+          {byProject.length === 0 ? (
+            <p className="py-8 text-center text-sm text-muted-foreground">Keine Einträge in diesem Monat.</p>
+          ) : (
+            <ul className="space-y-2">
+              {byProject.map((row) => (
+                <li key={row.projectId} className="rounded-2xl bg-card p-4 shadow-soft">
+                  <div className="flex items-center justify-between">
+                    <p className="font-medium text-ink">{projectName(row.projectId)}</p>
+                    <p className="font-medium text-ink">{formatCurrency(row.amount)}</p>
+                  </div>
+                  <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-cream-dark">
+                    <div
+                      className="h-full rounded-full bg-sage"
+                      style={{ width: totalAmount > 0 ? `${Math.round((row.amount / totalAmount) * 100)}%` : '0%' }}
+                    />
+                  </div>
+                  <p className="mt-1.5 text-xs text-muted-foreground">{formatHours(row.hours)}</p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </section>
     </div>
   )
