@@ -7,6 +7,7 @@ import { ClientsAndProjectsView } from '@/components/ClientsAndProjectsView'
 import { StatsView } from '@/components/StatsView'
 import { EntryForm } from '@/components/EntryForm'
 import { BackupSheet } from '@/components/BackupSheet'
+import { DebugOverlay } from '@/components/DebugOverlay'
 import type { TimerStopConfirmation } from '@/components/TimerStopDialog'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
 import { useEntries } from '@/hooks/useEntries'
@@ -186,6 +187,8 @@ export default function App() {
           />
         </SheetContent>
       </Sheet>
+
+      <DebugOverlay />
     </Tabs>
   )
 }

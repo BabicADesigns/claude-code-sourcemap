@@ -1,4 +1,4 @@
-export const APP_VERSION = '1.5.1'
+export const APP_VERSION = '1.5.2'
 
 /** Real build timestamp, injected via vite.config.ts's `define`. */
 export const BUILD_DATE: string = __BUILD_DATE__
@@ -10,6 +10,14 @@ export interface ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.5.2',
+    date: '2026-07-16',
+    changes: [
+      'Sichtbares Debug-Log direkt in der App (unten am Bildschirmrand, erscheint nur wenn ein PDF-Export ausgeführt wird): zeigt jeden Schritt des Exports live an — ohne Mac oder Safari-Ferndebugging. Text lässt sich per Knopfdruck kopieren.',
+      'iOS-Export weiter gehärtet: Der Fallback-Tab wird jetzt bereits beim Antippen des Buttons geöffnet (noch bevor das PDF erstellt wird) und erst danach mit dem fertigen PDF befüllt. Der vorherige Fallback öffnete den Tab erst nach der PDF-Erstellung — das geschieht zu spät und wird von Safaris Popup-Blocker abgefangen.',
+    ],
+  },
   {
     version: '1.5.1',
     date: '2026-07-16',

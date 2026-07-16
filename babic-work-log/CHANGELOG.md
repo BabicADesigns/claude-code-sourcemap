@@ -3,6 +3,25 @@
 All notable changes to Babic Work Log are documented here. Versions are also
 visible in-app under **Einstellungen** (gear icon on the dashboard).
 
+## 1.5.2 — 2026-07-16 — "PDF Export Fix, Take 3" (Sprint 2.3 follow-up)
+
+### Fixed
+
+- **PDF export on iOS Safari — the fallback tab itself was getting
+  popup-blocked.** 1.5.1's Share Sheet fallback opened a new tab with
+  `window.open()` only after the PDF had already been built — several
+  `await`s deep into async work. Safari blocks `window.open()` calls made
+  that far from the original tap, silently. Fix: the fallback tab is now
+  opened *synchronously*, at the very first line of the click handler,
+  before any async work starts — Safari still counts it as a direct result
+  of the tap. Once the PDF is ready, that already-open tab is simply
+  navigated to it instead of trying to open a new one.
+- **On-screen debug log**: a small panel now appears at the bottom of the
+  screen during a PDF export, showing every step live — no Mac or Safari
+  Web Inspector needed to see where an export succeeds or stops. Copyable
+  with one tap. Temporary — will be removed once export is confirmed
+  reliably stable across devices.
+
 ## 1.5.1 — 2026-07-16 — "PDF Export Fix, Take 2" (Sprint 2.3 follow-up)
 
 ### Fixed

@@ -5,12 +5,17 @@ import { formatDateShort } from './date'
 import type { EnrichedEntry, Project, TimeEntry } from '../models'
 import { CIPKA_B_BASE64 } from './watermarkAsset'
 import { COLORS, hexToRgb } from '../theme/tokens'
+import { logDebug } from './debugLog'
+import { isIOS } from './platform'
 
 export interface ExportOptions {
   title: string
   subtitle: string
   entries: (TimeEntry | EnrichedEntry)[]
   projects: Project[]
+  /** From openIOSPlaceholderWindow(), called synchronously in the click
+   * handler — see platform.ts for why. Undefined/null on non-iOS. */
+  preOpenedWindow?: Window | null
 }
 
 /** Shared PDF palette, derived from the brand tokens so every report (this
@@ -119,13 +124,6 @@ export function drawTotalsLine(doc: jsPDF, totalHours: number, totalAmount: numb
  * hood) are unreliable there regardless of how synchronous the call is, so
  * every report generator routes through `savePdf` below instead of calling
  * doc.save() directly. */
-function isIOS(): boolean {
-  if (typeof navigator === 'undefined') return false
-  const ua = navigator.userAgent
-  const isIPhoneOrIPod = /iP(hone|od)/.test(ua)
-  const isIPad = /iPad/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
-  return isIPhoneOrIPod || isIPad
-}
 
 type ShareNavigator = Navigator & {
   canShare?: (data?: ShareData) => boolean
@@ -133,61 +131,78 @@ type ShareNavigator = Navigator & {
 }
 
 /** Cross-platform "give the user this PDF" step, logged at every branch so
- * a stuck export can be diagnosed from the browser console.
+ * a stuck export can be diagnosed on-device (see DebugOverlay) or via the
+ * console.
  * - Desktop/Android: doc.save() (anchor-click download), unchanged.
  * - iOS: builds a Blob and opens the native Share Sheet via the Web Share
- *   API (lets the user save to Files, AirDrop, etc.); if the Share API
- *   isn't available, falls back to opening the PDF in a new tab, where
- *   Safari's own toolbar offers Share/Save to Files. */
-export async function savePdf(doc: jsPDF, filename: string): Promise<void> {
-  console.log('[pdf] savePdf called', { filename, isIOS: isIOS(), userAgent: navigator.userAgent })
+ *   API (lets the user save to Files, AirDrop, etc.); if that's not
+ *   available, navigates `preOpenedWindow` (opened synchronously in the
+ *   click handler — see platform.ts) to the blob URL instead of calling
+ *   window.open() here, which Safari would silently block this deep into
+ *   async work. */
+export async function savePdf(doc: jsPDF, filename: string, preOpenedWindow: Window | null = null): Promise<void> {
+  logDebug('pdf', 'savePdf called', { filename, isIOS: isIOS(), userAgent: navigator.userAgent })
 
   if (!isIOS()) {
-    console.log('[pdf] non-iOS path: calling doc.save()')
+    preOpenedWindow?.close()
+    logDebug('pdf', 'non-iOS path: calling doc.save()')
     doc.save(filename)
-    console.log('[pdf] doc.save() returned')
+    logDebug('pdf', 'doc.save() returned')
     return
   }
 
-  console.log('[pdf] iOS path: building Blob via doc.output("blob")')
+  logDebug('pdf', 'iOS path: building Blob via doc.output("blob")')
   const blob = doc.output('blob')
-  console.log('[pdf] blob created, size =', blob.size, 'bytes')
+  logDebug('pdf', 'blob created', { bytes: blob.size })
 
   const nav = navigator as ShareNavigator
   if (nav.share && nav.canShare) {
     try {
       const file = new File([blob], filename, { type: 'application/pdf' })
       const canShareFile = nav.canShare({ files: [file] })
-      console.log('[pdf] navigator.canShare({ files }) =', canShareFile)
+      logDebug('pdf', 'navigator.canShare({ files }) =', canShareFile)
       if (canShareFile) {
-        console.log('[pdf] calling navigator.share() — Share Sheet should open now')
+        preOpenedWindow?.close()
+        logDebug('pdf', 'calling navigator.share() — Share Sheet should open now')
         await nav.share({ files: [file], title: filename })
-        console.log('[pdf] navigator.share() resolved (share sheet closed)')
+        logDebug('pdf', 'navigator.share() resolved (share sheet closed)')
         return
       }
     } catch (err) {
       if (err instanceof Error && err.name === 'AbortError') {
-        console.log('[pdf] navigator.share() aborted by user — this is a normal cancel, not an error')
+        logDebug('pdf', 'navigator.share() aborted by user — normal cancel, not an error')
+        preOpenedWindow?.close()
         return
       }
-      console.log('[pdf] navigator.share() threw, falling back to new-tab', err)
+      logDebug('pdf', 'navigator.share() threw, falling back', { error: String(err) })
     }
   } else {
-    console.log('[pdf] Web Share API (files) not available on this browser, falling back to new-tab')
+    logDebug('pdf', 'Web Share API (files) not available on this browser, falling back')
   }
 
-  console.log('[pdf] opening Blob URL in a new tab as fallback')
   const url = URL.createObjectURL(blob)
-  const opened = window.open(url, '_blank')
-  console.log('[pdf] window.open returned', opened ? 'a window/tab reference' : 'null (likely popup-blocked)')
+  if (preOpenedWindow) {
+    logDebug('pdf', 'navigating the pre-opened tab to the blob URL')
+    preOpenedWindow.location.href = url
+  } else {
+    logDebug('pdf', 'no pre-opened window available — calling window.open() now (Safari may block this)')
+    const opened = window.open(url, '_blank')
+    logDebug('pdf', 'window.open returned', { opened: Boolean(opened) })
+  }
   setTimeout(() => URL.revokeObjectURL(url), 60_000)
 }
 
-export async function exportActivityReport({ title, subtitle, entries, projects }: ExportOptions): Promise<void> {
-  console.log('[pdf] exportActivityReport entered', { title, subtitle, entryCount: entries.length, projectCount: projects.length })
+export async function exportActivityReport({
+  title,
+  subtitle,
+  entries,
+  projects,
+  preOpenedWindow,
+}: ExportOptions): Promise<void> {
+  logDebug('pdf', 'exportActivityReport entered', { title, subtitle, entryCount: entries.length, projectCount: projects.length })
   const projectName = (id: string) => projects.find((p) => p.id === id)?.name ?? 'Unbekannt'
   const doc = createReportDocument()
-  console.log('[pdf] jsPDF document instantiated')
+  logDebug('pdf', 'jsPDF document instantiated')
 
   drawReportHeader(doc, 'Tätigkeitsnachweis', [title, subtitle])
 
@@ -195,8 +210,8 @@ export async function exportActivityReport({ title, subtitle, entries, projects 
   drawTotalsLine(doc, sumHours(entries), sumAmount(entries), finalY)
   drawFooterNote(doc, 'Dies ist ein Tätigkeitsnachweis, keine Rechnung.')
   applyWatermarkToAllPages(doc)
-  console.log('[pdf] PDF content finished (table, totals, footer, watermark drawn)')
+  logDebug('pdf', 'PDF content finished (table, totals, footer, watermark drawn)')
 
   const filenameSafe = title.replace(/[^a-z0-9]+/gi, '-').toLowerCase()
-  await savePdf(doc, `taetigkeitsnachweis-${filenameSafe}.pdf`)
+  await savePdf(doc, `taetigkeitsnachweis-${filenameSafe}.pdf`, preOpenedWindow)
 }

@@ -5,6 +5,8 @@ import { EntryList } from '@/components/EntryList'
 import { entriesInRange, sumAmount, sumHours } from '@/services/calculations'
 import { addWeeks, endOfWeek, formatWeekLabel, startOfWeek } from '@/services/date'
 import { formatCurrency, formatHours } from '@/services/date'
+import { logDebug } from '@/services/debugLog'
+import { openIOSPlaceholderWindow } from '@/services/platform'
 import type { EnrichedEntry, Project, TimeEntry } from '@/models'
 
 export function WeekView({
@@ -65,16 +67,19 @@ export function WeekView({
           variant="secondary"
           className="w-full"
           onClick={async () => {
-            console.log('[pdf] PDF button clicked (WeekView)', { entryCount: weekEntries.length })
+            logDebug('pdf', 'PDF button clicked (WeekView)', { entryCount: weekEntries.length })
+            // Must happen synchronously, before any await — see platform.ts.
+            const preOpenedWindow = openIOSPlaceholderWindow()
             const { exportActivityReport } = await import('@/services/pdf')
-            console.log('[pdf] module loaded, calling exportActivityReport')
+            logDebug('pdf', 'module loaded, calling exportActivityReport')
             await exportActivityReport({
               title: 'Wochenübersicht',
               subtitle: formatWeekLabel(reference),
               entries: weekEntries,
               projects,
+              preOpenedWindow,
             })
-            console.log('[pdf] exportActivityReport resolved')
+            logDebug('pdf', 'exportActivityReport resolved')
           }}
         >
           <FileDown className="h-4 w-4" />

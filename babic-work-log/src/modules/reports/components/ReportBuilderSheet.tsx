@@ -6,6 +6,8 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { cn } from '@/services/utils'
 import { todayISO } from '@/services/date'
+import { logDebug } from '@/services/debugLog'
+import { openIOSPlaceholderWindow } from '@/services/platform'
 import type { Client, EnrichedEntry, Project } from '@/models'
 import {
   REPORT_PERIOD_TYPE_LABELS,
@@ -65,32 +67,36 @@ export function ReportBuilderSheet({
   const canGenerate = reportType === 'business' || Boolean(projectId)
 
   async function handleGenerate() {
-    console.log('[reports] PDF erstellen clicked', { reportType, projectId, periodType, includeFinancials })
+    logDebug('reports', 'PDF erstellen clicked', { reportType, projectId, periodType, includeFinancials })
     if (!canGenerate) {
-      console.log('[reports] canGenerate is false, aborting (missing project for client_activity report)')
+      logDebug('reports', 'canGenerate is false, aborting (missing project for client_activity report)')
       return
     }
+    // Must happen synchronously, before any await — see platform.ts. This is
+    // still inside the same call stack as the button's click event, since
+    // nothing above this line awaits anything.
+    const preOpenedWindow = openIOSPlaceholderWindow()
     setGenerating(true)
     try {
       const period = resolveReportPeriod(periodType, new Date(), { start: customStart, end: customEnd })
-      console.log('[reports] resolved period', period)
+      logDebug('reports', 'resolved period', period)
       const { generateBusinessReport, generateClientActivityReport } = await import('../services/pdf')
-      console.log('[reports] pdf module loaded')
+      logDebug('reports', 'pdf module loaded')
 
       if (reportType === 'business') {
-        console.log('[reports] calling generateBusinessReport, entries available:', entries.length)
-        await generateBusinessReport({ type: 'business', period, includeFinancials: true }, { entries, projects })
+        logDebug('reports', 'calling generateBusinessReport', { entriesAvailable: entries.length })
+        await generateBusinessReport({ type: 'business', period, includeFinancials: true }, { entries, projects }, preOpenedWindow)
       } else {
-        console.log(
-          '[reports] calling generateClientActivityReport, entries available for project:',
-          entries.filter((e) => e.projectId === projectId).length,
-        )
+        logDebug('reports', 'calling generateClientActivityReport', {
+          entriesForProject: entries.filter((e) => e.projectId === projectId).length,
+        })
         await generateClientActivityReport(
           { type: 'client_activity', projectId, period, includeFinancials },
           { entries, projects, clients },
+          preOpenedWindow,
         )
       }
-      console.log('[reports] report generation resolved')
+      logDebug('reports', 'report generation resolved')
       onClose()
     } finally {
       setGenerating(false)

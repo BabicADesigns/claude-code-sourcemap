@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button'
 import { Watermark } from '@/components/Watermark'
 import { entriesInRange, summarizeByProject, sumAmount, sumHours } from '@/services/calculations'
 import { addMonths, endOfMonth, formatCurrency, formatHours, formatMonthLabel, startOfMonth } from '@/services/date'
+import { logDebug } from '@/services/debugLog'
+import { openIOSPlaceholderWindow } from '@/services/platform'
 import type { EnrichedEntry, Project } from '@/models'
 
 export function MonthView({ entries, projects }: { entries: EnrichedEntry[]; projects: Project[] }) {
@@ -56,16 +58,18 @@ export function MonthView({ entries, projects }: { entries: EnrichedEntry[]; pro
           variant="secondary"
           className="w-full"
           onClick={async () => {
-            console.log('[pdf] PDF button clicked (MonthView)', { entryCount: monthEntries.length })
+            logDebug('pdf', 'PDF button clicked (MonthView)', { entryCount: monthEntries.length })
+            const preOpenedWindow = openIOSPlaceholderWindow()
             const { exportActivityReport } = await import('@/services/pdf')
-            console.log('[pdf] module loaded, calling exportActivityReport')
+            logDebug('pdf', 'module loaded, calling exportActivityReport')
             await exportActivityReport({
               title: 'Monatsübersicht',
               subtitle: formatMonthLabel(reference),
               entries: monthEntries,
               projects,
+              preOpenedWindow,
             })
-            console.log('[pdf] exportActivityReport resolved')
+            logDebug('pdf', 'exportActivityReport resolved')
           }}
         >
           <FileDown className="h-4 w-4" />
