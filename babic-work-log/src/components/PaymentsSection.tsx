@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { formatCurrency, formatDateShort, todayISO } from '@/services/date'
 import { paymentsSum } from '@/services/calculations'
-import type { Payment } from '@/models'
+import type { EntryPayment } from '@/models'
 import { uid } from '@/services/utils'
 
 export function PaymentsSection({
@@ -12,9 +12,9 @@ export function PaymentsSection({
   totalAmount,
   onChange,
 }: {
-  payments: Payment[]
+  payments: EntryPayment[]
   totalAmount: number
-  onChange: (payments: Payment[]) => void
+  onChange: (payments: EntryPayment[]) => void
 }) {
   const [amount, setAmount] = useState('')
   const paid = paymentsSum(payments)

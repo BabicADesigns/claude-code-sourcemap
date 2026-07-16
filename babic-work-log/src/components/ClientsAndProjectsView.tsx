@@ -1,18 +1,23 @@
 import { useState } from 'react'
 import { ClientsView } from '@/components/ClientsView'
 import { ProjectsView } from '@/components/ProjectsView'
+import { PaymentsView } from '@/modules/finance/components/PaymentsView'
 import { cn } from '@/services/utils'
 import type { Client, Project, ProjectDocument, TimeEntry } from '@/models'
 import type { NewClientInput } from '@/hooks/useClients'
 import type { NewProjectInput } from '@/hooks/useProjects'
+import type { NewPaymentInput } from '@/modules/finance/hooks/usePayments'
+import type { ClientFinanceSettings, Payment } from '@/modules/finance/models'
 
-type SubView = 'clients' | 'projects'
+type SubView = 'clients' | 'projects' | 'payments'
 
 export function ClientsAndProjectsView({
   clients,
   projects,
   entries,
   documents,
+  payments,
+  clientFinanceSettings,
   onAddClient,
   onUpdateClient,
   onArchiveClient,
@@ -23,11 +28,16 @@ export function ClientsAndProjectsView({
   onDeleteProject,
   onAddDocument,
   onDeleteDocument,
+  onAddPayment,
+  onDeletePayment,
+  onUpdateClientFinanceSettings,
 }: {
   clients: Client[]
   projects: Project[]
   entries: TimeEntry[]
   documents: ProjectDocument[]
+  payments: Payment[]
+  clientFinanceSettings: ClientFinanceSettings[]
   onAddClient: (input: NewClientInput) => void
   onUpdateClient: (id: string, patch: Partial<Omit<Client, 'id'>>) => void
   onArchiveClient: (id: string, archived: boolean) => void
@@ -38,6 +48,12 @@ export function ClientsAndProjectsView({
   onDeleteProject: (id: string) => void
   onAddDocument: (input: { projectId: string; name: string; label: string; dataUrl: string; mimeType: string }) => void
   onDeleteDocument: (id: string) => void
+  onAddPayment: (input: NewPaymentInput) => void
+  onDeletePayment: (id: string) => void
+  onUpdateClientFinanceSettings: (
+    clientId: string,
+    patch: Partial<Omit<ClientFinanceSettings, 'clientId' | 'createdAt' | 'updatedAt'>>,
+  ) => void
 }) {
   const [view, setView] = useState<SubView>('projects')
 
@@ -52,6 +68,7 @@ export function ClientsAndProjectsView({
           [
             ['projects', 'Projekte'],
             ['clients', 'Kunden'],
+            ['payments', 'Zahlungen'],
           ] as [SubView, string][]
         ).map(([v, label]) => (
           <button
@@ -68,7 +85,7 @@ export function ClientsAndProjectsView({
         ))}
       </div>
 
-      {view === 'projects' ? (
+      {view === 'projects' && (
         <ProjectsView
           projects={projects}
           clients={clients}
@@ -81,14 +98,27 @@ export function ClientsAndProjectsView({
           onAddDocument={onAddDocument}
           onDeleteDocument={onDeleteDocument}
         />
-      ) : (
+      )}
+      {view === 'clients' && (
         <ClientsView
           clients={clients}
           projects={projects}
+          clientFinanceSettings={clientFinanceSettings}
           onAdd={onAddClient}
           onUpdate={onUpdateClient}
           onArchive={onArchiveClient}
           onDelete={onDeleteClient}
+          onUpdateClientFinanceSettings={onUpdateClientFinanceSettings}
+        />
+      )}
+      {view === 'payments' && (
+        <PaymentsView
+          clients={clients}
+          projects={projects}
+          payments={payments}
+          clientSettings={clientFinanceSettings}
+          onAdd={onAddPayment}
+          onDelete={onDeletePayment}
         />
       )}
     </div>

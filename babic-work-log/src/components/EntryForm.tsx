@@ -15,7 +15,7 @@ import {
 import { PaymentsSection } from '@/components/PaymentsSection'
 import { cn } from '@/services/utils'
 import { CATEGORIES, STATUS_LABELS, STATUS_ORDER } from '@/models'
-import type { Client, EntryDraft, EntryStatus, Payment, Project, TimeEntry } from '@/models'
+import type { Client, EntryDraft, EntryPayment, EntryStatus, Project, TimeEntry } from '@/models'
 import { formatCurrency, todayISO } from '@/services/date'
 import { entryHours, entryAmount, effectiveRateForProject } from '@/services/calculations'
 import { formatElapsed, type UseTimerReturn } from '@/hooks/useTimer'
@@ -379,7 +379,7 @@ export function EntryForm({
         <PaymentsSection
           payments={draft.payments}
           totalAmount={entryAmount(preview)}
-          onChange={(payments: Payment[]) => setDraft((d) => ({ ...d, payments }))}
+          onChange={(payments: EntryPayment[]) => setDraft((d) => ({ ...d, payments }))}
         />
       </div>
 

@@ -1,4 +1,4 @@
-import type { EnrichedEntry, EntryStatus, Payment, Project, ProjectDocument, TimeEntry } from '../models'
+import type { EnrichedEntry, EntryPayment, EntryStatus, Project, ProjectDocument, TimeEntry } from '../models'
 import {
   addWeeks,
   endOfMonth,
@@ -41,7 +41,7 @@ export function entryAmount(entry: TimeEntry | EnrichedEntry): number {
   return isEnriched(entry) ? entry.amount : round2(rawEntryHours(entry) * entry.hourlyRate)
 }
 
-export function paymentsSum(payments?: Payment[]): number {
+export function paymentsSum(payments?: EntryPayment[]): number {
   if (!payments || payments.length === 0) return 0
   return round2(payments.reduce((sum, p) => sum + p.amount, 0))
 }

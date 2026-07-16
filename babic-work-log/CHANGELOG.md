@@ -3,6 +3,53 @@
 All notable changes to Babic Work Log are documented here. Versions are also
 visible in-app under **Einstellungen** (gear icon on the dashboard).
 
+## 1.4.0 — 2026-07-16 — "Income Engine & Business Finance" (Sprint 2.1/2.2, combined)
+
+The payments/finance layer deferred from 1.3.0, combined with the retainer
+billing-period work from Sprint 2.2 since no `Payment` records existed yet in
+production — nothing to migrate for either piece individually. No breaking
+changes; all existing data is untouched.
+
+### Added
+
+- **Payments**: a new standalone `Payment` entity — client, amount, payment
+  date, billing period, payment type (Pauschale/Stundenbasiert/Festpreis/
+  Zusatzzahlung/Vorauszahlung/Bonus/Spesenerstattung), method, income
+  category, and note. Independent of individual work entries. New
+  **Zahlungen** tab under Kunden & Projekte lists payments grouped by
+  billing month and lets you record new ones.
+- **Billing periods**: a payment can be booked against a single date or an
+  entire billing month, so a monthly retainer isn't forced onto one specific
+  day. Multiple payments in the same month (e.g. base retainer + extra
+  payments) are automatically grouped and summed together. A date-range
+  billing period is modeled for future use but not yet exposed in the UI.
+- **Client finance settings**: per-client income model, default hourly rate
+  or retainer amount, and default billing period type — editable from the
+  client profile. New payments for that client default to the right billing
+  period automatically (e.g. retainer clients default to picking a month).
+- **Dashboard**: a Business-Finance card (expected/received/outstanding/
+  extra payments for the current month) and a revenue-development card
+  (this month vs. last month), alongside the existing hours-based Business
+  Health card.
+- **Reports (data model only, no screen yet)**: revenue grouped by month,
+  client, category, project, or payment type — pure functions ready for a
+  future reports screen.
+
+### Changed
+
+- Backup export/import/merge now include payments and client finance
+  settings. Older backups without them still import cleanly (missing
+  arrays default to empty).
+- Internal: the existing per-entry partial payment type was renamed from
+  `Payment` to `EntryPayment` to distinguish it from the new standalone
+  finance `Payment` entity — a type-level rename only, no stored data or
+  behavior changed.
+- Architecture: new `src/modules/finance/` module (models, storage,
+  calculations, hooks, components) referencing `Client`/`Project` only by
+  id, matching the reusable-module pattern the Client Profile phase
+  established — future modules (Invoices, CRM, Reports UI, ...) can follow
+  the same shape.
+
 ## 1.3.0 — 2026-07-15 — "Client Profiles & CRM Foundation" (Sprint 2.1, part 1)
 
 Client Profile phase of the Income Engine / Business Finance sprint. The

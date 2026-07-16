@@ -24,6 +24,11 @@ import { DayCloseContent } from '@/components/DayCloseSheet'
 import { SettingsSheet } from '@/components/SettingsSheet'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
 import { Watermark } from '@/components/Watermark'
+import { BusinessFinanceCards } from '@/modules/finance/components/BusinessFinanceCards'
+import { BusinessHealthSummary } from '@/modules/finance/components/BusinessHealthSummary'
+import { computeBusinessFinance, computeBusinessHealthSummary } from '@/modules/finance/services/calculations'
+import { currentMonthKey } from '@/modules/finance/models'
+import type { ClientFinanceSettings, Payment } from '@/modules/finance/models'
 import {
   averageHourlyRate,
   computeBusinessHealth,
@@ -43,6 +48,8 @@ export function Dashboard({
   entries,
   projects,
   clients,
+  payments,
+  clientFinanceSettings,
   timer,
   lastBackupAt,
   onNewEntry,
@@ -54,6 +61,8 @@ export function Dashboard({
   entries: EnrichedEntry[]
   projects: Project[]
   clients: Client[]
+  payments: Payment[]
+  clientFinanceSettings: ClientFinanceSettings[]
   timer: UseTimerReturn
   lastBackupAt: number | null
   onNewEntry: () => void
@@ -72,6 +81,9 @@ export function Dashboard({
   const month = entriesThisMonth(entries)
   const health = computeBusinessHealth(entries)
   const dayClose = computeDayClose(entries)
+  const financeMonthKey = currentMonthKey()
+  const businessFinance = computeBusinessFinance(payments, clientFinanceSettings, financeMonthKey)
+  const businessHealthSummary = computeBusinessHealthSummary(payments, clientFinanceSettings)
 
   const recentActivity = [...entries]
     .sort((a, b) => b.date.localeCompare(a.date) || b.createdAt - a.createdAt)
@@ -170,6 +182,10 @@ export function Dashboard({
         <BackupCard lastBackupAt={lastBackupAt} onOpen={onOpenBackup} />
 
         <BusinessHealthCard health={health} projects={projects} />
+
+        <BusinessFinanceCards summary={businessFinance} />
+
+        <BusinessHealthSummary summary={businessHealthSummary} />
 
         {recentProjects.length > 0 && (
           <section>

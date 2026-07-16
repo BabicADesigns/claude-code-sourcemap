@@ -146,7 +146,10 @@ export interface Project {
   archived?: boolean
 }
 
-export interface Payment {
+/** A partial payment applied against a single work entry's amount — distinct
+ * from the standalone finance `Payment` entity (see modules/finance/models.ts),
+ * which is an independent transaction not tied to any entry. */
+export interface EntryPayment {
   id: string
   amount: number
   date: string // ISO yyyy-mm-dd
@@ -167,7 +170,7 @@ export interface TimeEntry {
   notes?: string
   photo?: string // base64 data URL
   status: EntryStatus
-  payments?: Payment[]
+  payments?: EntryPayment[]
   source?: EntrySource
   createdAt: number
   updatedAt: number
@@ -224,5 +227,5 @@ export interface EntryDraft {
   notes: string
   photo?: string
   status: EntryStatus
-  payments: Payment[]
+  payments: EntryPayment[]
 }

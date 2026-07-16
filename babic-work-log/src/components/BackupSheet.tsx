@@ -53,7 +53,7 @@ export function BackupSheet({
           <p className="mb-1 font-medium">Backup gefunden</p>
           <p>
             {pending.clients.length} Kunden · {pending.projects.length} Projekte · {pending.entries.length} Einträge ·{' '}
-            {pending.documents.length} Dokumente
+            {pending.documents.length} Dokumente · {pending.payments.length} Zahlungen
           </p>
         </div>
         <p className="text-sm text-muted-foreground">Vorhandene Daten behalten oder ersetzen?</p>
@@ -84,7 +84,7 @@ export function BackupSheet({
     <div className="space-y-4 pb-6">
       <div className="rounded-xl bg-sage/10 p-4 text-sm text-sage-dark">
         {data.clients.length} Kunden · {data.projects.length} Projekte · {data.entries.length} Einträge ·{' '}
-        {data.documents.length} Dokumente
+        {data.documents.length} Dokumente · {data.payments.length} Zahlungen
       </div>
 
       <Button className="w-full" onClick={handleExport}>
@@ -101,8 +101,8 @@ export function BackupSheet({
       {error && <p className="text-sm text-rose-dark">{error}</p>}
 
       <p className="text-xs text-muted-foreground">
-        Backups enthalten alle Kunden, Projekte, Einträge und Dokumente als JSON-Datei und werden ausschließlich lokal
-        auf diesem Gerät erstellt — keine Cloud, kein Server.
+        Backups enthalten alle Kunden, Projekte, Einträge, Dokumente und Zahlungen als JSON-Datei und werden
+        ausschließlich lokal auf diesem Gerät erstellt — keine Cloud, kein Server.
       </p>
     </div>
   )

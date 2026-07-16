@@ -1,4 +1,4 @@
-export const APP_VERSION = '1.3.0'
+export const APP_VERSION = '1.4.0'
 
 /** Real build timestamp, injected via vite.config.ts's `define`. */
 export const BUILD_DATE: string = __BUILD_DATE__
@@ -10,6 +10,18 @@ export interface ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.4.0',
+    date: '2026-07-16',
+    changes: [
+      'Zahlungen: neuer eigenständiger Zahlungseintrag (Kunde, Betrag, Zahlungsdatum, Zahlungsart, Methode, Kategorie, Notiz), unabhängig von einzelnen Arbeitseinträgen — dritter Reiter „Zahlungen" unter Kunden & Projekte.',
+      'Abrechnungszeitraum: Zahlungen lassen sich auf ein Einzeldatum oder einen Abrechnungsmonat buchen, sodass eine monatliche Pauschale nicht mehr an ein einzelnes Datum gebunden ist — mehrere Zahlungen (z. B. Pauschale + Zusatzzahlungen) im selben Monat werden automatisch zusammengeführt.',
+      'Kunden-Finanzeinstellungen: Einkommensmodell (Stundenbasiert/Festpreis/Monatliche Pauschale), Standard-Stundensatz oder -Pauschale und Standard-Abrechnungszeitraum lassen sich pro Kunde im Profil hinterlegen — neue Zahlungen übernehmen den Abrechnungszeitraum automatisch.',
+      'Dashboard: neue Business-Finance-Karte (Erwartet/Erhalten/Offen/Zusatzzahlungen für den laufenden Monat) und eine Umsatzentwicklung-Karte (Vergleich zum Vormonat) — ergänzen die bestehende, stundenbasierte Business-Health-Karte.',
+      'Backup: Zahlungen und Kunden-Finanzeinstellungen sind jetzt Teil von Export, Import und Zusammenführen — ältere Backups ohne diese Daten werden weiterhin unterstützt.',
+      'Architektur: neues eigenständiges Finance-Modul (Models, Storage, Berechnungen, Hooks, Komponenten) unter src/modules/finance — referenziert Kunden/Projekte nur per ID, damit künftige Module denselben Aufbau verwenden können. Interner Umbenennung: die bisherige Teilzahlung pro Eintrag heißt jetzt EntryPayment, um sie von der neuen eigenständigen Zahlung zu unterscheiden.',
+    ],
+  },
   {
     version: '1.3.0',
     date: '2026-07-15',

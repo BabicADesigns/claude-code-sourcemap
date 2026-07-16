@@ -1,6 +1,7 @@
 import { CURRENT_SCHEMA_VERSION, normalizeClient, normalizeDocument, normalizeEntry, migrateLegacyProjects, normalizeProject } from './migrations'
 import type { Client, Project, ProjectDocument, TimeEntry } from '../models'
 import { toISODate } from './date'
+import type { ClientFinanceSettings, Payment } from '../modules/finance/models'
 
 export interface BackupFile {
   meta: {
@@ -12,6 +13,8 @@ export interface BackupFile {
   projects: Project[]
   entries: TimeEntry[]
   documents: ProjectDocument[]
+  payments: Payment[]
+  clientFinanceSettings: ClientFinanceSettings[]
 }
 
 export interface BackupData {
@@ -19,6 +22,8 @@ export interface BackupData {
   projects: Project[]
   entries: TimeEntry[]
   documents: ProjectDocument[]
+  payments: Payment[]
+  clientFinanceSettings: ClientFinanceSettings[]
 }
 
 export function buildBackup(data: BackupData): BackupFile {
@@ -77,6 +82,11 @@ export function parseBackupFile(text: string): BackupData {
   const rawProjects = Array.isArray(obj.projects) ? (obj.projects as Partial<Project>[]) : []
   const rawEntries = Array.isArray(obj.entries) ? (obj.entries as Partial<TimeEntry>[]) : []
   const rawDocuments = Array.isArray(obj.documents) ? (obj.documents as Partial<ProjectDocument>[]) : []
+  // Older backups predate the finance module — default to empty rather than rejecting the file.
+  const rawPayments = Array.isArray(obj.payments) ? (obj.payments as Partial<Payment>[]) : []
+  const rawClientFinanceSettings = Array.isArray(obj.clientFinanceSettings)
+    ? (obj.clientFinanceSettings as Partial<ClientFinanceSettings>[])
+    : []
 
   const withIds = <T extends { id?: string }>(items: T[]) =>
     items.filter((i): i is T & { id: string } => typeof i.id === 'string' && i.id.length > 0)
@@ -101,8 +111,12 @@ export function parseBackupFile(text: string): BackupData {
 
   const entries = withIds(rawEntries).map(normalizeEntry)
   const documents = withIds(rawDocuments).map(normalizeDocument)
+  const payments = withIds(rawPayments) as Payment[]
+  const clientFinanceSettings = rawClientFinanceSettings.filter(
+    (s): s is ClientFinanceSettings => typeof s.clientId === 'string' && s.clientId.length > 0,
+  )
 
-  return { clients, projects, entries, documents }
+  return { clients, projects, entries, documents, payments, clientFinanceSettings }
 }
 
 /** Merges a backup into the current data set without ever touching an
@@ -115,10 +129,18 @@ export function mergeBackupData(current: BackupData, incoming: BackupData): Back
     return [...currentItems, ...additions]
   }
 
+  function mergeByClientId<T extends { clientId: string }>(currentItems: T[], incomingItems: T[]): T[] {
+    const existingClientIds = new Set(currentItems.map((i) => i.clientId))
+    const additions = incomingItems.filter((i) => !existingClientIds.has(i.clientId))
+    return [...currentItems, ...additions]
+  }
+
   return {
     clients: mergeById(current.clients, incoming.clients),
     projects: mergeById(current.projects, incoming.projects),
     entries: mergeById(current.entries, incoming.entries),
     documents: mergeById(current.documents, incoming.documents),
+    payments: mergeById(current.payments, incoming.payments),
+    clientFinanceSettings: mergeByClientId(current.clientFinanceSettings, incoming.clientFinanceSettings),
   }
 }

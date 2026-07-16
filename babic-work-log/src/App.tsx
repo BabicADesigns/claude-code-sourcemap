@@ -14,6 +14,8 @@ import { useProjects } from '@/hooks/useProjects'
 import { useClients } from '@/hooks/useClients'
 import { useDocuments } from '@/hooks/useDocuments'
 import { useTimer } from '@/hooks/useTimer'
+import { usePayments } from '@/modules/finance/hooks/usePayments'
+import { useClientFinanceSettings } from '@/modules/finance/hooks/useClientFinanceSettings'
 import { enrichEntries } from '@/services/calculations'
 import { todayISO } from '@/services/date'
 import { loadLastBackupAt, saveLastBackupAt } from '@/services/storage'
@@ -27,6 +29,12 @@ export default function App() {
   const { clients, addClient, updateClient, archiveClient, deleteClient, replaceAll: replaceAllClients } =
     useClients()
   const { documents, addDocument, deleteDocument, replaceAll: replaceAllDocuments } = useDocuments()
+  const { payments, addPayment, deletePayment, replaceAll: replaceAllPayments } = usePayments()
+  const {
+    settings: clientFinanceSettings,
+    upsertForClient: upsertClientFinanceSettings,
+    replaceAll: replaceAllClientFinanceSettings,
+  } = useClientFinanceSettings()
   const timer = useTimer()
 
   const [view, setView] = useState('dashboard')
@@ -70,11 +78,15 @@ export default function App() {
 
   function handleBackupImport(mode: 'merge' | 'replace', parsed: BackupData) {
     const next: BackupData =
-      mode === 'replace' ? parsed : mergeBackupData({ clients, projects, entries, documents }, parsed)
+      mode === 'replace'
+        ? parsed
+        : mergeBackupData({ clients, projects, entries, documents, payments, clientFinanceSettings }, parsed)
     replaceAllClients(next.clients)
     replaceAllProjects(next.projects)
     replaceAllEntries(next.entries)
     replaceAllDocuments(next.documents)
+    replaceAllPayments(next.payments)
+    replaceAllClientFinanceSettings(next.clientFinanceSettings)
     setBackupSheetOpen(false)
   }
 
@@ -85,6 +97,8 @@ export default function App() {
           entries={enrichedEntries}
           projects={projects}
           clients={clients}
+          payments={payments}
+          clientFinanceSettings={clientFinanceSettings}
           timer={timer}
           lastBackupAt={lastBackupAt}
           onNewEntry={openNewEntry}
@@ -103,6 +117,8 @@ export default function App() {
           projects={projects}
           entries={entries}
           documents={documents}
+          payments={payments}
+          clientFinanceSettings={clientFinanceSettings}
           onAddClient={addClient}
           onUpdateClient={updateClient}
           onArchiveClient={archiveClient}
@@ -113,6 +129,9 @@ export default function App() {
           onDeleteProject={deleteProject}
           onAddDocument={addDocument}
           onDeleteDocument={deleteDocument}
+          onAddPayment={addPayment}
+          onDeletePayment={deletePayment}
+          onUpdateClientFinanceSettings={upsertClientFinanceSettings}
         />
       </TabsContent>
       <TabsContent value="stats" tabIndex={-1}>
@@ -139,7 +158,7 @@ export default function App() {
       <Sheet open={backupSheetOpen} onOpenChange={setBackupSheetOpen}>
         <SheetContent open={backupSheetOpen} title="Backup">
           <BackupSheet
-            data={{ clients, projects, entries, documents }}
+            data={{ clients, projects, entries, documents, payments, clientFinanceSettings }}
             onExported={handleBackupExported}
             onImport={handleBackupImport}
           />

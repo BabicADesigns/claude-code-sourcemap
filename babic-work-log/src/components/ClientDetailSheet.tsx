@@ -16,13 +16,22 @@ import {
   PROJECT_COLORS,
 } from '@/models'
 import type { Client } from '@/models'
+import { ClientFinanceSettingsForm } from '@/modules/finance/components/ClientFinanceSettingsForm'
+import type { ClientFinanceSettings } from '@/modules/finance/models'
 
 export function ClientDetailSheet({
   client,
+  financeSettings,
   onUpdate,
+  onUpdateFinanceSettings,
 }: {
   client: Client
+  financeSettings: ClientFinanceSettings | null
   onUpdate: (id: string, patch: Partial<Omit<Client, 'id'>>) => void
+  onUpdateFinanceSettings: (
+    clientId: string,
+    patch: Partial<Omit<ClientFinanceSettings, 'clientId' | 'createdAt' | 'updatedAt'>>,
+  ) => void
 }) {
   const [tagInput, setTagInput] = useState('')
 
@@ -276,6 +285,15 @@ export function ClientDetailSheet({
           id="cd-relationship-notes"
           value={client.relationshipNotes ?? ''}
           onChange={(e) => onUpdate(client.id, { relationshipNotes: e.target.value || undefined })}
+        />
+      </div>
+
+      <div className="border-t border-border pt-5">
+        <h3 className="mb-3 font-display text-base text-ink">Finanzen</h3>
+        <ClientFinanceSettingsForm
+          clientId={client.id}
+          settings={financeSettings}
+          onUpdate={onUpdateFinanceSettings}
         />
       </div>
     </div>

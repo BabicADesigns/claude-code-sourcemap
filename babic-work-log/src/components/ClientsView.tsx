@@ -9,21 +9,29 @@ import { ClientDetailSheet } from '@/components/ClientDetailSheet'
 import { CLIENT_STATUS_LABELS } from '@/models'
 import type { Client, Project } from '@/models'
 import type { NewClientInput } from '@/hooks/useClients'
+import type { ClientFinanceSettings } from '@/modules/finance/models'
 
 export function ClientsView({
   clients,
   projects,
+  clientFinanceSettings,
   onAdd,
   onUpdate,
   onArchive,
   onDelete,
+  onUpdateClientFinanceSettings,
 }: {
   clients: Client[]
   projects: Project[]
+  clientFinanceSettings: ClientFinanceSettings[]
   onAdd: (input: NewClientInput) => void
   onUpdate: (id: string, patch: Partial<Omit<Client, 'id'>>) => void
   onArchive: (id: string, archived: boolean) => void
   onDelete: (id: string) => void
+  onUpdateClientFinanceSettings: (
+    clientId: string,
+    patch: Partial<Omit<ClientFinanceSettings, 'clientId' | 'createdAt' | 'updatedAt'>>,
+  ) => void
 }) {
   const [name, setName] = useState('')
   const [company, setCompany] = useState('')
@@ -96,7 +104,14 @@ export function ClientsView({
 
       <Sheet open={detailClient !== null} onOpenChange={(open) => !open && setDetailClientId(null)}>
         <SheetContent open={detailClient !== null} title={detailClient?.name ?? ''}>
-          {detailClient && <ClientDetailSheet client={detailClient} onUpdate={onUpdate} />}
+          {detailClient && (
+            <ClientDetailSheet
+              client={detailClient}
+              financeSettings={clientFinanceSettings.find((s) => s.clientId === detailClient.id) ?? null}
+              onUpdate={onUpdate}
+              onUpdateFinanceSettings={onUpdateClientFinanceSettings}
+            />
+          )}
         </SheetContent>
       </Sheet>
     </div>
