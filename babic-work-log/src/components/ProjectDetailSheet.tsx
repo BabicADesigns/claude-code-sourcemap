@@ -1,5 +1,6 @@
 import { useRef, useState, type ChangeEvent } from 'react'
-import { FileText, Trash2, Upload } from 'lucide-react'
+import { FileDown, FileText, Trash2, Upload } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -21,6 +22,7 @@ export function ProjectDetailSheet({
   onUpdate,
   onAddDocument,
   onDeleteDocument,
+  onCreateReport,
 }: {
   project: Project
   clients: Client[]
@@ -29,6 +31,7 @@ export function ProjectDetailSheet({
   onUpdate: (id: string, patch: Partial<Omit<Project, 'id'>>) => void
   onAddDocument: (input: { projectId: string; name: string; label: string; dataUrl: string; mimeType: string }) => void
   onDeleteDocument: (id: string) => void
+  onCreateReport: (projectId: string) => void
 }) {
   const fileInput = useRef<HTMLInputElement>(null)
   const [uploadLabel, setUploadLabel] = useState(DOCUMENT_LABELS[0])
@@ -246,6 +249,11 @@ export function ProjectDetailSheet({
         </div>
         <input ref={fileInput} type="file" className="hidden" onChange={handleFile} />
       </div>
+
+      <Button variant="secondary" className="w-full" onClick={() => onCreateReport(project.id)}>
+        <FileDown className="h-4 w-4" />
+        Kundenbericht erstellen
+      </Button>
     </div>
   )
 }

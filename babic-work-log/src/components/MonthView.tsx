@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ChevronLeft, ChevronRight, FileDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Watermark } from '@/components/Watermark'
@@ -7,6 +7,11 @@ import { addMonths, endOfMonth, formatCurrency, formatHours, formatMonthLabel, s
 import type { EnrichedEntry, Project } from '@/models'
 
 export function MonthView({ entries, projects }: { entries: EnrichedEntry[]; projects: Project[] }) {
+  // See WeekView.tsx for why this prefetch matters on iOS Safari.
+  useEffect(() => {
+    void import('@/services/pdf')
+  }, [])
+
   const [reference, setReference] = useState(new Date())
   const start = startOfMonth(reference)
   const end = endOfMonth(reference)

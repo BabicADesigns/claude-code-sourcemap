@@ -16,6 +16,7 @@ import { useDocuments } from '@/hooks/useDocuments'
 import { useTimer } from '@/hooks/useTimer'
 import { usePayments } from '@/modules/finance/hooks/usePayments'
 import { useClientFinanceSettings } from '@/modules/finance/hooks/useClientFinanceSettings'
+import { ReportBuilderSheet } from '@/modules/reports/components/ReportBuilderSheet'
 import { enrichEntries } from '@/services/calculations'
 import { todayISO } from '@/services/date'
 import { loadLastBackupAt, saveLastBackupAt } from '@/services/storage'
@@ -42,6 +43,8 @@ export default function App() {
   const [editingEntry, setEditingEntry] = useState<TimeEntry | null>(null)
   const [backupSheetOpen, setBackupSheetOpen] = useState(false)
   const [lastBackupAt, setLastBackupAt] = useState<number | null>(() => loadLastBackupAt())
+  const [reportSheetOpen, setReportSheetOpen] = useState(false)
+  const [reportProjectId, setReportProjectId] = useState<string | null>(null)
 
   const enrichedEntries = useMemo(() => enrichEntries(entries, projects), [entries, projects])
 
@@ -68,6 +71,11 @@ export default function App() {
       status: 'offen',
       source: 'timer',
     })
+  }
+
+  function openReports(projectId: string | null = null) {
+    setReportProjectId(projectId)
+    setReportSheetOpen(true)
   }
 
   function handleBackupExported() {
@@ -106,6 +114,7 @@ export default function App() {
           onCreateEntryFromTimer={handleCreateEntryFromTimer}
           onOpenBackup={() => setBackupSheetOpen(true)}
           onNavigateToProjects={() => setView('clients-projects')}
+          onOpenReports={() => openReports()}
         />
       </TabsContent>
       <TabsContent value="periods" tabIndex={-1}>
@@ -132,6 +141,7 @@ export default function App() {
           onAddPayment={addPayment}
           onDeletePayment={deletePayment}
           onUpdateClientFinanceSettings={upsertClientFinanceSettings}
+          onCreateReport={(projectId) => openReports(projectId)}
         />
       </TabsContent>
       <TabsContent value="stats" tabIndex={-1}>
@@ -161,6 +171,18 @@ export default function App() {
             data={{ clients, projects, entries, documents, payments, clientFinanceSettings }}
             onExported={handleBackupExported}
             onImport={handleBackupImport}
+          />
+        </SheetContent>
+      </Sheet>
+
+      <Sheet open={reportSheetOpen} onOpenChange={setReportSheetOpen}>
+        <SheetContent open={reportSheetOpen} title="Bericht erstellen">
+          <ReportBuilderSheet
+            clients={clients}
+            projects={projects}
+            entries={enrichedEntries}
+            initialProjectId={reportProjectId}
+            onClose={() => setReportSheetOpen(false)}
           />
         </SheetContent>
       </Sheet>

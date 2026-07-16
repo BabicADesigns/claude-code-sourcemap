@@ -31,6 +31,7 @@ export function ClientsAndProjectsView({
   onAddPayment,
   onDeletePayment,
   onUpdateClientFinanceSettings,
+  onCreateReport,
 }: {
   clients: Client[]
   projects: Project[]
@@ -54,6 +55,7 @@ export function ClientsAndProjectsView({
     clientId: string,
     patch: Partial<Omit<ClientFinanceSettings, 'clientId' | 'createdAt' | 'updatedAt'>>,
   ) => void
+  onCreateReport: (projectId: string) => void
 }) {
   const [view, setView] = useState<SubView>('projects')
 
@@ -97,6 +99,7 @@ export function ClientsAndProjectsView({
           onDelete={onDeleteProject}
           onAddDocument={onAddDocument}
           onDeleteDocument={onDeleteDocument}
+          onCreateReport={onCreateReport}
         />
       )}
       {view === 'clients' && (

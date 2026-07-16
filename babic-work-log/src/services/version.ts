@@ -1,4 +1,4 @@
-export const APP_VERSION = '1.4.0'
+export const APP_VERSION = '1.5.0'
 
 /** Real build timestamp, injected via vite.config.ts's `define`. */
 export const BUILD_DATE: string = __BUILD_DATE__
@@ -10,6 +10,18 @@ export interface ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.5.0',
+    date: '2026-07-16',
+    changes: [
+      'PDF-Export repariert: Auf iOS Safari brach der Download durch eine Zeitproblematik zwischen Tastendruck und PDF-Erstellung häufig kommentarlos ab. Der PDF-Baustein wird jetzt vorab geladen, sobald die Wochen-/Monatsübersicht oder der neue Berichts-Assistent geöffnet wird — der Export läuft dadurch zuverlässig, auch auf dem iPhone.',
+      'Berichte: neuer Berichts-Assistent (Dashboard → „Berichte", oder direkt aus einem Projekt heraus) mit zwei Berichtstypen.',
+      'Business Report: alle Projekte mit Einträgen im gewählten Zeitraum, inklusive Stunden und Beträgen — für die eigene Buchhaltung.',
+      'Kundenbericht: ein einzelnes Projekt als chronologische Tages-Zeitleiste (Datum → Tätigkeiten), ohne Finanzangaben — zum Weitergeben an Kunden. Stundensatz, Beträge und Summe lassen sich optional zuschalten.',
+      'Zeitraum wählbar: Diese Woche, Dieser Monat oder ein freier Zeitraum, für beide Berichtstypen.',
+      'Architektur für künftige Rechnungen, Unterschriften, Anhänge und Kundenfreigabe in der Berichtskonfiguration vorbereitet (noch ohne eigene Funktion).',
+    ],
+  },
   {
     version: '1.4.0',
     date: '2026-07-16',

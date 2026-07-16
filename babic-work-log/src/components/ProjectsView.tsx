@@ -25,6 +25,7 @@ export function ProjectsView({
   onDelete,
   onAddDocument,
   onDeleteDocument,
+  onCreateReport,
 }: {
   projects: Project[]
   clients: Client[]
@@ -36,6 +37,7 @@ export function ProjectsView({
   onDelete: (id: string) => void
   onAddDocument: (input: { projectId: string; name: string; label: string; dataUrl: string; mimeType: string }) => void
   onDeleteDocument: (id: string) => void
+  onCreateReport: (projectId: string) => void
 }) {
   const [name, setName] = useState('')
   const [clientId, setClientId] = useState(clients[0]?.id ?? '')
@@ -192,6 +194,7 @@ export function ProjectsView({
               onUpdate={onUpdate}
               onAddDocument={onAddDocument}
               onDeleteDocument={onDeleteDocument}
+              onCreateReport={onCreateReport}
             />
           )}
         </SheetContent>

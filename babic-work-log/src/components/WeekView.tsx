@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ChevronLeft, ChevronRight, FileDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { EntryList } from '@/components/EntryList'
@@ -16,6 +16,14 @@ export function WeekView({
   projects: Project[]
   onSelectEntry: (entry: TimeEntry) => void
 }) {
+  // Warm the PDF chunk ahead of time so the export click handler's `await
+  // import(...)` resolves from cache (a microtask) instead of a network
+  // fetch (a macrotask) — iOS Safari drops user-activation across a
+  // macrotask, which otherwise silently blocks doc.save()'s download.
+  useEffect(() => {
+    void import('@/services/pdf')
+  }, [])
+
   const [reference, setReference] = useState(new Date())
   const start = startOfWeek(reference)
   const end = endOfWeek(reference)

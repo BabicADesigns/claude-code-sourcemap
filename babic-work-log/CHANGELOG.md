@@ -3,6 +3,47 @@
 All notable changes to Babic Work Log are documented here. Versions are also
 visible in-app under **Einstellungen** (gear icon on the dashboard).
 
+## 1.5.0 — 2026-07-16 — "PDF Export Fix & Client Reports" (Sprint 2.3)
+
+### Fixed
+
+- **PDF export on iOS Safari**: the "Als PDF exportieren" buttons could
+  silently do nothing on iOS Safari. Root cause: the PDF code is loaded via
+  a dynamic `import()` to keep it out of the main bundle, and that import is
+  a real network fetch — a macrotask. Safari drops "user activation" across
+  a macrotask, so by the time `doc.save()` ran, Safari no longer recognized
+  it as a genuine user gesture and silently blocked the download. Fix: the
+  PDF module is now prefetched as soon as the Week/Month view (or the new
+  report builder) mounts, so the click handler's `import()` resolves from
+  cache — a microtask — keeping the gesture chain intact. No existing
+  behavior changed; verified the exact same output byte-for-byte against
+  the pre-fix export.
+
+### Added
+
+- **Report builder** (Dashboard → "Berichte", or a shortcut from any
+  project's detail screen): generates one of two PDF report types.
+  - **Business Report** — every project with entries in the chosen period,
+    hours and amounts included. For your own records.
+  - **Client Activity Report** — a single project rendered as a
+    chronological day-by-day timeline (date → that day's activities), no
+    financial information by default. An "Include Financial Information"
+    switch optionally reveals hours, rate, amount, and a total — for
+    handing to a client.
+  - Both support This Week / This Month / a custom date range.
+- **Future-ready report fields** (inert, unused today): optional
+  attachment/signature/customer-approval fields on the report config, so
+  Invoices, Signatures, Attachments, and Customer Approval can be added
+  later without a breaking change — same pattern as the Memory Architecture
+  fields on `TimeEntry`.
+
+### Changed
+
+- `services/pdf.ts` refactored to share header/footer/watermark/table
+  drawing with the new report generators (`modules/reports/`), instead of
+  duplicating that code. The existing week/month export keeps working
+  exactly as before.
+
 ## 1.4.0 — 2026-07-16 — "Income Engine & Business Finance" (Sprint 2.1/2.2, combined)
 
 The payments/finance layer deferred from 1.3.0, combined with the retainer

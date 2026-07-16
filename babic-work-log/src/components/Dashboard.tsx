@@ -12,6 +12,7 @@ import {
   FolderPlus,
   ShieldCheck,
   Settings,
+  FileDown,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { StatCard } from '@/components/StatCard'
@@ -57,6 +58,7 @@ export function Dashboard({
   onCreateEntryFromTimer,
   onOpenBackup,
   onNavigateToProjects,
+  onOpenReports,
 }: {
   entries: EnrichedEntry[]
   projects: Project[]
@@ -70,6 +72,7 @@ export function Dashboard({
   onCreateEntryFromTimer: (data: TimerStopConfirmation & { hours: number }) => void
   onOpenBackup: () => void
   onNavigateToProjects: () => void
+  onOpenReports: () => void
 }) {
   const [dayCloseOpen, setDayCloseOpen] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
@@ -122,7 +125,7 @@ export function Dashboard({
           </button>
         </header>
 
-        <div className="grid grid-cols-4 gap-2">
+        <div className="grid grid-cols-5 gap-2">
           <QuickAction
             icon={<Play className="h-4 w-4" />}
             label="Timer"
@@ -130,6 +133,7 @@ export function Dashboard({
           />
           <QuickAction icon={<Plus className="h-4 w-4" />} label="Eintrag" onClick={onNewEntry} />
           <QuickAction icon={<FolderPlus className="h-4 w-4" />} label="Projekt" onClick={onNavigateToProjects} />
+          <QuickAction icon={<FileDown className="h-4 w-4" />} label="Berichte" onClick={onOpenReports} />
           <QuickAction icon={<ShieldCheck className="h-4 w-4" />} label="Backup" onClick={onOpenBackup} />
         </div>
 
