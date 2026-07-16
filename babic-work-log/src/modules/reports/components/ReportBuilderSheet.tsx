@@ -65,20 +65,32 @@ export function ReportBuilderSheet({
   const canGenerate = reportType === 'business' || Boolean(projectId)
 
   async function handleGenerate() {
-    if (!canGenerate) return
+    console.log('[reports] PDF erstellen clicked', { reportType, projectId, periodType, includeFinancials })
+    if (!canGenerate) {
+      console.log('[reports] canGenerate is false, aborting (missing project for client_activity report)')
+      return
+    }
     setGenerating(true)
     try {
       const period = resolveReportPeriod(periodType, new Date(), { start: customStart, end: customEnd })
+      console.log('[reports] resolved period', period)
       const { generateBusinessReport, generateClientActivityReport } = await import('../services/pdf')
+      console.log('[reports] pdf module loaded')
 
       if (reportType === 'business') {
-        generateBusinessReport({ type: 'business', period, includeFinancials: true }, { entries, projects })
+        console.log('[reports] calling generateBusinessReport, entries available:', entries.length)
+        await generateBusinessReport({ type: 'business', period, includeFinancials: true }, { entries, projects })
       } else {
-        generateClientActivityReport(
+        console.log(
+          '[reports] calling generateClientActivityReport, entries available for project:',
+          entries.filter((e) => e.projectId === projectId).length,
+        )
+        await generateClientActivityReport(
           { type: 'client_activity', projectId, period, includeFinancials },
           { entries, projects, clients },
         )
       }
+      console.log('[reports] report generation resolved')
       onClose()
     } finally {
       setGenerating(false)

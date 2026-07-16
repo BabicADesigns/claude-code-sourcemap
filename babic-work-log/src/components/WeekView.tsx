@@ -65,13 +65,16 @@ export function WeekView({
           variant="secondary"
           className="w-full"
           onClick={async () => {
+            console.log('[pdf] PDF button clicked (WeekView)', { entryCount: weekEntries.length })
             const { exportActivityReport } = await import('@/services/pdf')
-            exportActivityReport({
+            console.log('[pdf] module loaded, calling exportActivityReport')
+            await exportActivityReport({
               title: 'Wochenübersicht',
               subtitle: formatWeekLabel(reference),
               entries: weekEntries,
               projects,
             })
+            console.log('[pdf] exportActivityReport resolved')
           }}
         >
           <FileDown className="h-4 w-4" />

@@ -3,6 +3,27 @@
 All notable changes to Babic Work Log are documented here. Versions are also
 visible in-app under **Einstellungen** (gear icon on the dashboard).
 
+## 1.5.1 — 2026-07-16 — "PDF Export Fix, Take 2" (Sprint 2.3 follow-up)
+
+### Fixed
+
+- **PDF export on iOS Safari, properly this time.** The 1.5.0 fix (prefetching
+  the PDF module so the click-to-`doc.save()` chain stayed inside a single
+  user gesture) turned out not to be enough — reported as still doing
+  nothing on iPhone Safari. Root cause is more fundamental: jsPDF's
+  `doc.save()` downloads via a synthetic `<a download>` click on a blob URL,
+  and that mechanism is unreliable on iOS regardless of timing. Fix: on iOS,
+  the PDF is now built as a `Blob` and handed to the native Share Sheet via
+  `navigator.share()` — the same "Speichern in Dateien / AirDrop / …" sheet
+  any other app uses. If the Share API isn't available, it falls back to
+  opening the PDF in a new Safari tab, where Safari's own toolbar has a
+  Share/Save button. Desktop and Android are unaffected — they still use
+  `doc.save()` exactly as before (verified byte-identical output).
+- Added temporary `console.log` statements along the entire export path
+  (button click → entries found → PDF built → save/share called) so any
+  future export issue can be diagnosed directly from the browser console
+  instead of guessing.
+
 ## 1.5.0 — 2026-07-16 — "PDF Export Fix & Client Reports" (Sprint 2.3)
 
 ### Fixed

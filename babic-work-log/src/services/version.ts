@@ -1,4 +1,4 @@
-export const APP_VERSION = '1.5.0'
+export const APP_VERSION = '1.5.1'
 
 /** Real build timestamp, injected via vite.config.ts's `define`. */
 export const BUILD_DATE: string = __BUILD_DATE__
@@ -10,6 +10,14 @@ export interface ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.5.1',
+    date: '2026-07-16',
+    changes: [
+      'PDF-Export auf iOS Safari erneut repariert: Der letzte Fix (Vorab-Laden) reichte nicht aus. Ursache war grundsätzlicher — der Download-Mechanismus von jsPDF funktioniert auf iOS unabhängig vom Timing nicht zuverlässig. iOS erstellt das PDF jetzt als Datei und öffnet automatisch die native Teilen-Funktion (Speichern in Dateien, AirDrop, etc.); falls nicht verfügbar, öffnet sich das PDF stattdessen in einem neuen Tab mit Safaris eigener Teilen-Schaltfläche.',
+      'Temporäre Konsolen-Protokollierung entlang des gesamten Export-Ablaufs (Tastendruck, Einträge gefunden, PDF erstellt, Speichern aufgerufen) zur Fehlersuche bei zukünftigen Problemen.',
+    ],
+  },
   {
     version: '1.5.0',
     date: '2026-07-16',

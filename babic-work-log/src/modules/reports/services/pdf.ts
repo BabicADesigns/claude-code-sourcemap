@@ -6,26 +6,34 @@ import {
   drawReportHeader,
   drawTotalsLine,
   PDF_COLORS,
+  savePdf,
 } from '@/services/pdf'
 import { entriesInRange, entryAmount, entryHours, sumAmount, sumHours } from '@/services/calculations'
 import { formatDateDisplay, fromISODate } from '@/services/date'
 import type { Client, EnrichedEntry, Project } from '@/models'
 import type { ReportConfig } from '../models'
 
-export function generateBusinessReport(config: ReportConfig, data: { entries: EnrichedEntry[]; projects: Project[] }): void {
+export async function generateBusinessReport(
+  config: ReportConfig,
+  data: { entries: EnrichedEntry[]; projects: Project[] },
+): Promise<void> {
+  console.log('[reports] generateBusinessReport entered', { period: config.period })
   const { period } = config
   const projectName = (id: string) => data.projects.find((p) => p.id === id)?.name ?? 'Unbekannt'
   const periodEntries = entriesInRange(data.entries, fromISODate(period.start), fromISODate(period.end))
+  console.log('[reports] entries in period:', periodEntries.length, 'of', data.entries.length, 'total')
 
   const doc = createReportDocument()
+  console.log('[reports] jsPDF document instantiated')
   drawReportHeader(doc, 'Business Report', ['Alle Projekte', period.label])
 
   const finalY = drawEntriesTable(doc, periodEntries, projectName, 104)
   drawTotalsLine(doc, sumHours(periodEntries), sumAmount(periodEntries), finalY)
   drawFooterNote(doc, 'Dies ist ein Tätigkeitsnachweis, keine Rechnung.')
   applyWatermarkToAllPages(doc)
+  console.log('[reports] Business Report content finished')
 
-  doc.save(`business-report-${period.start}-${period.end}.pdf`)
+  await savePdf(doc, `business-report-${period.start}-${period.end}.pdf`)
 }
 
 /** Groups entries by ISO date, sorted chronologically, for the Client
@@ -42,18 +50,27 @@ function groupEntriesByDay(entries: EnrichedEntry[]): { date: string; entries: E
     .map(([date, dayEntries]) => ({ date, entries: dayEntries }))
 }
 
-export function generateClientActivityReport(
+export async function generateClientActivityReport(
   config: ReportConfig,
   data: { entries: EnrichedEntry[]; projects: Project[]; clients: Client[] },
-): void {
+): Promise<void> {
+  console.log('[reports] generateClientActivityReport entered', {
+    projectId: config.projectId,
+    period: config.period,
+    includeFinancials: config.includeFinancials,
+  })
   const { period, projectId, includeFinancials } = config
   const project = data.projects.find((p) => p.id === projectId)
   const client = project ? data.clients.find((c) => c.id === project.clientId) : undefined
+  console.log('[reports] resolved project:', project?.name ?? 'NOT FOUND', '/ client:', client?.name ?? 'NOT FOUND')
+
   const projectEntries = data.entries.filter((e) => e.projectId === projectId)
   const periodEntries = entriesInRange(projectEntries, fromISODate(period.start), fromISODate(period.end))
+  console.log('[reports] entries for this project in period:', periodEntries.length, 'of', projectEntries.length, 'for the project')
   const days = groupEntriesByDay(periodEntries)
 
   const doc = createReportDocument()
+  console.log('[reports] jsPDF document instantiated')
   drawReportHeader(doc, 'Kundenbericht', [
     `Projekt: ${project?.name ?? 'Unbekannt'}`,
     `Kunde: ${client?.name ?? 'Unbekannt'}`,
@@ -112,7 +129,8 @@ export function generateClientActivityReport(
 
   drawFooterNote(doc, 'Dies ist ein Tätigkeitsnachweis, keine Rechnung.')
   applyWatermarkToAllPages(doc)
+  console.log('[reports] Client Activity Report content finished')
 
   const projectSlug = (project?.name ?? 'projekt').replace(/[^a-z0-9]+/gi, '-').toLowerCase()
-  doc.save(`kundenbericht-${projectSlug}-${period.start}-${period.end}.pdf`)
+  await savePdf(doc, `kundenbericht-${projectSlug}-${period.start}-${period.end}.pdf`)
 }

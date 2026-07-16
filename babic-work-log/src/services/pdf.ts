@@ -114,9 +114,80 @@ export function drawTotalsLine(doc: jsPDF, totalHours: number, totalAmount: numb
   )
 }
 
-export function exportActivityReport({ title, subtitle, entries, projects }: ExportOptions): void {
+/** iOS (incl. iPadOS, which reports as "MacIntel" but has touch support) —
+ * anchor-click-based downloads (what jsPDF's doc.save() uses under the
+ * hood) are unreliable there regardless of how synchronous the call is, so
+ * every report generator routes through `savePdf` below instead of calling
+ * doc.save() directly. */
+function isIOS(): boolean {
+  if (typeof navigator === 'undefined') return false
+  const ua = navigator.userAgent
+  const isIPhoneOrIPod = /iP(hone|od)/.test(ua)
+  const isIPad = /iPad/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+  return isIPhoneOrIPod || isIPad
+}
+
+type ShareNavigator = Navigator & {
+  canShare?: (data?: ShareData) => boolean
+  share?: (data: ShareData) => Promise<void>
+}
+
+/** Cross-platform "give the user this PDF" step, logged at every branch so
+ * a stuck export can be diagnosed from the browser console.
+ * - Desktop/Android: doc.save() (anchor-click download), unchanged.
+ * - iOS: builds a Blob and opens the native Share Sheet via the Web Share
+ *   API (lets the user save to Files, AirDrop, etc.); if the Share API
+ *   isn't available, falls back to opening the PDF in a new tab, where
+ *   Safari's own toolbar offers Share/Save to Files. */
+export async function savePdf(doc: jsPDF, filename: string): Promise<void> {
+  console.log('[pdf] savePdf called', { filename, isIOS: isIOS(), userAgent: navigator.userAgent })
+
+  if (!isIOS()) {
+    console.log('[pdf] non-iOS path: calling doc.save()')
+    doc.save(filename)
+    console.log('[pdf] doc.save() returned')
+    return
+  }
+
+  console.log('[pdf] iOS path: building Blob via doc.output("blob")')
+  const blob = doc.output('blob')
+  console.log('[pdf] blob created, size =', blob.size, 'bytes')
+
+  const nav = navigator as ShareNavigator
+  if (nav.share && nav.canShare) {
+    try {
+      const file = new File([blob], filename, { type: 'application/pdf' })
+      const canShareFile = nav.canShare({ files: [file] })
+      console.log('[pdf] navigator.canShare({ files }) =', canShareFile)
+      if (canShareFile) {
+        console.log('[pdf] calling navigator.share() — Share Sheet should open now')
+        await nav.share({ files: [file], title: filename })
+        console.log('[pdf] navigator.share() resolved (share sheet closed)')
+        return
+      }
+    } catch (err) {
+      if (err instanceof Error && err.name === 'AbortError') {
+        console.log('[pdf] navigator.share() aborted by user — this is a normal cancel, not an error')
+        return
+      }
+      console.log('[pdf] navigator.share() threw, falling back to new-tab', err)
+    }
+  } else {
+    console.log('[pdf] Web Share API (files) not available on this browser, falling back to new-tab')
+  }
+
+  console.log('[pdf] opening Blob URL in a new tab as fallback')
+  const url = URL.createObjectURL(blob)
+  const opened = window.open(url, '_blank')
+  console.log('[pdf] window.open returned', opened ? 'a window/tab reference' : 'null (likely popup-blocked)')
+  setTimeout(() => URL.revokeObjectURL(url), 60_000)
+}
+
+export async function exportActivityReport({ title, subtitle, entries, projects }: ExportOptions): Promise<void> {
+  console.log('[pdf] exportActivityReport entered', { title, subtitle, entryCount: entries.length, projectCount: projects.length })
   const projectName = (id: string) => projects.find((p) => p.id === id)?.name ?? 'Unbekannt'
   const doc = createReportDocument()
+  console.log('[pdf] jsPDF document instantiated')
 
   drawReportHeader(doc, 'Tätigkeitsnachweis', [title, subtitle])
 
@@ -124,7 +195,8 @@ export function exportActivityReport({ title, subtitle, entries, projects }: Exp
   drawTotalsLine(doc, sumHours(entries), sumAmount(entries), finalY)
   drawFooterNote(doc, 'Dies ist ein Tätigkeitsnachweis, keine Rechnung.')
   applyWatermarkToAllPages(doc)
+  console.log('[pdf] PDF content finished (table, totals, footer, watermark drawn)')
 
   const filenameSafe = title.replace(/[^a-z0-9]+/gi, '-').toLowerCase()
-  doc.save(`taetigkeitsnachweis-${filenameSafe}.pdf`)
+  await savePdf(doc, `taetigkeitsnachweis-${filenameSafe}.pdf`)
 }
