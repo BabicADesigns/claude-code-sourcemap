@@ -1,4 +1,4 @@
-export const APP_VERSION = '1.5.2'
+export const APP_VERSION = '1.5.3'
 
 /** Real build timestamp, injected via vite.config.ts's `define`. */
 export const BUILD_DATE: string = __BUILD_DATE__
@@ -10,6 +10,13 @@ export interface ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.5.3',
+    date: '2026-07-16',
+    changes: [
+      'Kundenbericht: Layout-Fehler behoben — lange oder mehrzeilige Notizen ließen Datumsüberschriften und Einträge übereinander liegen, weil die Zeilenhöhe nach umgebrochenem Text nicht korrekt berücksichtigt wurde. Die Timeline berechnet jetzt für jeden Eintrag die tatsächlich benötigte Höhe (inklusive Zeilenumbruch), bevor der nächste Abschnitt platziert wird — keine Überlappung mehr, sauberer Zeilenumbruch mit hängendem Einzug, konsistente Abstände zwischen Einträgen und Tagen, automatischer Seitenumbruch, der Datumsüberschriften nicht mehr verwaist am Seitenende stehen lässt.',
+    ],
+  },
   {
     version: '1.5.2',
     date: '2026-07-16',

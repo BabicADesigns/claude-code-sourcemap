@@ -52,6 +52,29 @@ function groupEntriesByDay(entries: EnrichedEntry[]): { date: string; entries: E
     .map(([date, dayEntries]) => ({ date, entries: dayEntries }))
 }
 
+function buildActivityText(e: EnrichedEntry, includeFinancials: boolean): string {
+  const activity = e.notes?.trim() ? `${e.category} — ${e.notes.trim()}` : e.category
+  if (!includeFinancials) return activity
+  const hours = entryHours(e).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 2 })
+  const amount = entryAmount(e).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })
+  return `${activity} · ${hours} h · ${amount}`
+}
+
+/** Timeline layout constants (pt). `lineHeight` is deliberately generous for
+ * the 9.5pt body font so wrapped lines never touch — every Y advance below
+ * is driven by an actually-measured line count, never a guess, which is
+ * what makes overlap impossible regardless of how long a note runs. */
+const TOP_MARGIN = 60
+const BOTTOM_MARGIN = 50
+const LEFT = 40
+const RIGHT_MARGIN = 40
+const BULLET_INDENT = 12
+const BULLET_TEXT_GAP = 10
+const LINE_HEIGHT = 14
+const DATE_HEADING_GAP = 20
+const ENTRY_SPACING = 6
+const DAY_SPACING = 16
+
 export async function generateClientActivityReport(
   config: ReportConfig,
   data: { entries: EnrichedEntry[]; projects: Project[]; clients: Client[] },
@@ -80,53 +103,69 @@ export async function generateClientActivityReport(
     `Zeitraum: ${period.label} · Gesamt: ${sumHours(periodEntries).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 2 })} h`,
   ])
 
+  const pageWidth = doc.internal.pageSize.getWidth()
+  const pageBottom = doc.internal.pageSize.getHeight() - BOTTOM_MARGIN
+  const bulletX = LEFT + BULLET_INDENT
+  const textX = bulletX + BULLET_TEXT_GAP
+  const wrapWidth = pageWidth - textX - RIGHT_MARGIN
+
   let y = 128
-  const pageBottom = doc.internal.pageSize.getHeight() - 50
-  const left = 40
+
+  function ensureSpace(needed: number) {
+    if (y + needed > pageBottom) {
+      doc.addPage()
+      y = TOP_MARGIN
+    }
+  }
+
+  function measure(text: string): string[] {
+    return doc.splitTextToSize(text, wrapWidth)
+  }
 
   for (const day of days) {
-    if (y > pageBottom - 40) {
-      doc.addPage()
-      y = 60
-    }
+    // Measure the heading + its first entry together so a date heading never
+    // ends up orphaned alone at the bottom of a page.
+    doc.setFont('helvetica', 'normal')
+    doc.setFontSize(9.5)
+    const firstEntryLines = day.entries[0] ? measure(buildActivityText(day.entries[0], includeFinancials)) : ['']
+    ensureSpace(DATE_HEADING_GAP + firstEntryLines.length * LINE_HEIGHT)
 
     doc.setFont('helvetica', 'bold')
     doc.setFontSize(11)
     doc.setTextColor(...PDF_COLORS.ink)
-    doc.text(formatDateDisplay(day.date), left, y)
-    y += 16
+    doc.text(formatDateDisplay(day.date), LEFT, y)
+    y += DATE_HEADING_GAP
 
     doc.setFont('helvetica', 'normal')
     doc.setFontSize(9.5)
     doc.setTextColor(...PDF_COLORS.mutedInk)
+
     for (const e of day.entries) {
-      if (y > pageBottom) {
-        doc.addPage()
-        y = 60
+      const lines = measure(buildActivityText(e, includeFinancials))
+      const entryHeight = lines.length * LINE_HEIGHT
+      ensureSpace(entryHeight)
+
+      doc.text('•', bulletX, y)
+      for (let i = 0; i < lines.length; i++) {
+        doc.text(lines[i], textX, y + i * LINE_HEIGHT)
       }
-      const activity = e.notes?.trim() ? `${e.category} — ${e.notes.trim()}` : e.category
-      const financialSuffix = includeFinancials
-        ? ` · ${entryHours(e).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 2 })} h · ${entryAmount(e).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}`
-        : ''
-      doc.text(`• ${activity}${financialSuffix}`, left + 12, y)
-      y += 15
+      y += entryHeight + ENTRY_SPACING
     }
-    y += 10
+
+    y += DAY_SPACING - ENTRY_SPACING
   }
 
   if (days.length === 0) {
     doc.setFont('helvetica', 'normal')
     doc.setFontSize(10)
     doc.setTextColor(...PDF_COLORS.mutedInk)
-    doc.text('Keine Einträge in diesem Zeitraum.', left, y)
-    y += 20
+    ensureSpace(LINE_HEIGHT)
+    doc.text('Keine Einträge in diesem Zeitraum.', LEFT, y)
+    y += LINE_HEIGHT + DAY_SPACING
   }
 
   if (includeFinancials) {
-    if (y > pageBottom - 20) {
-      doc.addPage()
-      y = 60
-    }
+    ensureSpace(LINE_HEIGHT + 10)
     drawTotalsLine(doc, sumHours(periodEntries), sumAmount(periodEntries), y + 10)
   }
 

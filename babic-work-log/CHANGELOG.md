@@ -3,6 +3,29 @@
 All notable changes to Babic Work Log are documented here. Versions are also
 visible in-app under **Einstellungen** (gear icon on the dashboard).
 
+## 1.5.3 — 2026-07-16 — "Client Report Layout Fix" (Sprint 2.3 follow-up)
+
+### Fixed
+
+- **Client Activity Report layout — overlapping text.** The timeline drew
+  each activity with `doc.text(text, x, y)` and always advanced the cursor
+  by one fixed line height, regardless of how much text was actually
+  drawn. jsPDF doesn't wrap text or report how many lines a string
+  produced on its own, so any note long enough to wrap — or containing a
+  line break — rendered extra lines the layout never accounted for,
+  pushing the next entry (or the next date heading) to overlap it.
+  Rewrote the layout to measure each entry's actual wrapped line count
+  (`doc.splitTextToSize`) before drawing it and before advancing the
+  cursor, so the reported height always matches what's on the page:
+  - Long notes now wrap properly within the margins instead of overflowing
+    or silently desyncing the layout.
+  - Bullets use a hanging indent — wrapped/multi-line notes align under
+    the text instead of restarting at the margin.
+  - A date heading is never left alone at the bottom of a page — if it and
+    its first entry don't both fit, the whole day moves to the next page.
+  - Consistent, deliberate spacing between activities and between days,
+    matching the Business Report's visual quality.
+
 ## 1.5.2 — 2026-07-16 — "PDF Export Fix, Take 3" (Sprint 2.3 follow-up)
 
 ### Fixed
