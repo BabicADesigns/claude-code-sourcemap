@@ -35,7 +35,6 @@ export function ReportBuilderSheet({
   const [periodType, setPeriodType] = useState<ReportPeriodType>('week')
   const [customStart, setCustomStart] = useState(todayISO())
   const [customEnd, setCustomEnd] = useState(todayISO())
-  const [includeFinancials, setIncludeFinancials] = useState(false)
   const [generating, setGenerating] = useState(false)
 
   // Warm the jsPDF chunk as soon as the builder opens — by the time the user
@@ -67,7 +66,7 @@ export function ReportBuilderSheet({
   const canGenerate = reportType === 'business' || Boolean(projectId)
 
   async function handleGenerate() {
-    logDebug('reports', 'PDF erstellen clicked', { reportType, projectId, periodType, includeFinancials })
+    logDebug('reports', 'PDF erstellen clicked', { reportType, projectId, periodType })
     if (!canGenerate) {
       logDebug('reports', 'canGenerate is false, aborting (missing project for client_activity report)')
       return
@@ -85,13 +84,13 @@ export function ReportBuilderSheet({
 
       if (reportType === 'business') {
         logDebug('reports', 'calling generateBusinessReport', { entriesAvailable: entries.length })
-        await generateBusinessReport({ type: 'business', period, includeFinancials: true }, { entries, projects }, preOpenedWindow)
+        await generateBusinessReport({ type: 'business', period }, { entries, projects }, preOpenedWindow)
       } else {
         logDebug('reports', 'calling generateClientActivityReport', {
           entriesForProject: entries.filter((e) => e.projectId === projectId).length,
         })
         await generateClientActivityReport(
-          { type: 'client_activity', projectId, period, includeFinancials },
+          { type: 'client_activity', projectId, period },
           { entries, projects, clients },
           preOpenedWindow,
         )
@@ -125,7 +124,7 @@ export function ReportBuilderSheet({
         <p className="mt-1.5 text-xs text-muted-foreground">
           {reportType === 'business'
             ? 'Alle Projekte mit Einträgen im gewählten Zeitraum, inklusive Finanzangaben — für dich.'
-            : 'Nur ein Projekt, chronologische Timeline, ohne Finanzangaben (optional zuschaltbar) — für deinen Kunden.'}
+            : 'Nur ein Projekt, als Sitzungskarten aufbereitet, ohne Finanzangaben — für deinen Kunden.'}
         </p>
       </div>
 
@@ -183,32 +182,6 @@ export function ReportBuilderSheet({
           </div>
         )}
       </div>
-
-      {reportType === 'client_activity' && (
-        <div>
-          <Label>Finanzielle Informationen</Label>
-          <div className="inline-flex rounded-xl bg-cream-dark p-1">
-            {([false, true] as const).map((on) => (
-              <button
-                key={String(on)}
-                type="button"
-                onClick={() => setIncludeFinancials(on)}
-                className={cn(
-                  'rounded-lg px-3 py-1.5 text-sm font-medium transition-colors',
-                  includeFinancials === on ? 'bg-white text-ink shadow-soft' : 'text-muted-foreground',
-                )}
-              >
-                {on ? 'Ein' : 'Aus'}
-              </button>
-            ))}
-          </div>
-          <p className="mt-1.5 text-xs text-muted-foreground">
-            {includeFinancials
-              ? 'Stundensatz, Beträge und Gesamtsumme werden angezeigt.'
-              : 'Standard — keine Stundensätze, Beträge oder Summen sichtbar.'}
-          </p>
-        </div>
-      )}
 
       <Button className="w-full" size="lg" disabled={!canGenerate || generating} onClick={handleGenerate}>
         <FileDown className="h-4 w-4" />

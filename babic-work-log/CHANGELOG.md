@@ -3,6 +3,28 @@
 All notable changes to Babic Work Log are documented here. Versions are also
 visible in-app under **Einstellungen** (gear icon on the dashboard).
 
+## 1.6.0 — 2026-07-17 — "Client Report Redesign" (Sprint 2.3 follow-up)
+
+### Changed
+
+- **Client Activity Report redesigned as bordered session cards**, matching
+  the Business Report's visual quality instead of reading as a plain text
+  dump. Each logged session is now its own clean, rounded-corner card with:
+  - A date heading.
+  - Kategorie (category) and Dauer (duration/hours) as a two-column info
+    row.
+  - Aktivitäten (activities) as a bulleted list, built from the entry's
+    notes (one activity per line).
+  - Every card's height is measured before anything is drawn (same
+    wrapped-text-safe approach as the 1.5.3 fix), so long or multi-line
+    notes grow the card automatically and can never overlap the next one;
+    automatic page breaks kick in when a card wouldn't fit.
+- **Removed the "Include Financial Information" toggle from the Client
+  Report.** This report never shows hourly rates, amounts, or monetary
+  totals now — Duration (hours) is the only quantity shown, since it's a
+  client-facing document. The Business Report is unaffected and still
+  always includes full financial detail.
+
 ## 1.5.3 — 2026-07-16 — "Client Report Layout Fix" (Sprint 2.3 follow-up)
 
 ### Fixed

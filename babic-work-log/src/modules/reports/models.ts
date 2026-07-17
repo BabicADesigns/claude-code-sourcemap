@@ -60,9 +60,6 @@ export interface ReportConfig {
    * every project with entries in the period). */
   projectId?: string
   period: ReportPeriod
-  /** Client Activity Report only. Defaults to false — a report handed to a
-   * client shows no rates, amounts, or totals unless explicitly turned on. */
-  includeFinancials: boolean
 
   // --- Future Ready (Sprint 2.3) ---
   // Not read or written by any UI today. Shaped so Invoices, Signatures,

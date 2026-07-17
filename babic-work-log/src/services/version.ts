@@ -1,4 +1,4 @@
-export const APP_VERSION = '1.5.3'
+export const APP_VERSION = '1.6.0'
 
 /** Real build timestamp, injected via vite.config.ts's `define`. */
 export const BUILD_DATE: string = __BUILD_DATE__
@@ -10,6 +10,15 @@ export interface ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.6.0',
+    date: '2026-07-17',
+    changes: [
+      'Kundenbericht komplett neu gestaltet: jede Sitzung erscheint jetzt als eigene, sauber umrandete Karte mit Datum, Kategorie, Dauer und stichpunktartigen Aktivitäten — statt als reiner Fließtext.',
+      'Kundenbericht zeigt grundsätzlich keine Preise, Stundensätze oder Beträge mehr — die Option dafür wurde entfernt, da dieser Bericht ausschließlich für Kunden gedacht ist. Der Business Report bleibt unverändert vollständig mit Finanzangaben.',
+      'Jede Sitzungskarte wächst automatisch mit dem Inhalt (auch bei langen oder mehrzeiligen Notizen) und erzwingt bei Bedarf automatisch einen Seitenumbruch, ohne Überlappungen.',
+    ],
+  },
   {
     version: '1.5.3',
     date: '2026-07-16',

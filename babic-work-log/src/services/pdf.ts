@@ -26,6 +26,8 @@ export const PDF_COLORS = {
   mutedInk: [100, 94, 84] as [number, number, number],
   footerGray: [140, 132, 118] as [number, number, number],
   rowAlt: [245, 238, 230] as [number, number, number],
+  border: hexToRgb(COLORS.border),
+  cardBg: [255, 255, 255] as [number, number, number],
 }
 
 export function createReportDocument(): jsPDF {
