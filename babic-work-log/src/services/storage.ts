@@ -84,17 +84,37 @@ let bootstrapped: { clients: Client[]; projects: Project[] } | null = null
  * below re-normalizes on every load so a record that already has every
  * current field is unaffected, and one that's missing a newer field (e.g.
  * a Sprint 1.1 project without `status`) gets it defaulted here rather than
- * silently staying incomplete. Safe to run against real production data. */
+ * silently staying incomplete. Safe to run against real production data.
+ *
+ * Demo data (seedDefaults) is only ever written on a genuinely first-ever
+ * load of this origin — detected via SCHEMA_VERSION_KEY, which every past
+ * successful bootstrap has always written unconditionally, so any browser
+ * that has ever run this app already has it set. If projects/clients come
+ * back empty on a browser that HAS run before, that's treated as a storage
+ * read anomaly, not a fresh install: nothing is written (so a later
+ * successful read isn't clobbered) and an empty-but-honest state is
+ * returned instead of silently replacing real data with demo placeholders. */
 function bootstrap(): { clients: Client[]; projects: Project[] } {
   if (bootstrapped) return bootstrapped
 
   const existingProjects = read<Project[] | null>(PROJECTS_KEY, null)
   const existingClients = read<Client[] | null>(CLIENTS_KEY, null)
+  const hasRunBefore = read<number | null>(SCHEMA_VERSION_KEY, null) !== null
 
   let result: { clients: Client[]; projects: Project[] }
+  let shouldPersist = true
 
   if (!existingProjects || existingProjects.length === 0) {
-    result = seedDefaults()
+    if (hasRunBefore) {
+      console.error(
+        'babic-work-log: projects/clients read back empty on a browser that has used this app before — ' +
+          'treating as a storage anomaly, not a fresh install. Nothing was overwritten.',
+      )
+      result = { clients: (existingClients ?? []).map(normalizeClient), projects: [] }
+      shouldPersist = false
+    } else {
+      result = seedDefaults()
+    }
   } else if (!existingClients || existingProjects.some((p) => !p.clientId)) {
     const migrated = migrateLegacyProjects(existingProjects)
     result = {
@@ -108,9 +128,11 @@ function bootstrap(): { clients: Client[]; projects: Project[] } {
     }
   }
 
-  write(CLIENTS_KEY, result.clients)
-  write(PROJECTS_KEY, result.projects)
-  write(SCHEMA_VERSION_KEY, CURRENT_SCHEMA_VERSION)
+  if (shouldPersist) {
+    write(CLIENTS_KEY, result.clients)
+    write(PROJECTS_KEY, result.projects)
+    write(SCHEMA_VERSION_KEY, CURRENT_SCHEMA_VERSION)
+  }
   bootstrapped = result
   return result
 }

@@ -3,6 +3,47 @@
 All notable changes to Babic Work Log are documented here. Versions are also
 visible in-app under **Einstellungen** (gear icon on the dashboard).
 
+## 1.6.1 — 2026-07-17 — "Restore Stable PDF + Storage Hardening" (Sprint 2.2.2)
+
+### Changed
+
+- **Client Activity Report reverted to a table layout**, matching the
+  Business Report's proven technique (jspdf-autotable: automatic row
+  heights, automatic page breaks, alternating row colors) instead of the
+  card design from 1.6.0. Only two differences from the Business Report's
+  table remain, as requested: no "Betrag" column, and the totals line
+  shows only hours (`Gesamt: 8,0 h`) with no currency figure. The Business
+  Report itself is completely unchanged — same columns, same financial
+  totals.
+- `services/pdf.ts`'s `drawEntriesTable`/`drawTotalsLine` gained optional
+  parameters (defaulting to the exact prior Business Report behavior) so
+  both reports can share one table-drawing implementation without
+  duplicating it.
+
+### Fixed
+
+- **Hardened against a class of silent data loss.** `bootstrap()` used to
+  treat *any* empty read of the clients/projects keys as "fresh install"
+  and immediately write starter demo clients over whatever was there —
+  including a browser/context where the app has run before and briefly
+  failed to read real data back (e.g. a storage-access hiccup). It now
+  only ever seeds demo data on a verifiably first-ever load (no prior
+  `schema-version` key). If projects/clients come back empty on a browser
+  that has used the app before, nothing is written or overwritten — the
+  app shows an empty state instead of fabricating unfamiliar demo data, so
+  real data isn't masked and can recover on a later successful read.
+  Verified against three scenarios: a genuinely fresh browser (still
+  seeds), a browser with real existing data (untouched, no seeding), and
+  the anomaly case (empty read on a previously-used browser — no
+  overwrite, no demo data shown). Legacy pre-1.1 migration path
+  re-verified unaffected.
+  - Note: if the installed Home Screen app and Safari show different data
+    because they're actually different URLs/origins (e.g. a Netlify
+    preview deploy vs. the production site), no app-level code change can
+    make two different origins share storage — that's a browser security
+    boundary, not a bug. Worth double-checking the exact URL used for both
+    if this recurs.
+
 ## 1.6.0 — 2026-07-17 — "Client Report Redesign" (Sprint 2.3 follow-up)
 
 ### Changed

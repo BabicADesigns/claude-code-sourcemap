@@ -26,8 +26,6 @@ export const PDF_COLORS = {
   mutedInk: [100, 94, 84] as [number, number, number],
   footerGray: [140, 132, 118] as [number, number, number],
   rowAlt: [245, 238, 230] as [number, number, number],
-  border: hexToRgb(COLORS.border),
-  cardBg: [255, 255, 255] as [number, number, number],
 }
 
 export function createReportDocument(): jsPDF {
@@ -71,35 +69,61 @@ export function applyWatermarkToAllPages(doc: jsPDF): void {
   }
 }
 
-/** Draws the standard entries table (Datum/Projekt/Kategorie/Notizen/Stunden/Betrag)
+export interface EntriesTableOptions {
+  /** Show a 'Projekt' column. The Business Report (multi-project) needs it;
+   * the Client Activity Report doesn't — it's already scoped to one project,
+   * named once in the header. Defaults to true. */
+  includeProjectColumn?: boolean
+  /** Show a 'Betrag' column with the entry's amount. Defaults to true. The
+   * Client Activity Report never shows monetary figures. */
+  includeAmountColumn?: boolean
+}
+
+/** Draws the standard entries table (Datum/[Projekt]/Kategorie/Notizen/Stunden/[Betrag])
  * starting at `startY` and returns the Y position just below it, for placing a
- * totals line. Shared by the legacy week/month export and the Business Report. */
+ * totals line. Shared by the legacy week/month export, the Business Report,
+ * and the Client Activity Report (via the options above). Row height and
+ * page breaks are handled automatically by jspdf-autotable. */
 export function drawEntriesTable(
   doc: jsPDF,
   entries: (TimeEntry | EnrichedEntry)[],
   projectName: (id: string) => string,
   startY: number,
+  options: EntriesTableOptions = {},
 ): number {
+  const { includeProjectColumn = true, includeAmountColumn = true } = options
   const sorted = [...entries].sort((a, b) => a.date.localeCompare(b.date))
+
+  const head = ['Datum']
+  if (includeProjectColumn) head.push('Projekt')
+  head.push('Kategorie', 'Notizen', 'Stunden')
+  if (includeAmountColumn) head.push('Betrag')
+
+  const notesColumnIndex = head.indexOf('Notizen')
+  const hoursColumnIndex = head.indexOf('Stunden')
+  const amountColumnIndex = includeAmountColumn ? head.length - 1 : -1
 
   autoTable(doc, {
     startY,
-    head: [['Datum', 'Projekt', 'Kategorie', 'Notizen', 'Stunden', 'Betrag']],
-    body: sorted.map((e) => [
-      formatDateShort(e.date),
-      projectName(e.projectId),
-      e.category,
-      e.notes ?? '',
-      entryHours(e).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 2 }),
-      entryAmount(e).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' }),
-    ]),
+    head: [head],
+    body: sorted.map((e) => {
+      const row = [formatDateShort(e.date)]
+      if (includeProjectColumn) row.push(projectName(e.projectId))
+      row.push(
+        e.category,
+        e.notes ?? '',
+        entryHours(e).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 2 }),
+      )
+      if (includeAmountColumn) row.push(entryAmount(e).toLocaleString('de-DE', { style: 'currency', currency: 'EUR' }))
+      return row
+    }),
     styles: { font: 'helvetica', fontSize: 9, textColor: PDF_COLORS.ink, cellPadding: 6 },
     headStyles: { fillColor: PDF_COLORS.sage, textColor: [255, 255, 255], fontStyle: 'bold' },
     alternateRowStyles: { fillColor: PDF_COLORS.rowAlt },
     columnStyles: {
-      3: { cellWidth: 160 },
-      4: { halign: 'right', cellWidth: 55 },
-      5: { halign: 'right', cellWidth: 70 },
+      [notesColumnIndex]: { cellWidth: 160 },
+      [hoursColumnIndex]: { halign: 'right', cellWidth: 55 },
+      ...(includeAmountColumn ? { [amountColumnIndex]: { halign: 'right', cellWidth: 70 } } : {}),
     },
     margin: { left: 40, right: 40 },
   })
@@ -107,18 +131,18 @@ export function drawEntriesTable(
   return ((doc as unknown as { lastAutoTable?: { finalY: number } }).lastAutoTable?.finalY ?? startY) + 24
 }
 
-export function drawTotalsLine(doc: jsPDF, totalHours: number, totalAmount: number, y: number): void {
+/** `totalAmount` is optional — omit it (Client Activity Report) to show only
+ * "Gesamt: X h" with no monetary figure. */
+export function drawTotalsLine(doc: jsPDF, totalHours: number, totalAmount: number | undefined, y: number): void {
   doc.setFont('helvetica', 'bold')
   doc.setFontSize(11)
   doc.setTextColor(...PDF_COLORS.ink)
-  doc.text(
-    `Gesamt: ${totalHours.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 2 })} h · ${totalAmount.toLocaleString(
-      'de-DE',
-      { style: 'currency', currency: 'EUR' },
-    )}`,
-    40,
-    y,
-  )
+  const hoursText = `${totalHours.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 2 })} h`
+  const text =
+    totalAmount === undefined
+      ? `Gesamt: ${hoursText}`
+      : `Gesamt: ${hoursText} · ${totalAmount.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}`
+  doc.text(text, 40, y)
 }
 
 /** iOS (incl. iPadOS, which reports as "MacIntel" but has touch support) —

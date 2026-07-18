@@ -1,4 +1,4 @@
-export const APP_VERSION = '1.6.0'
+export const APP_VERSION = '1.6.1'
 
 /** Real build timestamp, injected via vite.config.ts's `define`. */
 export const BUILD_DATE: string = __BUILD_DATE__
@@ -10,6 +10,14 @@ export interface ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.6.1',
+    date: '2026-07-17',
+    changes: [
+      'Kundenbericht wieder als Tabelle: dieselbe bewährte Darstellung wie beim Business Report (automatische Zeilenhöhen, automatischer Seitenumbruch, abwechselnde Zeilenfarben) statt der Karten-Ansicht — weiterhin ohne Spalte "Betrag" und ohne Preis in der Summenzeile ("Gesamt: 8,0 h" statt "Gesamt: 8,0 h • 80,00 €"). Business Report unverändert.',
+      'Absicherung gegen Datenverlust: Die App erstellt keine Beispieldaten mehr, wenn Kunden/Projekte leer erscheinen, obwohl dieser Browser die App bereits zuvor genutzt hat — das verhindert, dass ein vorübergehendes Lesefehler echte Daten stillschweigend durch Demo-Daten ersetzt. Bei einem tatsächlich neuen Gerät werden weiterhin Beispiel-Kunden angelegt.',
+    ],
+  },
   {
     version: '1.6.0',
     date: '2026-07-17',
