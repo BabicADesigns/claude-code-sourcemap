@@ -10,6 +10,7 @@ discovered via [VoltAgent/awesome-agent-skills](https://github.com/VoltAgent/awe
 | `semgrep` | [trailofbits/skills](https://github.com/trailofbits/skills/tree/main/plugins/static-analysis/skills/semgrep) (part of the `static-analysis` plugin) | CC BY-SA 4.0 |
 | `sarif-parsing` | [trailofbits/skills](https://github.com/trailofbits/skills/tree/main/plugins/static-analysis/skills/sarif-parsing) (part of the `static-analysis` plugin) | CC BY-SA 4.0 |
 | `audit-context-building` | [trailofbits/skills](https://github.com/trailofbits/skills/tree/main/plugins/audit-context-building/skills/audit-context-building) | CC BY-SA 4.0 |
+| `watch` | [bradautomates/claude-video](https://github.com/bradautomates/claude-video/tree/main/skills/watch) | MIT (see `watch/LICENSE`) |
 
 Trail of Bits' `static-analysis` plugin bundles three independent skills
 (`codeql`, `semgrep`, `sarif-parsing`); all three are included here since
