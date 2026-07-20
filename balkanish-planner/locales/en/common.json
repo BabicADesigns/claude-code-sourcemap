@@ -47,7 +47,9 @@
     "premiumGuides": "Premium Guides",
     "madeIn": "Made in the Balkans.",
     "copyright": "© 2026 BabicADesigns. All rights reserved.",
-    "createdWith": "Created with Love and Vegeta."
+    "createdWith": "Created with Love and Vegeta.",
+    "designedBy": "Designed by BabicADesigns.",
+    "version": "Version {version}"
   },
   "language": {
     "label": "Language"

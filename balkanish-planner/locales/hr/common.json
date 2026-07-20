@@ -47,7 +47,9 @@
     "premiumGuides": "Premium Vodiči",
     "madeIn": "Napravljeno na Balkanu.",
     "copyright": "© 2026 BabicADesigns. Sva prava pridržana.",
-    "createdWith": "Stvoreno s ljubavlju i Vegetom."
+    "createdWith": "Stvoreno s ljubavlju i Vegetom.",
+    "designedBy": "Dizajniralo BabicADesigns.",
+    "version": "Verzija {version}"
   },
   "language": {
     "label": "Jezik"

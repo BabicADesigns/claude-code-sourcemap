@@ -47,7 +47,9 @@
     "premiumGuides": "Premium-Reiseführer",
     "madeIn": "Gemacht auf dem Balkan.",
     "copyright": "© 2026 BabicADesigns. Alle Rechte vorbehalten.",
-    "createdWith": "Mit Liebe und Vegeta erstellt."
+    "createdWith": "Mit Liebe und Vegeta erstellt.",
+    "designedBy": "Gestaltet von BabicADesigns.",
+    "version": "Version {version}"
   },
   "language": {
     "label": "Sprache"
