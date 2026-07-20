@@ -32,6 +32,11 @@ export function SettingsSheet() {
           ))}
         </ul>
       </div>
+
+      <div className="space-y-0.5 pt-2 text-center text-xs text-muted-foreground">
+        <p>Designed by: BabicADesigns</p>
+        <p>© {new Date().getFullYear()} BabicADesigns. All rights reserved.</p>
+      </div>
     </div>
   )
 }

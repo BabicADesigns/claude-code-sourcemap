@@ -3,6 +3,13 @@
 All notable changes to Babic Work Log are documented here. Versions are also
 visible in-app under **Einstellungen** (gear icon on the dashboard).
 
+## 1.6.2 — 2026-07-20
+
+### Added
+
+- **Einstellungen**: attribution and copyright notice under the changelog —
+  "Designed by: BabicADesigns" / "© BabicADesigns. All rights reserved."
+
 ## 1.6.1 — 2026-07-17 — "Restore Stable PDF + Storage Hardening" (Sprint 2.2.2)
 
 ### Changed

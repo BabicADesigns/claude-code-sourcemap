@@ -1,4 +1,4 @@
-export const APP_VERSION = '1.6.1'
+export const APP_VERSION = '1.6.2'
 
 /** Real build timestamp, injected via vite.config.ts's `define`. */
 export const BUILD_DATE: string = __BUILD_DATE__
@@ -10,6 +10,11 @@ export interface ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.6.2',
+    date: '2026-07-20',
+    changes: ['Einstellungen: Namensnennung und Copyright-Hinweis ("Designed by: BabicADesigns" / "© BabicADesigns. All rights reserved.") unter dem Änderungsprotokoll ergänzt.'],
+  },
   {
     version: '1.6.1',
     date: '2026-07-17',
