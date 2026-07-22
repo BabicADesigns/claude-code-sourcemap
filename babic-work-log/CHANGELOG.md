@@ -3,6 +3,35 @@
 All notable changes to Babic Work Log are documented here. Versions are also
 visible in-app under **Einstellungen** (gear icon on the dashboard).
 
+## 1.8.1 — 2026-07-22 — Fix iOS Client Report PDF Showing Blank Content
+
+### Fixed
+
+- **Client Report PDF opened on iOS Safari showing only the filename, no
+  content.** Root cause: when the Web Share API wasn't usable for a given
+  export, the fallback opened a tab and navigated it to a `blob:` URL
+  created in the app's own tab. Blob URLs are only resolvable in the
+  browsing context that created them — iOS Safari (unlike desktop Safari)
+  frequently can't load one handed to a *different* tab, so the PDF viewer
+  chrome would open (showing the filename) but the page content never
+  loaded. Fixed by switching the fallback to a self-contained `data:` URI
+  (via `doc.output('datauristring')`), which needs no cross-tab lookup and
+  renders regardless of which window navigates to it.
+- **Fallback tab was being closed prematurely.** The pre-opened fallback
+  tab was closed right before attempting the native Share Sheet, on the
+  assumption sharing would succeed — so if the Share Sheet failed for any
+  reason other than the user cancelling, the fallback below had no tab
+  left to use. The tab now stays open until a share attempt is either
+  confirmed successful or explicitly cancelled by the user.
+- Verified: `doc.output('arraybuffer')` and `doc.output('datauristring')`
+  produce byte-identical, valid PDF content (checked outside the browser
+  against the same jsPDF/autoTable calls this report uses) — the PDF
+  itself was never the problem, only how the fallback handed it to the
+  browser.
+- No layout changes: the Client Report is unchanged — table layout,
+  colored header, alternating rows, Datum/Kategorie/Notizen/Stunden
+  columns, no price column, "Gesamt: X h" only.
+
 ## 1.8.0 — 2026-07-22 — Fix Incorrect Open Receivables Calculation
 
 ### Fixed

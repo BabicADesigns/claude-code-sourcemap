@@ -124,7 +124,7 @@ export function ReportBuilderSheet({
         <p className="mt-1.5 text-xs text-muted-foreground">
           {reportType === 'business'
             ? 'Alle Projekte mit Einträgen im gewählten Zeitraum, inklusive Finanzangaben — für dich.'
-            : 'Nur ein Projekt, als Sitzungskarten aufbereitet, ohne Finanzangaben — für deinen Kunden.'}
+            : 'Nur ein Projekt, als Tabelle wie im Business Report, ohne Finanzangaben — für deinen Kunden.'}
         </p>
       </div>
 

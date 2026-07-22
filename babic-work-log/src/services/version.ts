@@ -1,4 +1,4 @@
-export const APP_VERSION = '1.8.0'
+export const APP_VERSION = '1.8.1'
 
 /** Real build timestamp, injected via vite.config.ts's `define`. */
 export const BUILD_DATE: string = __BUILD_DATE__
@@ -10,6 +10,14 @@ export interface ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.8.1',
+    date: '2026-07-22',
+    changes: [
+      'PDF-Export auf iOS repariert: Wenn die native Teilen-Funktion nicht zum Ziel führte, öffnete sich zwar ein Tab mit dem Dateinamen, aber ohne Inhalt. Ursache: der Tab wurde auf eine Blob-Adresse verwiesen, die nur im ursprünglichen Browser-Tab gültig ist — Safari auf dem iPhone kann solche Adressen in einem anderen Tab oft nicht laden. Der Tab wird jetzt stattdessen auf eine in sich geschlossene PDF-Adresse verwiesen, die keine Tab-übergreifende Referenz mehr benötigt.',
+      'Zusätzlicher Fehler behoben: Wenn die native Teilen-Funktion fehlschlug, war der Ausweich-Tab zu diesem Zeitpunkt bereits vorschnell geschlossen worden — dadurch griff die Ausweichlösung ins Leere. Der Tab bleibt jetzt offen, bis klar ist, ob die Teilen-Funktion tatsächlich funktioniert hat.',
+    ],
+  },
   {
     version: '1.8.0',
     date: '2026-07-22',

@@ -160,12 +160,21 @@ type ShareNavigator = Navigator & {
  * a stuck export can be diagnosed on-device (see DebugOverlay) or via the
  * console.
  * - Desktop/Android: doc.save() (anchor-click download), unchanged.
- * - iOS: builds a Blob and opens the native Share Sheet via the Web Share
- *   API (lets the user save to Files, AirDrop, etc.); if that's not
- *   available, navigates `preOpenedWindow` (opened synchronously in the
- *   click handler — see platform.ts) to the blob URL instead of calling
- *   window.open() here, which Safari would silently block this deep into
- *   async work. */
+ * - iOS: tries the native Share Sheet via the Web Share API first (lets the
+ *   user save to Files, AirDrop, etc.); if that's not available or it
+ *   throws for a reason other than the user cancelling, falls back to
+ *   navigating `preOpenedWindow` (opened synchronously in the click
+ *   handler — see platform.ts) to a data: URI.
+ *
+ *   The fallback deliberately uses a data: URI, not a blob: URL. A blob:
+ *   URL is only registered in the browsing context that created it — iOS
+ *   Safari (unlike desktop Safari) frequently fails to resolve a blob: URL
+ *   handed to a *different* window/tab, which is exactly this fallback's
+ *   shape (blob created in the app's tab, navigated in the pre-opened
+ *   one): the tab opens and shows the filename in its PDF-viewer chrome,
+ *   but the content never loads. A data: URI is self-contained — no
+ *   cross-context registry lookup — so it renders regardless of which
+ *   window navigates to it. */
 export async function savePdf(doc: jsPDF, filename: string, preOpenedWindow: Window | null = null): Promise<void> {
   logDebug('pdf', 'savePdf called', { filename, isIOS: isIOS(), userAgent: navigator.userAgent })
 
@@ -177,21 +186,20 @@ export async function savePdf(doc: jsPDF, filename: string, preOpenedWindow: Win
     return
   }
 
-  logDebug('pdf', 'iOS path: building Blob via doc.output("blob")')
-  const blob = doc.output('blob')
-  logDebug('pdf', 'blob created', { bytes: blob.size })
-
   const nav = navigator as ShareNavigator
   if (nav.share && nav.canShare) {
     try {
+      logDebug('pdf', 'iOS path: building Blob via doc.output("blob") for Web Share')
+      const blob = doc.output('blob')
+      logDebug('pdf', 'blob created', { bytes: blob.size })
       const file = new File([blob], filename, { type: 'application/pdf' })
       const canShareFile = nav.canShare({ files: [file] })
       logDebug('pdf', 'navigator.canShare({ files }) =', canShareFile)
       if (canShareFile) {
-        preOpenedWindow?.close()
         logDebug('pdf', 'calling navigator.share() — Share Sheet should open now')
         await nav.share({ files: [file], title: filename })
         logDebug('pdf', 'navigator.share() resolved (share sheet closed)')
+        preOpenedWindow?.close()
         return
       }
     } catch (err) {
@@ -200,22 +208,24 @@ export async function savePdf(doc: jsPDF, filename: string, preOpenedWindow: Win
         preOpenedWindow?.close()
         return
       }
+      // preOpenedWindow is deliberately still open here — it's the fallback below.
       logDebug('pdf', 'navigator.share() threw, falling back', { error: String(err) })
     }
   } else {
     logDebug('pdf', 'Web Share API (files) not available on this browser, falling back')
   }
 
-  const url = URL.createObjectURL(blob)
+  logDebug('pdf', 'iOS fallback: building self-contained data URI via doc.output("datauristring")')
+  const dataUri = doc.output('datauristring', { filename })
+  logDebug('pdf', 'data URI built', { length: dataUri.length })
   if (preOpenedWindow) {
-    logDebug('pdf', 'navigating the pre-opened tab to the blob URL')
-    preOpenedWindow.location.href = url
+    logDebug('pdf', 'navigating the pre-opened tab to the data URI')
+    preOpenedWindow.location.href = dataUri
   } else {
     logDebug('pdf', 'no pre-opened window available — calling window.open() now (Safari may block this)')
-    const opened = window.open(url, '_blank')
+    const opened = window.open(dataUri, '_blank')
     logDebug('pdf', 'window.open returned', { opened: Boolean(opened) })
   }
-  setTimeout(() => URL.revokeObjectURL(url), 60_000)
 }
 
 export async function exportActivityReport({
