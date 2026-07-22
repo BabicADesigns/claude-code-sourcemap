@@ -34,3 +34,16 @@ MITRE ATLAS, MITRE D3FEND, and NIST AI RMF.
 | Ransomware Defense | `detecting-ransomware-encryption-behavior` |
 
 Each skill directory retains its own `LICENSE` (Apache-2.0) from the upstream project.
+
+---
+
+## AI Agent Skills
+
+4 skills from [antigravity-awesome-skills](https://github.com/sickn33/antigravity-awesome-skills) (MIT licensed), selected for relevance to this Claude Code source archive (agent loop, tool definitions, memory tools, MCP integration):
+
+| Skill | Description |
+|---|---|
+| `ai-agents-architect` | Agent loop, tool, and memory architecture patterns |
+| `agent-evaluation` | Testing and benchmarking LLM agent behavior |
+| `agent-memory-systems` | Memory architecture — relevant to `MemoryReadTool`/`MemoryWriteTool` |
+| `agentic-actions-auditor` | Security auditing of AI agent integrations in CI/CD |
