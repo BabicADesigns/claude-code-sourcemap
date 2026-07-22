@@ -3,6 +3,27 @@
 All notable changes to Babic Work Log are documented here. Versions are also
 visible in-app under **Einstellungen** (gear icon on the dashboard).
 
+## 1.8.2 — 2026-07-22 — Fix Silent PDF Failure Leaving a Blank Tab
+
+### Fixed
+
+- **PDF export could open a stuck, permanently blank `about:blank` tab
+  with no error and no explanation.** All three PDF export entry points
+  (Week/Month overview, Report Builder) pre-open a placeholder tab
+  synchronously (required for iOS Safari gesture rules — see 1.5.2), then
+  load the PDF-generation code via a dynamic `import()` and navigate that
+  tab once the PDF is ready. That dynamic import had no error handling:
+  if it failed — e.g. because the tab had been open since before the
+  latest deploy and was still holding a chunk filename from a build that
+  no longer exists on the server — the failure was a silent, unhandled
+  promise rejection. The placeholder tab was never closed or navigated,
+  so it just sat at `about:blank` forever.
+- All three export flows now catch that failure, log the real error (was
+  previously invisible even in the on-screen Debug-Log), close the
+  stranded tab, and show a message asking the user to reload the page and
+  try again — the standard fix for a stale page referencing an outdated
+  build after a new version has shipped.
+
 ## 1.8.1 — 2026-07-22 — Fix iOS Client Report PDF Showing Blank Content
 
 ### Fixed

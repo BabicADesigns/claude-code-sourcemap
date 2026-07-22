@@ -1,4 +1,4 @@
-export const APP_VERSION = '1.8.1'
+export const APP_VERSION = '1.8.2'
 
 /** Real build timestamp, injected via vite.config.ts's `define`. */
 export const BUILD_DATE: string = __BUILD_DATE__
@@ -10,6 +10,13 @@ export interface ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.8.2',
+    date: '2026-07-22',
+    changes: [
+      'Fehler behoben: Wenn beim Erstellen eines PDFs ein Problem beim Laden des PDF-Bausteins auftrat (z. B. weil die Seite schon länger geöffnet war und zwischenzeitlich eine neue Version veröffentlicht wurde), öffnete sich stillschweigend ein leerer Tab ("about:blank") ohne jede Fehlermeldung. Fehler werden jetzt erkannt, der leere Tab wird automatisch geschlossen, und es erscheint ein Hinweis, die Seite neu zu laden und es erneut zu versuchen — für Wochen-/Monatsübersicht und den Berichts-Assistenten.',
+    ],
+  },
   {
     version: '1.8.1',
     date: '2026-07-22',

@@ -97,6 +97,18 @@ export function ReportBuilderSheet({
       }
       logDebug('reports', 'report generation resolved')
       onClose()
+    } catch (err) {
+      // Without this, a failure here (e.g. the dynamic import below 404ing
+      // because this tab has been open since before the latest deploy, and
+      // is still holding an old build's hashed chunk filename that no
+      // longer exists) was a silent, unhandled rejection: the pre-opened
+      // placeholder tab was never closed or navigated, so it just sat at
+      // about:blank forever with no error and no explanation.
+      logDebug('reports', 'report generation failed', { error: String(err) })
+      preOpenedWindow?.close()
+      window.alert(
+        'PDF konnte nicht erstellt werden. Das passiert meist, wenn diese Seite schon länger geöffnet ist und zwischenzeitlich eine neue Version veröffentlicht wurde. Bitte lade die Seite komplett neu und versuche es erneut.',
+      )
     } finally {
       setGenerating(false)
     }

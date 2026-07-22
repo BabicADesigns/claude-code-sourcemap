@@ -70,16 +70,28 @@ export function WeekView({
             logDebug('pdf', 'PDF button clicked (WeekView)', { entryCount: weekEntries.length })
             // Must happen synchronously, before any await — see platform.ts.
             const preOpenedWindow = openIOSPlaceholderWindow()
-            const { exportActivityReport } = await import('@/services/pdf')
-            logDebug('pdf', 'module loaded, calling exportActivityReport')
-            await exportActivityReport({
-              title: 'Wochenübersicht',
-              subtitle: formatWeekLabel(reference),
-              entries: weekEntries,
-              projects,
-              preOpenedWindow,
-            })
-            logDebug('pdf', 'exportActivityReport resolved')
+            try {
+              const { exportActivityReport } = await import('@/services/pdf')
+              logDebug('pdf', 'module loaded, calling exportActivityReport')
+              await exportActivityReport({
+                title: 'Wochenübersicht',
+                subtitle: formatWeekLabel(reference),
+                entries: weekEntries,
+                projects,
+                preOpenedWindow,
+              })
+              logDebug('pdf', 'exportActivityReport resolved')
+            } catch (err) {
+              // Without this, a failure here (e.g. this tab still holding a
+              // chunk filename from a build that's since been replaced) was
+              // a silent, unhandled rejection that left the pre-opened
+              // placeholder tab stuck at about:blank forever.
+              logDebug('pdf', 'exportActivityReport failed', { error: String(err) })
+              preOpenedWindow?.close()
+              window.alert(
+                'PDF konnte nicht erstellt werden. Das passiert meist, wenn diese Seite schon länger geöffnet ist und zwischenzeitlich eine neue Version veröffentlicht wurde. Bitte lade die Seite komplett neu und versuche es erneut.',
+              )
+            }
           }}
         >
           <FileDown className="h-4 w-4" />
