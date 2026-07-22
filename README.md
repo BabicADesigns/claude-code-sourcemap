@@ -63,3 +63,7 @@ For full details, please review our [Commercial Terms of Service](https://www.an
 
 - [Awesome-Nano-Banana-images](https://github.com/PicoTrex/Awesome-Nano-Banana-images) - A curated collection of creative image examples and prompts generated with Nano Banana / Nano Banana Pro (Gemini-2.5-flash-image), including the openly released Nano-consistent-150K dataset.
 - [scripts/install-fugu.sh](./scripts/install-fugu.sh) - Wrapper around Sakana AI's Fugu CLI installer (`sakana.ai/fugu/install`) that downloads and shows the upstream script before running it, instead of piping it straight into `bash`.
+
+## Project skills
+
+- [`vimax-video-generation`](.claude/skills/vimax-video-generation/SKILL.md) — guidance for setting up and driving [ViMax](https://github.com/HKUDS/ViMax) (MIT licensed), an agentic video generation framework that turns ideas, scripts, or novels into rendered video via multi-agent scriptwriting, storyboarding, and shot generation.
