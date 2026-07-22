@@ -1,4 +1,4 @@
-export const APP_VERSION = '1.6.2'
+export const APP_VERSION = '1.7.0'
 
 /** Real build timestamp, injected via vite.config.ts's `define`. */
 export const BUILD_DATE: string = __BUILD_DATE__
@@ -10,6 +10,14 @@ export interface ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.7.0',
+    date: '2026-07-22',
+    changes: [
+      'Neues App-Icon: das offizielle BabicADesigns-Motiv für Homescreen, Browser-Tab und Installationsdialog.',
+      'Hinweis in der installierten App, wenn noch keine Arbeitseinträge sichtbar sind: iOS teilt den Speicher zwischen Safari und der installierten Homescreen-App nicht immer, wodurch bereits eingegebene Daten dort vorhanden, aber hier nicht sichtbar sein können. Der Hinweis erklärt das und führt direkt zum Backup-Import.',
+    ],
+  },
   {
     version: '1.6.2',
     date: '2026-07-20',

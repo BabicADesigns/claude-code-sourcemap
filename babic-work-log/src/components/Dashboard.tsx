@@ -23,6 +23,7 @@ import { BusinessHealthCard } from '@/components/BusinessHealthCard'
 import { BackupCard } from '@/components/BackupCard'
 import { DayCloseContent } from '@/components/DayCloseSheet'
 import { SettingsSheet } from '@/components/SettingsSheet'
+import { StandaloneRecoveryBanner } from '@/components/StandaloneRecoveryBanner'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
 import { Watermark } from '@/components/Watermark'
 import { BusinessFinanceCards } from '@/modules/finance/components/BusinessFinanceCards'
@@ -124,6 +125,8 @@ export function Dashboard({
             <Settings className="h-5 w-5" />
           </button>
         </header>
+
+        <StandaloneRecoveryBanner hasNoEntries={entries.length === 0} onOpenBackup={onOpenBackup} />
 
         <div className="grid grid-cols-5 gap-2">
           <QuickAction

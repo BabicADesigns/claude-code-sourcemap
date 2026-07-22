@@ -12,6 +12,20 @@ export function isIOS(): boolean {
   return isIPhoneOrIPod || isIPad
 }
 
+type NavigatorWithStandalone = Navigator & { standalone?: boolean }
+
+/** True when running as the installed Home Screen app (standalone display
+ * mode), as opposed to a regular browser tab. iOS Safari's storage for a
+ * standalone-launched app is not always the same partition as its regular
+ * browsing storage — see StandaloneRecoveryBanner.tsx, which uses this to
+ * detect the "installed app shows no data" scenario. */
+export function isStandalone(): boolean {
+  if (typeof window === 'undefined') return false
+  const displayModeStandalone = window.matchMedia?.('(display-mode: standalone)').matches ?? false
+  const iosStandaloneFlag = (navigator as NavigatorWithStandalone).standalone === true
+  return displayModeStandalone || iosStandaloneFlag
+}
+
 /** Must be called synchronously inside the click handler, before any
  * `await` — that's what makes the resulting window.open() count as a
  * direct result of the user gesture, so Safari doesn't popup-block it. The

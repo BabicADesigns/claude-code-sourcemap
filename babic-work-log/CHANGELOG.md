@@ -3,6 +3,34 @@
 All notable changes to Babic Work Log are documented here. Versions are also
 visible in-app under **Einstellungen** (gear icon on the dashboard).
 
+## 1.7.0 — 2026-07-22 — New Icon + Home Screen Data Recovery Guidance
+
+### Added
+
+- **New app icon**, generated from the official BabicADesigns artwork
+  supplied for this — replaces the previous icon across Home Screen,
+  browser tab, and the install prompt (192px, 512px, and a padded
+  Android-maskable 512px variant).
+- **Home Screen data-recovery banner**: when the installed Home Screen app
+  shows no logged entries, a dismissible notice now explains that iOS
+  doesn't always share `localStorage` between Safari and a Home Screen app
+  for the same site, so existing data may simply be sitting in a separate,
+  untouched storage bucket rather than actually lost — and links straight
+  to Backup → Import. Only shown in standalone (installed) mode, never in
+  regular Safari.
+
+### Notes
+
+- Reported again after 1.6.1's storage hardening: data still disappears on
+  every Home Screen install, consistently — not intermittently. That rules
+  out the transient-read-anomaly case 1.6.1 targeted and points instead at
+  iOS treating the Home Screen app as a genuinely separate storage
+  context from Safari for this site, which is a platform-level behavior no
+  application code can override (the browser enforces it as a security
+  boundary). The practical fix is exporting a Backup from Safari and
+  importing it into the installed app — the banner above exists to make
+  that discoverable instead of the app just looking empty.
+
 ## 1.6.2 — 2026-07-20
 
 ### Added
