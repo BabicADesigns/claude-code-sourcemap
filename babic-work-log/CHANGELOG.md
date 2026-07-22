@@ -3,6 +3,39 @@
 All notable changes to Babic Work Log are documented here. Versions are also
 visible in-app under **Einstellungen** (gear icon on the dashboard).
 
+## 1.8.0 — 2026-07-22 — Fix Incorrect Open Receivables Calculation
+
+### Fixed
+
+- **Open Receivables was double-counting for retainer clients.** Clients
+  billed a flat monthly retainer (e.g. Frimontage) still had every logged
+  hour counted separately toward "Offene Forderungen," on top of the
+  retainer payment already recorded — so the dashboard kept showing an
+  outstanding balance even after the retainer, plus any extra/bonus
+  payments, fully covered the month.
+
+### Added
+
+- **Proper receivable model** (`src/modules/finance/services/receivables.ts`):
+  every receivable now has a customer, project, period, amount, and status
+  (Open / Partially Paid / Paid). Retainer clients get one receivable per
+  active month — target amount vs. whatever payments were actually
+  recorded that month — while everyone else keeps the existing per-entry
+  billing (entry status / partial payments) unchanged. "Offene
+  Forderungen" and "Bereits bezahlt" now sum only from this receivable
+  status, never by estimating from raw logged hours, and only Open /
+  Partially Paid receivables ever count as outstanding.
+- Applied the same fix to the weekly Business Health card and the daily
+  Tagesabschluss, so "Offene Forderungen" is consistent everywhere on the
+  dashboard.
+
+### Verified
+
+- Frimontage (monthly retainer €1.500, plus a €100 extra and €400 bonus
+  payment already recorded) now shows €0 outstanding.
+- A non-retainer client's unpaid entries (e.g. an unpaid German lesson)
+  still correctly show up in Open Receivables.
+
 ## 1.7.0 — 2026-07-22 — New Icon + Home Screen Data Recovery Guidance
 
 ### Added

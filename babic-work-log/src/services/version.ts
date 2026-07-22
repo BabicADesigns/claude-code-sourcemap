@@ -1,4 +1,4 @@
-export const APP_VERSION = '1.7.0'
+export const APP_VERSION = '1.8.0'
 
 /** Real build timestamp, injected via vite.config.ts's `define`. */
 export const BUILD_DATE: string = __BUILD_DATE__
@@ -10,6 +10,15 @@ export interface ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.8.0',
+    date: '2026-07-22',
+    changes: [
+      'Fehler behoben: "Offene Forderungen" im Dashboard zeigte für Kunden mit monatlicher Pauschale (z. B. Retainer) weiterhin einen offenen Betrag an, obwohl die Pauschale bereits vollständig bezahlt wurde — Arbeitsstunden wurden zusätzlich zur Pauschale mitgezählt, statt als durch sie abgedeckt zu gelten.',
+      'Neues Forderungsmodell: Jede Forderung hat jetzt Kunde, Projekt, Zeitraum, Betrag und Status (Offen / Teilweise bezahlt / Bezahlt). Bei Pauschalkunden entsteht eine Forderung pro Monat (Pauschalbetrag vs. tatsächlich erhaltene Zahlungen); bei allen anderen bleibt es bei der bewährten Abrechnung pro Eintrag. "Offene Forderungen" zählt nur noch Forderungen mit Status Offen oder Teilweise bezahlt — vollständig bezahlte Forderungen fließen nicht mehr ein.',
+      'Wochen- und Tagesübersicht ("Business Health", "Tagesabschluss") wurden für dieselbe Korrektur angepasst, damit "Offene Forderungen" überall im Dashboard konsistent ist.',
+    ],
+  },
   {
     version: '1.7.0',
     date: '2026-07-22',

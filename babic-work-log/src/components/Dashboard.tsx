@@ -29,6 +29,7 @@ import { Watermark } from '@/components/Watermark'
 import { BusinessFinanceCards } from '@/modules/finance/components/BusinessFinanceCards'
 import { BusinessHealthSummary } from '@/modules/finance/components/BusinessHealthSummary'
 import { computeBusinessFinance, computeBusinessHealthSummary } from '@/modules/finance/services/calculations'
+import { computeReceivables, sumOpenReceivables, sumReceivablesPaid } from '@/modules/finance/services/receivables'
 import { currentMonthKey } from '@/modules/finance/models'
 import type { ClientFinanceSettings, Payment } from '@/modules/finance/models'
 import {
@@ -39,10 +40,9 @@ import {
   entriesThisWeek,
   entriesToday,
   outstandingAmount,
-  paidAmount,
   sumHours,
 } from '@/services/calculations'
-import { formatCurrency, formatHours } from '@/services/date'
+import { addWeeks, formatCurrency, formatHours } from '@/services/date'
 import type { Client, EnrichedEntry, Project, TimeEntry } from '@/models'
 import type { UseTimerReturn, StoppedTimer } from '@/hooks/useTimer'
 
@@ -83,11 +83,32 @@ export function Dashboard({
   const today = entriesToday(entries)
   const week = entriesThisWeek(entries)
   const month = entriesThisMonth(entries)
-  const health = computeBusinessHealth(entries)
-  const dayClose = computeDayClose(entries)
   const financeMonthKey = currentMonthKey()
   const businessFinance = computeBusinessFinance(payments, clientFinanceSettings, financeMonthKey)
   const businessHealthSummary = computeBusinessHealthSummary(payments, clientFinanceSettings)
+
+  // Retainer clients are billed a flat monthly amount, not per logged hour —
+  // their entries must never separately count as owed on top of that
+  // payment (that's the double-counting bug this replaces). Everyone else
+  // keeps the existing per-entry status/EntryPayment accounting.
+  const receivables = computeReceivables(entries, projects, clientFinanceSettings, payments)
+  const openReceivablesTotal = sumOpenReceivables(receivables)
+  const receivablesPaidTotal = sumReceivablesPaid(receivables)
+  const retainerClientIds = new Set(
+    clientFinanceSettings
+      .filter((s) => s.incomeModel === 'monthly_retainer' && (s.defaultRetainerAmount ?? 0) > 0)
+      .map((s) => s.clientId),
+  )
+  const clientIdForProject = new Map(projects.map((p) => [p.id, p.clientId]))
+  const billableEntries = entries.filter((e) => {
+    const clientId = clientIdForProject.get(e.projectId)
+    return !clientId || !retainerClientIds.has(clientId)
+  })
+  const health = {
+    ...computeBusinessHealth(entries),
+    outstanding: outstandingAmount(entriesThisWeek(billableEntries, addWeeks(new Date(), -1))),
+  }
+  const dayClose = { ...computeDayClose(entries), outstanding: outstandingAmount(entriesToday(billableEntries)) }
 
   const recentActivity = [...entries]
     .sort((a, b) => b.date.localeCompare(a.date) || b.createdAt - a.createdAt)
@@ -165,7 +186,7 @@ export function Dashboard({
           />
           <StatCard
             label="Offene Forderungen"
-            value={formatCurrency(outstandingAmount(entries))}
+            value={formatCurrency(openReceivablesTotal)}
             accent="rose"
             icon={<CircleDollarSign className="h-4 w-4" />}
           />
@@ -174,7 +195,7 @@ export function Dashboard({
         <div className="grid grid-cols-2 gap-3">
           <StatCard
             label="Bereits bezahlt"
-            value={formatCurrency(paidAmount(entries))}
+            value={formatCurrency(receivablesPaidTotal)}
             accent="sage"
             icon={<CheckCircle2 className="h-4 w-4" />}
           />
