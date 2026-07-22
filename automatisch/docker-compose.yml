@@ -1,0 +1,62 @@
+# Self-hosted Automatisch (open-source Zapier alternative) using the
+# official published image — no need to build from source.
+# Docs: https://automatisch.io/docs/guide/installation
+
+services:
+  main:
+    image: automatischio/automatisch:latest
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    env_file:
+      - .env
+    environment:
+      - REDIS_HOST=redis
+      - POSTGRES_HOST=postgres
+    volumes:
+      - automatisch_storage:/automatisch/storage
+
+  worker:
+    image: automatischio/automatisch:latest
+    restart: unless-stopped
+    depends_on:
+      - main
+    env_file:
+      - .env
+    environment:
+      - REDIS_HOST=redis
+      - POSTGRES_HOST=postgres
+      - WORKER=true
+    volumes:
+      - automatisch_storage:/automatisch/storage
+
+  postgres:
+    image: 'postgres:14.5'
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=${POSTGRES_DATABASE:-automatisch}
+      - POSTGRES_USER=${POSTGRES_USERNAME:-automatisch_user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-automatisch_password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: 'redis:7.0.4'
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+
+volumes:
+  automatisch_storage:
+  postgres_data:
+  redis_data:
