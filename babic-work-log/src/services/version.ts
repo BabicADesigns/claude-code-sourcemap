@@ -1,4 +1,4 @@
-export const APP_VERSION = '1.8.2'
+export const APP_VERSION = '1.9.0'
 
 /** Real build timestamp, injected via vite.config.ts's `define`. */
 export const BUILD_DATE: string = __BUILD_DATE__
@@ -10,6 +10,15 @@ export interface ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.9.0',
+    date: '2026-07-23',
+    changes: [
+      'Kundenbericht komplett neu als Web-Bericht: Statt sofort ein PDF zu erzeugen, öffnet "Bericht öffnen" jetzt eine schön gestaltete Berichtsseite direkt in der App — kein PDF-Viewer, kein Warten auf Safari. Zeigt Kunde, Projekt, Zeitraum, Erstellungsdatum, eine Tabelle mit Datum/Start/Ende/Dauer/Aktivität, die Gesamtstunden sowie eine automatische Zusammenfassung (Themen aus den Notizen der Einträge, plus die vollständigen Notizen chronologisch) — weiterhin ganz ohne Preise oder Beträge.',
+      'Vier Optionen unter dem Bericht: Bild speichern (hochauflösendes PNG, ideal zum Versenden per WhatsApp), Teilen (native Teilen-Funktion, mit Bildvorschau zum Halten-und-Speichern als zuverlässiger Rückfallpunkt), Drucken (eigenes Druck-Layout, wird automatisch zu einem sauberen A4-Dokument – funktioniert auch für "Als PDF sichern" im Druckdialog des Browsers), und PDF exportieren (optional) — der bisherige PDF-Export bleibt vollständig erhalten, ist jetzt aber nur noch eine Zusatzoption statt des einzigen Wegs.',
+      'Business Report unverändert: weiterhin sofortiger PDF-Export wie bisher.',
+    ],
+  },
   {
     version: '1.8.2',
     date: '2026-07-22',

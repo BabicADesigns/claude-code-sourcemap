@@ -126,3 +126,9 @@ export function formatHours(hours: number): string {
 export function formatCurrency(amount: number): string {
   return amount.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })
 }
+
+export function formatDateTimeDisplay(date: Date): string {
+  const datePart = `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${date.getFullYear()}`
+  const timePart = `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
+  return `${datePart}, ${timePart} Uhr`
+}

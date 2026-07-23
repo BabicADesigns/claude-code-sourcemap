@@ -18,6 +18,8 @@ import { useTimer } from '@/hooks/useTimer'
 import { usePayments } from '@/modules/finance/hooks/usePayments'
 import { useClientFinanceSettings } from '@/modules/finance/hooks/useClientFinanceSettings'
 import { ReportBuilderSheet } from '@/modules/reports/components/ReportBuilderSheet'
+import { ClientActivityReportPage } from '@/modules/reports/components/ClientActivityReportPage'
+import type { ReportConfig } from '@/modules/reports/models'
 import { enrichEntries } from '@/services/calculations'
 import { todayISO } from '@/services/date'
 import { loadLastBackupAt, saveLastBackupAt } from '@/services/storage'
@@ -46,6 +48,7 @@ export default function App() {
   const [lastBackupAt, setLastBackupAt] = useState<number | null>(() => loadLastBackupAt())
   const [reportSheetOpen, setReportSheetOpen] = useState(false)
   const [reportProjectId, setReportProjectId] = useState<string | null>(null)
+  const [clientActivityReportConfig, setClientActivityReportConfig] = useState<ReportConfig | null>(null)
 
   const enrichedEntries = useMemo(() => enrichEntries(entries, projects), [entries, projects])
 
@@ -77,6 +80,11 @@ export default function App() {
   function openReports(projectId: string | null = null) {
     setReportProjectId(projectId)
     setReportSheetOpen(true)
+  }
+
+  function openClientActivityReport(config: ReportConfig) {
+    setReportSheetOpen(false)
+    setClientActivityReportConfig(config)
   }
 
   function handleBackupExported() {
@@ -184,7 +192,26 @@ export default function App() {
             entries={enrichedEntries}
             initialProjectId={reportProjectId}
             onClose={() => setReportSheetOpen(false)}
+            onOpenClientActivityReport={openClientActivityReport}
           />
+        </SheetContent>
+      </Sheet>
+
+      <Sheet open={clientActivityReportConfig !== null} onOpenChange={(open) => !open && setClientActivityReportConfig(null)}>
+        <SheetContent
+          open={clientActivityReportConfig !== null}
+          title="Kundenbericht"
+          className="sm:max-w-3xl sm:max-h-[90vh]"
+        >
+          {clientActivityReportConfig && (
+            <ClientActivityReportPage
+              config={clientActivityReportConfig}
+              entries={enrichedEntries}
+              projects={projects}
+              clients={clients}
+              onClose={() => setClientActivityReportConfig(null)}
+            />
+          )}
         </SheetContent>
       </Sheet>
 

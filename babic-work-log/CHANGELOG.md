@@ -3,6 +3,46 @@
 All notable changes to Babic Work Log are documented here. Versions are also
 visible in-app under **Einstellungen** (gear icon on the dashboard).
 
+## 1.9.0 — 2026-07-23 — Client Activity Report: HTML-First Workflow
+
+After several rounds of fixing iOS Safari's PDF viewer/Share Sheet
+reliability (1.8.0–1.8.2), this is a workflow change rather than another
+patch: the Client Activity Report no longer depends on Safari's PDF
+rendering to be *viewed* at all.
+
+### Changed
+
+- **"Bericht öffnen" now opens an in-app HTML report**, not a PDF. The
+  report renders directly inside the app — same visual language as the
+  rest of Babic Work Log (Fraunces/Inter, sage/cream palette) — with:
+  header (Babic Work Log / Aktivitätsbericht / Kunde / Projekt / Zeitraum
+  / Erstellt am), a Datum/Start/Ende/Dauer/Aktivität table, Gesamtstunden,
+  and an automatic Zusammenfassung (Themen, extracted from entries'
+  notes; Notizen, the full chronological list) — still no prices, rates,
+  or amounts anywhere, exactly as before.
+- **New actions below the report**: 📸 Bild speichern (captures the
+  report as a high-resolution PNG — downloads directly, and always also
+  shows an in-app preview so the image can be saved via long-press even
+  where a programmatic download doesn't register as one), 📤 Teilen
+  (shares that same PNG via the native Share Sheet where available,
+  falling back to the same preview), 🖨 Drucken (a dedicated print
+  stylesheet turns the report into a proper A4 page — also usable as
+  "Save as PDF" from the browser's own print dialog), and 📄 PDF
+  exportieren (optional) — the existing PDF generator, unchanged, now a
+  secondary option instead of the only path.
+- **Business Report is completely unaffected** — still generates a PDF
+  immediately, exactly as before.
+
+### Why
+
+PDF generation itself was never broken — every round of debugging traced
+the failures to iOS Safari's handling of *displaying or sharing* a
+generated PDF (blob URLs across tab boundaries, Share Sheet timing,
+stale chunks after a redeploy). Rather than continuing to chase Safari's
+PDF viewer, the report people actually need to *look at and hand to a
+client* is now something the app renders and controls completely, with
+PDF kept around as an optional extra rather than a dependency.
+
 ## 1.8.2 — 2026-07-22 — Fix Silent PDF Failure Leaving a Blank Tab
 
 ### Fixed
