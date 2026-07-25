@@ -17,6 +17,7 @@ export interface SupabaseEnvReport {
 export interface EnvironmentReport {
   supabase: SupabaseEnvReport;
   openai: { configured: boolean };
+  minimax: { configured: boolean };
   plausible: { configured: boolean };
   email: { configured: boolean };
   editorial: { configured: boolean };
@@ -62,6 +63,8 @@ export function getEnvironmentReport(): EnvironmentReport {
     // Mirrors lib/ai/itinerary.ts's isOpenAIConfigured() — duplicated rather than
     // imported so this module stays a leaf with zero non-env-var dependencies.
     openai: { configured: Boolean(process.env.OPENAI_API_KEY) },
+    // Mirrors lib/video/minimax.ts's isMiniMaxConfigured() — duplicated for the same reason.
+    minimax: { configured: Boolean(process.env.MINIMAX_API_KEY) },
     plausible: { configured: Boolean(process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN) },
     // Mirrors lib/email/send.ts's isEmailConfigured() — duplicated rather than imported
     // for the same leaf-module reason as the openai/plausible checks above.

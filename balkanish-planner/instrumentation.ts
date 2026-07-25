@@ -41,6 +41,10 @@ export async function register() {
       "RESEND_API_KEY / EMAIL_FROM_ADDRESS are not set — PDF email delivery is disabled; downloads still work."
     );
   }
+
+  if (!report.minimax.configured) {
+    logWarning("instrumentation.startup", "MINIMAX_API_KEY is not set — text-to-video generation is disabled.");
+  }
 }
 
 async function verifySupabaseReachable(): Promise<void> {
