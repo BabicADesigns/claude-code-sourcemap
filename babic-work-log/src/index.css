@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --watermark-color: #3a352e;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --watermark-color: #f5eee6;
+  }
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    overscroll-behavior-y: none;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display;
+  }
+}
+
+@layer utilities {
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .watermark-mark {
+    background-color: var(--watermark-color);
+    -webkit-mask-image: url('/brand/cipka-b.png');
+    mask-image: url('/brand/cipka-b.png');
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+  }
+}
+
+/* Print support for the Client Activity Report (see
+   ClientActivityReportPage.tsx). Hides everything except the report itself
+   — robust regardless of DOM nesting, since the report renders inside a
+   Radix Dialog portal alongside the rest of the app shell (bottom nav,
+   overlay, etc.) which this can't selectively target by component.
+
+   The report's dialog wrapper (SheetContent's motion.div, forwarded
+   role="dialog" via Radix's asChild) is itself `position: fixed` with a
+   CSS `transform` (for its centered-on-desktop layout) — since a
+   `transform` on an ancestor makes it the containing block for descendant
+   `position: fixed`/`absolute` elements too, `position: absolute; inset: 0`
+   on the report ends up filling that small floating dialog box instead of
+   the page. Fixed by neutralizing the dialog wrapper itself for print
+   (position/transform/size/chrome all stripped) so the report can just
+   flow normally and get paginated as a real A4 document. */
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm;
+  }
+
+  /* The report renders inside a Radix Dialog Portal, which mounts directly
+     on document.body — i.e. as a *sibling* of #root, not a descendant. So
+     hiding #root's contents via visibility (which preserves layout height)
+     still left its full scrollable-dashboard height reserved above the
+     report, pushing it down the page with a large blank gap. #root can
+     just be removed from flow outright since the report never lives
+     inside it. */
+  #root {
+    display: none !important;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  [role='dialog'] {
+    position: static !important;
+    inset: auto !important;
+    transform: none !important;
+    max-width: none !important;
+    max-height: none !important;
+    width: auto !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  /* SheetContent's sticky title bar (title text + close button) — not part
+     of the report. */
+  [role='dialog'] > div:first-child {
+    display: none !important;
+  }
+
+  #client-activity-report-print,
+  #client-activity-report-print * {
+    visibility: visible;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  #client-activity-report-print {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    border: none;
+    box-shadow: none;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}

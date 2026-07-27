@@ -1,0 +1,182 @@
+import type { Client, Project, ProjectDocument, TimeEntry } from '../models'
+import { PROJECT_COLORS } from '../models'
+import { CURRENT_SCHEMA_VERSION, migrateLegacyProjects, normalizeClient, normalizeProject } from './migrations'
+import { uid } from './utils'
+
+const CLIENTS_KEY = 'babic-work-log:clients'
+const PROJECTS_KEY = 'babic-work-log:projects'
+const ENTRIES_KEY = 'babic-work-log:entries'
+const DOCUMENTS_KEY = 'babic-work-log:documents'
+const SCHEMA_VERSION_KEY = 'babic-work-log:schema-version'
+const LAST_BACKUP_KEY = 'babic-work-log:last-backup-at'
+
+interface SeedProject {
+  name: string
+  defaultRate: number
+}
+
+const DEFAULT_CLIENTS: { name: string; projects: SeedProject[] }[] = [
+  {
+    name: 'Yousef',
+    projects: [
+      { name: 'Deutschunterricht', defaultRate: 45 },
+      { name: 'HGH Website', defaultRate: 45 },
+    ],
+  },
+  {
+    name: 'Ingo',
+    projects: [
+      { name: 'Recruiting', defaultRate: 45 },
+      { name: 'DATEV', defaultRate: 45 },
+      { name: 'FRIMO', defaultRate: 45 },
+    ],
+  },
+  { name: 'Exportfirma', projects: [{ name: 'Export', defaultRate: 45 }] },
+  { name: 'BabicADesigns', projects: [{ name: 'BabicADesigns', defaultRate: 45 }] },
+]
+
+function read<T>(key: string, fallback: T): T {
+  try {
+    const raw = localStorage.getItem(key)
+    if (!raw) return fallback
+    return JSON.parse(raw) as T
+  } catch {
+    return fallback
+  }
+}
+
+function write<T>(key: string, value: T): void {
+  try {
+    localStorage.setItem(key, JSON.stringify(value))
+  } catch (err) {
+    console.error(`Failed to persist ${key} to localStorage`, err)
+  }
+}
+
+function seedDefaults(): { clients: Client[]; projects: Project[] } {
+  const clients: Client[] = []
+  const projects: Project[] = []
+  let colorIndex = 0
+  for (const seed of DEFAULT_CLIENTS) {
+    const client: Client = { id: uid(), name: seed.name, status: 'active', createdAt: Date.now() }
+    clients.push(client)
+    for (const p of seed.projects) {
+      projects.push({
+        id: uid(),
+        name: p.name,
+        clientId: client.id,
+        color: PROJECT_COLORS[colorIndex++ % PROJECT_COLORS.length],
+        defaultRate: p.defaultRate,
+        pricingType: 'hourly',
+        status: 'active',
+        createdAt: Date.now(),
+      })
+    }
+  }
+  return { clients, projects }
+}
+
+let bootstrapped: { clients: Client[]; projects: Project[] } | null = null
+
+/** Loads clients + projects together and migrates legacy data. Existing
+ * records are only ever extended with new fields (via normalizeClient /
+ * normalizeProject), never dropped, renamed, or overwritten — every branch
+ * below re-normalizes on every load so a record that already has every
+ * current field is unaffected, and one that's missing a newer field (e.g.
+ * a Sprint 1.1 project without `status`) gets it defaulted here rather than
+ * silently staying incomplete. Safe to run against real production data.
+ *
+ * Demo data (seedDefaults) is only ever written on a genuinely first-ever
+ * load of this origin — detected via SCHEMA_VERSION_KEY, which every past
+ * successful bootstrap has always written unconditionally, so any browser
+ * that has ever run this app already has it set. If projects/clients come
+ * back empty on a browser that HAS run before, that's treated as a storage
+ * read anomaly, not a fresh install: nothing is written (so a later
+ * successful read isn't clobbered) and an empty-but-honest state is
+ * returned instead of silently replacing real data with demo placeholders. */
+function bootstrap(): { clients: Client[]; projects: Project[] } {
+  if (bootstrapped) return bootstrapped
+
+  const existingProjects = read<Project[] | null>(PROJECTS_KEY, null)
+  const existingClients = read<Client[] | null>(CLIENTS_KEY, null)
+  const hasRunBefore = read<number | null>(SCHEMA_VERSION_KEY, null) !== null
+
+  let result: { clients: Client[]; projects: Project[] }
+  let shouldPersist = true
+
+  if (!existingProjects || existingProjects.length === 0) {
+    if (hasRunBefore) {
+      console.error(
+        'babic-work-log: projects/clients read back empty on a browser that has used this app before — ' +
+          'treating as a storage anomaly, not a fresh install. Nothing was overwritten.',
+      )
+      result = { clients: (existingClients ?? []).map(normalizeClient), projects: [] }
+      shouldPersist = false
+    } else {
+      result = seedDefaults()
+    }
+  } else if (!existingClients || existingProjects.some((p) => !p.clientId)) {
+    const migrated = migrateLegacyProjects(existingProjects)
+    result = {
+      clients: [...(existingClients ?? []).map(normalizeClient), ...migrated.clients],
+      projects: migrated.projects,
+    }
+  } else {
+    result = {
+      clients: existingClients.map(normalizeClient),
+      projects: existingProjects.map(normalizeProject),
+    }
+  }
+
+  if (shouldPersist) {
+    write(CLIENTS_KEY, result.clients)
+    write(PROJECTS_KEY, result.projects)
+    write(SCHEMA_VERSION_KEY, CURRENT_SCHEMA_VERSION)
+  }
+  bootstrapped = result
+  return result
+}
+
+export function loadClients(): Client[] {
+  return bootstrap().clients
+}
+
+export function saveClients(clients: Client[]): void {
+  write(CLIENTS_KEY, clients)
+}
+
+export function loadProjects(): Project[] {
+  return bootstrap().projects
+}
+
+export function saveProjects(projects: Project[]): void {
+  write(PROJECTS_KEY, projects)
+}
+
+export function loadEntries(): TimeEntry[] {
+  return read<TimeEntry[]>(ENTRIES_KEY, [])
+}
+
+export function saveEntries(entries: TimeEntry[]): void {
+  write(ENTRIES_KEY, entries)
+}
+
+export function loadDocuments(): ProjectDocument[] {
+  return read<ProjectDocument[]>(DOCUMENTS_KEY, [])
+}
+
+export function saveDocuments(documents: ProjectDocument[]): void {
+  write(DOCUMENTS_KEY, documents)
+}
+
+export function loadSchemaVersion(): number {
+  return read<number>(SCHEMA_VERSION_KEY, 1)
+}
+
+export function loadLastBackupAt(): number | null {
+  return read<number | null>(LAST_BACKUP_KEY, null)
+}
+
+export function saveLastBackupAt(timestamp: number): void {
+  write(LAST_BACKUP_KEY, timestamp)
+}
