@@ -63,3 +63,4 @@ For full details, please review our [Commercial Terms of Service](https://www.an
 
 - [Awesome-Nano-Banana-images](https://github.com/PicoTrex/Awesome-Nano-Banana-images) - A curated collection of creative image examples and prompts generated with Nano Banana / Nano Banana Pro (Gemini-2.5-flash-image), including the openly released Nano-consistent-150K dataset.
 - [scripts/install-fugu.sh](./scripts/install-fugu.sh) - Wrapper around Sakana AI's Fugu CLI installer (`sakana.ai/fugu/install`) that downloads and shows the upstream script before running it, instead of piping it straight into `bash`.
+- [Awesome Remote Job](https://github.com/lukasz-madon/awesome-remote-job) - A curated list of companies and resources for finding remote work.
