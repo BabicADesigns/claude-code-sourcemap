@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { redirect, notFound } from "next/navigation";
 import { PageHeader } from "@/components/layout/page-header";
 import { TripCompanion } from "@/components/planner/trip-companion";
-import { TripNavBackSimple } from "@/components/planner/trip-nav-back";
+import { TripNavBackSimple, TripCompanionForwardHandoff } from "@/components/planner/trip-nav-back";
 import { getCurrentUser, isSupabaseConfigured } from "@/lib/supabase/server";
 import { getSavedItineraryById } from "@/lib/data/itineraries";
 import { getReadinessItems, upsertReadinessItems } from "@/lib/data/trip-readiness";
@@ -87,14 +86,7 @@ export default async function TripCompanionPage({
           departureDate={departureDate}
         />
         {forwardAction && (
-          <div className="mt-8 border-t border-border pt-6">
-            <Link
-              href={forwardAction.href}
-              className="font-medium text-accent hover:underline"
-            >
-              {forwardAction.href.includes("/today") ? "Go to Live Trip →" : "Reflect on this trip →"}
-            </Link>
-          </div>
+          <TripCompanionForwardHandoff href={forwardAction.href} />
         )}
       </div>
     </div>

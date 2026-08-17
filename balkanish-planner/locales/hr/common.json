@@ -4,8 +4,22 @@
     "todayView": "Pogled Danas",
     "liveTrip": "Aktivno Putovanje",
     "reflectOnTrip": "Razmisli o ovom putovanju",
+    "goToLiveTrip": "Idi na Aktivno Putovanje →",
     "companion": "Lista za putovanje",
     "planNextTrip": "Planiraj sljedeće putovanje"
+  },
+  "guidance": {
+    "welcomeEyebrow": "Početak",
+    "myBalkansEmptyTitle": "Tvoj balkanski radni prostor je spreman.",
+    "myBalkansEmptyHint": "Spremi skriveno blago, gastro otkriće ili kulturnu bilješku. Ili idi ravno na AI Planer i napravi svoje prvo putovanje.",
+    "browseHiddenGems": "Istraži skrivena blaga",
+    "planYourFirstTrip": "Planiraj prvo putovanje",
+    "myTripsEmptyTitle": "Još nema spremljenih putovanja.",
+    "myTripsEmptyHint": "Reci AI planeru datume, stil putovanja i što ti je važno — izradit će plan po danima s lokalnim mjestima i gastro preporukama.",
+    "tripSavedTitle": "Tvoje putovanje je spremljeno.",
+    "tripSavedHint": "Naći ćeš ga u Moja Putovanja kada god zatreba — ili otvori Listu za putovanje i pripremi se unaprijed.",
+    "viewInMyTrips": "Prikaži u Moja Putovanja",
+    "openTripChecklist": "Otvori Listu za putovanje"
   },
   "nav": {
     "hiddenGems": "Skrivena Blaga",
@@ -33,11 +47,73 @@
     "premiumGuides": "Premium Vodiči",
     "madeIn": "Napravljeno na Balkanu.",
     "copyright": "© 2026 BabicADesigns. Sva prava pridržana.",
-    "createdWith": "Stvoreno s ljubavlju i Vegetom."
+    "createdWith": "Stvoreno s ljubavlju i Vegetom.",
+    "designedBy": "Dizajniralo BabicADesigns.",
+    "version": "Verzija {version}"
   },
   "language": {
     "label": "Jezik"
   },
   "destinations": "Odredišta",
-  "dayTrips": "Izleti"
+  "dayTrips": "Izleti",
+  "newsletter": {
+    "title": "Pridruži se Hidden Listi",
+    "tagline": "Povremeni dispatchi. Nema spam itinerera, nema algoritama — samo sljedeće skriveno blago prije nego što prestane biti skriveno.",
+    "emailLabel": "E-mail adresa",
+    "placeholder": "ti@primjer.hr",
+    "joining": "Prijava u tijeku…",
+    "joinButton": "Pridruži se listi",
+    "successPrefix": "Na listi si. Provjeri",
+    "successSuffix": "sljedeći put kada nađemo nešto vrijedno posjeta."
+  },
+  "guides": {
+    "eyebrow": "Premium Vodiči",
+    "title": "Za kada želiš ići dublje",
+    "description": "Vodiči za jednu regiju, napisani kao i sve ostalo ovdje — bez punjenja listama, samo mjesta koja vrijede tvoje vrijeme.",
+    "checkoutSoon": "Naplata uskoro",
+    "pages": "{n} stranica",
+    "destinations": "{n} odredišta"
+  },
+  "itinerary": {
+    "yourItinerary": "Tvoj itinerer",
+    "day": "Dan",
+    "dayTrips": "Izleti",
+    "dayTripLabel": "Izlet",
+    "from": "iz",
+    "drive": "vožnje",
+    "localTip": "Lokalni savjet",
+    "base": "Baza",
+    "morning": "Jutro",
+    "afternoon": "Poslijepodne",
+    "evening": "Večer",
+    "foodHighlight": "Gastro highlight",
+    "hiddenGems": "Skrivena blaga",
+    "restaurants": "Restorani vrijedni obilaska",
+    "cultureNotes": "Kulturne bilješke",
+    "packingList": "Lista pakovanja",
+    "whyTheseStops": "Zašto ove postaje",
+    "routeOverview": "Pregled rute"
+  },
+  "dashboard": {
+    "myBalkans": {
+      "emptyHiddenGems": "Ništa još nije spremljeno — pomalo, nema žurbe. Spremi odredište na koje bi se zaista vratio.",
+      "emptyFoodFinds": "Još nema spremljenih jela. Pronađi ono koje vrijedi obilaska.",
+      "emptyCultureNotes": "Ništa još nije zabilježeno — stvari koje nitko ne objašnjava posjetiteljima čekaju.",
+      "emptySecretSwaps": "Još nema spremljenih zamjena. Volio si poznato mjesto? Pronađi mirniju verziju koju preferiraju lokalni.",
+      "emptyPostcards": "Još nema spremljenih razglednica. Napravi jednu i pošalji je kući, digitalno.",
+      "emptyFinds": "Ništa još nije zabilježeno. Zalijepi link, upiši ime mjesta ili prenesi screenshot.",
+      "findsCount": "{count} nalaz spreman",
+      "findsCountPlural": "{count} nalaza spremljeno",
+      "viewAllFinds": "Pogledaj sve nalaze →",
+      "planningTrip": "Planiraš putovanje?",
+      "tripToolsLink": "Tvoji AI itinereri i alati za putovanje su u Moja Putovanja →"
+    },
+    "myTrips": {
+      "emptyRecentTrip": "Još nema planiranih putovanja. Reci nam datume i izgradit ćemo plan po danima.",
+      "emptyAllTrips": "Još nema planiranih putovanja. Reci nam datume i izgradit ćemo plan po danima.",
+      "emptyDelivery": "Još nema preuzimanja ili e-mailova. Preuzmi ili pošalji PDF putovanja iznad i pojavit će se ovdje.",
+      "lookingForSaved": "Tražiš spremljena mjesta i jela?",
+      "savedPlacesLink": "Tvoj spremljeni Balkan je u Moj Balkan →"
+    }
+  }
 }

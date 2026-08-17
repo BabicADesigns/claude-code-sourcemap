@@ -415,6 +415,9 @@ export interface PremiumGuide {
   cover_image_url: string;
   price_eur: number;
   is_published: boolean;
+  is_sample?: boolean;
+  page_count?: number;
+  destination_count?: number;
 }
 
 export const DESTINATION_CATEGORY_LABELS: Record<DestinationCategory, string> = {

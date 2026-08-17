@@ -2,7 +2,7 @@
 
 Balkanish Planner — all unresolved UX issues, classified by severity and status.
 
-Updated: Phase 30.
+Updated: Phase 31.
 
 ---
 
@@ -104,8 +104,8 @@ Updated: Phase 30.
 **Surface**: `/sign-up` → post-auth redirect
 **Description**: After a user creates an account, they land on `/my-balkans` — a blank dashboard with empty states in every section. There is no welcome message, no guidance on what to do first, and no suggestion to start with the AI planner.
 **Impact**: First-time users face a wall of "nothing here yet" messages. Bounce risk is high.
-**Fix (future)**: Add a lightweight onboarding step — either a welcome overlay on `/my-balkans` for new accounts or a redirect to `/planner` with a welcome message.
-**Status**: ⏳ Deferred — requires new user detection logic and new UI component
+**Fix (Phase 31)**: Added `MyBalkansGuidance` client component. When all 6 My Balkans sections are empty, renders a welcome card with eyebrow "Getting started", a descriptive title and hint, and two CTAs: Browse Hidden Gems + Plan Your First Trip. Uses i18n (`guidance.*` keys, all 4 locales). Disappears naturally when workspace accumulates any content. No new-user detection required — derives state from existing content count.
+**Status**: ✅ Fixed in Phase 31
 
 ---
 
@@ -114,8 +114,8 @@ Updated: Phase 30.
 **Surface**: `/planner` → post-save state
 **Description**: After saving a trip, the user receives no CTA to visit Trip Companion or to return when departure approaches. The connection between planning and the Live Trip experience is invisible until the user happens to visit My Trips near their departure date.
 **Impact**: Low Live Trip discovery rate; users don't know the feature exists.
-**Fix (future)**: Add post-save messaging: "Your trip is saved. We'll remind you about your companion checklist as your departure gets closer."
-**Status**: ⏳ Deferred — requires post-save state UI work
+**Fix (Phase 31)**: Extended `saveItinerary()` to return `{ id?, error? }` instead of `{ error? }` only. `planner-flow.tsx` now tracks `savedTripId` state. After save, renders a guidance block: "Your trip is saved." + hint copy + two CTAs: View in My Trips + Open Trip Checklist (deep-link to `/trips/{id}/companion`, rendered only when `savedTripId` is non-null). All strings are i18n'd across all 4 locales.
+**Status**: ✅ Fixed in Phase 31
 
 ---
 
@@ -186,12 +186,17 @@ Updated: Phase 30.
 |---|---|---|
 | UX-007 | My Balkans / My Trips overlap | Canonical workspace split enforced; AI Itineraries moved to My Trips only; Hidden Gems + Food Finds moved to My Balkans only; cross-reference footer links added |
 
+## Fixed in Phase 31
+
+| ID | Issue | Resolution |
+|---|---|---|
+| UX-008 | No onboarding flow after sign-up | `MyBalkansGuidance` empty-state component; derives state from content count; no new-user detection needed; i18n'd across 4 locales |
+| UX-009 | No post-save CTA to Trip Companion | `saveItinerary()` now returns `{ id?, error? }`; post-save orientation block with deep-link to companion page; i18n'd across 4 locales |
+
 ## Deferred (with reason)
 
 | ID | Issue | Reason for deferral |
 |---|---|---|
-| UX-008 | No onboarding flow | New component + new user detection needed |
-| UX-009 | No post-save CTA | Requires new planner post-save state |
 | UX-010 | Dashboard pages not i18n'd | Requires server-side i18n pattern |
 | UX-011 | Unresolved finds UX | Requires FindCard component changes |
 | UX-013 | Admin routes undiscoverable | Requires admin role system |

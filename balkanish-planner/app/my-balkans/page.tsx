@@ -16,6 +16,9 @@ import { getSecretSwaps } from "@/lib/data/secret-swaps";
 import { getSavedEntityIds } from "@/lib/data/favorites";
 import { getSavedPostcards } from "@/lib/data/postcards";
 import { getInspirationCaptures } from "@/lib/data/inspiration-captures";
+import { MyBalkansGuidance } from "@/components/guidance/my-balkans-guidance";
+import { getServerLocale } from "@/lib/i18n/server";
+import { getDictionary, translate } from "@/lib/i18n/dictionaries";
 
 export const metadata: Metadata = { title: "My Balkans" };
 
@@ -46,6 +49,7 @@ export default async function MyBalkansPage() {
     savedSecretSwapIds,
     postcards,
     inspirationCaptures,
+    locale,
   ] = await Promise.all([
     getDestinations(),
     getFoodFinds(),
@@ -57,12 +61,29 @@ export default async function MyBalkansPage() {
     getSavedEntityIds(user.id, "secret_swap"),
     getSavedPostcards(user.id),
     getInspirationCaptures(user.id),
+    getServerLocale(),
   ]);
+
+  const dict = getDictionary(locale);
+  const tc = (key: string) => translate(dict, "common", key);
 
   const savedDestinations = destinations.filter((d) => savedDestinationIds.has(d.id));
   const savedFoodFinds = foodFinds.filter((f) => savedFoodFindIds.has(f.id));
   const savedCultureNotes = cultureNotes.filter((n) => savedCultureNoteIds.has(n.id));
   const savedSecretSwaps = secretSwaps.filter((s) => savedSecretSwapIds.has(s.id));
+
+  const savedContentCount =
+    savedDestinations.length +
+    savedFoodFinds.length +
+    savedCultureNotes.length +
+    savedSecretSwaps.length +
+    postcards.length +
+    inspirationCaptures.length;
+
+  const findsLabel =
+    inspirationCaptures.length === 1
+      ? tc("dashboard.myBalkans.findsCount").replace("{count}", String(inspirationCaptures.length))
+      : tc("dashboard.myBalkans.findsCountPlural").replace("{count}", String(inspirationCaptures.length));
 
   return (
     <div>
@@ -71,12 +92,13 @@ export default async function MyBalkansPage() {
         title="Your saved Balkans"
         description="The places, dishes, and finds you've collected — your personal corner of the Balkans."
       />
-      <div className="container flex flex-col gap-12 py-8 sm:gap-16 sm:py-12">
+      <div className="container flex flex-col gap-16 py-10 sm:gap-20 sm:py-16">
+        <MyBalkansGuidance isEmpty={savedContentCount === 0} />
         <DashboardSection
           eyebrow="Saved"
           title="Hidden Gems"
           isEmpty={savedDestinations.length === 0}
-          emptyMessage="Nothing saved here yet — pomalo, no rush. Save a destination you'd actually go back to."
+          emptyMessage={tc("dashboard.myBalkans.emptyHiddenGems")}
           emptyHref="/hidden-gems"
           emptyCta="Browse Hidden Gems"
         >
@@ -91,7 +113,7 @@ export default async function MyBalkansPage() {
           eyebrow="Saved"
           title="Food Finds"
           isEmpty={savedFoodFinds.length === 0}
-          emptyMessage="No dishes saved yet. Find the one worth the detour."
+          emptyMessage={tc("dashboard.myBalkans.emptyFoodFinds")}
           emptyHref="/food-finds"
           emptyCta="Browse Food Finds"
         >
@@ -106,7 +128,7 @@ export default async function MyBalkansPage() {
           eyebrow="Saved"
           title="Culture Notes"
           isEmpty={savedCultureNotes.length === 0}
-          emptyMessage="Nothing filed away yet — the things nobody explains to visitors are waiting."
+          emptyMessage={tc("dashboard.myBalkans.emptyCultureNotes")}
           emptyHref="/culture-notes"
           emptyCta="Browse Culture Notes"
         >
@@ -121,7 +143,7 @@ export default async function MyBalkansPage() {
           eyebrow="Saved"
           title="Secret Swaps"
           isEmpty={savedSecretSwaps.length === 0}
-          emptyMessage="No swaps saved yet. Loved a famous spot? Find the quieter version locals prefer."
+          emptyMessage={tc("dashboard.myBalkans.emptySecretSwaps")}
           emptyHref="/secret-swap"
           emptyCta="Find a Secret Swap"
         >
@@ -136,7 +158,7 @@ export default async function MyBalkansPage() {
           eyebrow="Saved"
           title="Postcards"
           isEmpty={postcards.length === 0}
-          emptyMessage="No postcards saved yet. Make one and mail it home, digitally."
+          emptyMessage={tc("dashboard.myBalkans.emptyPostcards")}
           emptyHref="/postcards"
           emptyCta="Make a Postcard"
         >
@@ -147,29 +169,23 @@ export default async function MyBalkansPage() {
           eyebrow="My Finds"
           title="My Finds"
           isEmpty={inspirationCaptures.length === 0}
-          emptyMessage="Nothing captured yet. Paste a link, type a place name, or upload a screenshot to start your bucket list."
+          emptyMessage={tc("dashboard.myBalkans.emptyFinds")}
           emptyHref="/my-balkans/finds"
           emptyCta="Open My Finds"
         >
           <div className="flex items-center justify-between">
-            <p className="font-serif text-foreground/70">
-              {inspirationCaptures.length} find{inspirationCaptures.length !== 1 ? "s" : ""} saved
-            </p>
-            <a
-              href="/my-balkans/finds"
-              className="text-sm font-medium text-accent hover:underline"
-            >
-              View all finds →
+            <p className="font-serif text-foreground/70">{findsLabel}</p>
+            <a href="/my-balkans/finds" className="text-sm font-medium text-accent hover:underline">
+              {tc("dashboard.myBalkans.viewAllFinds")}
             </a>
           </div>
         </DashboardSection>
 
-        {/* Cross-reference to My Trips */}
         <div className="border-t border-border pt-6">
           <p className="font-serif text-sm text-foreground/60">
-            Planning a trip?{" "}
+            {tc("dashboard.myBalkans.planningTrip")}{" "}
             <Link href="/my-trips" className="font-medium text-accent hover:underline">
-              Your AI itineraries and trip tools are in My Trips →
+              {tc("dashboard.myBalkans.tripToolsLink")}
             </Link>
           </p>
         </div>

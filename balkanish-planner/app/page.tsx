@@ -58,8 +58,8 @@ export default async function HomePage() {
         <div className="absolute inset-0 bg-cipka bg-repeat opacity-60" aria-hidden="true" />
         <div className="relative">
           <EditorialImage
-            src="https://picsum.photos/seed/balkanish-hero/1920/1080"
-            alt="Stone coastline along the Adriatic at golden hour"
+            src="https://source.unsplash.com/featured/1920x1080/?dubrovnik,old+town,croatia,adriatic,walls,terracotta"
+            alt="Dubrovnik old town walls and terracotta rooftops gleaming above the Adriatic at golden hour"
             priority
             vignette
             className="h-[62vh] min-h-[460px] w-full sm:h-[72vh]"

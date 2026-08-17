@@ -2,6 +2,7 @@ import Link from "next/link";
 import { LogoMark } from "@/components/brand/logo-mark";
 import { mainNav } from "@/lib/nav";
 import { getDictionary, translate } from "@/lib/i18n/dictionaries";
+import { APP_VERSION } from "@/lib/version";
 import type { Locale } from "@/lib/i18n/config";
 
 export function SiteFooter({ locale }: { locale: Locale }) {
@@ -59,8 +60,12 @@ export function SiteFooter({ locale }: { locale: Locale }) {
 
         <div className="mt-6 flex flex-col items-center gap-2 text-center">
           <p className="font-serif text-sm text-cream/75">{t("footer.madeIn")}</p>
+          <p className="font-serif text-sm text-cream/75">{t("footer.designedBy")}</p>
           <p className="font-serif text-sm text-cream/75">{t("footer.copyright")}</p>
           <p className="font-serif text-sm text-cream/75">{t("footer.createdWith")}</p>
+          <p className="mt-1 font-sans text-xs text-cream/40">
+            {t("footer.version").replace("{version}", APP_VERSION)}
+          </p>
         </div>
       </div>
     </footer>

@@ -2,7 +2,7 @@
 
 Balkanish Planner — canonical ownership model for all authenticated product surfaces.
 
-Phase 30. This document is the structural reference for the authenticated layer. It is designed to be legible without founder explanation — for a new developer, a product team, a technical acquirer, or a white-label/regional expansion team.
+Phase 30–31. This document is the structural reference for the authenticated layer. It is designed to be legible without founder explanation — for a new developer, a product team, a technical acquirer, or a white-label/regional expansion team.
 
 ---
 
@@ -127,12 +127,16 @@ Forward handoffs are additive: they appear below the primary content and are not
 | `TripNavBack` | `components/planner/trip-nav-back.tsx` | ✅ | `/trips/[id]/reflection` |
 | `TripNavBackSimple` | `components/planner/trip-nav-back.tsx` | ✅ | `/trips/[id]/companion` |
 | `TripNavLiveTrip` | `components/planner/trip-nav-back.tsx` | ✅ | `/trips/[id]/today` |
+| `TripCompanionForwardHandoff` | `components/planner/trip-nav-back.tsx` | ✅ | `/trips/[id]/companion` |
+| `ReflectionForwardHandoff` | `components/planner/trip-nav-back.tsx` | ✅ | `/trips/[id]/reflection` |
 
-All three are client components wrapping `useLocale()`. Server components that need navigation render these client components directly.
+All five are client components wrapping `useLocale()`. Server components that need navigation render these client components directly.
 
 **TripNavBack**: Shows `← My Trips` + `Today View` link. Used by reflection page.
 **TripNavBackSimple**: Shows `← My Trips` only. Used by companion page.
 **TripNavLiveTrip**: Shows `← My Trips` + `Trip Checklist` link. Used by live trip today page.
+**TripCompanionForwardHandoff**: Forward handoff below companion content. Label derived from `href` — `/today` → `navigation.goToLiveTrip`; `/reflection` → `navigation.reflectOnTrip`.
+**ReflectionForwardHandoff**: Forward handoff below reflection content for COMPLETED lifecycle. Links to `/planner` via `navigation.planNextTrip`.
 
 ---
 
@@ -146,6 +150,7 @@ All lifecycle-related navigation keys live in the `navigation` namespace of `com
 | `navigation.todayView` | Today View |
 | `navigation.liveTrip` | Live Trip |
 | `navigation.reflectOnTrip` | Reflect on this trip |
+| `navigation.goToLiveTrip` | Go to Live Trip → |
 | `navigation.companion` | Trip Checklist |
 | `navigation.planNextTrip` | Plan your next trip |
 
@@ -276,7 +281,9 @@ Phase 30 is a pure frontend restructure. **No database changes** were made.
 |---|---|
 | `docs/product-operating-model.md` | High-level product model; this document is the technical implementation of the authenticated layer within it |
 | `docs/product-terminology-registry.md` | Canonical labels for all user-facing concepts; this document references those labels |
-| `docs/ux-debt-register.md` | UX-007 resolved by Phase 30; this document is the architectural record of how |
+| `docs/ux-debt-register.md` | UX-007 resolved by Phase 30; UX-008 and UX-009 resolved by Phase 31 |
 | `docs/phase29-product-surface-inventory.md` | Phase 29 surface inventory; Phase 30 changes are noted as updates to that inventory |
+| `docs/phase31-first-journey-activation.md` | Phase 31 activation layer; describes `ActivationState`, guidance components, and post-save orientation |
 | `docs/accounts-trips-architecture.md` | Phase 10 document; describes initial auth/trips model; superseded by this document for workspace architecture |
 | `lib/ai/lifecycle-navigation.ts` | Single source of truth for lifecycle navigation policy; described in the Lifecycle Navigation Policy section above |
+| `lib/activation-state.ts` | Phase 31 activation state model; `computeActivationState()` derives onboarding state from existing product data |

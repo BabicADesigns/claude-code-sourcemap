@@ -4,8 +4,22 @@
     "todayView": "Today View",
     "liveTrip": "Live Trip",
     "reflectOnTrip": "Reflect on this trip",
+    "goToLiveTrip": "Go to Live Trip →",
     "companion": "Trip Checklist",
     "planNextTrip": "Plan your next trip"
+  },
+  "guidance": {
+    "welcomeEyebrow": "Getting started",
+    "myBalkansEmptyTitle": "Your Balkans workspace is ready.",
+    "myBalkansEmptyHint": "Save a hidden gem, a food spot, or a culture note worth keeping. Or skip straight to the AI Planner and build your first trip.",
+    "browseHiddenGems": "Browse Hidden Gems",
+    "planYourFirstTrip": "Plan Your First Trip",
+    "myTripsEmptyTitle": "No trips saved yet.",
+    "myTripsEmptyHint": "Tell the AI your dates, travel style, and what matters — it'll build a day-by-day plan with local gems and food worked in.",
+    "tripSavedTitle": "Your trip is saved.",
+    "tripSavedHint": "Find it in My Trips whenever you need it — or open the Trip Checklist to get ready before you go.",
+    "viewInMyTrips": "View in My Trips",
+    "openTripChecklist": "Open Trip Checklist"
   },
   "nav": {
     "hiddenGems": "Hidden Gems",
@@ -33,11 +47,73 @@
     "premiumGuides": "Premium Guides",
     "madeIn": "Made in the Balkans.",
     "copyright": "© 2026 BabicADesigns. All rights reserved.",
-    "createdWith": "Created with Love and Vegeta."
+    "createdWith": "Created with Love and Vegeta.",
+    "designedBy": "Designed by BabicADesigns.",
+    "version": "Version {version}"
   },
   "language": {
     "label": "Language"
   },
   "destinations": "Destinations",
-  "dayTrips": "Day Trips"
+  "dayTrips": "Day Trips",
+  "newsletter": {
+    "title": "Join the Hidden List",
+    "tagline": "Occasional dispatches. No itinerary spam, no algorithm-chasing — just the next hidden gem before it stops being hidden.",
+    "emailLabel": "Email address",
+    "placeholder": "you@example.com",
+    "joining": "Joining…",
+    "joinButton": "Join the list",
+    "successPrefix": "You're on the list. Check",
+    "successSuffix": "the next time we find something worth the detour."
+  },
+  "guides": {
+    "eyebrow": "Premium Guides",
+    "title": "For when you want to go deeper",
+    "description": "Single-region guides, written the same way as everything else here — no listicle padding, just the places worth your time.",
+    "checkoutSoon": "Checkout coming soon",
+    "pages": "{n} pages",
+    "destinations": "{n} destinations"
+  },
+  "itinerary": {
+    "yourItinerary": "Your itinerary",
+    "day": "Day",
+    "dayTrips": "Day trips",
+    "dayTripLabel": "Day trip",
+    "from": "from",
+    "drive": "drive",
+    "localTip": "Local tip",
+    "base": "Base",
+    "morning": "Morning",
+    "afternoon": "Afternoon",
+    "evening": "Evening",
+    "foodHighlight": "Food highlight",
+    "hiddenGems": "Hidden gems",
+    "restaurants": "Restaurants worth the detour",
+    "cultureNotes": "Culture notes",
+    "packingList": "Packing list",
+    "whyTheseStops": "Why these stops",
+    "routeOverview": "Route overview"
+  },
+  "dashboard": {
+    "myBalkans": {
+      "emptyHiddenGems": "Nothing saved here yet — pomalo, no rush. Save a destination you'd actually go back to.",
+      "emptyFoodFinds": "No dishes saved yet. Find the one worth the detour.",
+      "emptyCultureNotes": "Nothing filed away yet — the things nobody explains to visitors are waiting.",
+      "emptySecretSwaps": "No swaps saved yet. Loved a famous spot? Find the quieter version locals prefer.",
+      "emptyPostcards": "No postcards saved yet. Make one and mail it home, digitally.",
+      "emptyFinds": "Nothing captured yet. Paste a link, type a place name, or upload a screenshot to start your bucket list.",
+      "findsCount": "{count} find saved",
+      "findsCountPlural": "{count} finds saved",
+      "viewAllFinds": "View all finds →",
+      "planningTrip": "Planning a trip?",
+      "tripToolsLink": "Your AI itineraries and trip tools are in My Trips →"
+    },
+    "myTrips": {
+      "emptyRecentTrip": "No trips planned yet. Tell us your dates and we'll build the day-by-day.",
+      "emptyAllTrips": "No trips planned yet. Tell us your dates and we'll build the day-by-day.",
+      "emptyDelivery": "No downloads or emails yet. Download or email a trip PDF above and it'll show up here.",
+      "lookingForSaved": "Looking for saved places and dishes?",
+      "savedPlacesLink": "Your saved Balkans are in My Balkans →"
+    }
+  }
 }

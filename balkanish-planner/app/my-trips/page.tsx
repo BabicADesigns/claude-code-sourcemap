@@ -8,6 +8,10 @@ import { DeliveryHistory } from "@/components/my-balkans/delivery-history";
 import { getCurrentUser, isSupabaseConfigured } from "@/lib/supabase/server";
 import { getSavedItineraries } from "@/lib/data/itineraries";
 import { getDeliveryHistoryForUser } from "@/lib/data/pdf-delivery";
+import { computeActivationState } from "@/lib/activation-state";
+import { MyTripsGuidance } from "@/components/guidance/my-trips-guidance";
+import { getServerLocale } from "@/lib/i18n/server";
+import { getDictionary, translate } from "@/lib/i18n/dictionaries";
 
 export const metadata: Metadata = { title: "My Trips" };
 
@@ -27,12 +31,22 @@ export default async function MyTripsPage() {
   const user = await getCurrentUser();
   if (!user) redirect("/sign-in");
 
-  const [itineraries, deliveries] = await Promise.all([
+  const [itineraries, deliveries, locale] = await Promise.all([
     getSavedItineraries(user.id),
     getDeliveryHistoryForUser(user.id),
+    getServerLocale(),
   ]);
 
+  const dict = getDictionary(locale);
+  const tc = (key: string) => translate(dict, "common", key);
+
   const mostRecent = itineraries[0] ?? null;
+  const todayString = new Date().toISOString().slice(0, 10);
+  const activationState = computeActivationState({
+    savedContentCount: 0,
+    itineraries,
+    todayString,
+  });
 
   return (
     <div>
@@ -41,12 +55,13 @@ export default async function MyTripsPage() {
         title="Your trips, at a glance"
         description="The latest plan you saved, every trip you've ever built, and your PDF delivery history."
       />
-      <div className="container flex flex-col gap-12 py-8 sm:gap-16 sm:py-12">
+      <div className="container flex flex-col gap-16 py-10 sm:gap-20 sm:py-16">
+        <MyTripsGuidance state={activationState} />
         <DashboardSection
           eyebrow="Pick up where you left off"
           title="Recent Trip"
           isEmpty={!mostRecent}
-          emptyMessage="No trips planned yet. Tell us your dates and we'll build the day-by-day."
+          emptyMessage={tc("dashboard.myTrips.emptyRecentTrip")}
           emptyHref="/planner"
           emptyCta="Plan a Trip"
         >
@@ -57,7 +72,7 @@ export default async function MyTripsPage() {
           eyebrow="Saved"
           title="All Trips"
           isEmpty={itineraries.length === 0}
-          emptyMessage="No trips planned yet. Tell us your dates and we'll build the day-by-day."
+          emptyMessage={tc("dashboard.myTrips.emptyAllTrips")}
           emptyHref="/planner"
           emptyCta="Plan a Trip"
         >
@@ -68,19 +83,18 @@ export default async function MyTripsPage() {
           eyebrow="History"
           title="Delivery History"
           isEmpty={deliveries.length === 0}
-          emptyMessage="No downloads or emails yet. Download or email a trip PDF above and it'll show up here."
+          emptyMessage={tc("dashboard.myTrips.emptyDelivery")}
           emptyHref="/planner"
           emptyCta="Plan a Trip"
         >
           <DeliveryHistory deliveries={deliveries} />
         </DashboardSection>
 
-        {/* Cross-reference to My Balkans */}
         <div className="border-t border-border pt-6">
           <p className="font-serif text-sm text-foreground/60">
-            Looking for saved places and dishes?{" "}
+            {tc("dashboard.myTrips.lookingForSaved")}{" "}
             <Link href="/my-balkans" className="font-medium text-accent hover:underline">
-              Your saved Balkans are in My Balkans →
+              {tc("dashboard.myTrips.savedPlacesLink")}
             </Link>
           </p>
         </div>

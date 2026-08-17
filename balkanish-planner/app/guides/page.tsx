@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { PageHeader } from "@/components/layout/page-header";
 import { GuideCard } from "@/components/cards/guide-card";
 import { getPremiumGuides } from "@/lib/data/premium-guides";
+import { getServerLocale } from "@/lib/i18n/server";
+import { getDictionary, translate } from "@/lib/i18n/dictionaries";
 
 export const metadata: Metadata = {
   title: "Guides",
@@ -9,17 +11,19 @@ export const metadata: Metadata = {
 };
 
 export default async function GuidesPage() {
-  const guides = await getPremiumGuides();
+  const [guides, locale] = await Promise.all([getPremiumGuides(), getServerLocale()]);
+  const dict = getDictionary(locale);
+  const tc = (key: string) => translate(dict, "common", key);
 
   return (
     <div>
       <PageHeader
-        eyebrow="Premium Guides"
-        title="For when you want to go deeper"
-        description="Single-region guides, written the same way as everything else here — no listicle padding, just the places worth your time."
+        eyebrow={tc("guides.eyebrow")}
+        title={tc("guides.title")}
+        description={tc("guides.description")}
       />
-      <div className="container py-8 sm:py-12">
-        <div className="grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
+      <div className="container py-12 sm:py-16 lg:py-20">
+        <div className="grid gap-6 sm:grid-cols-2 sm:gap-8 lg:grid-cols-4">
           {guides.map((guide) => (
             <GuideCard key={guide.id} guide={guide} />
           ))}
