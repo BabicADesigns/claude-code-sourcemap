@@ -2,6 +2,8 @@
 
 # NOTE: I'm not working on this repo, this is the original source. Fork is at https://github.com/dnakov/anon-kode
 
+A Claude Skill describing this codebase's architecture (query loop, tools, commands, services) lives at `.claude/skills/claude-code-internals/`.
+
 
 ![](https://img.shields.io/badge/Node.js-18%2B-brightgreen?style=flat-square)
 
